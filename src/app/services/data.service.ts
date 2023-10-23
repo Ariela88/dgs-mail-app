@@ -8,7 +8,7 @@ import { Mail } from '../model/mail';
 })
 export class DataService {
 
-  mail!:Mail
+  jsonmail!:Mail
   mails:Mail[]=[]
   constructor(private http:HttpClient) { }
 
@@ -17,14 +17,12 @@ export class DataService {
   }
   
 
-  getMessageById(id: string): Observable<Mail | null> {
-    const foundMail = this.mails.find(mail => mail.id === id);
-    if (foundMail) {
-      return of(foundMail);
-    } else {
-      return of(null);
-    }
-  }
+  // getMessageById(id: string): Observable<Mail | null> {
+  //    this.http.get<Mail[]>('/assets/mail.json').subscribe(mail => {
+  //     map(id => this.jsonmail.id = id)
+  //    });
+    
+  // }
   
   
 

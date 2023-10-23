@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
@@ -13,16 +13,19 @@ import { BehaviorSubject, Observable } from 'rxjs';
   styleUrls: ['./message-viewer.component.scss']
 })
 export class MessageViewerComponent implements OnInit {
- mail!: Mail;
+  @Input() mail!: Mail;
 
 
   constructor(private dataService: DataService, public route:ActivatedRoute) { }
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      const messageId = params['id'];
-      this.dataService.getMessageById(messageId).subscribe(data => {
-        console.log(data?.body)
-      });
-    });
+    // this.route.params.subscribe(params => {
+    //   const messageId = params['id'];
+    //   this.dataService.getMessageById(messageId).subscribe(data => {
+    //     this.mail = data!
+    //     console.log(this.mail)
+    //   });
+    // });
+
+    console.log('anteprima messaggio')
   }
 }  
