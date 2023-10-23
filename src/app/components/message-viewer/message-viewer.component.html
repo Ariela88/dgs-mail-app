@@ -1,1 +1,6 @@
-<p>message-viewer works!</p>
+<div *ngIf="mail">
+    <h2>{{ mail.subject }}</h2>
+    <p>From: {{ mail.from }}</p>
+    <p>To: {{ mail.to }}</p>
+    <p>{{ mail.body }}</p>
+</div>

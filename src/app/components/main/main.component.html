@@ -1,1 +1,16 @@
-<p>main works!</p>
+<mat-drawer-container class="example-container">
+    <mat-drawer mode="side" opened>
+      <app-folder-list></app-folder-list>
+      <app-folder-list></app-folder-list>
+    </mat-drawer>
+    <mat-drawer-content>
+      <app-message-list></app-message-list>
+      <div *ngIf="selectedMessage">
+        <h2>{{ selectedMessage.subject }}</h2>
+        <p>From: {{ selectedMessage.from }}</p>
+        <p>To: {{ selectedMessage.to }}</p>
+        <p>{{ selectedMessage.body }}</p>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+  
