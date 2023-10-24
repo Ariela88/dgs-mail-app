@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-folder-list',
@@ -9,5 +10,10 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./folder-list.component.scss']
 })
 export class FolderListComponent {
+  @Output() folderSelected = new EventEmitter<string>();
 
+  changeFolder(folderName: string) {
+    console.log(folderName)
+    this.folderSelected.emit(folderName);
+  }
 }

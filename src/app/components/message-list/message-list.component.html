@@ -1,8 +1,9 @@
-<ul *ngIf="mails">
-    <li *ngFor="let mail of mails"> 
-        <span (click)="viewMessage(mail.id)">{{mail.from}}</span>
-        <span>{{mail.to}}</span>
-        <a >{{ mail.subject }}</a>
-        <span>{{mail.body}}</span>
+<ul *ngIf="messageSelected">
+    <li *ngFor="let email of messageSelected">
+      <span (click)="viewMessage(email)">{{ email.from }}</span>
+      <span>{{ email.to }}</span>
+      <a>{{ email.subject }}</a>
+      <span>{{ email.body }}</span>
     </li>
-</ul>
+  </ul>
+  

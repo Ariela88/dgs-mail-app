@@ -1,32 +1,31 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Mail } from '../model/mail';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DataService {
-
-  jsonmail!:Mail
-  mails:Mail[]=[]
-  constructor(private http:HttpClient) { }
+  jsonmail!: Mail;
+  mails: Mail[] = [];
+  private sentMailSubject = new BehaviorSubject<Mail | null>(null);
+  sentMail$ = this.sentMailSubject.asObservable();
+  constructor(private http: HttpClient) {}
 
   getMailMessage(): Observable<Mail[]> {
     return this.http.get<Mail[]>('/assets/mail.json');
   }
-  
 
-  // getMessageById(id: string): Observable<Mail | null> {
-  //    this.http.get<Mail[]>('/assets/mail.json').subscribe(mail => {
-  //     map(id => this.jsonmail.id = id)
-  //    });
-    
-  // }
-  
-  
+  getMessageById(id: string): Observable<Mail | null> {
+    return this.http
+      .get<Mail[]>('/assets/mail.json')
+      .pipe(map((mails) => mails.find((mail) => mail.id === id) || null));
+  }
 
 
 
-
+  sendMail(mail: Mail) {
+    this.sentMailSubject.next(mail);
+  }
 }

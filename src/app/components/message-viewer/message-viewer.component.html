@@ -1,6 +1,7 @@
-<div *ngIf="mail">
-    <h2>{{ mail.subject }}</h2>
-    <p>From: {{ mail.from }}</p>
-    <p>To: {{ mail.to }}</p>
-    <p>{{ mail.body }}</p>
+<div *ngIf="selectedMessage">
+    <button (click)="addToFavorites()"> Aggiungi ai preferiti </button>
+    <h2>{{ selectedMessage.subject }}</h2>
+    <p>From: {{ selectedMessage.from }}</p>
+    <p>To: {{ selectedMessage.to }}</p>
+    <p>{{ selectedMessage.body }}</p>
 </div>

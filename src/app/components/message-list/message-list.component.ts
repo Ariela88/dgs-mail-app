@@ -1,39 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DataService } from 'src/app/services/data.service';
 import { Mail } from 'src/app/model/mail';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { MessageViewerComponent } from '../message-viewer/message-viewer.component';
 
 @Component({
   selector: 'app-message-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MessageViewerComponent],
   templateUrl: './message-list.component.html',
-  styleUrls: ['./message-list.component.scss']
+  styleUrls: ['./message-list.component.scss'],
 })
-export class MessageListComponent implements OnInit{
-
-
-  mails: Mail[] = [];
-
-  constructor(private data: DataService, private router:Router) { }
-
-  ngOnInit(): void {
-    this.getMessage();
+export class MessageListComponent {
+  @Output() messageSelectedOut = new EventEmitter<Mail>();
+  @Input() messageSelected: Mail[] = [];
+  @Input() set updateMessages(messages: Mail[]) {
+    if (messages && messages.length > 0) {
+      this.messageSelected = messages;
+    }
   }
 
-  getMessage() {
-    this.data.getMailMessage().subscribe(
-      (data: Mail[]) => {
-        this.mails = data;
-      },
-      error => {
-        console.error('Error fetching mail data: ', error);
-      }
-    );
-  }
-
-  viewMessage(id: string) {
-    this.router.navigate(['/message', id]);
+  viewMessage(mail: Mail) {
+    console.log(this.messageSelected);
+    this.messageSelectedOut.emit(mail);
   }
 }

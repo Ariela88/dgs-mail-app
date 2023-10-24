@@ -1,16 +1,14 @@
 <mat-drawer-container class="example-container">
-    <mat-drawer mode="side" opened>
-      <app-folder-list></app-folder-list>
-      <app-folder-list></app-folder-list>
-    </mat-drawer>
-    <mat-drawer-content>
-      <app-message-list></app-message-list>
-      <div *ngIf="selectedMessage">
-        <h2>{{ selectedMessage.subject }}</h2>
-        <p>From: {{ selectedMessage.from }}</p>
-        <p>To: {{ selectedMessage.to }}</p>
-        <p>{{ selectedMessage.body }}</p>
-      </div>
-    </mat-drawer-content>
-  </mat-drawer-container>
-  
+  <mat-drawer mode="side" opened>
+    <app-folder-list (folderSelected)="onFolderSelected($event)"></app-folder-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    
+    <app-message-list [messageSelected]="selectedMails" (messageSelectedOut)="onMessageSelected($event)"></app-message-list>
+    <app-message-viewer [selectedMessage]="selectedMail" (favoriteEmail)="onFavoriteEmailSelected($event)"></app-message-viewer>
+
+  </mat-drawer-content>
+
+<!-- <button mat-button (click)="openDialogForNewMail()">Nuova Mail</button> -->
+<app-compose (sentMail)="saveSentMail($event)"></app-compose>
+</mat-drawer-container>

@@ -3,6 +3,7 @@ export interface Mail {
     to: string,
     from: string,
     subject: string,
-    body: string
+    body: string;
+  sent: boolean;
 
 }
