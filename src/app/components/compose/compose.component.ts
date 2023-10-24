@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
-import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Mail } from 'src/app/model/mail';
 
@@ -19,7 +18,7 @@ export class ComposeComponent {
   @Output() sentMail: EventEmitter<Mail> = new EventEmitter<Mail>(); 
 
   constructor(
-    //public dialogRef: MatDialogRef<ComposeComponent>,
+   
     private fb: FormBuilder ) {
     this.newMailForm = this.fb.group({
       to: ['', [Validators.required, Validators.email]],
@@ -32,18 +31,19 @@ export class ComposeComponent {
   onSubmit() {
     if (this.newMailForm.valid) {
       const sentMail: Mail = {
-        id: this.selectedMessage?.id || '', 
+        id: this.selectedMessage?.id || '',
         from: 'mittente@esempio.com',
         to: this.newMailForm.get('to')?.value,
         subject: this.newMailForm.get('subject')?.value,
         body: this.newMailForm.get('body')?.value,
-        sent: true
+        sent: true,
+        important: false
       };
   
-      this.sentMail.emit(sentMail); 
-      //this.dialogRef.close();
+      this.sentMail.emit(sentMail);
     }
   }
+  
   
   
   

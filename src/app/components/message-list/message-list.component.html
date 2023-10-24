@@ -1,9 +1,8 @@
+<div class="list-container">
 <ul *ngIf="messageSelected">
-    <li *ngFor="let email of messageSelected">
-      <span (click)="viewMessage(email)">{{ email.from }}</span>
-      <span>{{ email.to }}</span>
-      <a>{{ email.subject }}</a>
-      <span>{{ email.body }}</span>
-    </li>
+    <li *ngFor="let email of messageSelected"  (click)="viewMessage(email)">      
+      <span class="from-email">{{ email.from }}</span> <br>
+      <span>Oggetto: </span><a>{{ email.subject }}</a>
+     </li>
   </ul>
-  
+</div>

@@ -2,11 +2,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Mail } from 'src/app/model/mail';
 import { MessageViewerComponent } from '../message-viewer/message-viewer.component';
+import { MaterialModule } from 'src/app/material-module/material/material.module';
 
 @Component({
   selector: 'app-message-list',
   standalone: true,
-  imports: [CommonModule, MessageViewerComponent],
+  imports: [CommonModule, MessageViewerComponent, MaterialModule],
   templateUrl: './message-list.component.html',
   styleUrls: ['./message-list.component.scss'],
 })
@@ -20,7 +21,6 @@ export class MessageListComponent {
   }
 
   viewMessage(mail: Mail) {
-    console.log(this.messageSelected);
     this.messageSelectedOut.emit(mail);
   }
 }

@@ -7,7 +7,7 @@ import { Mail } from '../model/mail';
   providedIn: 'root',
 })
 export class DataService {
-  jsonmail!: Mail;
+
   mails: Mail[] = [];
   private sentMailSubject = new BehaviorSubject<Mail | null>(null);
   sentMail$ = this.sentMailSubject.asObservable();

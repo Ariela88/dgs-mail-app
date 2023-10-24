@@ -5,10 +5,8 @@ import { FolderListComponent } from '../folder-list/folder-list.component';
 import { MessageListComponent } from '../message-list/message-list.component';
 import { MessageViewerComponent } from '../message-viewer/message-viewer.component';
 import { FolderService } from 'src/app/services/folder.service';
-//import { MatDialog } from '@angular/material/dialog';
 import { ComposeComponent } from '../compose/compose.component';
 import { DataService } from 'src/app/services/data.service';
-
 
 import { Mail } from 'src/app/model/mail';
 
@@ -21,7 +19,7 @@ import { Mail } from 'src/app/model/mail';
     FolderListComponent,
     MessageListComponent,
     MessageViewerComponent,
-    ComposeComponent
+    ComposeComponent,
   ],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
@@ -31,15 +29,17 @@ export class MainComponent {
   selectedMails: Mail[] = [];
   @Output() messageOpened = new EventEmitter<Mail>();
   @Output() messageListUpdate = new EventEmitter<Mail[]>();
+  writeNewMail: boolean = false;
+  showPreviewMail: boolean = false;
+  isComposeMode: boolean = false;
+  folderSelected: string = 'in box';
 
   constructor(
     private folderService: FolderService,
-    //private dialog: MatDialog,
     private dataServ: DataService
   ) {}
 
   ngOnInit() {
-    console.log('MainComponent ngOnInit called');
     this.folderService.selectFolder('inbox');
     this.dataServ.getMailMessage().subscribe(
       (data: Mail[]) => {
@@ -53,14 +53,16 @@ export class MainComponent {
       }
     );
 
-    this.dataServ.sentMail$.subscribe(mail => {
+    this.dataServ.sentMail$.subscribe((mail) => {
       if (mail) {
-        this.saveSentMail(mail);
-      }})
+        this.onSentMail(mail);
+      }
+    });
   }
 
   onMessageSelected(mail: Mail) {
     this.selectedMail = mail;
+    this.isComposeMode = false;
   }
 
   onFavoriteEmailSelected(email: Mail) {
@@ -69,20 +71,21 @@ export class MainComponent {
 
   onFolderSelected(folderName: string) {
     this.folderService.selectFolder(folderName);
-    this.selectedMails = this.folderService.getFolder();
+    this.selectedMails = this.folderService.getEmails();
     this.messageListUpdate.emit(this.selectedMails);
+    this.folderSelected = folderName;
   }
 
-  // openDialogForNewMail(): void {
-  //   const dialogRef = this.dialog.open(ComposeComponent, {
-  //     width: '500px',
-  //   });
-  //   dialogRef.afterClosed().subscribe((result) => {});
-  // }
-
-  saveSentMail(email: Mail) {
-   
-    this.folderService.moveEmailToFolder(email, 'sent');
+  onSentMail(sentMail: Mail) {
+    this.folderService.saveSentMail(sentMail);
   }
-  
+
+  onImportantEmailSelected(email: Mail) {
+    this.folderService.moveEmailToFolder(email, 'important');
+  }
+
+  toggleNewMail() {
+    this.writeNewMail = !this.writeNewMail;
+    this.isComposeMode = this.writeNewMail;
+  }
 }

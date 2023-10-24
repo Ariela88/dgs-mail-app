@@ -1,6 +1,64 @@
-.example-container {
+.container {
     width:100%;
     height: 100%;
-    margin: 10px;
+    margin: 0;
     
   }
+
+  aside {
+    float: left;
+   background-color: violet;
+   width: 15%;
+    height: 100vh;
+    
+}
+
+aside mat-icon{
+  color: white;
+}
+
+.mail-wrapper{
+  height: 100%;
+ display: flex;
+ flex-direction: column;
+}
+
+app-message-viewer{
+  padding: 24px;
+}
+
+app-message-list{
+  border-bottom: 4px solid violet;
+  height: 400px;
+}
+
+.newmail-btn{
+  margin: 40px;
+  display: flex;  
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+  font-size: 24px;
+  gap: 8px;
+  color: white;
+}
+
+.newmail-btn:hover{
+  color: black;
+}
+
+.newmail-btn mat-icon:hover{
+  color: black;
+}
+
+h2{
+  background-color: violet;
+  color: white;
+  font-size: 40px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+
+

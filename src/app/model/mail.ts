@@ -5,5 +5,6 @@ export interface Mail {
     subject: string,
     body: string;
   sent: boolean;
+  important: boolean;
 
 }

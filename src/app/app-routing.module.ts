@@ -6,7 +6,7 @@ import { ComposeComponent } from './components/compose/compose.component';
 import { MessageViewerComponent } from './components/message-viewer/message-viewer.component';
 
 const routes: Routes = [
-  {path: 'home', component: MainComponent},
+{path: 'home', component: MainComponent},
 {path: 'list', component: MessageListComponent},
 {path: 'editor', component: ComposeComponent},
 {path: '', redirectTo: 'home',pathMatch:'full'},

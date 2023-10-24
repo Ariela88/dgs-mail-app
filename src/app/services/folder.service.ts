@@ -6,44 +6,49 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class FolderService {
-  private folders: { [key: string]: Mail[] } = {};
+  private emails: { [key: string]: Mail[] } = {
+    'inbox': [],
+    'favorites': [],
+    'important': [],
+  };
   private selectedFolderSubject = new BehaviorSubject<string>('inbox');
-  selectedFolder$ = this.selectedFolderSubject.asObservable();
+selectedFolder$ = this.selectedFolderSubject.asObservable();
+
   currentFolderName: string = 'inbox';
+  private selectedFolder: string = 'inbox';
 
   constructor() {
-    this.folders['inbox'] = [];
-    this.folders['sent'] = [];
-    this.folders['favorites'] = [];
-    this.folders['important'] = [];
+   
   }
 
-  getFolder(): Mail[] {
-    return this.folders[this.currentFolderName] || [];
+  getEmails(): Mail[] {
+    return this.emails[this.selectedFolder] || [];
   }
 
   selectFolder(folderName: string) {
-    this.currentFolderName = folderName;
-    this.selectedFolderSubject.next(folderName);
+    this.selectedFolder = folderName;
   }
-
   addEmailToFolder(email: Mail) {
-    if (!this.folders[this.currentFolderName]) {
-      this.folders[this.currentFolderName] = [];
+    if (!this.emails[this.currentFolderName]) {
+      this.emails[this.currentFolderName] = [];
     }
-    this.folders[this.currentFolderName].push(email);
+    this.emails[this.currentFolderName].push(email);
   }
+  
 
   moveEmailToFolder(email: Mail, targetFolder: string) {
-   
-    const index = this.folders[this.currentFolderName].indexOf(email);
-    if (index !== -1) {
-      this.folders[this.currentFolderName].splice(index, 1);
-    }
-
-    if (!this.folders[targetFolder]) {
-      this.folders[targetFolder] = [];
-    }
-    this.folders[targetFolder].push(email);
+    const updatedEmails = this.emails[this.selectedFolder].filter(existingEmail => existingEmail !== email);
+    this.emails[this.selectedFolder] = updatedEmails;
+    
+    email.important = true; 
+    this.emails[targetFolder] = [...(this.emails[targetFolder] || []), email];
   }
+  
+  saveSentMail(email: Mail) {
+    this.emails['sent'] = [...(this.emails['sent'] || []), email];
+  }
+  
+  
+  
+  
 }

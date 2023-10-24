@@ -1,0 +1,20 @@
+li:hover{
+background-color: rgb(255, 123, 193);
+cursor: pointer;
+}
+
+li{
+    margin-bottom: 16px;
+    list-style: circle;
+    font-family: 'Montserrat Alternates', sans-serif;
+   
+}
+span{
+    margin-right: 8px;
+
+}
+
+.from-email{
+    font-weight: bold;
+    font-size: 20px;
+}

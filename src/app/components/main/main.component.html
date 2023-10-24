@@ -1,14 +1,28 @@
-<mat-drawer-container class="example-container">
-  <mat-drawer mode="side" opened>
+<div class="container">
+
+  <aside>
+    <div class="newmail-btn" > <button mat-fab color="primary" (click)="toggleNewMail()">
+      <mat-icon>add</mat-icon>
+    </button></div>
     <app-folder-list (folderSelected)="onFolderSelected($event)"></app-folder-list>
-  </mat-drawer>
-  <mat-drawer-content>
     
-    <app-message-list [messageSelected]="selectedMails" (messageSelectedOut)="onMessageSelected($event)"></app-message-list>
-    <app-message-viewer [selectedMessage]="selectedMail" (favoriteEmail)="onFavoriteEmailSelected($event)"></app-message-viewer>
+  </aside>
+  <div class="mail-wrapper">
+  <h2> Posta {{folderSelected}} </h2>
+  <app-message-list 
+  [messageSelected]="selectedMails" (messageSelectedOut)="onMessageSelected($event)">
+  </app-message-list>
 
-  </mat-drawer-content>
+  <ng-container *ngIf="writeNewMail && isComposeMode">
+    <app-compose 
+    (sentMail)="onSentMail($event)"></app-compose>
+  </ng-container>
 
-<!-- <button mat-button (click)="openDialogForNewMail()">Nuova Mail</button> -->
-<app-compose (sentMail)="saveSentMail($event)"></app-compose>
-</mat-drawer-container>
+  <ng-container *ngIf="!isComposeMode">
+    <app-message-viewer
+     [selectedMessage]="selectedMail" (favoriteEmail)="onFavoriteEmailSelected($event)"
+      (importantEmail)="onImportantEmailSelected($event)">
+    </app-message-viewer>
+  </ng-container>
+</div>
+</div>
