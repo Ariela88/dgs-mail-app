@@ -1,11 +1,9 @@
-// :host {
-//     display: flex;
-//     flex-direction: column;
-//     align-items: flex-start;
-//   }
-
-  form{
+ form{
     display: flex;
     flex-direction: column;
     width: 80%;
+  }
+
+  mat-form-field, mat-label{
+       font-size: 14px;
   }

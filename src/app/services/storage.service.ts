@@ -1,51 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Mail } from '../model/mail';
-import { BehaviorSubject } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
-  // localStorageKey = 'favourites';
-  // private favouritesSubject = new BehaviorSubject<Mail[]>(
-  //   this.getMailsFromLocalStorage()
-  // );
-  // favourites$ = this.favouritesSubject.asObservable();
 
-  // constructor() {
-  //   const storedMails = this.getMailsFromLocalStorage();
-  //   this.favouritesSubject.next(storedMails);
-  // }
+  saveFavorite(mail:Mail) {
+    localStorage.setItem('favorite', JSON.stringify(mail));
+  }
 
-  // getMailsFromLocalStorage(): Mail[] {
-  //   const storedMails = localStorage.getItem(this.localStorageKey);
-  //   return storedMails ? JSON.parse(storedMails) : [];
-  // }
+  saveImportant(mail:Mail) {
+    localStorage.setItem('important', JSON.stringify(mail));
+  }
 
-  // saveMailInFavourites(mail: Mail) {
-  //   if (!this.isFavourite(mail)) {
-  //     const updatedFavourites = [...this.favouritesSubject.value, mail];
-  //     this.favouritesSubject.next(updatedFavourites);
-  //     localStorage.setItem(
-  //       this.localStorageKey,
-  //       JSON.stringify(updatedFavourites)
-  //     );
-  //   }
-  // }
+  removeFavorite(mail:Mail) {
+    localStorage.removeItem('favorite');
+    console.log('storage favorite remove')
+  }
 
-  // removeMailToFavourites(mail: Mail): void {
-  //   const updatedFavourites = this.favouritesSubject.value.filter(
-  //     (b) => b.id !== mail.id
-  //   );
-  //   this.favouritesSubject.next(updatedFavourites);
-  //   localStorage.setItem(
-  //     this.localStorageKey,
-  //     JSON.stringify(updatedFavourites)
-  //   );
-  // }
+  removeImportantStorage(mail:Mail){
+    localStorage.removeItem('important');
+    console.log('storage important remove')
+  }
 
-  // isFavourite(mail: Mail): boolean {
-  //   const favouritesArray = this.favouritesSubject.value;
-  //   return favouritesArray.some((m) => m.id === mail.id);
-  // }
 }

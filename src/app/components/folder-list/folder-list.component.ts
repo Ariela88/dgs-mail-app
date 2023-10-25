@@ -11,10 +11,12 @@ import { MaterialModule } from 'src/app/material-module/material/material.module
   styleUrls: ['./folder-list.component.scss']
 })
 export class FolderListComponent {
+  
   @Output() folderSelected = new EventEmitter<string>();
 
+
   changeFolder(folderName: string) {
-  
-    this.folderSelected.emit(folderName);
+      this.folderSelected.emit(folderName);
   }
+
 }

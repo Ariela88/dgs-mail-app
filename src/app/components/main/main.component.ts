@@ -9,8 +9,8 @@ import { ComposeComponent } from '../compose/compose.component';
 import { DataService } from 'src/app/services/data.service';
 import { FormsModule } from '@angular/forms';
 import { Mail } from 'src/app/model/mail';
-import { Router } from '@angular/router';
 import { StorageService } from 'src/app/services/storage.service';
+
 
 @Component({
   selector: 'app-main',
@@ -38,17 +38,18 @@ export class MainComponent {
   folderSelected: string = 'in box';
   searchTerm = '';
   @Output() searchEvent = new EventEmitter<string>();
-  @Input() isFavourite: boolean = false;
-  favoriteEmails: Mail[] = [];
+ 
+ 
 
   constructor(
     private folderService: FolderService,
     private dataServ: DataService,
+    private storage:StorageService
   
   ) {}
 
   ngOnInit() {
-    this.folderService.selectFolder('inbox');
+    this.folderService.selectFolder('all');
     this.dataServ.getMailMessage().subscribe(
       (data: Mail[]) => {
         this.selectedMails = data;
@@ -91,14 +92,30 @@ export class MainComponent {
   onImportantEmailSelected(email: Mail) {
     if (!this.folderService.getEmails('important').some(existingEmail => existingEmail.id === email.id)) {
       this.folderService.moveEmailToFolder(email, 'important');
+      this.storage.saveImportant(email)
     }
+  }
+
+  removeToImportant(email: Mail) {
+    this.storage.removeImportantStorage(email);
+    this.folderService.removeEmailFromFolder(email, 'important');
+    console.log('main important remove')
   }
 
   
   onFavoriteEmailSelected(email: Mail) {
-    if (!this.folderService.getEmails('favorites').some(existingEmail => existingEmail.id === email.id)) {
-    this.folderService.moveEmailToFolder(email, 'favorites');
+    if (!this.folderService.getEmails('favorite').some(existingEmail => existingEmail.id === email.id)) {
+    this.folderService.moveEmailToFolder(email, 'favorite');
+    this.storage.saveFavorite(email)
+    
   }}
+
+  removeToFavorite(email: Mail) {
+    this.storage.removeFavorite(email);
+    this.folderService.removeEmailFromFolder(email, 'favorite');
+    console.log('main favorite remove')
+  }
+  
 
 
   toggleNewMail() {
@@ -108,25 +125,23 @@ export class MainComponent {
 
   onSearch(): void {
     if (this.searchTerm) {
-      this.dataServ.searchMail(this.searchTerm).subscribe((filteredMails) => {
+        this.dataServ.searchMail(this.searchTerm).subscribe((filteredMails) => {
         this.selectedMails = filteredMails;
         this.messageListUpdate.emit(this.selectedMails);
       });
       this.searchTerm = '';
     } else {
-      const folderNames = ['inbox', 'favorites', 'important', 'sent']; 
-      const searchResults: Mail[] = [];
-      folderNames.forEach(folderName => {
-        const emails = this.folderService.getEmails(folderName);
-        searchResults.push(...emails.filter(mail =>
-          mail.from.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          mail.subject.toLowerCase().includes(this.searchTerm.toLowerCase())
-        ));
-      });
-      this.selectedMails = searchResults;
+      const folderName = this.folderSelected === 'all' ? 'inbox' : this.folderSelected;
+      const emails = this.folderService.getEmails(folderName);
+      this.selectedMails = emails.filter(mail =>
+        mail.from.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        mail.subject.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
       this.messageListUpdate.emit(this.selectedMails);
     }
   }
+  
+  
   
 
   @HostListener('window:keyup', ['$event'])

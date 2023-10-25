@@ -1,34 +1,37 @@
 <div class="container">
 
   <aside>
-    <div class="newmail-btn" > <button mat-fab color="accent" (click)="toggleNewMail()">
-      <mat-icon>add</mat-icon>
-    </button></div>
+    <div class="newmail-btn"> <button mat-fab color="accent" (click)="toggleNewMail()">
+        <mat-icon>add</mat-icon>
+      </button></div>
     <app-folder-list (folderSelected)="onFolderSelected($event)"></app-folder-list>
-    
+
   </aside>
   <div class="mail-wrapper">
     <div class="header-main">
       <h2> Posta {{folderSelected}} </h2>
       <div class="search-container"><input matInput type="text" [(ngModel)]="searchTerm" placeholder="Cerca...">
-        <button  (click)="onSearch()">Cerca</button> </div> </div>
-  
-  
-  <app-message-list 
-  [messageSelected]="selectedMails" (messageSelectedOut)="onMessageSelected($event)">
-  </app-message-list>
+        <button (click)="onSearch()">Cerca</button>
+      </div>
+    </div>
 
 
-  <ng-container *ngIf="writeNewMail && isComposeMode">
-    <app-compose 
-    (sentMail)="onSentMail($event)"></app-compose>
-  </ng-container>
+    <app-message-list [messageSelected]="selectedMails" (messageSelectedOut)="onMessageSelected($event)">
+    </app-message-list>
 
-  <ng-container *ngIf="!isComposeMode">
-    <app-message-viewer
-     [selectedMessage]="selectedMail" (favoriteEmail)="onFavoriteEmailSelected($event)"
-      (importantEmail)="onImportantEmailSelected($event)">
-    </app-message-viewer>
-  </ng-container>
-</div>
+
+    <ng-container *ngIf="writeNewMail && isComposeMode">
+      <app-compose (sentMail)="onSentMail($event)"></app-compose>
+    </ng-container>
+
+    <ng-container *ngIf="!isComposeMode">
+      <app-message-viewer [selectedMessage]="selectedMail"
+       (favoriteEmail)="onFavoriteEmailSelected($event)"
+        (removeFavoriteEmail)="removeToFavorite($event)" 
+        (importantEmail)="onImportantEmailSelected($event)">
+        (removeImportantEmail)="removeToImportant($event)">
+      </app-message-viewer>
+
+    </ng-container>
+  </div>
 </div>

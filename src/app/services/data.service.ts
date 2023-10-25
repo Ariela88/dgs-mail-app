@@ -8,19 +8,13 @@ import { Mail } from '../model/mail';
 })
 export class DataService {
   
-jsonMail = ('/assets/mail.json')
   mails: Mail[] = [];
   private sentMailSubject = new BehaviorSubject<Mail | null>(null);
   sentMail$ = this.sentMailSubject.asObservable();
   private allMailSubject = new Subject<Mail[]>();
-public allMail$ = this.allMailSubject.asObservable();
-
+  public allMail$ = this.allMailSubject.asObservable();
 
   constructor(private http: HttpClient) {}
-
-
-
-
 
   getMailMessage(): Observable<Mail[]> {
     return this.http.get<Mail[]>('/assets/mail.json');
@@ -31,8 +25,6 @@ public allMail$ = this.allMailSubject.asObservable();
       .get<Mail[]>('/assets/mail.json')
       .pipe(map((mails) => mails.find((mail) => mail.id === id) || null));
   }
-
-
 
   sendMail(mail: Mail) {
     this.sentMailSubject.next(mail);

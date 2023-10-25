@@ -13,8 +13,7 @@ export class MessageActionsComponent {
   @Output() replyMail: EventEmitter<void> = new EventEmitter<void>(); 
 
   reply() {
-    console.log('reply');
-    this.replyMail.emit(); 
+  this.replyMail.emit(); 
   }
 
   inolter(){}

@@ -1,20 +1,33 @@
-li:hover{
-background-color: rgb(255, 237, 137);
-cursor: pointer;
-}
-
-li{
+li:hover {
+    background-color: rgb(255, 237, 137);
+    cursor: pointer;
+  }
+  
+  li {
     margin-bottom: 16px;
-    list-style: circle;
+    list-style: none;
     font-family: 'Montserrat Alternates', sans-serif;
-   
-}
-span{
+  }
+  
+  li.no-bold {
+    font-weight: normal;
+  }
+
+  li:checked{
+    background-color: orange;
+  }
+  
+  span {
     margin-right: 8px;
-
-}
-
-.from-email{
+  }
+  
+  .from-email {
     font-weight: bold;
     font-size: 20px;
-}
+  }
+  
+  
+  li.no-bold .from-email {
+    font-weight: normal;
+  }
+  

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Mail } from 'src/app/model/mail';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
@@ -18,31 +18,28 @@ export class MessageViewerComponent {
   @Input() favoriteMessages: Mail[] = [];
   @Output() favoriteEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() removeFavoriteEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
+  @Output() removeImportantEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() importantEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() replyEmail: EventEmitter<void> = new EventEmitter<void>();
 
 
   constructor(private router: Router, private storage: StorageService) {}
 
-
-
-  addToFavorites() {
+  addTofavorite() {
     if (this.selectedMessage) {
       const copyOfSelectedMessage: Mail = { ...this.selectedMessage };
       this.favoriteEmail.emit(copyOfSelectedMessage);
-      this.selectedMessage.isFavourite = true
+      this.selectedMessage.isFavourite = true;
     }
   }
 
-
-
-  removeFromFavorites() {
+  removeFromfavorite() {
     if (this.selectedMessage) {
       const copyOfSelectedMessage: Mail = { ...this.selectedMessage };
-      this.favoriteEmail.emit(copyOfSelectedMessage);
-      this.selectedMessage.isFavourite = false
+      this.removeFavoriteEmail.emit(copyOfSelectedMessage);
+      this.selectedMessage.isFavourite = false;
+      console.log('viewer favorite remove')
     }
-   
   }
 
   markAsImportant() {
@@ -56,13 +53,14 @@ export class MessageViewerComponent {
   unMarkAsImportant() {
     if (this.selectedMessage) {
       const copyOfSelectedMessage: Mail = { ...this.selectedMessage };
-      this.importantEmail.emit(copyOfSelectedMessage);
-      this.selectedMessage.important = false
+      this.removeImportantEmail.emit(copyOfSelectedMessage);
+      this.selectedMessage.isFavourite = false;
+      console.log('viewer important remove')
     }
   }
 
   replyToEmail() {
-    console.log('reply viewer');
+    
     this.replyEmail.emit();
     if (this.selectedMessage) {
       this.router.navigate(['/editor'], {

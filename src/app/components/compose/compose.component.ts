@@ -1,12 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import { Mail } from 'src/app/model/mail';
 import { NavActionsComponent } from '../nav-actions/nav-actions.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,6 +19,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./compose.component.scss'],
 })
 export class ComposeComponent {
+
   newMailForm: FormGroup;
   @Output() sentMail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() replyEmail: EventEmitter<void> = new EventEmitter<void>();
@@ -58,15 +54,15 @@ export class ComposeComponent {
         sent: true,
         important: false,
         isFavourite: false,
+        completed:false
       };
       this.sentMail.emit(sentMail);
     }
-
     this.router.navigateByUrl('home');
   }
 
-  replyToMail() {
-    console.log('compose');
-    this.replyEmail.emit();
+replyToMail() {
+
+ this.replyEmail.emit();
   }
 }

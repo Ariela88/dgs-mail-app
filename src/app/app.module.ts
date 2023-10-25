@@ -19,9 +19,7 @@ import { MessageViewerComponent } from './components/message-viewer/message-view
     BrowserAnimationsModule,
     HeaderComponent,
     HttpClientModule,
-    MessageViewerComponent
-   
-    
+    MessageViewerComponent  
   ],
   providers: [],
   bootstrap: [AppComponent]

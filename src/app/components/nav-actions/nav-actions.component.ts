@@ -13,7 +13,7 @@ export class NavActionsComponent {
   @Output() replyMail: EventEmitter<void> = new EventEmitter<void>(); 
 
   reply() {
-    console.log('reply');
+  
     this.replyMail.emit(); 
   }
 

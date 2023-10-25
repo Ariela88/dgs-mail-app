@@ -61,7 +61,10 @@ app-message-viewer{
 app-message-list{
   border-bottom: 4px solid #673ab7;
   height: 300px;
-  overflow-y: scroll;
+  resize:vertical;
+  overflow-y: auto;
+  min-height: 200px;
+  max-height: 500px;
 }
 
 .newmail-btn{
