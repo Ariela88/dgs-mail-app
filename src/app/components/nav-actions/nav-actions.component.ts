@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,5 +9,14 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./nav-actions.component.scss']
 })
 export class NavActionsComponent {
+
+  @Output() replyMail: EventEmitter<void> = new EventEmitter<void>(); 
+
+  reply() {
+    console.log('reply');
+    this.replyMail.emit(); 
+  }
+
+  inolter(){}
 
 }

@@ -38,6 +38,7 @@ export class MainComponent {
   folderSelected: string = 'in box';
   searchTerm = '';
   @Output() searchEvent = new EventEmitter<string>();
+  @Input() isFavourite: boolean = false;
 
 
   constructor(

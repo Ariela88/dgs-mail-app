@@ -1,6 +1,13 @@
 <div *ngIf="selectedMessage" class="preview-message">
-    <button (click)="addToFavorites()" mat-raised-button color="primary"> Aggiungi ai preferiti </button>
-    <button (click)="markAsImportant()" mat-raised-button color="primary">Importante </button>
+    <div class="action-button"> 
+        <app-message-actions (replyMail)="replyToEmail()"></app-message-actions>
+        <button (click)="addToFavorites()" mat-raised-button color="primary">
+            {{selectedMessage.isFavourite ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti'}}
+        </button>
+        
+        <button (click)="markAsImportant()" mat-raised-button color="primary">Importante</button>
+    </div>
+    
     <h2>{{ selectedMessage.subject }}</h2><span></span>
     <p>From: {{ selectedMessage.from }}</p>
     <p>To: {{ selectedMessage.to }}</p>

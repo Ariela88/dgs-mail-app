@@ -6,5 +6,6 @@ export interface Mail {
     body: string;
   sent: boolean;
   important: boolean;
+  isFavourite:boolean;
 
 }

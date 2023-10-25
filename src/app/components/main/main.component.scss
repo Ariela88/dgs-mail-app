@@ -55,11 +55,13 @@ aside mat-icon{
 
 app-message-viewer{
   padding: 24px;
+  overflow-y: scroll;
 }
 
 app-message-list{
-  border-bottom: 4px solid violet;
-  height: auto;
+  border-bottom: 4px solid #673ab7;
+  height: 300px;
+  overflow-y: scroll;
 }
 
 .newmail-btn{
