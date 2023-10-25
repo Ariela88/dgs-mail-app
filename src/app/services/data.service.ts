@@ -15,8 +15,13 @@ jsonMail = ('/assets/mail.json')
   private allMailSubject = new Subject<Mail[]>();
 public allMail$ = this.allMailSubject.asObservable();
 
+
   constructor(private http: HttpClient) {}
-arrayClone: Mail [] = []
+
+
+
+
+
   getMailMessage(): Observable<Mail[]> {
     return this.http.get<Mail[]>('/assets/mail.json');
   }
@@ -43,6 +48,7 @@ arrayClone: Mail [] = []
       })
     );
   }
+  
   
   }
 

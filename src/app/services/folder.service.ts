@@ -20,35 +20,37 @@ selectedFolder$ = this.selectedFolderSubject.asObservable();
   constructor() {
    
   }
-
-  getEmails(): Mail[] {
-    return this.emails[this.selectedFolder] || [];
+  getEmails(folderName: string): Mail[] {
+    return this.emails[folderName] || [];
   }
 
   selectFolder(folderName: string) {
     this.selectedFolder = folderName;
   }
+
+
   addEmailToFolder(email: Mail) {
     if (!this.emails[this.currentFolderName]) {
       this.emails[this.currentFolderName] = [];
     }
-    this.emails[this.currentFolderName].push(email);
+    const emailCopy: Mail = { ...email };
+    
+    this.emails[this.currentFolderName].push(emailCopy);
   }
+  
   
 
   moveEmailToFolder(email: Mail, targetFolder: string) {
     const updatedEmails = this.emails[this.selectedFolder].filter(existingEmail => existingEmail !== email);
     this.emails[this.selectedFolder] = updatedEmails;
-    
-    email.important = true; 
-    this.emails[targetFolder] = [...(this.emails[targetFolder] || []), email];
+    const emailCopy: Mail = { ...email };
+    this.emails[targetFolder] = [...(this.emails[targetFolder] || []), emailCopy];
+    this.emails[this.currentFolderName] = [...(this.emails[this.currentFolderName] || []), emailCopy];
   }
   
-  saveSentMail(email: Mail) {
-    this.emails['sent'] = [...(this.emails['sent'] || []), email];
-  }
-  
-  
+
+ 
+ 
   
   
 }

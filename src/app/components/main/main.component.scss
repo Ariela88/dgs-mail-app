@@ -7,7 +7,7 @@
 
   aside {
     float: left;
-   background-color: violet;
+   background-color: rgb(166, 110, 255);
    width: 15%;
     height: 100vh;
     
@@ -24,7 +24,7 @@ aside mat-icon{
 }
 
 .header-main{
-  background-color: violet;
+  background-color: rgb(166, 110, 255);
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -84,7 +84,7 @@ app-message-list{
 }
 
 h2{
-  background-color: violet;
+  background-color: rgb(166, 110, 255);
   color: white;
   font-size: 40px;
   height: 56px;
