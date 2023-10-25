@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { FolderListComponent } from '../folder-list/folder-list.component';
@@ -7,8 +7,10 @@ import { MessageViewerComponent } from '../message-viewer/message-viewer.compone
 import { FolderService } from 'src/app/services/folder.service';
 import { ComposeComponent } from '../compose/compose.component';
 import { DataService } from 'src/app/services/data.service';
+import { FormsModule } from '@angular/forms';
 
 import { Mail } from 'src/app/model/mail';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -20,6 +22,7 @@ import { Mail } from 'src/app/model/mail';
     MessageListComponent,
     MessageViewerComponent,
     ComposeComponent,
+    FormsModule,
   ],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
@@ -33,10 +36,14 @@ export class MainComponent {
   showPreviewMail: boolean = false;
   isComposeMode: boolean = false;
   folderSelected: string = 'in box';
+  searchTerm = '';
+  @Output() searchEvent = new EventEmitter<string>();
+
 
   constructor(
     private folderService: FolderService,
-    private dataServ: DataService
+    private dataServ: DataService,
+    private router:Router
   ) {}
 
   ngOnInit() {
@@ -88,4 +95,29 @@ export class MainComponent {
     this.writeNewMail = !this.writeNewMail;
     this.isComposeMode = this.writeNewMail;
   }
+
+  
+  onSearch(): void {
+    if (this.searchTerm) {
+      this.dataServ.searchMail(this.searchTerm).subscribe(filteredMails => {
+        this.selectedMails = filteredMails;
+        this.messageListUpdate.emit(this.selectedMails);
+      });
+      this.searchTerm = '';
+    } else {
+     
+      this.selectedMails = this.folderService.getEmails();
+      this.messageListUpdate.emit(this.selectedMails);
+    }
+  }
+  
+
+  @HostListener('window:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.keyCode === 13) {
+      this.onSearch();
+    }
+  }
+
+
 }

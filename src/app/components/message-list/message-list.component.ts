@@ -4,6 +4,9 @@ import { Mail } from 'src/app/model/mail';
 import { MessageViewerComponent } from '../message-viewer/message-viewer.component';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 
+
+
+
 @Component({
   selector: 'app-message-list',
   standalone: true,
@@ -12,6 +15,7 @@ import { MaterialModule } from 'src/app/material-module/material/material.module
   styleUrls: ['./message-list.component.scss'],
 })
 export class MessageListComponent {
+  searchTerm = ''
   @Output() messageSelectedOut = new EventEmitter<Mail>();
   @Input() messageSelected: Mail[] = [];
   @Input() set updateMessages(messages: Mail[]) {

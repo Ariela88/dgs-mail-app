@@ -8,10 +8,16 @@
     
   </aside>
   <div class="mail-wrapper">
-  <h2> Posta {{folderSelected}} </h2>
+    <div class="header-main">
+      <h2> Posta {{folderSelected}} </h2>
+      <div class="search-container"><input matInput type="text" [(ngModel)]="searchTerm" placeholder="Cerca...">
+        <button  (click)="onSearch()">Cerca</button> </div> </div>
+  
+  
   <app-message-list 
   [messageSelected]="selectedMails" (messageSelectedOut)="onMessageSelected($event)">
   </app-message-list>
+
 
   <ng-container *ngIf="writeNewMail && isComposeMode">
     <app-compose 
