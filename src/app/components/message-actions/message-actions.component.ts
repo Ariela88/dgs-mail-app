@@ -11,12 +11,15 @@ import { MaterialModule } from 'src/app/material-module/material/material.module
 })
 export class MessageActionsComponent {
   @Output() replyMail: EventEmitter<void> = new EventEmitter<void>(); 
+  @Output() inolterAMail: EventEmitter<void> = new EventEmitter<void>(); 
 
   reply() {
   this.replyMail.emit(); 
   }
 
-  inolter(){}
+  inolter(){
+    this.inolterAMail.emit()
+  }
 
 
 }

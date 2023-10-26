@@ -1,17 +1,24 @@
-import {Component,EventEmitter,HostListener,Input,Output} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { FolderListComponent } from '../folder-list/folder-list.component';
 import { MessageListComponent } from '../message-list/message-list.component';
 import { MessageViewerComponent } from '../message-viewer/message-viewer.component';
+import { MessageActionsComponent } from '../message-actions/message-actions.component';
 import { FolderService } from 'src/app/services/folder.service';
 import { ComposeComponent } from '../compose/compose.component';
 import { DataService } from 'src/app/services/data.service';
 import { FormsModule } from '@angular/forms';
 import { Mail } from 'src/app/model/mail';
 import { StorageService } from 'src/app/services/storage.service';
-
-
+import { SearchService } from 'src/app/services/search.service';
+import { Router, RouterLink } from '@angular/router';
 @Component({
   selector: 'app-main',
   standalone: true,
@@ -23,36 +30,37 @@ import { StorageService } from 'src/app/services/storage.service';
     MessageViewerComponent,
     ComposeComponent,
     FormsModule,
+    RouterLink,
+    MessageActionsComponent,
   ],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent {
-  selectedMail: Mail | null = null;
-  selectedMails: Mail[] = [];
+  @Output() searchEvent = new EventEmitter<string>();
   @Output() messageOpened = new EventEmitter<Mail>();
   @Output() messageListUpdate = new EventEmitter<Mail[]>();
+  @Input() isComposeMode: boolean = false;
+  selectedMail: Mail | null = null;
   writeNewMail: boolean = false;
+  selectedMails: Mail[] = [];
   showPreviewMail: boolean = false;
-  isComposeMode: boolean = false;
   folderSelected: string = 'in box';
   searchTerm = '';
-  @Output() searchEvent = new EventEmitter<string>();
- 
- 
 
   constructor(
     private folderService: FolderService,
     private dataServ: DataService,
-    private storage:StorageService
-  
+    private storage: StorageService,
+    private searchService: SearchService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.folderService.selectFolder('all');
     this.dataServ.getMailMessage().subscribe(
       (data: Mail[]) => {
-        this.selectedMails = data;
+        this.selectedMails = [...data, ...this.dataServ.sentEmails];
         this.selectedMails.forEach((email) => {
           this.folderService.addEmailToFolder(email);
         });
@@ -67,15 +75,18 @@ export class MainComponent {
         this.onSentMail(mail);
       }
     });
-
-    
   }
 
   onMessageSelected(mail: Mail) {
     this.selectedMail = mail;
     this.isComposeMode = false;
+    this.selectedMail.isFavourite = this.folderService
+      .getEmails('favorite')
+      .some((existingEmail) => existingEmail.id === mail.id);
+    this.selectedMail.important = this.folderService
+      .getEmails('important')
+      .some((existingEmail) => existingEmail.id === mail.id);
   }
-
 
   onFolderSelected(folderName: string) {
     this.folderService.selectFolder(folderName);
@@ -84,65 +95,78 @@ export class MainComponent {
     this.folderSelected = folderName;
   }
 
-
   onSentMail(sentMail: Mail) {
+    console.log('main mandata');
     this.folderService.moveEmailToFolder(sentMail, 'sent');
+    this.storage.saveSent(sentMail);
   }
 
   onImportantEmailSelected(email: Mail) {
-    if (!this.folderService.getEmails('important').some(existingEmail => existingEmail.id === email.id)) {
+    if (
+      !this.folderService
+        .getEmails('important')
+        .some((existingEmail) => existingEmail.id === email.id)
+    ) {
       this.folderService.moveEmailToFolder(email, 'important');
-      this.storage.saveImportant(email)
+      this.storage.saveImportant(email);
+    }
+  }
+
+  onFavoriteEmailSelected(email: Mail) {
+    if (
+      !this.folderService
+        .getEmails('favorite')
+        .some((existingEmail) => existingEmail.id === email.id)
+    ) {
+      this.folderService.moveEmailToFolder(email, 'favorite');
+      this.storage.saveFavorite(email);
+    }
+  }
+
+  removeToFavorite(email: Mail) {
+    this.storage.removeFavorite(email);
+    this.folderService.removeEmailFromFolder(email, 'favorite');
+    if (this.selectedMail && this.selectedMail.id === email.id) {
+      this.selectedMail.isFavourite = false;
+      console.log('main favorite remove');
     }
   }
 
   removeToImportant(email: Mail) {
     this.storage.removeImportantStorage(email);
     this.folderService.removeEmailFromFolder(email, 'important');
-    console.log('main important remove')
+    if (this.selectedMail && this.selectedMail.id === email.id) {
+      this.selectedMail.important = false;
+    }
+    console.log('main important remove');
   }
-
-  
-  onFavoriteEmailSelected(email: Mail) {
-    if (!this.folderService.getEmails('favorite').some(existingEmail => existingEmail.id === email.id)) {
-    this.folderService.moveEmailToFolder(email, 'favorite');
-    this.storage.saveFavorite(email)
-    
-  }}
-
-  removeToFavorite(email: Mail) {
-    this.storage.removeFavorite(email);
-    this.folderService.removeEmailFromFolder(email, 'favorite');
-    console.log('main favorite remove')
-  }
-  
-
 
   toggleNewMail() {
-    this.writeNewMail = !this.writeNewMail;
-    this.isComposeMode = this.writeNewMail;
+    this.router.navigateByUrl('/editor');
   }
 
   onSearch(): void {
+    console.log('Search Term:', this.searchTerm);
     if (this.searchTerm) {
-        this.dataServ.searchMail(this.searchTerm).subscribe((filteredMails) => {
-        this.selectedMails = filteredMails;
-        this.messageListUpdate.emit(this.selectedMails);
-      });
+      this.searchService
+        .searchMail(this.searchTerm)
+        .subscribe((searchResults) => {
+          this.selectedMails = searchResults;
+          this.messageListUpdate.emit(this.selectedMails);
+        });
       this.searchTerm = '';
     } else {
-      const folderName = this.folderSelected === 'all' ? 'inbox' : this.folderSelected;
+      const folderName =
+        this.folderSelected === 'all' ? 'inbox' : this.folderSelected;
       const emails = this.folderService.getEmails(folderName);
-      this.selectedMails = emails.filter(mail =>
-        mail.from.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        mail.subject.toLowerCase().includes(this.searchTerm.toLowerCase())
+      this.selectedMails = emails.filter(
+        (mail) =>
+          mail.from.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          mail.subject.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
       this.messageListUpdate.emit(this.selectedMails);
     }
   }
-  
-  
-  
 
   @HostListener('window:keyup', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {

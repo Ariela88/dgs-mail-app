@@ -1,19 +1,25 @@
 <div *ngIf="selectedMessage" class="preview-message">
-    <div class="action-button"> 
-        <app-message-actions (replyMail)="replyToEmail()"></app-message-actions>
+    <div class="action-button">
+        <app-message-actions (replyMail)="replyToEmail()" (inolterAMail)="forwardMail()"></app-message-actions>
+
         <button (click)="addTofavorite()" mat-raised-button color="primary" *ngIf="!selectedMessage.isFavourite">
-           Aggiungi ai preferiti
+            Aggiungi ai preferiti
         </button>
+
         <button (click)="removeFromfavorite()" mat-raised-button color="primary" *ngIf="selectedMessage.isFavourite">
-           Rimuovi dai preferiti
+            Rimuovi dai preferiti
         </button>
-        
-        <button (click)="markAsImportant()" mat-raised-button color="primary"*ngIf="!selectedMessage.important"> Importante</button>
-        <button (click)="unMarkAsImportant()" mat-raised-button color="primary"*ngIf="selectedMessage.important"> Rimuovi Importante</button>
+
+        <button (click)="markAsImportant()" mat-raised-button color="primary" *ngIf="!selectedMessage.important">
+            Importante</button>
+
+        <button (click)="unMarkAsImportant()" mat-raised-button color="primary" *ngIf="selectedMessage.important">
+            Rimuovi Importante</button>
     </div>
-    
+
     <h2>{{ selectedMessage.subject }}</h2><span></span>
     <p>From: {{ selectedMessage.from }}</p>
     <p>To: {{ selectedMessage.to }}</p>
     <p>{{ selectedMessage.body }}</p>
+
 </div>

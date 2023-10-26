@@ -25,11 +25,9 @@
     </ng-container>
 
     <ng-container *ngIf="!isComposeMode">
-      <app-message-viewer [selectedMessage]="selectedMail"
-       (favoriteEmail)="onFavoriteEmailSelected($event)"
-        (removeFavoriteEmail)="removeToFavorite($event)" 
-        (importantEmail)="onImportantEmailSelected($event)">
-        (removeImportantEmail)="removeToImportant($event)">
+      <app-message-viewer [selectedMessage]="selectedMail" class="preview-message" [isComposeMode]="isComposeMode"
+        (favoriteEmail)="onFavoriteEmailSelected($event)" (removeFavoriteEmail)="removeToFavorite($event)"
+        (importantEmail)="onImportantEmailSelected($event)" (removeImportantEmail)="removeToImportant($event)">
       </app-message-viewer>
 
     </ng-container>

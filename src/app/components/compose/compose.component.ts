@@ -1,7 +1,12 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Mail } from 'src/app/model/mail';
 import { NavActionsComponent } from '../nav-actions/nav-actions.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,10 +24,10 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./compose.component.scss'],
 })
 export class ComposeComponent {
-
   newMailForm: FormGroup;
   @Output() sentMail: EventEmitter<Mail> = new EventEmitter<Mail>();
-  @Output() replyEmail: EventEmitter<void> = new EventEmitter<void>();
+  @Input() actionType: string = 'nuova';
+  @Input() isComposeMode: boolean = true;
 
   constructor(
     private fb: FormBuilder,
@@ -31,20 +36,24 @@ export class ComposeComponent {
   ) {
     this.newMailForm = this.fb.group({
       to: ['', [Validators.required, Validators.email]],
-      subject: ['', Validators.required],
-      body: ['', Validators.required],
+      subject: [''],
+      body: [''],
+      from: [''],
     });
 
     this.route.queryParams.subscribe((params) => {
       this.newMailForm.patchValue({
         to: params['to'] || '',
         from: params['from'] || '',
+        subject: params['subject'] || '',
+        body: params['body'] || '',
       });
     });
   }
 
   onSubmit() {
     if (this.newMailForm.valid) {
+      console.log('mandata');
       const sentMail: Mail = {
         id: '',
         from: 'mittente@esempio.com',
@@ -54,15 +63,11 @@ export class ComposeComponent {
         sent: true,
         important: false,
         isFavourite: false,
-        completed:false
+        completed: false,
       };
       this.sentMail.emit(sentMail);
+      console.log(sentMail);
     }
     this.router.navigateByUrl('home');
-  }
-
-replyToMail() {
-
- this.replyEmail.emit();
   }
 }

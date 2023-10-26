@@ -1,13 +1,16 @@
 <div class="list-container">
   <ul *ngIf="messageSelected">
-    <li *ngFor="let email of messageSelected"  
-        
-        (click)="viewMessage(email)">  
-        <input type="checkbox">    
-      <span class="from-email">{{ email.from }}</span> <br>
+    <li *ngFor="let email of messageSelected" (click)="viewMessage(email)">
+      <input type="checkbox">
+      <span class="from-email">{{ email.from }}</span>
+      <span *ngIf="email.important">
+        <i class="material-icons">star</i>
+      </span>
+      <span *ngIf="email.isFavourite">
+        <i class="material-icons">favorite</i>
+      </span>
+      <br>
       <span>Oggetto: </span><a>{{ email.subject }}</a>
     </li>
   </ul>
 </div>
-
-

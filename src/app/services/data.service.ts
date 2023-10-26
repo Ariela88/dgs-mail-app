@@ -7,12 +7,12 @@ import { Mail } from '../model/mail';
   providedIn: 'root',
 })
 export class DataService {
-  
   mails: Mail[] = [];
   private sentMailSubject = new BehaviorSubject<Mail | null>(null);
   sentMail$ = this.sentMailSubject.asObservable();
   private allMailSubject = new Subject<Mail[]>();
   public allMail$ = this.allMailSubject.asObservable();
+  sentEmails: Mail[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -27,20 +27,8 @@ export class DataService {
   }
 
   sendMail(mail: Mail) {
+    console.log('dataServ send')
+    this.sentEmails.push(mail);
     this.sentMailSubject.next(mail);
   }
-
-  searchMail(searchTerm: string): Observable<Mail[]> {
-    return this.http.get<Mail[]>('/assets/mail.json').pipe(
-      map((mails: Mail[]) => {
-        return mails.filter(mail =>
-          mail.from.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          mail.subject.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-      })
-    );
-  }
-  
-  
-  }
-
+}

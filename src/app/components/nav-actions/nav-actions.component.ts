@@ -10,13 +10,5 @@ import { CommonModule } from '@angular/common';
 })
 export class NavActionsComponent {
 
-  @Output() replyMail: EventEmitter<void> = new EventEmitter<void>(); 
-
-  reply() {
-  
-    this.replyMail.emit(); 
-  }
-
-  inolter(){}
-
+ 
 }
