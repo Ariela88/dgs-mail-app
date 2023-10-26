@@ -16,7 +16,7 @@ import { ComposeComponent } from '../compose/compose.component';
 import { DataService } from 'src/app/services/data.service';
 import { FormsModule } from '@angular/forms';
 import { Mail } from 'src/app/model/mail';
-import { StorageService } from 'src/app/services/storage.service';
+
 import { SearchService } from 'src/app/services/search.service';
 import { Router, RouterLink } from '@angular/router';
 @Component({
@@ -52,7 +52,7 @@ export class MainComponent {
   constructor(
     private folderService: FolderService,
     private dataServ: DataService,
-    private storage: StorageService,
+   
     private searchService: SearchService,
     private router: Router
   ) {}
@@ -103,8 +103,8 @@ console.log('dataserv')
         .getEmails('important')
         .some((existingEmail) => existingEmail.id === sentMail.id)
     ) {
-      this.folderService.moveEmailToFolder(sentMail, 'sent');
-      this.storage.saveImportant(sentMail);
+      this.folderService.copyEmailToFolder(sentMail, 'sent');
+      
     }
   }
   onImportantEmailSelected(email: Mail) {
@@ -113,24 +113,24 @@ console.log('dataserv')
         .getEmails('important')
         .some((existingEmail) => existingEmail.id === email.id)
     ) {
-      this.folderService.moveEmailToFolder(email, 'important');
-      this.storage.saveImportant(email);
+      this.folderService.copyEmailToFolder(email, 'important');
+      
     }
   }
 
   onFavoriteEmailSelected(email: Mail) {
-    if (
-      !this.folderService
+    if (!this.folderService
         .getEmails('favorite')
         .some((existingEmail) => existingEmail.id === email.id)
+        //spostare controllo folderservice
     ) {
-      this.folderService.moveEmailToFolder(email, 'favorite');
-      this.storage.saveFavorite(email);
+      this.folderService.copyEmailToFolder(email, 'favorite');
+  
     }
   }
 
   removeToFavorite(email: Mail) {
-    this.storage.removeFavorite(email);
+   
     this.folderService.removeEmailFromFolder(email, 'favorite');
     if (this.selectedMail && this.selectedMail.id === email.id) {
       this.selectedMail.isFavourite = false;
@@ -139,7 +139,7 @@ console.log('dataserv')
   }
 
   removeToImportant(email: Mail) {
-    this.storage.removeImportantStorage(email);
+    
     this.folderService.removeEmailFromFolder(email, 'important');
     if (this.selectedMail && this.selectedMail.id === email.id) {
       this.selectedMail.important = false;
@@ -181,7 +181,8 @@ console.log('dataserv')
     }
   }
 
-  removeEmail(mail:Mail){
-    this.dataServ.deleteEmailData()
+  removeEmail(mail: Mail): void {
+    this.dataServ.deleteEmailData(mail);
   }
+  
 }

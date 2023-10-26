@@ -23,14 +23,21 @@ li:hover {
   
   .from-email {
     font-weight: bold;
-    font-size: 20px;
+    font-size: 16px;
+    padding-left: 8px;
   }
   
-  
-  li.no-bold .from-email {
-    font-weight: normal;
+  .second-row{
+    padding-left: 28px;
+    text-decoration: underline;
   }
-  
+
+  .body-row{
+    padding-left: 28px;
+    font-size: 12px;
+
+  }
+ 
 
   .button-container{
     width: 100%;

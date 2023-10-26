@@ -48,7 +48,7 @@ export class FolderService {
     }
   }
 
-  moveEmailToFolder(email: Mail, targetFolder: string) {
+  copyEmailToFolder(email: Mail, targetFolder: string) {
     const sourceFolder = this.currentFolderName;
     const updatedEmails = this.emails[sourceFolder].filter(
       (existingEmail) => existingEmail !== email

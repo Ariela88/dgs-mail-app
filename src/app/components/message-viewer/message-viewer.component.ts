@@ -4,7 +4,7 @@ import { Mail } from 'src/app/model/mail';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { MessageActionsComponent } from '../message-actions/message-actions.component';
 import { Router } from '@angular/router';
-import { StorageService } from 'src/app/services/storage.service';
+
 
 @Component({
   selector: 'app-message-viewer',

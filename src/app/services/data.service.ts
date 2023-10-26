@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, map } from 'rxjs';
 import { Mail } from '../model/mail';
-import { StorageService } from './storage.service';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
+  
   mails: Mail[] = [];
   private sentMailSubject = new BehaviorSubject<Mail | null>(null);
   sentMail$ = this.sentMailSubject.asObservable();
@@ -15,7 +16,7 @@ export class DataService {
   public allMail$ = this.allMailSubject.asObservable();
   sentEmails: Mail[] = [];
 
-  constructor(private http: HttpClient, private storage:StorageService) {}
+  constructor(private http: HttpClient) {}
 
   getMailMessage(): Observable<Mail[]> {
     return this.http.get<Mail[]>('/assets/mail.json');
@@ -31,10 +32,15 @@ export class DataService {
     console.log('dataServ send')
     this.sentEmails.push(mail);
     this.sentMailSubject.next(mail);
-    this.storage.sendMail(mail)
+    
   }
 
-  deleteEmailData(){
-    this.http.delete<Mail[]>('/assets/mail.json')
+  deleteEmailData(mail: Mail): void {
+    const index = this.mails.findIndex((m) => m.id === mail.id);
+    if (index !== -1) {
+      this.mails.splice(index, 1);
+      this.allMailSubject.next([...this.mails]);
+      }
   }
+  
 }
