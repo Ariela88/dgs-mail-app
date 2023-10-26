@@ -6,12 +6,18 @@ li{
     align-items: center;
     gap: 8px;
     margin-bottom: 16px;
+    color: white;
 }
 
 ul mat-icon{
-    color: white;
-  }
+  color: white !important;
+}
 
-  ul mat-icon:hover{
+ul mat-icon:hover{
+  color: black !important;
+}
+
+
+  li:hover{
     color: black;
   }

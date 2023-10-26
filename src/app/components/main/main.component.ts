@@ -41,6 +41,7 @@ export class MainComponent {
   @Output() messageOpened = new EventEmitter<Mail>();
   @Output() messageListUpdate = new EventEmitter<Mail[]>();
   @Input() isComposeMode: boolean = false;
+  
   selectedMail: Mail | null = null;
   writeNewMail: boolean = false;
   selectedMails: Mail[] = [];
@@ -70,11 +71,7 @@ export class MainComponent {
       }
     );
 
-    this.dataServ.sentMail$.subscribe((mail) => {
-      if (mail) {
-        this.onSentMail(mail);
-      }
-    });
+    
   }
 
   onMessageSelected(mail: Mail) {
@@ -86,6 +83,9 @@ export class MainComponent {
     this.selectedMail.important = this.folderService
       .getEmails('important')
       .some((existingEmail) => existingEmail.id === mail.id);
+    this.selectedMail.sent = this.folderService
+      .getEmails('sent')
+      .some((existingEmail) => existingEmail.id === mail.id);
   }
 
   onFolderSelected(folderName: string) {
@@ -95,12 +95,18 @@ export class MainComponent {
     this.folderSelected = folderName;
   }
 
-  onSentMail(sentMail: Mail) {
-    console.log('main mandata');
-    this.folderService.moveEmailToFolder(sentMail, 'sent');
-    this.storage.saveSent(sentMail);
+  onEmailSent(sentMail: Mail) {
+console.log('dataserv')
+    this.dataServ.sendMail(sentMail)
+    if (
+      !this.folderService
+        .getEmails('important')
+        .some((existingEmail) => existingEmail.id === sentMail.id)
+    ) {
+      this.folderService.moveEmailToFolder(sentMail, 'sent');
+      this.storage.saveImportant(sentMail);
+    }
   }
-
   onImportantEmailSelected(email: Mail) {
     if (
       !this.folderService
@@ -141,7 +147,7 @@ export class MainComponent {
     console.log('main important remove');
   }
 
-  toggleNewMail() {
+  newMail() {
     this.router.navigateByUrl('/editor');
   }
 
@@ -173,5 +179,9 @@ export class MainComponent {
     if (event.key === 'Enter' || event.keyCode === 13) {
       this.onSearch();
     }
+  }
+
+  removeEmail(mail:Mail){
+    this.dataServ.deleteEmailData()
   }
 }

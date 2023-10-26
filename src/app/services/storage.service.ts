@@ -5,13 +5,16 @@ import { Mail } from '../model/mail';
   providedIn: 'root',
 })
 export class StorageService {
+
+
+
   saveFavorite(mail: Mail) {
     localStorage.setItem('favorite', JSON.stringify(mail));
   }
 
-  saveSent(mail: Mail) {
-    console.log('salvata');
-    localStorage.setItem('sent', JSON.stringify(mail));
+  sendMail(mail: Mail) {
+    
+    localStorage.setItem('sentEmails', JSON.stringify(mail));
   }
   saveImportant(mail: Mail) {
     localStorage.setItem('important', JSON.stringify(mail));

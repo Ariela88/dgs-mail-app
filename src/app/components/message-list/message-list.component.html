@@ -1,7 +1,32 @@
-<div class="list-container">
-  <ul *ngIf="messageSelected">
-    <li *ngFor="let email of messageSelected" (click)="viewMessage(email)">
-      <input type="checkbox">
+<div class="list-container" *ngIf="messageSelected">
+  <div class="button-container"> 
+    <button (click)="checkAll()" type="submit" value="Submit" mat-raised-button color="primary">Seleziona Tutto</button>
+    <button (click)="deleteMail(messageSelected[0])" mat-raised-button color="primary">
+      Elimina mail
+    </button>
+    <button (click)="addTofavorite()" mat-raised-button color="primary" *ngIf="!isAnySelectedMailFavourite()">
+      Aggiungi ai preferiti
+    </button>
+
+    <button (click)="removeFromfavorite()" mat-raised-button color="primary" *ngIf="isAnySelectedMailFavourite()">
+      Rimuovi dai preferiti
+    </button>
+
+    <button (click)="markAsImportant()" mat-raised-button color="primary" *ngIf="!messageSelected[0]?.important">
+      Importante
+    </button>
+
+    <button (click)="unMarkAsImportant()" mat-raised-button color="primary" *ngIf="messageSelected[0]?.important">
+      Rimuovi Importante
+    </button>
+   
+
+    
+  </div>
+  <ul >
+    
+    <li *ngFor="let email of messageSelected" (click)="viewMessage(email)" [ngClass]="{'is-valid': !!email.selected}">
+      <input type="checkbox" [(ngModel)]="email.selected">
       <span class="from-email">{{ email.from }}</span>
       <span *ngIf="email.important">
         <i class="material-icons">star</i>

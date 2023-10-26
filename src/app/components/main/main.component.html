@@ -1,7 +1,7 @@
 <div class="container">
 
   <aside>
-    <div class="newmail-btn"> <button mat-fab color="accent" (click)="toggleNewMail()">
+    <div class="newmail-btn"> <button mat-fab color="accent" (click)="newMail()">
         <mat-icon>add</mat-icon>
       </button></div>
     <app-folder-list (folderSelected)="onFolderSelected($event)"></app-folder-list>
@@ -16,18 +16,20 @@
     </div>
 
 
-    <app-message-list [messageSelected]="selectedMails" (messageSelectedOut)="onMessageSelected($event)">
+    <app-message-list [messageSelected]="selectedMails" (messageSelectedOut)="onMessageSelected($event)"
+      [selectedMessage]="selectedMail" (favoriteEmail)="onFavoriteEmailSelected($event)"
+      (removeFavoriteEmail)="removeToFavorite($event)" (importantEmail)="onImportantEmailSelected($event)"
+      (removeImportantEmail)="removeToImportant($event)" (messageDelete)="removeEmail($event)">
     </app-message-list>
 
 
     <ng-container *ngIf="writeNewMail && isComposeMode">
-      <app-compose (sentMail)="onSentMail($event)"></app-compose>
+      <app-compose [isComposeMode]="isComposeMode" (emailSent)="onEmailSent($event)"></app-compose>
     </ng-container>
+    
 
     <ng-container *ngIf="!isComposeMode">
-      <app-message-viewer [selectedMessage]="selectedMail" class="preview-message" [isComposeMode]="isComposeMode"
-        (favoriteEmail)="onFavoriteEmailSelected($event)" (removeFavoriteEmail)="removeToFavorite($event)"
-        (importantEmail)="onImportantEmailSelected($event)" (removeImportantEmail)="removeToImportant($event)">
+      <app-message-viewer [selectedMessage]="selectedMail">
       </app-message-viewer>
 
     </ng-container>

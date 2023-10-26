@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, map } from 'rxjs';
 import { Mail } from '../model/mail';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class DataService {
   public allMail$ = this.allMailSubject.asObservable();
   sentEmails: Mail[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private storage:StorageService) {}
 
   getMailMessage(): Observable<Mail[]> {
     return this.http.get<Mail[]>('/assets/mail.json');
@@ -30,5 +31,10 @@ export class DataService {
     console.log('dataServ send')
     this.sentEmails.push(mail);
     this.sentMailSubject.next(mail);
+    this.storage.sendMail(mail)
+  }
+
+  deleteEmailData(){
+    this.http.delete<Mail[]>('/assets/mail.json')
   }
 }

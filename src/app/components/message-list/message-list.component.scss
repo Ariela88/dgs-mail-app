@@ -31,3 +31,16 @@ li:hover {
     font-weight: normal;
   }
   
+
+  .button-container{
+    width: 100%;
+    background-color: rgb(254, 236, 135);
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 24px;
+  }
+
+  .is-valid{
+    background-color: rgb(254, 236, 135);
+  }

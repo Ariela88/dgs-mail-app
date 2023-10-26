@@ -25,8 +25,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ComposeComponent {
   newMailForm: FormGroup;
-  @Output() sentMail: EventEmitter<Mail> = new EventEmitter<Mail>();
-  @Input() actionType: string = 'nuova';
+  @Output() emailSent: EventEmitter<Mail> = new EventEmitter<Mail>();
+  
   @Input() isComposeMode: boolean = true;
 
   constructor(
@@ -64,8 +64,10 @@ export class ComposeComponent {
         important: false,
         isFavourite: false,
         completed: false,
+        selected:false
       };
-      this.sentMail.emit(sentMail);
+      
+      this.emailSent.emit(sentMail);
       console.log(sentMail);
     }
     this.router.navigateByUrl('home');

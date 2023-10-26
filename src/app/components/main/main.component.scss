@@ -7,7 +7,7 @@
 
   aside {
     float: left;
-   background-color: rgb(166, 110, 255);
+   background-color: rgb(119, 111, 132);
    width: 15%;
     height: 100vh;
     
@@ -24,7 +24,7 @@ aside mat-icon{
 }
 
 .header-main{
-  background-color: rgb(166, 110, 255);
+  background-color: rgb(119, 111, 132);
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -82,12 +82,10 @@ app-message-list{
   color: black;
 }
 
-.newmail-btn mat-icon:hover{
-  color: black;
-}
+
 
 h2{
-  background-color: rgb(166, 110, 255);
+  background-color: rgb(119, 111, 132);
   color: white;
   font-size: 40px;
   height: 56px;

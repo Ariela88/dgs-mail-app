@@ -8,6 +8,7 @@ export interface Mail {
   important: boolean;
   isFavourite: boolean;
   completed:boolean;
+  selected:boolean
 
 }
 
