@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Mail } from 'src/app/model/mail';
 import { MessageViewerComponent } from '../message-viewer/message-viewer.component';
@@ -12,12 +19,8 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './message-list.component.html',
   styleUrls: ['./message-list.component.scss'],
 })
-export class MessageListComponent implements OnInit{
-
-  constructor(private cdr: ChangeDetectorRef) { this.cdr.markForCheck();}
-
-  ngOnInit(): void {
-    console.log('message list')
+export class MessageListComponent {
+  constructor(private cdr: ChangeDetectorRef) {
     
   }
 
@@ -28,7 +31,7 @@ export class MessageListComponent implements OnInit{
   @Output() favoriteEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() removeFavoriteEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() removeImportantEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
-  @Output() deleteEmail =  new EventEmitter<Mail>();
+  @Output() deleteEmail = new EventEmitter<Mail>();
   @Output() importantEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Input() messageSelected: Mail[] = [];
   @Output() messageListUpdate = new EventEmitter<Mail[]>();
@@ -57,7 +60,7 @@ export class MessageListComponent implements OnInit{
   }
 
   addToFavorite() {
-    this.messageSelected.forEach(email => {
+    this.messageSelected.forEach((email) => {
       if (email.selected) {
         const copyOfSelectedMessage: Mail = { ...email };
         this.favoriteEmail.emit(copyOfSelectedMessage);
@@ -66,10 +69,9 @@ export class MessageListComponent implements OnInit{
     });
     this.cdr.markForCheck();
   }
-  
-  
+
   markAsImportant() {
-    this.messageSelected.forEach(email => {
+    this.messageSelected.forEach((email) => {
       if (email.selected) {
         const copyOfSelectedMessage: Mail = { ...email };
         this.importantEmail.emit(copyOfSelectedMessage);
@@ -78,7 +80,6 @@ export class MessageListComponent implements OnInit{
     });
     this.cdr.markForCheck();
   }
-  
 
   removeFromfavorite() {
     if (this.selectedMessage) {
@@ -91,7 +92,8 @@ export class MessageListComponent implements OnInit{
       if (this.messageSelected[i].selected) {
         this.messageSelected[i].isFavourite = false;
       }
-    } this.cdr.markForCheck();
+    }
+    this.cdr.markForCheck();
   }
 
   unMarkAsImportant() {
@@ -105,13 +107,15 @@ export class MessageListComponent implements OnInit{
       if (this.messageSelected[i].selected) {
         this.messageSelected[i].important = false;
       }
-    } this.cdr.markForCheck();
+    }
+    this.cdr.markForCheck();
   }
 
-
   deleteMail() {
-    console.log('list delete')
-    this.deleteEmail.emit();  }
+    if (this.selectedMessage) {
+      this.deleteEmail.emit(this.selectedMessage);
 
-  
+      console.log('list inbox remove');
+    }
+  }
 }

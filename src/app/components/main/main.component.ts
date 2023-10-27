@@ -31,7 +31,6 @@ import { Router } from '@angular/router';
     MessageViewerComponent,
     ComposeComponent,
     FormsModule,
-
     MessageActionsComponent,
   ],
   templateUrl: './main.component.html',
@@ -45,7 +44,6 @@ export class MainComponent {
   @Input() writeNewMail: boolean = false;
   @Output() replyMail: EventEmitter<void> = new EventEmitter<void>();
   @Output() inolterAMail: EventEmitter<void> = new EventEmitter<void>();
-  
 
   selectedMail: Mail | null = null;
 
@@ -53,7 +51,6 @@ export class MainComponent {
   showPreviewMail: boolean = false;
   folderSelected: string = 'in box';
   searchTerm = '';
- 
 
   constructor(
     private folderService: FolderService,
@@ -66,11 +63,9 @@ export class MainComponent {
   }
 
   ngOnInit() {
-    
-
     this.dataServ.getMailMessage().subscribe(
       (data: Mail[]) => {
-      this.selectedMails = [...data, ...this.dataServ.sentEmails];
+        this.selectedMails = [...data, ...this.dataServ.sentEmails];
         this.selectedMails.forEach((email) => {
           this.folderService.addEmailToFolder(email);
         });
@@ -80,9 +75,6 @@ export class MainComponent {
       }
     );
   }
-
-
-
 
   onMessageSelected(mail: Mail) {
     this.selectedMail = mail;
@@ -98,7 +90,6 @@ export class MainComponent {
       .some((existingEmail) => existingEmail.id === mail.id);
   }
 
-
   onFolderSelected(folderName: string) {
     this.folderService.selectFolder(folderName);
     this.selectedMails = this.folderService.getEmails(folderName);
@@ -108,7 +99,7 @@ export class MainComponent {
 
   onEmailSent(sentMail: Mail) {
     this.folderService.copyEmailToFolder(sentMail, 'sent');
-    this.isComposeMode = false
+    this.isComposeMode = false;
   }
 
   onImportantEmailSelected(email: Mail) {
@@ -139,17 +130,12 @@ export class MainComponent {
     }
   }
 
-
   removeEmailToInBox(email: Mail) {
-    console.log('main remove')
+    console.log('main remove');
     this.folderService.removeEmailFromFolder(email, 'inbox');
-
-    
   }
 
-
   removeToImportant(email: Mail) {
-
     this.folderService.removeEmailFromFolder(email, 'important');
     if (this.selectedMail && this.selectedMail.id === email.id) {
       this.selectedMail.important = false;
@@ -159,7 +145,7 @@ export class MainComponent {
 
   toggleNewMail() {
     this.writeNewMail = !this.writeNewMail;
-    this.isComposeMode = this.writeNewMail; 
+    this.isComposeMode = this.writeNewMail;
   }
 
   onSearch(): void {
@@ -169,7 +155,7 @@ export class MainComponent {
       this.selectedMails = searchResults;
       this.messageListUpdate.emit(this.selectedMails);
     } else {
-      const folderName = 'all'
+      const folderName = 'all';
       this.selectedMails = this.folderService.getEmails(folderName);
       this.messageListUpdate.emit(this.selectedMails);
     }
@@ -178,30 +164,28 @@ export class MainComponent {
   reply() {
     if (this.selectedMail) {
       const emailToSend: Mail = {
-        to: this.selectedMail.from, 
+        to: this.selectedMail.from,
         from: this.selectedMail.to,
         subject: 'RE: ' + this.selectedMail.subject,
         body: 'In risposta al tuo messaggio:\n' + this.selectedMail.body,
-        id: '', 
+        id: '',
         sent: true,
         important: false,
         isFavourite: false,
         completed: false,
-        selected: false
+        selected: false,
       };
+
       this.onEmailSent(emailToSend);
-      this.isComposeMode = true; 
+      this.isComposeMode = true;
     } else {
-      console.error('Valori mancanti per "to" o "from" nel messaggio selezionato.');
+      console.error(
+        'Valori mancanti per "to" o "from" nel messaggio selezionato.'
+      );
     }
   }
-  
-  
-  
-  
 
   inolter() {
-    
     if (this.selectedMail) {
       const queryParams = {
         from: this.selectedMail.to,
@@ -220,9 +204,9 @@ export class MainComponent {
         important: false,
         isFavourite: false,
         completed: false,
-        selected: false
+        selected: false,
       };
-  
+
       this.onEmailSent(emailToSend);
       this.isComposeMode = true;
     }
