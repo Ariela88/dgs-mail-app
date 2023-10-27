@@ -1,4 +1,5 @@
 export interface Mail {
+ 
   id: string;
   to: string;
   from: string;

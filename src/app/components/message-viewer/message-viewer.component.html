@@ -1,8 +1,7 @@
 <div *ngIf="selectedMessage" class="preview-message">
     <div class="action-button">
         <app-message-actions (replyMail)="replyToEmail()" (inolterAMail)="forwardMail()"></app-message-actions>
-
-      
+        
     </div>
 
     <h2>{{ selectedMessage.subject }}</h2><span></span>

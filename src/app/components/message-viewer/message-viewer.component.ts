@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { Mail } from 'src/app/model/mail';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { MessageActionsComponent } from '../message-actions/message-actions.component';
-import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-message-viewer',
@@ -21,7 +19,7 @@ export class MessageViewerComponent {
 
   @Output() forwardEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
 
-  constructor(private router: Router) {}
+  
 
   
 
@@ -33,6 +31,7 @@ export class MessageViewerComponent {
   
 
   forwardMail() {
+    console.log(this.selectedMessage)
     if (this.selectedMessage) {
       this.forwardEmail.emit(this.selectedMessage);
     }

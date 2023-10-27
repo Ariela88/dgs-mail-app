@@ -27,6 +27,7 @@ export class ComposeComponent {
   newMailForm: FormGroup;
   @Output() emailSent: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Input() isComposeMode: boolean = true;
+  
 
   constructor(
     private fb: FormBuilder,
@@ -35,6 +36,7 @@ export class ComposeComponent {
   ) {
     this.newMailForm = this.fb.group({
       to: ['', [Validators.required, Validators.email]],
+      from:[''],
       subject: [''],
       body: [''],
     });
@@ -42,13 +44,14 @@ export class ComposeComponent {
     this.route.queryParams.subscribe((params) => {
       this.newMailForm.patchValue({
         to: params['to'] || '',
-
+        from:params['from'] || '',
         subject: params['subject'] || '',
         body: params['body'] || '',
       });
     });
   }
 
+  
   onSubmit() {
     if (this.newMailForm.valid) {
       const sentMail: Mail = {
@@ -69,4 +72,5 @@ export class ComposeComponent {
     }
     this.router.navigateByUrl('home');
   }
+  
 }

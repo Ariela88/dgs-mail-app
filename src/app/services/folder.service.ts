@@ -6,6 +6,8 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class FolderService {
+
+  allEmails:Mail[]=[]
    emails: { [key: string]: Mail[] } = {
     all: [],
     inbox: [],
@@ -20,9 +22,18 @@ export class FolderService {
 
   getEmails(folderName: string): Mail[] {
     if (folderName === 'inbox') {
-      return this.emails['inbox'] && this.emails['all'];
+      return this.emails['inbox'] 
     }
     return this.emails[folderName] || [];
+  }
+
+  getAllEmails(){
+
+    if ('all' in this.emails) {
+      this.allEmails.push(...this.emails['all']);
+    }
+   
+     return this.allEmails;
   }
 
   selectFolder(folderName: string) {
@@ -30,11 +41,12 @@ export class FolderService {
   }
 
   addEmailToFolder(email: Mail) {
-    this.emails['all'].push(email);
+    this.emails['inbox'].push(email);
   }
 
  
   removeEmailFromFolder(email: Mail, folderName: string): void {
+    console.log('folder remove')
     const index = this.emails[folderName].findIndex(
         (existingEmail) => existingEmail.id === email.id
     );

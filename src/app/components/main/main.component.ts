@@ -19,6 +19,7 @@ import { Mail } from 'src/app/model/mail';
 
 import { SearchService } from 'src/app/services/search.service';
 import { Router, RouterLink } from '@angular/router';
+import { __values } from 'tslib';
 @Component({
   selector: 'app-main',
   standalone: true,
@@ -51,6 +52,7 @@ export class MainComponent {
   showPreviewMail: boolean = false;
   folderSelected: string = 'in box';
   searchTerm = '';
+ 
 
   constructor(
     private folderService: FolderService,
@@ -63,10 +65,11 @@ export class MainComponent {
   }
 
   ngOnInit() {
-    this.folderService.selectFolder('all');
+    
+
     this.dataServ.getMailMessage().subscribe(
       (data: Mail[]) => {
-        this.selectedMails = [...data, ...this.dataServ.sentEmails];
+      this.selectedMails = [...data, ...this.dataServ.sentEmails];
         this.selectedMails.forEach((email) => {
           this.folderService.addEmailToFolder(email);
         });
@@ -76,6 +79,9 @@ export class MainComponent {
       }
     );
   }
+
+
+
 
   onMessageSelected(mail: Mail) {
     this.selectedMail = mail;
@@ -131,11 +137,12 @@ export class MainComponent {
       console.log('main favorite remove');
     }
   }
+
+
   removeEmailToInBox(email: Mail) {
-    this.folderService.removeEmailFromFolder(email, 'inbox');
-    
-    console.log('main inbox remove');
-}
+  this.folderService.removeEmailFromFolder(email,'inbox')
+  console.log('main important remove');
+  }
 
 
   removeToImportant(email: Mail) {
@@ -167,11 +174,13 @@ export class MainComponent {
 
   reply() {
     if (this.selectedMail) {
+      
       const queryParams = {
         from: this.selectedMail.to,
         to: this.selectedMail.from,
         subject: 'RE ' + this.selectedMail.subject,
-        body: '',
+        body: '' ,
+        
       };
   
       this.router.navigate(['/editor'], {
@@ -183,7 +192,7 @@ export class MainComponent {
         to: this.selectedMail.from,
         from: this.selectedMail.to,
         subject: 'RE ' + this.selectedMail.subject,
-        body: '',
+        body: 'In risposta al tuo messaggio:\n' +'',
         id: '',
         sent: true,
         important: false,
@@ -217,7 +226,7 @@ export class MainComponent {
         from: this.selectedMail.to,
         subject: 'Inoltrato ' + this.selectedMail.subject,
         body: '',
-        id: '',
+        id: '9',
         sent: true,
         important: false,
         isFavourite: false,

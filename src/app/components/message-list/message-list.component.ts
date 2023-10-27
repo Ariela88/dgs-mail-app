@@ -109,11 +109,14 @@ export class MessageListComponent implements OnInit{
   }
 
 
-  deleteMail() {
-    if (this.selectedMessage) {
-        this.removeMail.emit(this.selectedMessage);
-        console.log('viewer inbox remove');
-    }
+  deleteMail(mail:Mail) {
+    
+      
+      this.removeMail.emit(mail);
+     
+      console.log('list inbox remove');
+    
+    
     
 }
 

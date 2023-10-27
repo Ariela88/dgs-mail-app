@@ -2,7 +2,7 @@
   <div class="button-container">
     <button (click)="checkAll()" type="submit" value="Submit" mat-raised-button color="primary"> {{ selectAllChecked ?
       'Deseleziona Tutto' : 'Seleziona Tutto' }}</button>
-    <button mat-raised-button color="primary" (click)="deleteMail()">
+    <button mat-raised-button color="primary" (click)="deleteMail(messageSelected[0])">
       Elimina mail
     </button>
     <button (click)="addToFavorite()" mat-raised-button color="primary" *ngIf="!messageSelected[0]?.isFavourite">

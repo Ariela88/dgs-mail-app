@@ -18,6 +18,7 @@ export class MessageActionsComponent {
   }
 
   inolter(){
+    console.log('message action')
     this.inolterAMail.emit()
   }
 
