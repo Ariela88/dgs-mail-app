@@ -18,8 +18,8 @@ import { FormsModule } from '@angular/forms';
 import { Mail } from 'src/app/model/mail';
 
 import { SearchService } from 'src/app/services/search.service';
-import { Router, RouterLink } from '@angular/router';
-import { __values } from 'tslib';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-main',
   standalone: true,
@@ -31,7 +31,7 @@ import { __values } from 'tslib';
     MessageViewerComponent,
     ComposeComponent,
     FormsModule,
-    RouterLink,
+
     MessageActionsComponent,
   ],
   templateUrl: './main.component.html',
@@ -42,12 +42,13 @@ export class MainComponent {
   @Output() messageOpened = new EventEmitter<Mail>();
   @Output() messageListUpdate = new EventEmitter<Mail[]>();
   @Input() isComposeMode: boolean = false;
+  @Input() writeNewMail: boolean = false;
   @Output() replyMail: EventEmitter<void> = new EventEmitter<void>();
   @Output() inolterAMail: EventEmitter<void> = new EventEmitter<void>();
   
 
   selectedMail: Mail | null = null;
-  writeNewMail: boolean = false;
+
   selectedMails: Mail[] = [];
   showPreviewMail: boolean = false;
   folderSelected: string = 'in box';
@@ -140,8 +141,10 @@ export class MainComponent {
 
 
   removeEmailToInBox(email: Mail) {
-  this.folderService.removeEmailFromFolder(email,'inbox')
-  console.log('main important remove');
+    console.log('main remove')
+    this.folderService.removeEmailFromFolder(email, 'inbox');
+
+    
   }
 
 
@@ -174,40 +177,31 @@ export class MainComponent {
 
   reply() {
     if (this.selectedMail) {
-      
-      const queryParams = {
-        from: this.selectedMail.to,
-        to: this.selectedMail.from,
-        subject: 'RE ' + this.selectedMail.subject,
-        body: '' ,
-        
-      };
-  
-      this.router.navigate(['/editor'], {
-        queryParams: queryParams,
-        state: { initialMessage: this.selectedMail }
-      });
-  
       const emailToSend: Mail = {
-        to: this.selectedMail.from,
+        to: this.selectedMail.from, 
         from: this.selectedMail.to,
-        subject: 'RE ' + this.selectedMail.subject,
-        body: 'In risposta al tuo messaggio:\n' +'',
-        id: '',
+        subject: 'RE: ' + this.selectedMail.subject,
+        body: 'In risposta al tuo messaggio:\n' + this.selectedMail.body,
+        id: '', 
         sent: true,
         important: false,
         isFavourite: false,
         completed: false,
         selected: false
       };
-  
       this.onEmailSent(emailToSend);
+      this.isComposeMode = true; 
+    } else {
+      console.error('Valori mancanti per "to" o "from" nel messaggio selezionato.');
     }
   }
   
   
+  
+  
 
   inolter() {
+    
     if (this.selectedMail) {
       const queryParams = {
         from: this.selectedMail.to,
@@ -215,12 +209,7 @@ export class MainComponent {
         subject: '(Inoltrato) ' + this.selectedMail.subject,
         body: this.selectedMail.body,
       };
-  
-      this.router.navigate(['/editor'], {
-        queryParams: queryParams,
-        state: { initialMessage: this.selectedMail }
-      });
-  
+
       const emailToSend: Mail = {
         to: this.selectedMail.from,
         from: this.selectedMail.to,
@@ -235,6 +224,7 @@ export class MainComponent {
       };
   
       this.onEmailSent(emailToSend);
+      this.isComposeMode = true;
     }
   }
 

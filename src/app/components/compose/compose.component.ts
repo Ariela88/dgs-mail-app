@@ -27,6 +27,7 @@ export class ComposeComponent {
   newMailForm: FormGroup;
   @Output() emailSent: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Input() isComposeMode: boolean = true;
+  @Input() writeNewMail: boolean = true;
   
 
   constructor(
@@ -68,9 +69,10 @@ export class ComposeComponent {
       };
 
       this.emailSent.emit(sentMail);
+      this.isComposeMode = false
       console.log('compose', sentMail);
     }
-    this.router.navigateByUrl('home');
+  
   }
   
 }

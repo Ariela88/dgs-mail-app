@@ -28,7 +28,7 @@ export class MessageListComponent implements OnInit{
   @Output() favoriteEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() removeFavoriteEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() removeImportantEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
-  @Output() removeMail: EventEmitter<Mail> = new EventEmitter<Mail>();
+  @Output() deleteEmail =  new EventEmitter<Mail>();
   @Output() importantEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Input() messageSelected: Mail[] = [];
   @Output() messageListUpdate = new EventEmitter<Mail[]>();
@@ -109,17 +109,9 @@ export class MessageListComponent implements OnInit{
   }
 
 
-  deleteMail(mail:Mail) {
-    
-      
-      this.removeMail.emit(mail);
-     
-      console.log('list inbox remove');
-    
-    
-    
-}
-
+  deleteMail() {
+    console.log('list delete')
+    this.deleteEmail.emit();  }
 
   
 }

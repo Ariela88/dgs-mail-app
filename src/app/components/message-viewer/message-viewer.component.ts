@@ -13,6 +13,8 @@ import { MessageActionsComponent } from '../message-actions/message-actions.comp
 })
 export class MessageViewerComponent {
 
+
+  @Input() writeNewMail: boolean = false;
   @Input() isComposeMode: boolean = false;
   @Input() selectedMessage: Mail | null = null;
   @Output() replyEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
@@ -24,6 +26,8 @@ export class MessageViewerComponent {
   
 
   replyToEmail() {
+    this.writeNewMail = true;
+    this.isComposeMode = true
     if (this.selectedMessage) {
       this.replyEmail.emit(this.selectedMessage);
     }

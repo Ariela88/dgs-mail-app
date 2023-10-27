@@ -20,17 +20,18 @@
       [selectedMessage]="selectedMail" (favoriteEmail)="onFavoriteEmailSelected($event)"
       (removeFavoriteEmail)="removeToFavorite($event)" (importantEmail)="onImportantEmailSelected($event)"
       (removeImportantEmail)="removeToImportant($event)">
-      (removeMail)="removeEmailToInBox($event)">
+      (deleteEmail)="removeEmailToInBox($event)">
     </app-message-list>
 
 
-    <ng-container *ngIf="writeNewMail && isComposeMode">
+    <ng-container *ngIf="isComposeMode">
       <app-compose [isComposeMode]="isComposeMode" (emailSent)="onEmailSent($event)"></app-compose>
     </ng-container>
+    
 
 
     <ng-container *ngIf="!isComposeMode">
-      <app-message-viewer [selectedMessage]="selectedMail" (replyEmail)="reply()"
+      <app-message-viewer [selectedMessage]="selectedMail" (replyEmail)="reply() "
         (forwardEmail)="inolter()"></app-message-viewer>
 
 
