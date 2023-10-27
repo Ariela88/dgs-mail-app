@@ -1,7 +1,7 @@
 <div class="container">
 
   <aside>
-    <div class="newmail-btn"> <button mat-fab color="accent" (click)="newMail()">
+    <div class="newmail-btn"> <button mat-fab color="accent" (click)="toggleNewMail()">
         <mat-icon>add</mat-icon>
       </button></div>
     <app-folder-list (folderSelected)="onFolderSelected($event)"></app-folder-list>
@@ -29,8 +29,12 @@
     
 
     <ng-container *ngIf="!isComposeMode">
-      <app-message-viewer [selectedMessage]="selectedMail">
-      </app-message-viewer>
+      <app-message-viewer
+      [selectedMessage]="selectedMail"
+      (replyEmail)="reply()"
+      (forwardEmail)="inolter()"
+    ></app-message-viewer>
+    
 
     </ng-container>
   </div>

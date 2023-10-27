@@ -43,9 +43,13 @@ export class FolderService {
   }
 
   copyEmailToFolder(email: Mail, targetFolder: string) {
-    
     const mailToCopy = { ...email };
+    if (!(targetFolder in this.emails)) {
+        this.emails[targetFolder] = []; 
+    }
     this.emails[targetFolder].push(mailToCopy);
-  }
+}
+
+
   
 }

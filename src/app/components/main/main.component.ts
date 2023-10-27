@@ -41,24 +41,25 @@ export class MainComponent {
   @Output() messageOpened = new EventEmitter<Mail>();
   @Output() messageListUpdate = new EventEmitter<Mail[]>();
   @Input() isComposeMode: boolean = false;
+  @Output() replyMail: EventEmitter<void> = new EventEmitter<void>();
+  @Output() inolterAMail: EventEmitter<void> = new EventEmitter<void>();
   
+
   selectedMail: Mail | null = null;
   writeNewMail: boolean = false;
   selectedMails: Mail[] = [];
   showPreviewMail: boolean = false;
   folderSelected: string = 'in box';
   searchTerm = '';
-  
 
   constructor(
     private folderService: FolderService,
     private dataServ: DataService,
-   
     private searchService: SearchService,
     private router: Router
   ) {
     const searchResults = this.searchService.searchMail(this.searchTerm);
-this.selectedMails = searchResults;
+    this.selectedMails = searchResults;
   }
 
   ngOnInit() {
@@ -74,8 +75,6 @@ this.selectedMails = searchResults;
         console.error('Error fetching mail data: ', error);
       }
     );
-
-    
   }
 
   onMessageSelected(mail: Mail) {
@@ -92,6 +91,7 @@ this.selectedMails = searchResults;
       .some((existingEmail) => existingEmail.id === mail.id);
   }
 
+
   onFolderSelected(folderName: string) {
     this.folderService.selectFolder(folderName);
     this.selectedMails = this.folderService.getEmails(folderName);
@@ -100,17 +100,10 @@ this.selectedMails = searchResults;
   }
 
   onEmailSent(sentMail: Mail) {
-console.log('dataserv')
-    this.dataServ.sendMail(sentMail)
-    if (
-      !this.folderService
-        .getEmails('sent')
-        .some((existingEmail) => existingEmail.id === sentMail.id)
-    ) {
-      this.folderService.copyEmailToFolder(sentMail, 'sent');
-      
-    }
+    this.folderService.copyEmailToFolder(sentMail, 'sent');
+    this.isComposeMode = false
   }
+
   onImportantEmailSelected(email: Mail) {
     if (
       !this.folderService
@@ -118,23 +111,20 @@ console.log('dataserv')
         .some((existingEmail) => existingEmail.id === email.id)
     ) {
       this.folderService.copyEmailToFolder(email, 'important');
-      
     }
   }
 
   onFavoriteEmailSelected(email: Mail) {
-    if (!this.folderService
+    if (
+      !this.folderService
         .getEmails('favorite')
         .some((existingEmail) => existingEmail.id === email.id)
-        //spostare controllo folderservice
     ) {
       this.folderService.copyEmailToFolder(email, 'favorite');
-  
     }
   }
 
   removeToFavorite(email: Mail) {
-   
     this.folderService.removeEmailFromFolder(email, 'favorite');
     if (this.selectedMail && this.selectedMail.id === email.id) {
       this.selectedMail.isFavourite = false;
@@ -143,7 +133,6 @@ console.log('dataserv')
   }
 
   removeToImportant(email: Mail) {
-    
     this.folderService.removeEmailFromFolder(email, 'important');
     if (this.selectedMail && this.selectedMail.id === email.id) {
       this.selectedMail.important = false;
@@ -151,8 +140,9 @@ console.log('dataserv')
     console.log('main important remove');
   }
 
-  newMail() {
-    this.router.navigateByUrl('/editor');
+  toggleNewMail() {
+    this.writeNewMail = !this.writeNewMail;
+    this.isComposeMode = this.writeNewMail; 
   }
 
   onSearch(): void {
@@ -162,17 +152,31 @@ console.log('dataserv')
       this.selectedMails = searchResults;
       this.messageListUpdate.emit(this.selectedMails);
     } else {
-       const folderName =
+      const folderName =
         this.folderSelected === 'all' ? 'inbox' : this.folderSelected;
       this.selectedMails = this.folderService.getEmails(folderName);
       this.messageListUpdate.emit(this.selectedMails);
     }
   }
 
+  reply() {
+    this.isComposeMode = true
+    if (this.selectedMail) {
+      this.router.navigate(['/editor'], {
+        queryParams: {
+          to: this.selectedMail.from,
+          from: this.selectedMail.to,
+          subject: 'RE ' + this.selectedMail.subject,
+        },
+        state: { initialMessage: this.selectedMail },
+      });
+    }
+  }
+  
 
-
-
-
+  inolter() {
+    this.inolterAMail.emit();
+  }
 
   @HostListener('window:keyup', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -180,7 +184,4 @@ console.log('dataserv')
       this.onSearch();
     }
   }
-
-  
-  
 }

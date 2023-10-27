@@ -17,7 +17,8 @@ export class MessageViewerComponent {
 
   @Input() isComposeMode: boolean = false;
   @Input() selectedMessage: Mail | null = null;
-  @Output() replyEmail: EventEmitter<void> = new EventEmitter<void>();
+  @Output() replyEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
+
   @Output() forwardEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
 
   constructor(private router: Router) {}
@@ -25,31 +26,36 @@ export class MessageViewerComponent {
   
 
   replyToEmail() {
-    this.replyEmail.emit();
+    this.isComposeMode = true
     if (this.selectedMessage) {
-      this.router.navigate(['/editor'], {
-        queryParams: {
-          to: this.selectedMessage.from,
-          from: this.selectedMessage.to,
-          subject: 'RE '+ this.selectedMessage.subject
-        }, state: { initialMessage: this.selectedMessage }
-      });
+      this.replyEmail.emit(this.selectedMessage);
     }
+    
+    // const queryParams = {
+    //   to: this.selectedMessage?.from,
+    //   from: this.selectedMessage?.to,
+    //   subject: 'RE ' + this.selectedMessage?.subject,
+    // }; 
+   
+   
+     
   }
+  
 
   forwardMail() {
     if (!this.isComposeMode) { 
-    this.forwardEmail.emit();
-    if (this.selectedMessage) {
-      this.router.navigate(['/editor'], {
-        queryParams: {
-          from: this.selectedMessage?.to || '',  
-          to: '', 
-          subject: 'inoltro ' + (this.selectedMessage?.subject || ''), 
-          body: 'inoltro ' + (this.selectedMessage?.subject || '') + ' ' + (this.selectedMessage?.from || ''), 
-        },
-        state: { initialMessage: this.selectedMessage }
-      });}
+      this.forwardEmail.emit();
+      if (this.selectedMessage) {
+        this.router.navigate(['/editor'], {
+          queryParams: {
+            from: this.selectedMessage?.to || '',  
+            to: '', 
+            subject: 'inoltro ' + (this.selectedMessage?.subject || ''), 
+            body: 'inoltro ' + (this.selectedMessage?.subject || '') + ' ' + (this.selectedMessage?.from || ''), 
+          },
+          state: { initialMessage: this.selectedMessage }
+        });
+      }
     }
   }
   

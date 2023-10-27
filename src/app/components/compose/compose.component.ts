@@ -26,7 +26,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ComposeComponent {
   newMailForm: FormGroup;
   @Output() emailSent: EventEmitter<Mail> = new EventEmitter<Mail>();
-  
   @Input() isComposeMode: boolean = true;
 
   constructor(
@@ -38,22 +37,11 @@ export class ComposeComponent {
       to: ['', [Validators.required, Validators.email]],
       subject: [''],
       body: [''],
-      from: [''],
-    });
-
-    this.route.queryParams.subscribe((params) => {
-      this.newMailForm.patchValue({
-        to: params['to'] || '',
-        from: params['from'] || '',
-        subject: params['subject'] || '',
-        body: params['body'] || '',
-      });
     });
   }
 
   onSubmit() {
-    if (this.newMailForm.valid) {
-      console.log('mandata');
+    
       const sentMail: Mail = {
         id: '',
         from: 'mittente@esempio.com',
@@ -64,12 +52,12 @@ export class ComposeComponent {
         important: false,
         isFavourite: false,
         completed: false,
-        selected:false
+        selected: false,
       };
-      
+
       this.emailSent.emit(sentMail);
-      console.log(sentMail);
-    }
+      console.log('compose', sentMail);
+    
     this.router.navigateByUrl('home');
   }
 }

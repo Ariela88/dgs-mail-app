@@ -17,7 +17,6 @@ export class SearchService {
 
   searchMail(searchTerm: string): Mail[] {
     const searchResults: Mail[] = [];
-
     for (const folderName in this.folderService.emails) {
       if (this.folderService.emails.hasOwnProperty(folderName)) {
         const folderMails = this.folderService.emails[folderName];
