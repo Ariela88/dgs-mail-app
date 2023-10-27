@@ -28,6 +28,7 @@ export class MessageListComponent implements OnInit{
   @Output() favoriteEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() removeFavoriteEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() removeImportantEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
+  @Output() removeMail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() importantEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Input() messageSelected: Mail[] = [];
   @Output() messageListUpdate = new EventEmitter<Mail[]>();
@@ -107,6 +108,14 @@ export class MessageListComponent implements OnInit{
     } this.cdr.markForCheck();
   }
 
+
+  deleteMail() {
+    if (this.selectedMessage) {
+        this.removeMail.emit(this.selectedMessage);
+        console.log('viewer inbox remove');
+    }
+    
+}
 
 
   

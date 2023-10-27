@@ -20,6 +20,7 @@
       [selectedMessage]="selectedMail" (favoriteEmail)="onFavoriteEmailSelected($event)"
       (removeFavoriteEmail)="removeToFavorite($event)" (importantEmail)="onImportantEmailSelected($event)"
       (removeImportantEmail)="removeToImportant($event)">
+      (removeMail)="removeEmailToInBox($event)">
     </app-message-list>
 
 

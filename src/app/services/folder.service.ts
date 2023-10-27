@@ -33,14 +33,16 @@ export class FolderService {
     this.emails['all'].push(email);
   }
 
-   removeEmailFromFolder(email: Mail, folderName: string): void {
+ 
+  removeEmailFromFolder(email: Mail, folderName: string): void {
     const index = this.emails[folderName].findIndex(
-      (existingEmail) => existingEmail.id === email.id
+        (existingEmail) => existingEmail.id === email.id
     );
     if (index !== -1) {
-      this.emails[folderName].splice(index, 1);
+        this.emails[folderName].splice(index, 1);
     }
-  }
+}
+
 
   copyEmailToFolder(email: Mail, targetFolder: string) {
     const mailToCopy = { ...email };

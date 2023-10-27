@@ -131,8 +131,15 @@ export class MainComponent {
       console.log('main favorite remove');
     }
   }
+  removeEmailToInBox(email: Mail) {
+    this.folderService.removeEmailFromFolder(email, 'inbox');
+    
+    console.log('main inbox remove');
+}
+
 
   removeToImportant(email: Mail) {
+
     this.folderService.removeEmailFromFolder(email, 'important');
     if (this.selectedMail && this.selectedMail.id === email.id) {
       this.selectedMail.important = false;
@@ -152,8 +159,7 @@ export class MainComponent {
       this.selectedMails = searchResults;
       this.messageListUpdate.emit(this.selectedMails);
     } else {
-      const folderName =
-        this.folderSelected === 'all' ? 'inbox' : this.folderSelected;
+      const folderName = 'all'
       this.selectedMails = this.folderService.getEmails(folderName);
       this.messageListUpdate.emit(this.selectedMails);
     }
