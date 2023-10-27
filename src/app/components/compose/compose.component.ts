@@ -38,10 +38,19 @@ export class ComposeComponent {
       subject: [''],
       body: [''],
     });
+
+    this.route.queryParams.subscribe((params) => {
+      this.newMailForm.patchValue({
+        to: params['to'] || '',
+
+        subject: params['subject'] || '',
+        body: params['body'] || '',
+      });
+    });
   }
 
   onSubmit() {
-    
+    if (this.newMailForm.valid) {
       const sentMail: Mail = {
         id: '',
         from: 'mittente@esempio.com',
@@ -57,7 +66,7 @@ export class ComposeComponent {
 
       this.emailSent.emit(sentMail);
       console.log('compose', sentMail);
-    
+    }
     this.router.navigateByUrl('home');
   }
 }

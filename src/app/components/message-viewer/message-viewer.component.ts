@@ -26,36 +26,15 @@ export class MessageViewerComponent {
   
 
   replyToEmail() {
-    this.isComposeMode = true
     if (this.selectedMessage) {
       this.replyEmail.emit(this.selectedMessage);
     }
-    
-    // const queryParams = {
-    //   to: this.selectedMessage?.from,
-    //   from: this.selectedMessage?.to,
-    //   subject: 'RE ' + this.selectedMessage?.subject,
-    // }; 
-   
-   
-     
   }
   
 
   forwardMail() {
-    if (!this.isComposeMode) { 
-      this.forwardEmail.emit();
-      if (this.selectedMessage) {
-        this.router.navigate(['/editor'], {
-          queryParams: {
-            from: this.selectedMessage?.to || '',  
-            to: '', 
-            subject: 'inoltro ' + (this.selectedMessage?.subject || ''), 
-            body: 'inoltro ' + (this.selectedMessage?.subject || '') + ' ' + (this.selectedMessage?.from || ''), 
-          },
-          state: { initialMessage: this.selectedMessage }
-        });
-      }
+    if (this.selectedMessage) {
+      this.forwardEmail.emit(this.selectedMessage);
     }
   }
   

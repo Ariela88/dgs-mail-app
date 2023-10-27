@@ -160,22 +160,67 @@ export class MainComponent {
   }
 
   reply() {
-    this.isComposeMode = true
     if (this.selectedMail) {
+      const queryParams = {
+        from: this.selectedMail.to,
+        to: this.selectedMail.from,
+        subject: 'RE ' + this.selectedMail.subject,
+        body: '',
+      };
+  
       this.router.navigate(['/editor'], {
-        queryParams: {
-          to: this.selectedMail.from,
-          from: this.selectedMail.to,
-          subject: 'RE ' + this.selectedMail.subject,
-        },
-        state: { initialMessage: this.selectedMail },
+        queryParams: queryParams,
+        state: { initialMessage: this.selectedMail }
       });
+  
+      const emailToSend: Mail = {
+        to: this.selectedMail.from,
+        from: this.selectedMail.to,
+        subject: 'RE ' + this.selectedMail.subject,
+        body: '',
+        id: '',
+        sent: true,
+        important: false,
+        isFavourite: false,
+        completed: false,
+        selected: false
+      };
+  
+      this.onEmailSent(emailToSend);
     }
   }
   
+  
 
   inolter() {
-    this.inolterAMail.emit();
+    if (this.selectedMail) {
+      const queryParams = {
+        from: this.selectedMail.to,
+        to: '',
+        subject: '(Inoltrato) ' + this.selectedMail.subject,
+        body: this.selectedMail.body,
+      };
+  
+      this.router.navigate(['/editor'], {
+        queryParams: queryParams,
+        state: { initialMessage: this.selectedMail }
+      });
+  
+      const emailToSend: Mail = {
+        to: this.selectedMail.from,
+        from: this.selectedMail.to,
+        subject: 'Inoltrato ' + this.selectedMail.subject,
+        body: '',
+        id: '',
+        sent: true,
+        important: false,
+        isFavourite: false,
+        completed: false,
+        selected: false
+      };
+  
+      this.onEmailSent(emailToSend);
+    }
   }
 
   @HostListener('window:keyup', ['$event'])

@@ -17,24 +17,21 @@
 
 
     <app-message-list [messageSelected]="selectedMails" (messageSelectedOut)="onMessageSelected($event)"
-    [selectedMessage]="selectedMail" (favoriteEmail)="onFavoriteEmailSelected($event)"
-    (removeFavoriteEmail)="removeToFavorite($event)" (importantEmail)="onImportantEmailSelected($event)"
-    (removeImportantEmail)="removeToImportant($event)">
-  </app-message-list>
+      [selectedMessage]="selectedMail" (favoriteEmail)="onFavoriteEmailSelected($event)"
+      (removeFavoriteEmail)="removeToFavorite($event)" (importantEmail)="onImportantEmailSelected($event)"
+      (removeImportantEmail)="removeToImportant($event)">
+    </app-message-list>
 
 
     <ng-container *ngIf="writeNewMail && isComposeMode">
       <app-compose [isComposeMode]="isComposeMode" (emailSent)="onEmailSent($event)"></app-compose>
     </ng-container>
-    
+
 
     <ng-container *ngIf="!isComposeMode">
-      <app-message-viewer
-      [selectedMessage]="selectedMail"
-      (replyEmail)="reply()"
-      (forwardEmail)="inolter()"
-    ></app-message-viewer>
-    
+      <app-message-viewer [selectedMessage]="selectedMail" (replyEmail)="reply()"
+        (forwardEmail)="inolter()"></app-message-viewer>
+
 
     </ng-container>
   </div>
