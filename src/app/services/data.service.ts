@@ -8,8 +8,10 @@ import { Mail } from '../model/mail';
   providedIn: 'root',
 })
 export class DataService {
+
+  mailJson = '/assets/mail.json'
   
-  mails: Mail[] = [];
+  
   private sentMailSubject = new BehaviorSubject<Mail | null>(null);
   sentMail$ = this.sentMailSubject.asObservable();
   private allMailSubject = new Subject<Mail[]>();
@@ -18,29 +20,18 @@ export class DataService {
 
   constructor(private http: HttpClient) {}
 
-  getMailMessage(): Observable<Mail[]> {
-    return this.http.get<Mail[]>('/assets/mail.json');
-  }
 
-  getMessageById(id: string): Observable<Mail | null> {
-    return this.http
-      .get<Mail[]>('/assets/mail.json')
-      .pipe(map((mails) => mails.find((mail) => mail.id === id) || null));
+
+  getMailMessage(): Observable<Mail[]> {
+    return this.http.get<Mail[]>(this.mailJson);
   }
 
   sendMail(mail: Mail) {
-    console.log('dataServ send')
-    this.sentEmails.push(mail);
-    this.sentMailSubject.next(mail);
+    console.log(mail,'dataServ send')
+    
     
   }
 
-  deleteEmailData(mail: Mail): void {
-    const index = this.mails.findIndex((m) => m.id === mail.id);
-    if (index !== -1) {
-      this.mails.splice(index, 1);
-      this.allMailSubject.next([...this.mails]);
-      }
-  }
+  
   
 }

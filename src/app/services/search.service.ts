@@ -1,30 +1,38 @@
 import { Injectable } from '@angular/core';
 import { Mail } from '../model/mail';
 import { DataService } from './data.service';
-import { Observable, map } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { FolderService } from './folder.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService {
-  constructor(private dataService: DataService, private http: HttpClient) {}
+  emails: Mail[] = [];
 
-  searchMail(searchTerm: string): Observable<Mail[]> {
-    return this.http.get<Mail[]>('/assets/mail.json').pipe(
-      map((mails: Mail[]) => {
-        const searchResults: Mail[] = [];
-        mails.forEach((mail) => {
+  constructor(private dataService: DataService, public folderService:FolderService) {
+    this.dataService.getMailMessage().subscribe((emails: Mail[]) => {
+      this.emails = emails;
+    });
+  }
+
+  searchMail(searchTerm: string): Mail[] {
+    const searchResults: Mail[] = [];
+
+    for (const folderName in this.folderService.emails) {
+      if (this.folderService.emails.hasOwnProperty(folderName)) {
+        const folderMails = this.folderService.emails[folderName];
+        folderMails.forEach((mail) => {
           if (
             mail.from.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            mail.subject.toLowerCase().includes(searchTerm.toLowerCase())
+            mail.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            mail.body.toLowerCase().includes(searchTerm.toLowerCase())
           ) {
-            const duplicatedMail: Mail = { ...mail };
-            searchResults.push(duplicatedMail);
+            searchResults.push(mail);
           }
         });
-        return searchResults;
-      })
-    );
+      }
+    }
+
+    return searchResults ;
   }
 }

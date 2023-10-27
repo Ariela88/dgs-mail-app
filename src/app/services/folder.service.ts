@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class FolderService {
-  private emails: { [key: string]: Mail[] } = {
+   emails: { [key: string]: Mail[] } = {
     all: [],
     inbox: [],
     favorite: [],
@@ -33,13 +33,7 @@ export class FolderService {
     this.emails['all'].push(email);
   }
 
-  addEmailToAllFolders(email: Mail) {
-    for (const folderName in this.emails) {
-      this.emails[folderName].push(email);
-    }
-  }
-
-  removeEmailFromFolder(email: Mail, folderName: string): void {
+   removeEmailFromFolder(email: Mail, folderName: string): void {
     const index = this.emails[folderName].findIndex(
       (existingEmail) => existingEmail.id === email.id
     );
@@ -49,14 +43,9 @@ export class FolderService {
   }
 
   copyEmailToFolder(email: Mail, targetFolder: string) {
-    const sourceFolder = this.currentFolderName;
-    const updatedEmails = this.emails[sourceFolder].filter(
-      (existingEmail) => existingEmail !== email
-    );
-    this.emails[sourceFolder] = updatedEmails;
-    this.emails[targetFolder] = [...(this.emails[targetFolder] || []), email];
-
-    console.log('Email spostata:', email);
-    console.log('Emails nella cartella "sent":', this.emails['sent']);
+    
+    const mailToCopy = { ...email };
+    this.emails[targetFolder].push(mailToCopy);
   }
+  
 }

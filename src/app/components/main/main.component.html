@@ -17,10 +17,10 @@
 
 
     <app-message-list [messageSelected]="selectedMails" (messageSelectedOut)="onMessageSelected($event)"
-      [selectedMessage]="selectedMail" (favoriteEmail)="onFavoriteEmailSelected($event)"
-      (removeFavoriteEmail)="removeToFavorite($event)" (importantEmail)="onImportantEmailSelected($event)"
-      (removeImportantEmail)="removeToImportant($event)" (messageDelete)="removeEmail($event)">
-    </app-message-list>
+    [selectedMessage]="selectedMail" (favoriteEmail)="onFavoriteEmailSelected($event)"
+    (removeFavoriteEmail)="removeToFavorite($event)" (importantEmail)="onImportantEmailSelected($event)"
+    (removeImportantEmail)="removeToImportant($event)">
+  </app-message-list>
 
 
     <ng-container *ngIf="writeNewMail && isComposeMode">

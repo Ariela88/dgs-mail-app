@@ -48,6 +48,7 @@ export class MainComponent {
   showPreviewMail: boolean = false;
   folderSelected: string = 'in box';
   searchTerm = '';
+  
 
   constructor(
     private folderService: FolderService,
@@ -55,7 +56,10 @@ export class MainComponent {
    
     private searchService: SearchService,
     private router: Router
-  ) {}
+  ) {
+    const searchResults = this.searchService.searchMail(this.searchTerm);
+this.selectedMails = searchResults;
+  }
 
   ngOnInit() {
     this.folderService.selectFolder('all');
@@ -100,7 +104,7 @@ console.log('dataserv')
     this.dataServ.sendMail(sentMail)
     if (
       !this.folderService
-        .getEmails('important')
+        .getEmails('sent')
         .some((existingEmail) => existingEmail.id === sentMail.id)
     ) {
       this.folderService.copyEmailToFolder(sentMail, 'sent');
@@ -152,27 +156,23 @@ console.log('dataserv')
   }
 
   onSearch(): void {
-    console.log('Search Term:', this.searchTerm);
+    console.log('Ricerca mail nel main', this.searchTerm);
     if (this.searchTerm) {
-      this.searchService
-        .searchMail(this.searchTerm)
-        .subscribe((searchResults) => {
-          this.selectedMails = searchResults;
-          this.messageListUpdate.emit(this.selectedMails);
-        });
-      this.searchTerm = '';
+      const searchResults = this.searchService.searchMail(this.searchTerm);
+      this.selectedMails = searchResults;
+      this.messageListUpdate.emit(this.selectedMails);
     } else {
-      const folderName =
+       const folderName =
         this.folderSelected === 'all' ? 'inbox' : this.folderSelected;
-      const emails = this.folderService.getEmails(folderName);
-      this.selectedMails = emails.filter(
-        (mail) =>
-          mail.from.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          mail.subject.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
+      this.selectedMails = this.folderService.getEmails(folderName);
       this.messageListUpdate.emit(this.selectedMails);
     }
   }
+
+
+
+
+
 
   @HostListener('window:keyup', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -181,8 +181,6 @@ console.log('dataserv')
     }
   }
 
-  removeEmail(mail: Mail): void {
-    this.dataServ.deleteEmailData(mail);
-  }
+  
   
 }
