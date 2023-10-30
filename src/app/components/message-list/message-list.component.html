@@ -30,12 +30,6 @@
       <input type="checkbox" [(ngModel)]="email.selected">
       <span>{{email.folderName}}</span>
       <span class="from-email">{{ email.from }}</span>
-      <!-- <span *ngIf="email.important">
-        <i class="material-icons">star</i>
-      </span>
-      <span *ngIf="email.isFavourite">
-        <i class="material-icons">favorite</i>
-      </span> -->
       <br>
       <span class="second-row">Oggetto: <a>{{ email.subject }}</a></span> <br>
       <span class="body-row">{{email.body}}</span>

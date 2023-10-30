@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, map } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map, tap } from 'rxjs';
 import { Mail } from '../model/mail';
 
 
@@ -23,8 +23,15 @@ export class DataService {
 
 
   getMailMessage(): Observable<Mail[]> {
-    return this.http.get<Mail[]>(this.mailJson);
+    return this.http.get<Mail[]>(this.mailJson).pipe(
+      tap((data) => {
+        console.log('Dati email ricevuti:', data);
+        this.allMailSubject.next(data);
+      })
+    );
   }
+  
+  
 
   sendMail(mail: Mail) {
     console.log(mail,'dataServ send')

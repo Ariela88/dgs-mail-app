@@ -68,11 +68,12 @@ export class MainComponent {
   }
 
   ngOnInit() {
+    const foldername = ''
     this.dataServ.getMailMessage().subscribe(
       (data: Mail[]) => {
         this.selectedMails = [...data, ...this.dataServ.sentEmails];
         this.selectedMails.forEach((email) => {
-          this.folderService.addEmailToFolder(email);
+          this.folderService.addEmailToFolder(email,foldername);
         });
       },
       (error) => {
@@ -162,17 +163,7 @@ export class MainComponent {
     }
   }
 
-  toggleNewMail() {
-    if (this.writeNewMail) {
-      this.selectedMail = null;
-      this.isComposeMode = false;
-      this.writeNewMail = false;
-      this.resetComposeForm();
-    } else {
-      this.writeNewMail = !this.writeNewMail;
-      this.isComposeMode = this.writeNewMail;
-    }
-  }
+ 
 
   resetComposeForm() {
     this.searchTerm = '';

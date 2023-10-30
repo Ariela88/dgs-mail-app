@@ -1,2 +1,13 @@
 <app-header></app-header> 
-<app-main> </app-main>
+<div class="container">
+
+    <aside>
+      <div class="newmail-btn"> <button mat-fab color="accent" (click)="toggleNewMail()">
+          <mat-icon>add</mat-icon>
+        </button></div>
+      <app-folder-list></app-folder-list>
+  
+    </aside>
+  <router-outlet></router-outlet>
+  
+      </div>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Mail } from '../model/mail';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { DataService } from './data.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,13 +24,34 @@ export class FolderService {
 
   private emailRemovedSubject = new BehaviorSubject<void>(undefined);
   emailRemoved$ = this.emailRemovedSubject.asObservable();
+  private emailsSubject = new BehaviorSubject<Mail[]>([]);
+  emails$ = this.emailsSubject.asObservable();
+
+
+
+
+  private folderNameSubject = new BehaviorSubject<string>('inbox');
+  folderName$ = this.folderNameSubject.asObservable();
+
+  setEmails(emails: Mail[], folderName: string): void {
+    this.emails[folderName] = emails;
+    this.emailsSubject.next(emails);
+  }
+
+  getEmailsObservable(folderName: string): Observable<Mail[]> {
+    this.selectFolder(folderName); // Aggiorna la cartella selezionata
+    return this.emailsSubject.asObservable();
+  }
 
   getEmails(folderName: string): Mail[] {
     if (folderName === 'inbox') {
-      return this.emails['inbox'] 
+      console.log('Getting emails for inbox...');
+      return this.emails['inbox'];
     }
+    console.log('Getting emails for folder:', folderName);
     return this.emails[folderName] || [];
   }
+  
 
   getAllEmails(): Mail[] {
     if ('all' in this.emails) {
@@ -42,10 +64,11 @@ export class FolderService {
     this.selectedFolderSubject.next(folderName);
   }
 
-  addEmailToFolder(email: Mail) {
-    this.emails['inbox'].push(email); 
-    this.emails['all'].push(email);  
+  addEmailToFolder(email: Mail, folderName: string) {
+    this.emails[folderName].push(email);
+    this.emails['all'].push(email);
   }
+  
 
  
   removeEmailFromFolder(email: Mail, folderName: string): void {

@@ -7,6 +7,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MessageViewerComponent } from './components/message-viewer/message-viewer.component';
 import { MainComponent } from "./components/main/main.component";
+import { FolderListComponent } from "./components/folder-list/folder-list.component";
+import { MaterialModule } from './material-module/material/material.module';
+
 
 
 
@@ -23,7 +26,9 @@ import { MainComponent } from "./components/main/main.component";
         HeaderComponent,
         HttpClientModule,
         MessageViewerComponent,
-        MainComponent
+        MainComponent,
+        FolderListComponent,
+        MaterialModule
     ]
 })
 export class AppModule { }
