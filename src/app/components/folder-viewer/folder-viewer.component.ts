@@ -20,12 +20,15 @@ export class FolderViewerComponent implements OnInit {
 
   ngOnInit() {
     this.folderServ.folderName$.subscribe(folderName => {
-      console.log('FolderName:', folderName);
+      console.log('Nuova cartella:', folderName);
       this.folderServ.getEmailsObservable(folderName).subscribe((emails: Mail[]) => {
         this.emails = emails;
         console.log('Emails in FolderViewerComponent:', this.emails);
       });
     });
+    
+
+    
     
   }
   

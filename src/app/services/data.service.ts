@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, map, tap } from 'rxjs';
 import { Mail } from '../model/mail';
+import { FolderService } from './folder.service';
 
 
 @Injectable({
@@ -18,15 +19,15 @@ export class DataService {
   public allMail$ = this.allMailSubject.asObservable();
   sentEmails: Mail[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private folderServ:FolderService) {}
 
 
 
   getMailMessage(): Observable<Mail[]> {
-    return this.http.get<Mail[]>(this.mailJson).pipe(
-      tap((data) => {
-        console.log('Dati email ricevuti:', data);
-        this.allMailSubject.next(data);
+    return this.http.get<Mail[]>('url_per_le_tue_api').pipe(
+      tap((emails: Mail[]) => {
+        this.folderServ.setEmails(emails, 'inbox');
+        this.allMailSubject.next(emails); 
       })
     );
   }

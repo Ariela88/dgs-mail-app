@@ -35,13 +35,16 @@ export class FolderService {
 
   setEmails(emails: Mail[], folderName: string): void {
     this.emails[folderName] = emails;
-    this.emailsSubject.next(emails);
+    this.emailsSubject.next(emails); 
   }
+  
 
   getEmailsObservable(folderName: string): Observable<Mail[]> {
-    this.selectFolder(folderName); // Aggiorna la cartella selezionata
+    console.log('Getting emails for folder:', folderName);
+    this.selectFolder(folderName);
     return this.emailsSubject.asObservable();
   }
+  
 
   getEmails(folderName: string): Mail[] {
     if (folderName === 'inbox') {
