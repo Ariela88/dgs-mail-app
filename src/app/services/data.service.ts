@@ -9,8 +9,8 @@ import { Mail } from '../model/mail';
 })
 export class DataService {
 
-  mailJson = '/assets/mail.json'
-  
+  mailJson = JSON.parse(JSON.stringify('/assets/mail.json'));
+  originalData = JSON.parse(JSON.stringify(this.mailJson));
   
   private sentMailSubject = new BehaviorSubject<Mail | null>(null);
   sentMail$ = this.sentMailSubject.asObservable();

@@ -14,11 +14,15 @@ export class FolderService {
     favorite: [],
     important: [],
     sent: [],
+    trash:[]
   };
 
   private selectedFolderSubject = new BehaviorSubject<string>('all');
   selectedFolder$ = this.selectedFolderSubject.asObservable();
   currentFolderName: string = 'all';
+
+  private emailRemovedSubject = new BehaviorSubject<void>(undefined);
+  emailRemoved$ = this.emailRemovedSubject.asObservable();
 
   getEmails(folderName: string): Mail[] {
     if (folderName === 'inbox') {
@@ -27,13 +31,11 @@ export class FolderService {
     return this.emails[folderName] || [];
   }
 
-  getAllEmails(){
-
+  getAllEmails(): Mail[] {
     if ('all' in this.emails) {
-      this.allEmails.push(...this.emails['all']);
+      return this.emails['all'];
     }
-   
-     return this.allEmails;
+    return [];
   }
 
   selectFolder(folderName: string) {
@@ -41,18 +43,30 @@ export class FolderService {
   }
 
   addEmailToFolder(email: Mail) {
-    this.emails['inbox'].push(email);
+    this.emails['inbox'].push(email); 
+    this.emails['all'].push(email);  
   }
 
  
   removeEmailFromFolder(email: Mail, folderName: string): void {
-    console.log('folder remove')
-    const index = this.emails[folderName].findIndex(
+  const index = this.emails[folderName].findIndex(
+    (existingEmail) => existingEmail.id === email.id
+  );
+  if (index !== -1) {
+    this.emails[folderName].splice(index, 1);
+    this.emails['trash'].push(email); 
+    
+    if (folderName === 'inbox') {
+      const inboxIndex = this.emails['inbox'].findIndex(
         (existingEmail) => existingEmail.id === email.id
-    );
-    if (index !== -1) {
-        this.emails[folderName].splice(index, 1);
+      );
+      if (inboxIndex !== -1) {
+        this.emails['inbox'].splice(inboxIndex, 1);
+      }
     }
+    this.emailRemovedSubject.next(); 
+    email.folderName = 'trash'
+  }
 }
 
 
@@ -62,6 +76,7 @@ export class FolderService {
         this.emails[targetFolder] = []; 
     }
     this.emails[targetFolder].push(mailToCopy);
+    
 }
 
 

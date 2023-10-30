@@ -4,6 +4,7 @@ import {
   HostListener,
   Input,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
@@ -18,7 +19,6 @@ import { FormsModule } from '@angular/forms';
 import { Mail } from 'src/app/model/mail';
 
 import { SearchService } from 'src/app/services/search.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -37,16 +37,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent {
+  @Input() isComposeMode: boolean = false;
+  @Input() writeNewMail: boolean = false;
+
   @Output() searchEvent = new EventEmitter<string>();
   @Output() messageOpened = new EventEmitter<Mail>();
   @Output() messageListUpdate = new EventEmitter<Mail[]>();
-  @Input() isComposeMode: boolean = false;
-  @Input() writeNewMail: boolean = false;
   @Output() replyMail: EventEmitter<void> = new EventEmitter<void>();
   @Output() inolterAMail: EventEmitter<void> = new EventEmitter<void>();
+  @Output() deleteEmailToInbox: EventEmitter<void> = new EventEmitter<void>();
+
+  @ViewChild(ComposeComponent) composeComponent?: ComposeComponent;
 
   selectedMail: Mail | null = null;
-
   selectedMails: Mail[] = [];
   showPreviewMail: boolean = false;
   folderSelected: string = 'in box';
@@ -55,11 +58,13 @@ export class MainComponent {
   constructor(
     private folderService: FolderService,
     private dataServ: DataService,
-    private searchService: SearchService,
-    private router: Router
+    private searchService: SearchService
   ) {
     const searchResults = this.searchService.searchMail(this.searchTerm);
     this.selectedMails = searchResults;
+    this.folderService.emailRemoved$.subscribe(() => {
+      this.messageListUpdate.emit(this.selectedMails);
+    });
   }
 
   ngOnInit() {
@@ -91,14 +96,19 @@ export class MainComponent {
   }
 
   onFolderSelected(folderName: string) {
-    this.folderService.selectFolder(folderName);
-    this.selectedMails = this.folderService.getEmails(folderName);
+    if (folderName === 'all') {
+      this.selectedMails = this.folderService.getAllEmails();
+    } else {
+      this.folderService.selectFolder(folderName);
+      this.selectedMails = this.folderService.getEmails(folderName);
+    }
     this.messageListUpdate.emit(this.selectedMails);
     this.folderSelected = folderName;
   }
 
   onEmailSent(sentMail: Mail) {
     this.folderService.copyEmailToFolder(sentMail, 'sent');
+    this.folderService.copyEmailToFolder(sentMail, 'all');
     this.isComposeMode = false;
   }
 
@@ -126,13 +136,23 @@ export class MainComponent {
     this.folderService.removeEmailFromFolder(email, 'favorite');
     if (this.selectedMail && this.selectedMail.id === email.id) {
       this.selectedMail.isFavourite = false;
-      console.log('main favorite remove');
     }
   }
 
   removeEmailToInBox(email: Mail) {
-    console.log('main remove');
-    this.folderService.removeEmailFromFolder(email, 'inbox');
+    if (
+      !this.folderService
+        .getEmails('trash')
+        .some((existingEmail) => existingEmail.id === email.id)
+    ) {
+      this.folderService.removeEmailFromFolder(email, 'inbox');
+    }
+    this.messageListUpdate.emit(
+      this.selectedMails.filter((item) => item.id !== email.id)
+    );
+    this.selectedMails = this.selectedMails.filter(
+      (item) => item.id !== email.id
+    );
   }
 
   removeToImportant(email: Mail) {
@@ -140,16 +160,28 @@ export class MainComponent {
     if (this.selectedMail && this.selectedMail.id === email.id) {
       this.selectedMail.important = false;
     }
-    console.log('main important remove');
   }
 
   toggleNewMail() {
-    this.writeNewMail = !this.writeNewMail;
-    this.isComposeMode = this.writeNewMail;
+    if (this.writeNewMail) {
+      this.selectedMail = null;
+      this.isComposeMode = false;
+      this.writeNewMail = false;
+      this.resetComposeForm();
+    } else {
+      this.writeNewMail = !this.writeNewMail;
+      this.isComposeMode = this.writeNewMail;
+    }
+  }
+
+  resetComposeForm() {
+    this.searchTerm = '';
+    this.selectedMails = this.folderService.getEmails('inbox');
+    this.selectedMail = null;
+    this.composeComponent?.resetForm();
   }
 
   onSearch(): void {
-    console.log('Ricerca mail nel main', this.searchTerm);
     if (this.searchTerm) {
       const searchResults = this.searchService.searchMail(this.searchTerm);
       this.selectedMails = searchResults;
@@ -163,51 +195,12 @@ export class MainComponent {
 
   reply() {
     if (this.selectedMail) {
-      const emailToSend: Mail = {
-        to: this.selectedMail.from,
-        from: this.selectedMail.to,
-        subject: 'RE: ' + this.selectedMail.subject,
-        body: 'In risposta al tuo messaggio:\n' + this.selectedMail.body,
-        id: '',
-        sent: true,
-        important: false,
-        isFavourite: false,
-        completed: false,
-        selected: false,
-      };
-
-      this.onEmailSent(emailToSend);
       this.isComposeMode = true;
-    } else {
-      console.error(
-        'Valori mancanti per "to" o "from" nel messaggio selezionato.'
-      );
     }
   }
 
   inolter() {
     if (this.selectedMail) {
-      const queryParams = {
-        from: this.selectedMail.to,
-        to: '',
-        subject: '(Inoltrato) ' + this.selectedMail.subject,
-        body: this.selectedMail.body,
-      };
-
-      const emailToSend: Mail = {
-        to: this.selectedMail.from,
-        from: this.selectedMail.to,
-        subject: 'Inoltrato ' + this.selectedMail.subject,
-        body: '',
-        id: '9',
-        sent: true,
-        important: false,
-        isFavourite: false,
-        completed: false,
-        selected: false,
-      };
-
-      this.onEmailSent(emailToSend);
       this.isComposeMode = true;
     }
   }

@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -20,9 +19,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./message-list.component.scss'],
 })
 export class MessageListComponent {
-  constructor(private cdr: ChangeDetectorRef) {
-    
-  }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   @Input() selectedMessage: Mail | null = null;
   @Output() messageSelectedOut = new EventEmitter<Mail>();
@@ -31,7 +28,7 @@ export class MessageListComponent {
   @Output() favoriteEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() removeFavoriteEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() removeImportantEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
-  @Output() deleteEmail = new EventEmitter<Mail>();
+  @Output() deleteEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() importantEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Input() messageSelected: Mail[] = [];
   @Output() messageListUpdate = new EventEmitter<Mail[]>();
@@ -65,6 +62,7 @@ export class MessageListComponent {
         const copyOfSelectedMessage: Mail = { ...email };
         this.favoriteEmail.emit(copyOfSelectedMessage);
         email.isFavourite = true;
+        email.folderName = 'preferiti'
       }
     });
     this.cdr.markForCheck();
@@ -76,6 +74,7 @@ export class MessageListComponent {
         const copyOfSelectedMessage: Mail = { ...email };
         this.importantEmail.emit(copyOfSelectedMessage);
         email.important = true;
+        email.folderName = 'important'
       }
     });
     this.cdr.markForCheck();
@@ -86,13 +85,13 @@ export class MessageListComponent {
       const copyOfSelectedMessage: Mail = { ...this.selectedMessage };
       this.removeFavoriteEmail.emit(copyOfSelectedMessage);
       this.selectedMessage.isFavourite = false;
-      console.log('viewer favorite remove');
     }
     for (let i = 0; i < this.messageSelected.length; i++) {
       if (this.messageSelected[i].selected) {
         this.messageSelected[i].isFavourite = false;
-      }
+      } 
     }
+    
     this.cdr.markForCheck();
   }
 
@@ -101,7 +100,6 @@ export class MessageListComponent {
       const copyOfSelectedMessage: Mail = { ...this.selectedMessage };
       this.removeImportantEmail.emit(copyOfSelectedMessage);
       this.selectedMessage.important = false;
-      console.log('viewer important remove');
     }
     for (let i = 0; i < this.messageSelected.length; i++) {
       if (this.messageSelected[i].selected) {
@@ -112,10 +110,12 @@ export class MessageListComponent {
   }
 
   deleteMail() {
-    if (this.selectedMessage) {
-      this.deleteEmail.emit(this.selectedMessage);
-
-      console.log('list inbox remove');
-    }
+    const selectedMessagesCopy = [...this.messageSelected];
+    for (let i = 0; i < selectedMessagesCopy.length; i++) {
+      if (selectedMessagesCopy[i].selected) {
+        this.deleteEmail.emit(selectedMessagesCopy[i]);
+      
+      }
+    } 
   }
 }

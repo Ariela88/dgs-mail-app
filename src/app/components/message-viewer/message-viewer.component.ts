@@ -18,13 +18,9 @@ export class MessageViewerComponent {
   @Input() isComposeMode: boolean = false;
   @Input() selectedMessage: Mail | null = null;
   @Output() replyEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
-
   @Output() forwardEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
 
   
-
-  
-
   replyToEmail() {
     this.writeNewMail = true;
     this.isComposeMode = true
@@ -35,7 +31,8 @@ export class MessageViewerComponent {
   
 
   forwardMail() {
-    console.log(this.selectedMessage)
+    this.writeNewMail = true;
+    this.isComposeMode = true
     if (this.selectedMessage) {
       this.forwardEmail.emit(this.selectedMessage);
     }
