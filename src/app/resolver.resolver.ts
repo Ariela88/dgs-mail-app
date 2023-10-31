@@ -1,18 +1,22 @@
-import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
-import { FolderService } from './services/folder.service';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { Observable, catchError, of } from 'rxjs';
 import { Mail } from './model/mail';
+import { FolderService } from './services/folder.service';
 import { DataService } from './services/data.service';
 
-export const resolverResolver: ResolveFn<Mail> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any =>{
+@Injectable({
+  providedIn: 'root'
+})
+export class ResolverResolver implements Resolve<Mail[]> {
+  constructor(private folderService: FolderService, private dataserv:DataService) {}
 
-
-  const folderName = route.params['folderName'] || 'inbox';
-  const folderService = new FolderService()
-
-let emails = folderService.getEmails(folderName)
-console.log(folderName)
-
-return emails
-
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Mail[]> {
+    return this.dataserv.getMailMessage().pipe(
+      catchError(error => {
+        console.error('Errore nel recupero dei dati delle email:', error);
+        return of([]);
+      })
+    );
   }
+}

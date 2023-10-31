@@ -17,6 +17,9 @@ import { ComposeComponent } from '../compose/compose.component';
 import { DataService } from 'src/app/services/data.service';
 import { FormsModule } from '@angular/forms';
 import { Mail } from 'src/app/model/mail';
+import { ActivatedRoute } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
 
 import { SearchService } from 'src/app/services/search.service';
 
@@ -32,6 +35,8 @@ import { SearchService } from 'src/app/services/search.service';
     ComposeComponent,
     FormsModule,
     MessageActionsComponent,
+    RouterModule
+    
   ],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],

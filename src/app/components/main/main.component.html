@@ -1,4 +1,16 @@
 <div class="container">
+  <div class="container">
+
+    <aside>
+      <div class="newmail-btn"> <button mat-fab color="accent">
+          <mat-icon>add</mat-icon>
+        </button></div>
+      <app-folder-list></app-folder-list>
+  
+    </aside>
+  
+  
+      </div>
 
  
   <div class="mail-wrapper">
@@ -8,14 +20,8 @@
         <button (click)="onSearch()">Cerca</button>
       </div>
     </div>
-
-
-    <app-message-list [messageSelected]="selectedMails" (messageSelectedOut)="onMessageSelected($event)"
-      [selectedMessage]="selectedMail" (favoriteEmail)="onFavoriteEmailSelected($event)"
-      (removeFavoriteEmail)="removeToFavorite($event)" (importantEmail)="onImportantEmailSelected($event)"
-      (removeImportantEmail)="removeToImportant($event)"
-      (deleteEmail)="removeEmailToInBox($event)"  >
-    </app-message-list>
+  
+    <router-outlet></router-outlet>
 
 
     <ng-container *ngIf="isComposeMode">

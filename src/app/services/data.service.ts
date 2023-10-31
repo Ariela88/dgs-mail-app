@@ -24,7 +24,7 @@ export class DataService {
 
 
   getMailMessage(): Observable<Mail[]> {
-    return this.http.get<Mail[]>('url_per_le_tue_api').pipe(
+    return this.http.get<Mail[]>('/assets/mail.json').pipe(
       tap((emails: Mail[]) => {
         this.folderServ.setEmails(emails, 'inbox');
         this.allMailSubject.next(emails); 

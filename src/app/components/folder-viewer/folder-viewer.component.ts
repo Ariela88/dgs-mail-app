@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Mail } from 'src/app/model/mail';
-import { FolderService } from 'src/app/services/folder.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-folder-viewer',
@@ -12,24 +12,16 @@ import { FolderService } from 'src/app/services/folder.service';
 })
 export class FolderViewerComponent implements OnInit {
   emails: Mail[] = [];
-  folderName: string = 'inbox';  
+  folderName: string = 'inbox';
 
-
-
-  constructor(private folderServ: FolderService) { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.folderServ.folderName$.subscribe(folderName => {
-      console.log('Nuova cartella:', folderName);
-      this.folderServ.getEmailsObservable(folderName).subscribe((emails: Mail[]) => {
-        this.emails = emails;
-        console.log('Emails in FolderViewerComponent:', this.emails);
-      });
+    this.route.data.subscribe(data => {
+      this.emails = data['emails'];
+      console.log('Emails:', this.emails); 
     });
-    
-
-    
-    
   }
+  
   
 }

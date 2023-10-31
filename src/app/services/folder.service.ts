@@ -68,9 +68,13 @@ export class FolderService {
   }
 
   addEmailToFolder(email: Mail, folderName: string) {
+    if (!(folderName in this.emails)) {
+      this.emails[folderName] = [];  
+    }
     this.emails[folderName].push(email);
     this.emails['all'].push(email);
   }
+  
   
 
  

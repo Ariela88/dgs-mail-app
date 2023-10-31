@@ -16,7 +16,7 @@ import { FolderViewerComponent } from '../folder-viewer/folder-viewer.component'
 })
 export class FolderListComponent{
   
-  @Output() folderSelected = new EventEmitter<string>();
+  
 
   folders?: any[];
   email?: Mail;
