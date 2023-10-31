@@ -1,12 +1,18 @@
 
 
 
-    <ul *ngFor="let email of emails">
-      <li>{{email.from}}</li>
-      <li>{{email.to}}</li>
-      <li>{{email.subject}}</li>
-      <li>{{email.body}}</li>
-      <li>
-      </li>
+<ul>
+
+    <li *ngFor="let email of emails" 
+
+    [ngClass]="{'is-valid': !!email.selected}" (click)="selectedMail(email.id)">
+     
+      <span>{{email.folderName}}</span>
+      <span class="from-email">{{ email.from }}</span>
+      <br>
+      <span class="second-row">Oggetto: <a>{{ email.subject }}</a></span> <br>
+      <span class="body-row">{{email.body}}</span>
+    </li>
+  </ul>
 
   

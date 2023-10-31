@@ -66,7 +66,7 @@ export class MainComponent {
     private searchService: SearchService
   ) {
     const searchResults = this.searchService.searchMail(this.searchTerm);
-    this.selectedMails = searchResults;
+   
     this.folderService.emailRemoved$.subscribe(() => {
       this.messageListUpdate.emit(this.selectedMails);
     });
@@ -177,18 +177,8 @@ export class MainComponent {
     this.composeComponent?.resetForm();
   }
 
-  onSearch(): void {
-    if (this.searchTerm) {
-      const searchResults = this.searchService.searchMail(this.searchTerm);
-      this.selectedMails = searchResults;
-      this.messageListUpdate.emit(this.selectedMails);
-    } else {
-      const folderName = 'all';
-      this.selectedMails = this.folderService.getEmails(folderName);
-      this.messageListUpdate.emit(this.selectedMails);
-    }
-  }
-  
+
+
 
   reply() {
     if (this.selectedMail) {

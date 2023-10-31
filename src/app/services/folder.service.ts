@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Mail } from '../model/mail';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DataService } from './data.service';
 
 @Injectable({
@@ -108,6 +108,11 @@ export class FolderService {
     }
     this.emails[targetFolder].push(mailToCopy);
     
+}
+
+getMailById(mailId: string): Observable<Mail | undefined> {
+  const mail = this.allEmails.find(email => email.id === mailId);
+  return of(mail);
 }
 
 

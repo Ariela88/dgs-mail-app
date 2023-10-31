@@ -2,6 +2,8 @@ import { Component, HostListener} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SearchService } from 'src/app/services/search.service';
 
 
 @Component({
@@ -16,7 +18,21 @@ export class HeaderComponent {
   folderSelected = ''
   searchTerm = ''
 
-  onSearch(){}
+  constructor(private router: Router, private searchService: SearchService) {}
+
+
+  onSearch(): void {
+    if (this.searchTerm) {
+      console.log('Search Term:', this.searchTerm);
+      const searchResults = this.searchService.searchMail(this.searchTerm);
+      this.router.navigate(['/search'], { queryParams: { q: this.searchTerm } });
+;
+    } else {
+      
+      console.log('Search Term is empty');
+    }
+  }
+  
 
   @HostListener('window:keyup', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {

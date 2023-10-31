@@ -7,23 +7,37 @@ import { MessageViewerComponent } from './components/message-viewer/message-view
 
 import { ResolverResolver } from './resolver.resolver';
 import { FolderViewerComponent } from './components/folder-viewer/folder-viewer.component';
-
+import { SearchResultsComponent } from './components/search-results/search-results.component';
+import { SearchResolver } from './search.resolver';
 
 const routes: Routes = [
-{path: 'home', component: MainComponent},
-{path: 'folders/:folderName',
+  { path: 'home', component: MainComponent },
+  {
+    path: 'folders/:folderName',
     component: FolderViewerComponent,
-    resolve: { emails: ResolverResolver }},
-{path: 'list', component: MessageListComponent},
-{path: 'editor', component: ComposeComponent},
-{path: '', redirectTo: 'home',pathMatch:'full'},
-{ path: 'message/:id', component: MessageViewerComponent },
-{path: '**', redirectTo: 'home',pathMatch:'full'},
-
+    resolve: { emails: ResolverResolver },
+  },
+  { path: 'list', component: MessageListComponent },
+  {
+    path: 'search',
+    component: SearchResultsComponent,
+    resolve: {
+      searchResults: SearchResolver,
+    },
+  },
+  { path: 'editor', component: ComposeComponent },
+  {
+    path: 'folder/:folderName/mail/:id',
+    component: MessageViewerComponent,
+  },
+  
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'message/:id', component: MessageViewerComponent },
+  { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

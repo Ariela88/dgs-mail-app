@@ -3,9 +3,9 @@
         <app-message-actions (replyMail)="replyToEmail()" (inolterAMail)="forwardMail()"></app-message-actions>
     </div>
 
-    <h2>{{ selectedMessage.subject }}</h2><span></span>
+    <h2>{{ selectedMessage.subject }}</h2>
     <p>From: {{ selectedMessage.from }}</p>
-    <p>To: {{ selectedMessage.to }}</p>
-    <p>{{ selectedMessage.body }}</p>
+    <p>Date: {{ selectedMessage.to }}</p>
+    <div [innerHTML]="selectedMessage.body"></div>
 
 </div>
