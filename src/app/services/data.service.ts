@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 import { Mail } from '../model/mail';
 import { FolderService } from './folder.service';
 
@@ -11,13 +11,11 @@ import { FolderService } from './folder.service';
 export class DataService {
 
   mailJson = JSON.parse(JSON.stringify('/assets/mail.json'));
-  originalData = JSON.parse(JSON.stringify(this.mailJson));
-  
   private sentMailSubject = new BehaviorSubject<Mail | null>(null);
   sentMail$ = this.sentMailSubject.asObservable();
   private allMailSubject = new Subject<Mail[]>();
   public allMail$ = this.allMailSubject.asObservable();
-  sentEmails: Mail[] = [];
+
 
   constructor(private http: HttpClient, private folderServ:FolderService) {}
 
@@ -32,16 +30,6 @@ export class DataService {
     );
   }
   
-  
-
-  sendMail(mail: Mail) {
-    console.log(mail,'dataServ send')
-    
-    
-  }
-
-  
-
-  
+ 
   
 }

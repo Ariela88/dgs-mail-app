@@ -3,25 +3,26 @@ import { Mail } from '../model/mail';
 import { DataService } from './data.service';
 import { FolderService } from './folder.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService {
-  emails: Mail[] = [];
   private searchResultsSubject = new BehaviorSubject<Mail[]>([]);
-  public searchResults$: Observable<Mail[]> = this.searchResultsSubject.asObservable();
+  public searchResults$: Observable<Mail[]> =
+    this.searchResultsSubject.asObservable();
 
-  constructor(private dataService: DataService, public folderService:FolderService,private router:Router) {
+  constructor(
+    private dataService: DataService,
+    public folderService: FolderService
+  ) {
     this.dataService.getMailMessage().subscribe((emails: Mail[]) => {
-      this.emails = emails;
+      this.searchResultsSubject.next(emails);
     });
   }
-
-  searchMail(searchTerm: string): Mail[] {
+  searchMail(searchTerm: string): void {
     const searchResults: Mail[] = [];
-    this.searchResultsSubject.next(searchResults);
+
     for (const folderName in this.folderService.emails) {
       if (this.folderService.emails.hasOwnProperty(folderName)) {
         const folderMails = this.folderService.emails[folderName];
@@ -32,12 +33,11 @@ export class SearchService {
             mail.body.toLowerCase().includes(searchTerm.toLowerCase())
           ) {
             searchResults.push(mail);
-            this.router.navigateByUrl('search')
           }
         });
-      } 
+      }
     }
 
-    return searchResults ;
+    this.searchResultsSubject.next(searchResults);
   }
 }

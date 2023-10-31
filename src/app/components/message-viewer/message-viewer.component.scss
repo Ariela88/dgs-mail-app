@@ -6,12 +6,11 @@ button{
     font-family: 'Montserrat Alternates', sans-serif;
 }
 
+
 .action-button{
     display: flex;
-    
-    align-items: center;
+    gap: 24px;
 }
-
 app-message-actions{
     margin-bottom: 24px;
 }

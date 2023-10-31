@@ -3,51 +3,82 @@ import { CommonModule } from '@angular/common';
 import { Mail } from 'src/app/model/mail';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { MessageActionsComponent } from '../message-actions/message-actions.component';
-import { ActivatedRoute } from '@angular/router';
 import { FolderService } from 'src/app/services/folder.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NavActionsComponent } from '../nav-actions/nav-actions.component';
 
 @Component({
   selector: 'app-message-viewer',
   standalone: true,
-  imports: [CommonModule, MaterialModule, MessageActionsComponent],
+  imports: [CommonModule, MaterialModule, MessageActionsComponent,NavActionsComponent],
   templateUrl: './message-viewer.component.html',
   styleUrls: ['./message-viewer.component.scss'],
 })
-export class MessageViewerComponent implements OnInit{
-
-
+export class MessageViewerComponent implements OnInit {
   @Input() writeNewMail: boolean = false;
   @Input() isComposeMode: boolean = false;
-  @Input() selectedMessage: Mail | null = null;
+  selectedMessage?: Mail | undefined;
   @Output() replyEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() forwardEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
+  
 
-  constructor(private route: ActivatedRoute,private folderService:FolderService) {}
+  constructor(private folderService: FolderService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    const id = this.selectedMessage?.id
-    this.folderService.getMailById(id!)
-    console.log(this.selectedMessage)
+    const mailId = this.route.snapshot.params['id'];
+    const folderName = this.route.snapshot.params['folderName'];   
+    this.folderService.getEmailsObservable(folderName).subscribe(
+      (data: Mail[]) => {
+        if (data && data.length > 0) {
+          this.selectedMessage = data[0];
+        } else {
+          console.log('Nessun messaggio trovato nella cartella:', folderName);
+        }
+      },
+      (error) => {
+        console.error('Errore durante il recupero dei messaggi:', error);
+      }
+    );    
   }
   
 
-  
   replyToEmail() {
     this.writeNewMail = true;
-    this.isComposeMode = true
+    this.isComposeMode = true;
     if (this.selectedMessage) {
-      this.replyEmail.emit(this.selectedMessage);
+      const queryParams = {
+        to: this.selectedMessage.from,  
+        subject: 'Re: ' + this.selectedMessage.subject,
+        body: 'In risposta al tuo messaggio:\n' + this.selectedMessage.body
+      };
+  
+      this.router.navigate(['/editor'], { queryParams: queryParams });
     }
   }
-  
 
   forwardMail() {
     this.writeNewMail = true;
-    this.isComposeMode = true
+    this.isComposeMode = true;
     if (this.selectedMessage) {
-      this.forwardEmail.emit(this.selectedMessage);
+      const queryParams = {          
+        subject: 'Inolter: ' + this.selectedMessage.subject,
+        body: 'Messaggio inoltrato:\n' + this.selectedMessage.body,
+        isForwarding: true  
+      };
+      this.router.navigate(['/editor'], { queryParams: queryParams });
     }
   }
   
+
+  addToFavorite(email: Mail) {
+    if (email) {
+      this.folderService.copyEmailToFolder(email,'favorite');
+    }
+  }
   
+  markAsImportant(email: Mail) {
+    if (email) {
+      this.folderService.copyEmailToFolder(email,'important');
+    }
+  }
 }

@@ -20,6 +20,12 @@ export class AppComponent {
     };
     this.modalService.openModal(data, this.el);
   }
+  searchTerm: string = '';
 
+  handleSearchInputChange(searchTerm: string) {
+    
+    this.searchTerm = searchTerm;
+
+  }
  
 }

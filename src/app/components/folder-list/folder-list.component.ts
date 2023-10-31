@@ -5,8 +5,6 @@ import { Router } from '@angular/router';
 import { Mail } from 'src/app/model/mail';
 import { FolderViewerComponent } from '../folder-viewer/folder-viewer.component';
 
-
-
 @Component({
   selector: 'app-folder-list',
   standalone: true,
@@ -15,20 +13,13 @@ import { FolderViewerComponent } from '../folder-viewer/folder-viewer.component'
   styleUrls: ['./folder-list.component.scss']
 })
 export class FolderListComponent{
-  
-
-
   folders?: any[];
   email?: Mail;
 
   constructor(private router: Router) {}
 
-  changeFolder(folderName: string) {
-  
+  changeFolder(folderName: string) {  
     this.router.navigate(['folders', folderName]);
-    console.log(folderName)
   }
-
-  
-
+ 
 }

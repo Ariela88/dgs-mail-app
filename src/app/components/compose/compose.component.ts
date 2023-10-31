@@ -1,4 +1,12 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import {
@@ -25,24 +33,23 @@ import { FolderService } from 'src/app/services/folder.service';
   templateUrl: './compose.component.html',
   styleUrls: ['./compose.component.scss'],
 })
-export class ComposeComponent implements OnInit{
+export class ComposeComponent implements OnInit {
   newMailForm: FormGroup;
   @Output() emailSent: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Input() isComposeMode: boolean = true;
   @Input() writeNewMail: boolean = true;
   @Input() selectedMail: Mail | null = null;
   @Input() data: any;
-  
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private router:Router,
-    private modalService: ModalService, private el: ElementRef, private folderService:FolderService
-     ) {
+    private modalService: ModalService,
+    private folderService: FolderService
+  ) {
     this.newMailForm = this.fb.group({
       to: ['', [Validators.required, Validators.email]],
-      from:[''],
+      from: [''],
       subject: [''],
       body: [''],
     });
@@ -50,40 +57,40 @@ export class ComposeComponent implements OnInit{
     this.route.queryParams.subscribe((params) => {
       this.newMailForm.patchValue({
         to: params['to'] || '',
-        from:params['from'] || '',
+        from: params['from'] || '',
         subject: params['subject'] || '',
         body: params['body'] || '',
       });
     });
   }
   ngOnInit() {
-    if (this.selectedMail) {
-      if (this.selectedMail.subject) {
+    this.route.queryParams.subscribe((params) => {
+      const emailData = params['emailData'];
+      const isForwarding = params['isForwarding'];
+      if (emailData) {
         this.newMailForm.patchValue({
-          to: this.selectedMail.from as string,
-          subject: ('RE: ' + this.selectedMail.subject) as string,
-          body: ('In risposta al tuo messaggio:\n' + this.selectedMail.body) as string,
+          id: this.generateRandomId(),
+          to: emailData.to,
+          subject: isForwarding ? 'Inolter: ' + emailData.subject : 'Re: ' + emailData.subject,
+          body: isForwarding ? 'Messaggio inoltrato:\n' + emailData.body : 'In risposta al tuo messaggio:\n' + emailData.body
         });
-      } else{
-        this.newMailForm.patchValue({
-          to: this.selectedMail.to as string, 
-          subject: ('(Inoltrato) ' + this.selectedMail.subject) as string,
-          body: this.selectedMail.body as string,
-        });
+      } else {
+        console.log('Errore nel compose');
       }
-    } else{
-      this.newMailForm.reset({
-        to: '',
-        from: '',
-        subject: '',
-        body: ''
-      });
+    });
+  }
+
+  generateRandomId(): string {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomId = '';
+    for (let i = 0; i < 2; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomId += characters.charAt(randomIndex);
     }
-}
-
+    return randomId;
+  }
   
 
-  
   onSubmit() {
     if (this.newMailForm.valid) {
       const sentMail: Mail = {
@@ -97,15 +104,12 @@ export class ComposeComponent implements OnInit{
         isFavourite: false,
         completed: false,
         selected: false,
-        folderName:'inbox'
+        folderName: 'sent',
       };
 
-      this.folderService.copyEmailToFolder(sentMail,'sent')
-      this.closeModal()
-      
-      
-   }
-  
+      this.folderService.copyEmailToFolder(sentMail, 'sent');
+      this.closeModal();
+    }
   }
 
   resetForm() {
@@ -113,15 +117,11 @@ export class ComposeComponent implements OnInit{
       to: '',
       from: '',
       subject: '',
-      body: ''
+      body: '',
     });
   }
-  
+
   closeModal() {
-    
     this.modalService.closeModal();
   }
-
-  
-  
 }

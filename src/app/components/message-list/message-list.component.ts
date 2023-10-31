@@ -62,7 +62,7 @@ export class MessageListComponent {
         const copyOfSelectedMessage: Mail = { ...email };
         this.favoriteEmail.emit(copyOfSelectedMessage);
         email.isFavourite = true;
-        email.folderName = 'preferiti'
+        email.folderName = 'favorite'
       }
     });
     this.cdr.markForCheck();
