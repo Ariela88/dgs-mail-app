@@ -10,3 +10,8 @@ body { margin: 0;
 .x[ng-click]{
     cursor: pointer;
 }
+
+app-folder-viewer{
+  position: absolute;
+  width: 100%;
+}

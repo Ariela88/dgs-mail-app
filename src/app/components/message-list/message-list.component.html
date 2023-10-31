@@ -1,29 +1,5 @@
 <div class="list-container" *ngIf="messageSelected">
-  <div class="button-container">
-    <button (click)="checkAll()" type="submit" value="Submit" mat-raised-button color="primary"> {{ selectAllChecked ?
-      'Deseleziona Tutto' : 'Seleziona Tutto' }}</button>
-    <button mat-raised-button color="primary" (click)="deleteMail()">
-      Elimina mail
-    </button>
-    <button (click)="addToFavorite()" mat-raised-button color="primary" *ngIf="!messageSelected[0]?.isFavourite">
-      Aggiungi ai preferiti
-    </button>
-
-    <button (click)="removeFromfavorite()" mat-raised-button color="primary" *ngIf="messageSelected[0]?.isFavourite">
-      Rimuovi dai preferiti
-    </button>
-
-    <button (click)="markAsImportant()" mat-raised-button color="primary" *ngIf="!messageSelected[0]?.important">
-      Importante
-    </button>
-
-    <button (click)="unMarkAsImportant()" mat-raised-button color="primary" *ngIf="messageSelected[0]?.important">
-      Rimuovi Importante
-    </button>
-
-
-
-  </div>
+  
   <ul>
 
     <li *ngFor="let email of messageSelected" (click)="viewMessage(email)" [ngClass]="{'is-valid': !!email.selected}">

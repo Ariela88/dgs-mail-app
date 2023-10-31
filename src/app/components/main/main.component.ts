@@ -87,19 +87,19 @@ export class MainComponent {
     );
   }
 
-  onMessageSelected(mail: Mail) {
-    this.selectedMail = mail;
-    this.isComposeMode = false;
-    this.selectedMail.isFavourite = this.folderService
-      .getEmails('favorite')
-      .some((existingEmail) => existingEmail.id === mail.id);
-    this.selectedMail.important = this.folderService
-      .getEmails('important')
-      .some((existingEmail) => existingEmail.id === mail.id);
-    this.selectedMail.sent = this.folderService
-      .getEmails('sent')
-      .some((existingEmail) => existingEmail.id === mail.id);
-  }
+  // onMessageSelected(mail: Mail) {
+  //   this.selectedMail = mail;
+  //   this.isComposeMode = false;
+  //   this.selectedMail.isFavourite = this.folderService
+  //     .getEmails('favorite')
+  //     .some((existingEmail) => existingEmail.id === mail.id);
+  //   this.selectedMail.important = this.folderService
+  //     .getEmails('important')
+  //     .some((existingEmail) => existingEmail.id === mail.id);
+  //   this.selectedMail.sent = this.folderService
+  //     .getEmails('sent')
+  //     .some((existingEmail) => existingEmail.id === mail.id);
+  // }
 
   onFolderSelected(folderName: string) {
     if (folderName === 'all') {

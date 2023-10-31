@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
+import { ModalService } from './services/modal.service';
 
 
 
@@ -9,4 +10,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'dgs-mail-app';
+
+  constructor(private modalService: ModalService, private el: ElementRef) {}
+
+  openModal() {
+    const data = {
+      title: 'Nuova Mail',
+    
+    };
+    this.modalService.openModal(data, this.el);
+  }
+
+ 
 }

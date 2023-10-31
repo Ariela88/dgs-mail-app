@@ -24,14 +24,12 @@ export class HeaderComponent {
   onSearch(): void {
     if (this.searchTerm) {
       console.log('Search Term:', this.searchTerm);
-      const searchResults = this.searchService.searchMail(this.searchTerm);
       this.router.navigate(['/search'], { queryParams: { q: this.searchTerm } });
-;
     } else {
-      
       console.log('Search Term is empty');
     }
   }
+  
   
 
   @HostListener('window:keyup', ['$event'])

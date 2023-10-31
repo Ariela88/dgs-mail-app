@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import {
@@ -10,6 +10,8 @@ import {
 import { Mail } from 'src/app/model/mail';
 import { NavActionsComponent } from '../nav-actions/nav-actions.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ModalService } from 'src/app/services/modal.service';
+import { FolderService } from 'src/app/services/folder.service';
 
 @Component({
   selector: 'app-compose',
@@ -29,11 +31,14 @@ export class ComposeComponent implements OnInit{
   @Input() isComposeMode: boolean = true;
   @Input() writeNewMail: boolean = true;
   @Input() selectedMail: Mail | null = null;
+  @Input() data: any;
   
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
+    private router:Router,
+    private modalService: ModalService, private el: ElementRef, private folderService:FolderService
      ) {
     this.newMailForm = this.fb.group({
       to: ['', [Validators.required, Validators.email]],
@@ -95,8 +100,10 @@ export class ComposeComponent implements OnInit{
         folderName:'inbox'
       };
 
-      this.emailSent.emit(sentMail);
-      this.isComposeMode = false
+      this.folderService.copyEmailToFolder(sentMail,'sent')
+      this.closeModal()
+      
+      
    }
   
   }
@@ -110,7 +117,11 @@ export class ComposeComponent implements OnInit{
     });
   }
   
+  closeModal() {
+    
+    this.modalService.closeModal();
+  }
 
- 
+  
   
 }

@@ -1,3 +1,7 @@
+
+
+<div class="modal">
+
 <h1>Nuova Mail</h1>
 <form [formGroup]="newMailForm" (ngSubmit)="onSubmit()">
 
@@ -19,8 +23,12 @@
     <textarea matInput formControlName="body" required></textarea>
     <mat-error *ngIf="newMailForm.get('body')?.hasError('required')">Il messaggio è obbligatorio</mat-error>
   </mat-form-field>
-
+  
   <button mat-raised-button color="primary" type="submit" [disabled]="newMailForm.invalid">
     Invia Mail
   </button>
+  <button mat-button (click)="closeModal()">Chiudi</button>
 </form>
+
+</div>
+
