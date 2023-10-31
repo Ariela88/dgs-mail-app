@@ -11,13 +11,13 @@ import { FolderViewerComponent } from './components/folder-viewer/folder-viewer.
 
 const routes: Routes = [
 {path: 'home', component: MainComponent},
+{path: 'folders/:folderName',
+    component: FolderViewerComponent,
+    resolve: { emails: ResolverResolver }},
 {path: 'list', component: MessageListComponent},
 {path: 'editor', component: ComposeComponent},
 {path: '', redirectTo: 'home',pathMatch:'full'},
 { path: 'message/:id', component: MessageViewerComponent },
-{path: 'folders/:folderName',
-    component: FolderViewerComponent,
-    resolve: { emails: ResolverResolver }},
 {path: '**', redirectTo: 'home',pathMatch:'full'},
 
 ];

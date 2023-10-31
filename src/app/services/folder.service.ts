@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Mail } from '../model/mail';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DataService } from './data.service';
@@ -33,6 +33,12 @@ export class FolderService {
   private folderNameSubject = new BehaviorSubject<string>('inbox');
   folderName$ = this.folderNameSubject.asObservable();
 
+  folderChanged = new EventEmitter<string>();
+
+  changeFolder(folderName: string) {
+    this.folderChanged.emit(folderName);
+  }
+
   setEmails(emails: Mail[], folderName: string): void {
     this.emails[folderName] = emails;
     this.emailsSubject.next(emails); 
@@ -47,11 +53,6 @@ export class FolderService {
   
 
   getEmails(folderName: string): Mail[] {
-    if (folderName === 'inbox') {
-      console.log('Getting emails for inbox...');
-      return this.emails['inbox'];
-    }
-    console.log('Getting emails for folder:', folderName);
     return this.emails[folderName] || [];
   }
   

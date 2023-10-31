@@ -2,4 +2,8 @@
   <mat-icon >mail</mat-icon>
   <span class="title">PurpleMail</span>
   <span class="example-spacer"></span>
+  <h2> Posta {{folderSelected}} </h2>
+      <div class="search-container"><input matInput type="text" [(ngModel)]="searchTerm" placeholder="Cerca...">
+        <button (click)="onSearch()">Cerca</button>
+      </div>
 </mat-toolbar>

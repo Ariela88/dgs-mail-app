@@ -12,11 +12,8 @@ export class ResolverResolver implements Resolve<Mail[]> {
   constructor(private folderService: FolderService, private dataserv:DataService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Mail[]> {
-    return this.dataserv.getMailMessage().pipe(
-      catchError(error => {
-        console.error('Errore nel recupero dei dati delle email:', error);
-        return of([]);
-      })
-    );
+    const folderName = route.params['folderName'] || 'inbox';
+    return this.folderService.getEmailsObservable(folderName);
+    
   }
 }

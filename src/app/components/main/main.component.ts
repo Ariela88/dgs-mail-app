@@ -188,6 +188,7 @@ export class MainComponent {
       this.messageListUpdate.emit(this.selectedMails);
     }
   }
+  
 
   reply() {
     if (this.selectedMail) {
@@ -201,10 +202,5 @@ export class MainComponent {
     }
   }
 
-  @HostListener('window:keyup', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.key === 'Enter' || event.keyCode === 13) {
-      this.onSearch();
-    }
-  }
+ 
 }

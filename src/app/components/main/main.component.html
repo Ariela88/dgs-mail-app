@@ -12,19 +12,12 @@
   
       </div>
 
- 
-  <div class="mail-wrapper">
-    <div class="header-main">
-      <h2> Posta {{folderSelected}} </h2>
-      <div class="search-container"><input matInput type="text" [(ngModel)]="searchTerm" placeholder="Cerca...">
-        <button (click)="onSearch()">Cerca</button>
-      </div>
-    </div>
+
   
     <router-outlet></router-outlet>
 
 
-    <ng-container *ngIf="isComposeMode">
+    <!-- <ng-container *ngIf="isComposeMode">
       <app-compose [isComposeMode]="isComposeMode" [selectedMail]="selectedMail" (emailSent)="onEmailSent($event)"></app-compose>
     </ng-container>
     
@@ -37,4 +30,4 @@
 
     </ng-container>
   </div>
-</div>
+</div> -->
