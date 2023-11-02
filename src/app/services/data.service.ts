@@ -1,35 +1,21 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
 import { Mail } from '../model/mail';
 import { FolderService } from './folder.service';
-
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-
-  mailJson = JSON.parse(JSON.stringify('/assets/mail.json'));
-  private sentMailSubject = new BehaviorSubject<Mail | null>(null);
-  sentMail$ = this.sentMailSubject.asObservable();
-  private allMailSubject = new Subject<Mail[]>();
-  public allMail$ = this.allMailSubject.asObservable();
-
-
-  constructor(private http: HttpClient, private folderServ:FolderService) {}
-
-
+  constructor(private http: HttpClient, private folderServ: FolderService) {}
 
   getMailMessage(): Observable<Mail[]> {
     return this.http.get<Mail[]>('/assets/mail.json').pipe(
       tap((emails: Mail[]) => {
         this.folderServ.setEmails(emails, 'inbox');
-        this.allMailSubject.next(emails); 
       })
     );
   }
-  
- 
-  
 }

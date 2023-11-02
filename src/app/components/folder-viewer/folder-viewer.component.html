@@ -1,16 +1,13 @@
-<div class="container"> 
-  <h2>{{folderName}}</h2>
-  
+<div class="container">
+  <h2 class="folder-name">Cartella {{folderName}}</h2>
   <ul>
-    
     <ng-container *ngIf="!searchTerm; else searchResultsTemplate">
-      
       <div *ngFor="let email of originalEmails" class="mail-row-element">
-        <button (click)="deleteEmail(email)" class="delete-btn"><mat-icon class="material-symbols-outlined">
-          delete
-        </mat-icon> </button>
+        <button *ngIf="folderName === 'inbox'" (click)="deleteEmail(email)" class="delete-btn"><mat-icon class="material-symbols-outlined">
+            delete
+          </mat-icon> </button>
         <span>{{email.isFavourite? 'Preferiti':''}}</span>
-        
+
         <span class="from-email" (click)="selectedMail(email.id)">{{ email.from }}</span>
         <br>
         <span class="second-row" (click)="selectedMail(email.id)">Oggetto: <a>{{ email.subject }}</a></span> <br>

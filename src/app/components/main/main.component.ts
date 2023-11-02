@@ -8,7 +8,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { FolderListComponent } from '../folder-list/folder-list.component';
-import { MessageListComponent } from '../message-list/message-list.component';
 import { MessageViewerComponent } from '../message-viewer/message-viewer.component';
 import { MessageActionsComponent } from '../message-actions/message-actions.component';
 import { FolderService } from 'src/app/services/folder.service';
@@ -25,11 +24,10 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     MaterialModule,
     FolderListComponent,
-    MessageListComponent,
     MessageViewerComponent,
     ComposeComponent,
     FormsModule,
-    MessageActionsComponent,
+    MessageActionsComponent,    
     RouterModule,
   ],
   templateUrl: './main.component.html',
@@ -64,15 +62,5 @@ export class MainComponent {
     );
   }
 
-  reply() {
-    if (this.selectedMail) {
-      this.isComposeMode = true;
-    }
-  }
 
-  inolter() {
-    if (this.selectedMail) {
-      this.isComposeMode = true;
-    }
-  }
 }

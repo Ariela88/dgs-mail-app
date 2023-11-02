@@ -14,8 +14,8 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Messaggio</mat-label>
-      <textarea matInput formControlName="body" required></textarea>
-      <mat-error *ngIf="newMailForm.get('body')?.hasError('required')">Il messaggio è obbligatorio</mat-error>
+      <textarea matInput formControlName="body"></textarea>
+      
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit" [disabled]="newMailForm.invalid">
       Invia Mail

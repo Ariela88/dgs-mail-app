@@ -1,12 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import {
@@ -45,14 +37,14 @@ export class ComposeComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private modalService: ModalService,
-    private folderService: FolderService
+    private folderService: FolderService,
+    private router:Router
   ) {
     this.newMailForm = this.fb.group({
       to: ['', [Validators.required, Validators.email]],
       from: [''],
       subject: [''],
       body: [''],
-      
     });
 
     this.route.queryParams.subscribe((params) => {
@@ -61,7 +53,6 @@ export class ComposeComponent implements OnInit {
         from: params['from'] || '',
         subject: params['subject'] || '',
         body: params['body'] || '',
-        
       });
     });
   }
@@ -71,10 +62,13 @@ export class ComposeComponent implements OnInit {
       const isForwarding = params['isForwarding'];
       if (emailData) {
         this.newMailForm.patchValue({
-         
           to: emailData.to,
-          subject: isForwarding ? 'Inolter: ' + emailData.subject : 'Re: ' + emailData.subject,
-          body: isForwarding ? 'Messaggio inoltrato:\n' + emailData.body : 'In risposta al tuo messaggio:\n' + emailData.body
+          subject: isForwarding
+            ? 'Inolter: ' + emailData.subject
+            : 'Re: ' + emailData.subject,
+          body: isForwarding
+            ? 'Messaggio inoltrato:\n' + emailData.body
+            : 'In risposta al tuo messaggio:\n' + emailData.body,
         });
       } else {
         console.log('Errore nel compose');
@@ -83,7 +77,8 @@ export class ComposeComponent implements OnInit {
   }
 
   generateRandomId(): string {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let randomId = '';
     for (let i = 0; i < 2; i++) {
       const randomIndex = Math.floor(Math.random() * characters.length);
@@ -91,12 +86,11 @@ export class ComposeComponent implements OnInit {
     }
     return randomId;
   }
-  
 
   onSubmit() {
     if (this.newMailForm.valid) {
       const sentMail: Mail = {
-        id:this.generateRandomId(),
+        id: this.generateRandomId(),
         from: 'mittente@esempio.com',
         to: this.newMailForm.get('to')?.value,
         subject: this.newMailForm.get('subject')?.value,
@@ -107,26 +101,23 @@ export class ComposeComponent implements OnInit {
         completed: false,
         selected: false,
         folderName: 'sent',
-        
       };
 
       this.folderService.copyEmailToFolder(sentMail, 'sent');
-      console.log(sentMail)
-      this.closeModal();
+      console.log(sentMail);
+      this.router.navigateByUrl('home')
       
-    }
-  }
+    } 
 
-  resetForm() {
-    this.newMailForm.reset({
-      to: '',
-      from: '',
-      subject: '',
-      body: '',
-    });
+    
   }
 
   closeModal() {
-    this.modalService.closeModal();
+    const isConfirmed = window.confirm(
+      "Sei sicuro di voler uscire dall'editor?"
+    );
+    if (isConfirmed) {
+      this.modalService.closeModal();
+    }
   }
-}
+}  

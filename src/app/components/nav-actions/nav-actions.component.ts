@@ -11,20 +11,25 @@ import { Mail } from 'src/app/model/mail';
 })
 export class NavActionsComponent {
   @Input() messageSelected?: Mail | undefined;
-  favoriteEmail: Mail[] = [];
   @Output() addToFavoriteEvent: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() markAsImportantEvent: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() deleteEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
+  favoriteButtonLabel: string = 'Aggiungi ai preferiti';
+  importantButtonLabel: string = 'Importante';
 
   addToFavorite() {
     if (this.messageSelected) {
+      this.messageSelected.isFavourite = !this.messageSelected.isFavourite;
+      this.favoriteButtonLabel = this.messageSelected.isFavourite ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti';
       this.addToFavoriteEvent.emit(this.messageSelected);
     }
- }
+  }
 
   markAsImportant() {
     
     if (this.messageSelected) {
+      this.messageSelected.important = !this.messageSelected.important;
+      this.importantButtonLabel = this.messageSelected.important ? 'Rimuovi dagli Importanti' : 'Importante';
       this.markAsImportantEvent.emit(this.messageSelected);
     }
     

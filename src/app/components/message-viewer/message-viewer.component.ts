@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Mail } from 'src/app/model/mail';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
-import { MessageActionsComponent } from '../message-actions/message-actions.component';
 import { FolderService } from 'src/app/services/folder.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavActionsComponent } from '../nav-actions/nav-actions.component';
+import { MessageActionsComponent } from '../message-actions/message-actions.component';
 
 @Component({
   selector: 'app-message-viewer',
@@ -13,8 +13,8 @@ import { NavActionsComponent } from '../nav-actions/nav-actions.component';
   imports: [
     CommonModule,
     MaterialModule,
-    MessageActionsComponent,
     NavActionsComponent,
+    MessageActionsComponent
   ],
   templateUrl: './message-viewer.component.html',
   styleUrls: ['./message-viewer.component.scss'],
@@ -25,6 +25,7 @@ export class MessageViewerComponent implements OnInit {
   selectedMessage?: Mail | undefined;
   @Output() replyEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() forwardEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
+  favoriteButtonLabel: string = 'Aggiungi ai Preferiti';
 
   constructor(
     private folderService: FolderService,
@@ -82,28 +83,66 @@ export class MessageViewerComponent implements OnInit {
     }
   }
 
-  addToFavorite(email: Mail) {
-    console.log('message viewer favorite');
-    console.log(email);
+  toggleFavorite(email: Mail): void {
+    if (this.isEmailInFavorites(email)) {
+      this.removeFromFavorites(email);
+      
+    } else {
+      this.addToFavorites(email);
+      
+    }
+  }
 
+  
+  addToFavorites(email: Mail): void {
+    console.log('Aggiungi ai preferiti:', email);
     this.folderService.copyEmailToFolder(email, 'favorite');
     email.folderName = 'favorite';
     email.isFavourite = true;
   }
+  
+  removeFromFavorites(email: Mail): void {
+    console.log('Rimuovi dai preferiti:', email);
+    this.folderService.removeEmailFromFolder(email.id, 'favorite');
+    email.folderName = 'inbox';
+    email.isFavourite = false;
 
+  }
+  
   isEmailInFavorites(email: Mail): boolean {
     const favoriteEmails = this.folderService.getEmails('favorite');
     return favoriteEmails.some((favorite) => favorite.id === email.id);
   }
+  
 
-  markAsImportant(email: Mail) {
+  toggleImportant(email: Mail): void {
+    if (this.isEmailImportant(email)) {
+      this.removeAsImportant(email);
+    } else {
+      this.markAsImportant(email);
+    }
+  }
+
+  markAsImportant(email: Mail): void {
     console.log('message viewer important');
     console.log(email);
-
     this.folderService.copyEmailToFolder(email, 'important');
     email.folderName = 'important';
     email.important = true;
+   
   }
 
+  removeAsImportant(email: Mail): void {
+    console.log('Rimuovi importante:', email);
+    this.folderService.removeEmailFromFolder(email.id, 'important');
+    email.folderName = 'inbox';
+    email.important = false;
+    
+  }
+
+  isEmailImportant(email: Mail): boolean {
+    const importantEmails = this.folderService.getEmails('important');
+    return importantEmails.some((important) => important.id === email.id);
+  }
   
 }

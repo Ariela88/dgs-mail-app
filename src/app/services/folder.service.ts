@@ -43,18 +43,9 @@ export class FolderService {
     return of(emails);
   }
   
-  
-  
 
   getEmails(folderName: string): Mail[] {
     return this.emails[folderName] || [];
-  }
-
-  getAllEmails(): Mail[] {
-    if ('all' in this.emails) {
-      return this.emails['all'];
-    }
-    return [];
   }
 
   selectFolder(folderName: string) {
@@ -68,30 +59,26 @@ export class FolderService {
     this.emails[folderName].push(email);
     this.emails['all'].push(email);
   }
-
-  removeEmailFromFolder(email: Mail, folderName: string): void {
-    const index = this.emails[folderName].findIndex(
-      (existingEmail) => existingEmail.id === email.id
-    );
-    if (index !== -1) {
-      this.emails[folderName].splice(index, 1);
-      this.emails['trash'].push(email);
+  removeEmailFromFolder(emailId: string, folderName: string): void {
+    const index = this.emails[folderName].findIndex(existingEmail => existingEmail.id === emailId);
+    const isConfirmed = window.confirm('Sei sicuro di voler eliminare la mail?');  
+    if (isConfirmed) {
+      if (index !== -1) {
+        const removedEmail = this.emails[folderName][index];
+        this.emails[folderName].splice(index, 1);
   
-      if (folderName === 'inbox') {
-        const inboxIndex = this.emails['inbox'].findIndex(
-          (existingEmail) => existingEmail.id === email.id
-        );
-        if (inboxIndex !== -1) {
-          this.emails['inbox'].splice(inboxIndex, 1);
+        removedEmail.folderName = 'trash';
+        if (!this.emails['trash']) {
+          this.emails['trash'] = [];
         }
+        this.emails['trash'].push(removedEmail);
+        
+        this.emailRemovedSubject.next();
       }
-      this.emailRemovedSubject.next();
-      email.folderName = 'trash';
     }
   }
   
-
-  copyEmailToFolder(email: Mail, targetFolder: string) {
+copyEmailToFolder(email: Mail, targetFolder: string) {
     const mailToCopy = { ...email };
     if (!(targetFolder in this.emails)) {
       this.emails[targetFolder] = [];

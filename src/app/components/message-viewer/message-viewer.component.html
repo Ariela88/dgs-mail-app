@@ -1,8 +1,8 @@
 <div *ngIf="selectedMessage">
   <div class="action-button">
     <app-message-actions (replyMail)="replyToEmail()" (forwardMail)="forwardMail()"></app-message-actions>
-    <app-nav-actions [messageSelected]="selectedMessage" (addToFavoriteEvent)="addToFavorite($event)"
-      (markAsImportantEvent)="markAsImportant($event)">
+    <app-nav-actions [messageSelected]="selectedMessage" (addToFavoriteEvent)="toggleFavorite($event)"
+      (markAsImportantEvent)="toggleImportant($event)">
     </app-nav-actions>
 
   </div>

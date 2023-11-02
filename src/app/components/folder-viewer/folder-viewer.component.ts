@@ -11,14 +11,14 @@ import { MaterialModule } from 'src/app/material-module/material/material.module
 @Component({
   selector: 'app-folder-viewer',
   standalone: true,
-  imports: [CommonModule, FormsModule,MaterialModule],
+  imports: [CommonModule, FormsModule, MaterialModule],
   templateUrl: './folder-viewer.component.html',
   styleUrls: ['./folder-viewer.component.scss'],
 })
 export class FolderViewerComponent implements OnInit {
   originalEmails: Mail[] = [];
   searchResults: Mail[] = [];
-  folderName?: string 
+  folderName?: string;
   searchTerm: string = '';
   emails: Mail[] = [];
 
@@ -27,23 +27,25 @@ export class FolderViewerComponent implements OnInit {
     private folderServ: FolderService,
     private router: Router,
     private searchService: SearchService,
-    private dataServ:DataService
+    private dataServ: DataService
   ) {}
 
-
-    ngOnInit() {
-      this.dataServ.getMailMessage().subscribe(emails => {
-        this.folderServ.setEmails(emails, 'inbox');
-        this.originalEmails = this.folderServ.getEmails(this.folderName || 'inbox');
-        this.emails = this.originalEmails;
-      });
+  ngOnInit() {
+    this.dataServ.getMailMessage().subscribe((emails) => {
+      this.folderServ.setEmails(emails, 'inbox');
+      this.originalEmails = this.folderServ.getEmails(
+        this.folderName || 'inbox'
+      );
+      this.emails = this.originalEmails;
+    });
     this.route.params.subscribe((params) => {
       this.folderName = params['folderName'];
       if (this.folderName) {
         this.originalEmails = this.folderServ.getEmails(this.folderName);
       } else {
-        console.error('folderName non definito.');  }
-      });
+        console.error('folderName non definito.');
+      }
+    });
     this.route.queryParams.subscribe((params) => {
       const searchTerm = params['q'];
       if (searchTerm) {
@@ -66,25 +68,21 @@ export class FolderViewerComponent implements OnInit {
   selectedMail(id: string) {
     console.log('Selected mail ID:', id);
     console.log('Current folder:', this.folderName);
-  
+
     if (this.folderName && id) {
       this.router.navigate(['/folder', this.folderName, 'mail', id]);
     } else {
       console.error('folderName o id non definiti.');
     }
   }
-  
-  
 
   exitResultsView() {
     this.router.navigate(['/folder', this.folderName]);
   }
 
   deleteEmail(email: Mail) {
-    if (email) {
-      this.folderServ.removeEmailFromFolder(email, 'trash');
-      email.folderName = 'trash';
-    }
+    console.log('delete');
+    this.folderServ.removeEmailFromFolder(email.id, 'inbox');
+    email.folderName = 'trash';
   }
-  
 }
