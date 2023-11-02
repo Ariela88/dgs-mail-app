@@ -20,5 +20,6 @@ export class HeaderComponent {
   onSearch() {
     this.searchInputChange.emit(this.searchTerm);
     this.router.navigate(['/results'], { queryParams: { q: this.searchTerm } });
+    
   }
 }

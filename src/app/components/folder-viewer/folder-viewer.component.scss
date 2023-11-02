@@ -4,7 +4,7 @@ span:hover {
   }
   
   span {
-    margin-bottom: 16px;
+
     list-style: none;
     font-family: 'Montserrat Alternates', sans-serif;
   }
@@ -17,23 +17,20 @@ span:hover {
     background-color: orange;
   }
   
-  span {
-    margin-right: 8px;
-  }
   
   .from-email {
     font-weight: bold;
     font-size: 16px;
-    padding-left: 8px;
+   
   }
   
   .second-row{
-    padding-left: 28px;
+    
     text-decoration: underline;
   }
 
   .body-row{
-    padding-left: 28px;
+    
     font-size: 12px;
 
   }
@@ -61,7 +58,7 @@ span:hover {
   }
   
   li {
-    margin-bottom: 16px;
+    margin-bottom: 24px;
     list-style: none;
     font-family: 'Montserrat Alternates', sans-serif;
   }
@@ -78,19 +75,9 @@ span:hover {
     margin-right: 8px;
   }
   
-  .from-email {
-    font-weight: bold;
-    font-size: 16px;
-    padding-left: 8px;
-  }
   
-  .second-row{
-    padding-left: 28px;
-    text-decoration: underline;
-  }
-
   .body-row{
-    padding-left: 28px;
+    padding-left: 8px;
     font-size: 12px;
 
   }
@@ -110,4 +97,25 @@ span:hover {
 
   .is-valid{
     background-color: rgb(254, 236, 135);
+  }
+
+  .delete-btn{
+    border: none;
+    background-color: orange ;
+    border-radius: 20px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+  }
+
+  .mail-row-element{
+    display: flex;
+    margin-bottom: 16px;
+    justify-content: start;
+    gap:4px;
+    align-items: center;
+    
+    
   }

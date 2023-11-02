@@ -9,8 +9,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class SearchService {
   private searchResultsSubject = new BehaviorSubject<Mail[]>([]);
-  public searchResults$: Observable<Mail[]> =
-    this.searchResultsSubject.asObservable();
+  public searchResults$: Observable<Mail[]> = this.searchResultsSubject.asObservable();
 
   constructor(
     private dataService: DataService,
@@ -20,19 +19,23 @@ export class SearchService {
       this.searchResultsSubject.next(emails);
     });
   }
+
   searchMail(searchTerm: string): void {
     const searchResults: Mail[] = [];
+    const addedEmails: Set<string> = new Set(); 
 
     for (const folderName in this.folderService.emails) {
       if (this.folderService.emails.hasOwnProperty(folderName)) {
         const folderMails = this.folderService.emails[folderName];
         folderMails.forEach((mail) => {
           if (
-            mail.from.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            mail.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            mail.body.toLowerCase().includes(searchTerm.toLowerCase())
+            (mail.from.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              mail.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              mail.body.toLowerCase().includes(searchTerm.toLowerCase())) &&
+            !addedEmails.has(mail.id)
           ) {
             searchResults.push(mail);
+            addedEmails.add(mail.id);
           }
         });
       }

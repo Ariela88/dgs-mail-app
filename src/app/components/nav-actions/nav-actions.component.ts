@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Mail } from 'src/app/model/mail';
 
@@ -10,21 +10,24 @@ import { Mail } from 'src/app/model/mail';
   styleUrls: ['./nav-actions.component.scss'],
 })
 export class NavActionsComponent {
-  messageSelected?: Mail | undefined;
+  @Input() messageSelected?: Mail | undefined;
   favoriteEmail: Mail[] = [];
   @Output() addToFavoriteEvent: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() markAsImportantEvent: EventEmitter<Mail> = new EventEmitter<Mail>();
+  @Output() deleteEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
 
   addToFavorite() {
     if (this.messageSelected) {
       this.addToFavoriteEvent.emit(this.messageSelected);
     }
-  }
+ }
 
   markAsImportant() {
+    
     if (this.messageSelected) {
       this.markAsImportantEvent.emit(this.messageSelected);
     }
+    
   }
 
   removeFromfavorite() {
@@ -39,7 +42,5 @@ export class NavActionsComponent {
     }
   }
 
-  deleteMail() {
-    console.log('delete');
-  }
+
 }

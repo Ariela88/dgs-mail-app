@@ -52,6 +52,7 @@ export class ComposeComponent implements OnInit {
       from: [''],
       subject: [''],
       body: [''],
+      
     });
 
     this.route.queryParams.subscribe((params) => {
@@ -60,6 +61,7 @@ export class ComposeComponent implements OnInit {
         from: params['from'] || '',
         subject: params['subject'] || '',
         body: params['body'] || '',
+        
       });
     });
   }
@@ -69,7 +71,7 @@ export class ComposeComponent implements OnInit {
       const isForwarding = params['isForwarding'];
       if (emailData) {
         this.newMailForm.patchValue({
-          id: this.generateRandomId(),
+         
           to: emailData.to,
           subject: isForwarding ? 'Inolter: ' + emailData.subject : 'Re: ' + emailData.subject,
           body: isForwarding ? 'Messaggio inoltrato:\n' + emailData.body : 'In risposta al tuo messaggio:\n' + emailData.body
@@ -94,7 +96,7 @@ export class ComposeComponent implements OnInit {
   onSubmit() {
     if (this.newMailForm.valid) {
       const sentMail: Mail = {
-        id: '',
+        id:this.generateRandomId(),
         from: 'mittente@esempio.com',
         to: this.newMailForm.get('to')?.value,
         subject: this.newMailForm.get('subject')?.value,
@@ -105,10 +107,13 @@ export class ComposeComponent implements OnInit {
         completed: false,
         selected: false,
         folderName: 'sent',
+        
       };
 
       this.folderService.copyEmailToFolder(sentMail, 'sent');
+      console.log(sentMail)
       this.closeModal();
+      
     }
   }
 

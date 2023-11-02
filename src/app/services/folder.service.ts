@@ -38,9 +38,12 @@ export class FolderService {
   }
 
   getEmailsObservable(folderName: string): Observable<Mail[]> {
-    this.selectFolder(folderName);
-    return of(this.emails[folderName] || []);
+    const emails = this.emails[folderName] || [];
+    console.log('Messaggi nella cartella', folderName, ':', emails);
+    return of(emails);
   }
+  
+  
   
 
   getEmails(folderName: string): Mail[] {
@@ -73,7 +76,7 @@ export class FolderService {
     if (index !== -1) {
       this.emails[folderName].splice(index, 1);
       this.emails['trash'].push(email);
-
+  
       if (folderName === 'inbox') {
         const inboxIndex = this.emails['inbox'].findIndex(
           (existingEmail) => existingEmail.id === email.id
@@ -86,6 +89,7 @@ export class FolderService {
       email.folderName = 'trash';
     }
   }
+  
 
   copyEmailToFolder(email: Mail, targetFolder: string) {
     const mailToCopy = { ...email };
@@ -95,9 +99,9 @@ export class FolderService {
     this.emails[targetFolder].push(mailToCopy);
   }
 
-  getMailById(mailId: string): Observable<Mail | undefined> {
-    console.log('Chiamato getMailById con ID:', mailId);
-    const mail = this.allEmails.find((email) => email.id === mailId);
+  getMailById(id: string): Observable<Mail | undefined> {
+    console.log('Chiamato getMailById con ID:', id);
+    const mail = this.allEmails.find((email) => email.id === id);
     console.log('Mail trovata:', mail);
     return of(mail);
   }

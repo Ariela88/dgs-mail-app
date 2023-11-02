@@ -1,18 +1,17 @@
-
-
 <div *ngIf="selectedMessage">
-    <div class="action-button">
-        <app-message-actions (replyMail)="replyToEmail()" (forwardMail)="forwardMail()"></app-message-actions>
-        <app-nav-actions
-        (addToFavoriteEvent)="addToFavorite($event)"
-        (markAsImportantEvent)="markAsImportant($event)">
-      </app-nav-actions>
-      
-    </div>
-    
-    <h2>{{ selectedMessage.subject }}</h2>
-    <p>From: {{ selectedMessage.from }}</p>
-    <p>Date: {{ selectedMessage.to }}</p>
-    <div [innerHTML]="selectedMessage.body"></div>
+  <div class="action-button">
+    <app-message-actions (replyMail)="replyToEmail()" (forwardMail)="forwardMail()"></app-message-actions>
+    <app-nav-actions [messageSelected]="selectedMessage" (addToFavoriteEvent)="addToFavorite($event)"
+      (markAsImportantEvent)="markAsImportant($event)">
+    </app-nav-actions>
+
   </div>
+
+  <span>{{selectedMessage.folderName}}</span>
+  <h2>{{ selectedMessage.subject }}</h2>
   
+  <p>From: {{ selectedMessage.from }}</p>
+
+  <p>Date: {{ selectedMessage.to }}</p>
+  <div [innerHTML]="selectedMessage.body"></div>
+</div>

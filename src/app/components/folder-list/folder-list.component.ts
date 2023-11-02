@@ -19,7 +19,7 @@ export class FolderListComponent{
   constructor(private router: Router) {}
 
   changeFolder(folderName: string) {  
-    this.router.navigate(['folders', folderName]);
+    this.router.navigate(['/folder', folderName]);
   }
  
 }

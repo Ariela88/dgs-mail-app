@@ -41,6 +41,7 @@ export class MessageListComponent {
   selectAllChecked: boolean = false;
 
   viewMessage(mail: Mail) {
+    console.log(mail)
     this.messageSelectedOut.emit(mail);
   }
 

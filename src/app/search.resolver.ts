@@ -12,16 +12,8 @@ export class SearchResolver implements Resolve<Mail[]> {
   constructor(private searchServ: SearchService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<Mail[]> {
-    const searchTerm = route.queryParams['q'];    
-    return this.searchServ.searchResults$.pipe( 
-      map(emails => {
-        const searchResults = emails.filter(mail => 
-          mail.from.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          mail.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          mail.body.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        return searchResults;
-      })
-    );
+    const searchTerm = route.queryParams['q'];
+    this.searchServ.searchMail(searchTerm);
+    return this.searchServ.searchResults$;
   }
 }
