@@ -2,7 +2,8 @@
   @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;700&display=swap');
 
 
-html, body { height: 100%; }
+html, body { height: 100%; 
+width: 100%; }
 body { margin: 0; 
     font-family: 'Montserrat Alternates', sans-serif;
 }
@@ -13,9 +14,17 @@ body { margin: 0;
 
 app-folder-viewer{
   position: absolute;
-  width: 100%;
+  width: 85%
+ 
 }
 
 .material-icons[_ngcontent-ng-c1240783271]{
   font-size: 24px !important;
+}
+
+app-message-viewer{
+  position: absolute;
+  left: 15%;
+  width: 100%;
+  
 }

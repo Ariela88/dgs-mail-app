@@ -58,12 +58,12 @@ export class MessageViewerComponent implements OnInit {
 
   replyToEmail() {
     this.writeNewMail = true;
-    this.isComposeMode = true;
+    this.isComposeMode = false;
     if (this.selectedMessage) {
       const queryParams = {
         to: this.selectedMessage.from,
-        subject: 'Re: ' + this.selectedMessage.subject,
-        body: 'In risposta al tuo messaggio:\n' + this.selectedMessage.body,
+        subject: 'Re: ' + this.selectedMessage.subject
+        
       };
 
       this.router.navigate(['/editor'], { queryParams: queryParams });
@@ -72,11 +72,11 @@ export class MessageViewerComponent implements OnInit {
 
   forwardMail() {
     this.writeNewMail = true;
-    this.isComposeMode = true;
+    this.isComposeMode = false;
     if (this.selectedMessage) {
       const queryParams = {
         subject: 'Inolter: ' + this.selectedMessage.subject,
-        body: 'Messaggio inoltrato:\n' + this.selectedMessage.body,
+        body: 'Inoltrato:' + '('+ this.selectedMessage.body + ')',
         isForwarding: true,
       };
       this.router.navigate(['/editor'], { queryParams: queryParams });

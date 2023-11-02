@@ -6,5 +6,11 @@
     <button mat-mini-fab color="accent" (click)="inolter()">
         <mat-icon>forward</mat-icon>
     </button>
+    <button (click)="addToFavorite()" mat-raised-button color="primary">
+        {{ favoriteButtonLabel }}
+      </button>
+    <button (click)="markAsImportant()" mat-raised-button color="primary">
+      {{importantButtonLabel}}
+    </button>
 
 </div>

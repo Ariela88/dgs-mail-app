@@ -84,6 +84,7 @@ copyEmailToFolder(email: Mail, targetFolder: string) {
       this.emails[targetFolder] = [];
     }
     this.emails[targetFolder].push(mailToCopy);
+    this.emails['all'].push(mailToCopy);
   }
 
   getMailById(id: string): Observable<Mail | undefined> {

@@ -1,4 +1,14 @@
 .actions-container{
     display: flex;
     gap: 16px;
+    align-items: center;
 }
+.button-container{
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    justify-content:flex-start;
+    
+}
+
+

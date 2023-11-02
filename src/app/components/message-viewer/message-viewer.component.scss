@@ -10,7 +10,23 @@ button{
 .action-button{
     display: flex;
     gap: 24px;
+    width: 85%;
+    background-color: rgb(182, 182, 182);
+   padding-left: 16px;
+    align-items: center;
+    height: 56px;
 }
-app-message-actions{
-    margin-bottom: 24px;
+
+
+.msg-view-container{
+    
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.email-content{
+    width: 85%;
+    padding: 24px;
+    
 }

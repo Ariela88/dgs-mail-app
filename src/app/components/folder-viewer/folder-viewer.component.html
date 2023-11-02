@@ -1,22 +1,31 @@
 <div class="container">
-  <h2 class="folder-name">Cartella {{folderName}}</h2>
-  <ul>
+  <div class="header-folder-viewer"> 
+    
+  <h2 class="folder-name">Cartella <span class="folder-name-bold"> {{folderName}} </span> </h2>
+</div>
+  <ul class="color-even">
     <ng-container *ngIf="!searchTerm; else searchResultsTemplate">
       <div *ngFor="let email of originalEmails" class="mail-row-element">
         <button *ngIf="folderName === 'inbox'" (click)="deleteEmail(email)" class="delete-btn"><mat-icon class="material-symbols-outlined">
-            delete
-          </mat-icon> </button>
+          delete
+        </mat-icon> </button>
+        <span>{{email.folderName? email.folderName : 'inBox'}}</span>
+      
+       
         <span>{{email.isFavourite? 'Preferiti':''}}</span>
+        
 
         <span class="from-email" (click)="selectedMail(email.id)">{{ email.from }}</span>
         <br>
         <span class="second-row" (click)="selectedMail(email.id)">Oggetto: <a>{{ email.subject }}</a></span> <br>
         <span class="body-row" (click)="selectedMail(email.id)">{{email.body}}</span>
+     
       </div>
     </ng-container>
 
     <ng-template #searchResultsTemplate>
       <div *ngFor="let email of searchResults" (click)="selectedMail(email.id)">
+        
         <span>{{email.folderName? email.folderName : 'inBox'}}</span>
         <span class="from-email">{{ email.from }}</span>
         <br>
@@ -25,4 +34,4 @@
       </div>
     </ng-template>
   </ul>
-</div>
+</div> 

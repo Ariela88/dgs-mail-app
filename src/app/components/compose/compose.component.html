@@ -1,6 +1,8 @@
 <div class="modal">
-  <h1>Nuova Mail</h1>
+  <h1>{{ isComposeMode ? 'Nuova Mail' : 'Rispondi alla Mail' }}</h1>
   <form [formGroup]="newMailForm" (ngSubmit)="onSubmit()">
+   
+    
     <mat-form-field appearance="fill">
       <mat-label>Destinatario</mat-label>
       <input matInput formControlName="to" type="email" required />
@@ -17,9 +19,16 @@
       <textarea matInput formControlName="body"></textarea>
       
     </mat-form-field>
+    <ng-container *ngIf="!isComposeMode">
+      <mat-form-field appearance="fill">
+        <mat-label>Allega Messaggio Originale</mat-label>
+        <input matInput formControlName="originalMessageAttachment" />
+      </mat-form-field>
+    </ng-container>
     <button mat-raised-button color="primary" type="submit" [disabled]="newMailForm.invalid">
       Invia Mail
     </button>
     <button mat-button (click)="closeModal()">Chiudi</button>
+
   </form>
 </div>

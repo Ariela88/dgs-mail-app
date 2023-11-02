@@ -7,11 +7,12 @@ import { FormsModule } from '@angular/forms';
 import { SearchService } from 'src/app/services/search.service';
 import { DataService } from 'src/app/services/data.service';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
+import { NavActionsComponent } from '../nav-actions/nav-actions.component';
 
 @Component({
   selector: 'app-folder-viewer',
   standalone: true,
-  imports: [CommonModule, FormsModule, MaterialModule],
+  imports: [CommonModule, FormsModule, MaterialModule,NavActionsComponent],
   templateUrl: './folder-viewer.component.html',
   styleUrls: ['./folder-viewer.component.scss'],
 })
@@ -21,6 +22,7 @@ export class FolderViewerComponent implements OnInit {
   folderName?: string;
   searchTerm: string = '';
   emails: Mail[] = [];
+  messageSelected?:Mail;
 
   constructor(
     public route: ActivatedRoute,
@@ -63,6 +65,7 @@ export class FolderViewerComponent implements OnInit {
     } else {
       this.emails = this.searchResults;
     }
+    console.log('folder viewer',this.folderName,this.emails)
   }
 
   selectedMail(id: string) {

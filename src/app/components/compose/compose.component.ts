@@ -30,7 +30,7 @@ export class ComposeComponent implements OnInit {
   @Output() emailSent: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Input() isComposeMode: boolean = true;
   @Input() writeNewMail: boolean = true;
-  @Input() selectedMail: Mail | null = null;
+  @Input() selectedMail?: Mail | null = null;
   @Input() data: any;
 
   constructor(
@@ -45,6 +45,7 @@ export class ComposeComponent implements OnInit {
       from: [''],
       subject: [''],
       body: [''],
+      originalMessageAttachment: ['']
     });
 
     this.route.queryParams.subscribe((params) => {
@@ -66,9 +67,10 @@ export class ComposeComponent implements OnInit {
           subject: isForwarding
             ? 'Inolter: ' + emailData.subject
             : 'Re: ' + emailData.subject,
-          body: isForwarding
-            ? 'Messaggio inoltrato:\n' + emailData.body
-            : 'In risposta al tuo messaggio:\n' + emailData.body,
+          body: isForwarding 
+            ? 'Inoltrato:' + '('+emailData.body + ')'
+            : '',
+            originalMessageAttachment: emailData.body
         });
       } else {
         console.log('Errore nel compose');
@@ -101,9 +103,11 @@ export class ComposeComponent implements OnInit {
         completed: false,
         selected: false,
         folderName: 'sent',
+        attachment: this.selectedMail?.attachment
       };
 
       this.folderService.copyEmailToFolder(sentMail, 'sent');
+      sentMail.folderName = 'sent'
       console.log(sentMail);
       this.router.navigateByUrl('home')
       
@@ -120,4 +124,7 @@ export class ComposeComponent implements OnInit {
       this.modalService.closeModal();
     }
   }
+
+
+  
 }  

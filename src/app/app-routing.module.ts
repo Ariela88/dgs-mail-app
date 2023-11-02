@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainComponent } from './components/main/main.component';
+
 import { ComposeComponent } from './components/compose/compose.component';
 import { MessageViewerComponent } from './components/message-viewer/message-viewer.component';
 import { ResolverResolver } from './resolver.resolver';

@@ -10,26 +10,33 @@ import { Mail } from 'src/app/model/mail';
   styleUrls: ['./nav-actions.component.scss'],
 })
 export class NavActionsComponent {
-  @Input() messageSelected?: Mail | undefined;
+  @Input() set messageSelected (messaggio: Mail | undefined){
+    if(messaggio){
+      this.messaggio = messaggio
+      this.importantButtonLabel = this.messaggio.important ? 'Rimuovi dagli Importanti' : 'Importante';
+      this.favoriteButtonLabel = this.messaggio.isFavourite ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti';
+
+    }
+  };
   @Output() addToFavoriteEvent: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() markAsImportantEvent: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() deleteEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
   favoriteButtonLabel: string = 'Aggiungi ai preferiti';
   importantButtonLabel: string = 'Importante';
-
+  messaggio: any;
   addToFavorite() {
-    if (this.messageSelected) {
-      this.messageSelected.isFavourite = !this.messageSelected.isFavourite;
-      this.favoriteButtonLabel = this.messageSelected.isFavourite ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti';
-      this.addToFavoriteEvent.emit(this.messageSelected);
+    if (this.messaggio) {
+      this.messaggio.isFavourite = !this.messaggio.isFavourite;
+      this.favoriteButtonLabel = this.messaggio.isFavourite ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti';
+      this.addToFavoriteEvent.emit(this.messaggio);
     }
   }
 
   markAsImportant() {
     
-    if (this.messageSelected) {
-      this.messageSelected.important = !this.messageSelected.important;
-      this.importantButtonLabel = this.messageSelected.important ? 'Rimuovi dagli Importanti' : 'Importante';
+    if (this.messaggio) {
+      this.messaggio.important = !this.messaggio.important;
+      this.importantButtonLabel = this.messaggio.important ? 'Rimuovi dagli Importanti' : 'Importante';
       this.markAsImportantEvent.emit(this.messageSelected);
     }
     

@@ -67,4 +67,37 @@ mat-icon:hover{
 .folder-name{
   text-transform: capitalize;
   
+  
+  text-align: right;
+  color:white;
+  font-family: "Montserrat Alternates", sans-serif;
+  font-size: 32px;
+  padding-right: 24px;
+  
+
+  
 }
+
+.folder-name-bold{
+  font-weight: bold;
+}
+
+.header-folder-viewer{
+  background-color: rgb(119, 111, 132);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  
+
+}
+
+.mail-row-element:nth-child(even) {
+  background-color: #b5b5b5;
+}
+
+.mail-row-element:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+
+
