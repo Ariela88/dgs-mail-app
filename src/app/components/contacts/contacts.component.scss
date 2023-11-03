@@ -1,0 +1,34 @@
+.mail-row-element:nth-child(even) {
+    background-color: #ffffff;
+  }
+  
+  .mail-row-element:nth-child(odd) {
+    background-color: #b5b5b5;
+  }
+
+  
+.mail-row-element {
+    display: flex;
+    margin-bottom: 16px;
+    justify-content: flex-start;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .from-email {
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  input{
+    width: 50%;
+    height: 32px;
+  }
+
+  .input-container{
+    display: flex;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  

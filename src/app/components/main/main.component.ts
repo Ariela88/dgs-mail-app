@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import {Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { FolderListComponent } from '../folder-list/folder-list.component';
@@ -27,20 +21,14 @@ import { RouterModule } from '@angular/router';
     MessageViewerComponent,
     ComposeComponent,
     FormsModule,
-    MessageActionsComponent,    
+    MessageActionsComponent,
     RouterModule,
   ],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent {
-  @Input() isComposeMode: boolean = false;
-  @Input() writeNewMail: boolean = false;
-  @Output() messageListUpdate = new EventEmitter<Mail[]>();
-  @ViewChild(ComposeComponent) composeComponent?: ComposeComponent;
-  selectedMail: Mail | null = null;
   selectedMails: Mail[] = [];
-  searchTerm = '';
 
   constructor(
     private folderService: FolderService,
@@ -61,6 +49,4 @@ export class MainComponent {
       }
     );
   }
-
-
 }

@@ -19,4 +19,9 @@ export class ContactsService  {
     constructor(){
       this.setContacts(this.contacts)
     }
+
+    addContact(contact: string): void {
+      this.contacts.push(contact);
+      this.contactsSubject.next(this.contacts);
+    }
 }

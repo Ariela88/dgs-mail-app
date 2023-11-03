@@ -42,14 +42,14 @@ export class FolderViewerComponent implements OnInit {
       );
       this.emails = this.originalEmails;
     });
-    this.route.params.subscribe((params) => {
-      this.folderName = params['folderName'];
-      if (this.folderName) {
-        this.originalEmails = this.folderServ.getEmails(this.folderName);
-      } else {
-        console.error('folderName non definito.');
-      }
-    });
+    // this.route.params.subscribe((params) => {
+    //   this.folderName = params['folderName'];
+    //   if (this.folderName) {
+    //     this.originalEmails = this.folderServ.getEmails(this.folderName);
+    //   } else {
+    //     console.error('folderName non definito.');
+    //   }
+    // });
     
     this.route.queryParams.subscribe((params) => {
       const searchTerm = params['q'];
@@ -89,6 +89,6 @@ export class FolderViewerComponent implements OnInit {
   deleteEmail(email: Mail) {
     console.log('delete');
     this.folderServ.removeEmailFromFolder(email.id, 'inbox');
-    email.folderName = 'trash';
+   
   }
 }

@@ -6,6 +6,7 @@ import { FolderService } from 'src/app/services/folder.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavActionsComponent } from '../nav-actions/nav-actions.component';
 import { MessageActionsComponent } from '../message-actions/message-actions.component';
+import { ContactsService } from 'src/app/services/contacts.service';
 
 @Component({
   selector: 'app-message-viewer',
@@ -14,7 +15,7 @@ import { MessageActionsComponent } from '../message-actions/message-actions.comp
     CommonModule,
     MaterialModule,
     NavActionsComponent,
-    MessageActionsComponent
+    MessageActionsComponent,
   ],
   templateUrl: './message-viewer.component.html',
   styleUrls: ['./message-viewer.component.scss'],
@@ -23,14 +24,14 @@ export class MessageViewerComponent implements OnInit {
   @Input() writeNewMail: boolean = false;
   @Input() isComposeMode: boolean = false;
   selectedMessage?: Mail | undefined;
-  @Output() replyEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
-  @Output() forwardEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
-  favoriteButtonLabel: string = 'Aggiungi ai Preferiti';
 
+  @Output() addEmailContacts = new EventEmitter<string[]>
+  
   constructor(
     private folderService: FolderService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private contactServ:ContactsService
   ) {}
 
   ngOnInit() {
@@ -62,8 +63,7 @@ export class MessageViewerComponent implements OnInit {
     if (this.selectedMessage) {
       const queryParams = {
         to: this.selectedMessage.from,
-        subject: 'Re: ' + this.selectedMessage.subject
-        
+        subject: 'Re: ' + this.selectedMessage.subject,
       };
 
       this.router.navigate(['/editor'], { queryParams: queryParams });
@@ -76,44 +76,44 @@ export class MessageViewerComponent implements OnInit {
     if (this.selectedMessage) {
       const queryParams = {
         subject: 'Inolter: ' + this.selectedMessage.subject,
-        body: 'Inoltrato:' + '('+ this.selectedMessage.body + ')',
+        body: 'Inoltrato:' + '(' + this.selectedMessage.body + ')',
         isForwarding: true,
       };
       this.router.navigate(['/editor'], { queryParams: queryParams });
     }
   }
 
-  toggleFavorite(email: Mail): void {
-    if (this.isEmailInFavorites(email)) {
-      this.removeFromFavorites(email);
-      
-    } else {
-      this.addToFavorites(email);
-      
-    }
-  }
 
-  
+
   addToFavorites(email: Mail): void {
-    console.log('Aggiungi ai preferiti:', email);
+   
     this.folderService.copyEmailToFolder(email, 'favorite');
     email.folderName = 'favorite';
     email.isFavourite = true;
   }
-  
+
+  markAsImportant(email: Mail): void {
+    
+    this.folderService.copyEmailToFolder(email, 'important');
+    email.folderName = 'important';
+    email.important = true;
+  }
+
+
   removeFromFavorites(email: Mail): void {
     console.log('Rimuovi dai preferiti:', email);
     this.folderService.removeEmailFromFolder(email.id, 'favorite');
     email.folderName = 'inbox';
     email.isFavourite = false;
+  }
 
+  removeAsImportant(email: Mail): void {
+    console.log('Rimuovi importante:', email);
+    this.folderService.removeEmailFromFolder(email.id, 'important');
+    email.folderName = 'inbox';
+    email.important = false;
   }
-  
-  isEmailInFavorites(email: Mail): boolean {
-    const favoriteEmails = this.folderService.getEmails('favorite');
-    return favoriteEmails.some((favorite) => favorite.id === email.id);
-  }
-  
+ 
 
   toggleImportant(email: Mail): void {
     if (this.isEmailImportant(email)) {
@@ -123,26 +123,39 @@ export class MessageViewerComponent implements OnInit {
     }
   }
 
-  markAsImportant(email: Mail): void {
-    console.log('message viewer important');
-    console.log(email);
-    this.folderService.copyEmailToFolder(email, 'important');
-    email.folderName = 'important';
-    email.important = true;
-   
+  toggleFavorite(email: Mail): void {
+    if (this.isEmailInFavorites(email)) {
+      this.removeFromFavorites(email);
+    } else {
+      this.addToFavorites(email);
+    }
   }
 
-  removeAsImportant(email: Mail): void {
-    console.log('Rimuovi importante:', email);
-    this.folderService.removeEmailFromFolder(email.id, 'important');
-    email.folderName = 'inbox';
-    email.important = false;
-    
-  }
+
+ 
 
   isEmailImportant(email: Mail): boolean {
     const importantEmails = this.folderService.getEmails('important');
     return importantEmails.some((important) => important.id === email.id);
   }
+
+  isEmailInFavorites(email: Mail): boolean {
+    const favoriteEmails = this.folderService.getEmails('favorite');
+    return favoriteEmails.some((favorite) => favorite.id === email.id);
+  }
+
+  addEmail() {
+    if (this.selectedMessage) {
+      const senderEmail = this.selectedMessage.from;
+      const contacts = this.contactServ.contacts;
   
+      if (!contacts.includes(senderEmail)) {
+        this.contactServ.addContact(senderEmail);
+        console.log('Email aggiunta alla rubrica:', senderEmail);
+      } else {
+        console.log('Email già presente nella rubrica:', senderEmail);
+        
+      }
+    }
+  }
 }

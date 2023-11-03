@@ -8,7 +8,7 @@
   <span>{{selectedMessage.folderName}}</span>
   <h2>{{ selectedMessage.subject }}</h2>
   
-  <p>From: {{ selectedMessage.from }}</p>
+  <p (click)="addEmail()">From: {{ selectedMessage.from }}</p>
 
   <p>To: {{ selectedMessage.to }}</p>
   <div [innerHTML]="selectedMessage.body"></div>

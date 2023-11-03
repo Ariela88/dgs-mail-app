@@ -19,6 +19,8 @@ export class ContactsComponent {
 
   newContactEmail: string = '';
 
+  selectedMessage?:string
+
   constructor(private contactsService: ContactsService, private router: Router) {}
 
 
@@ -52,8 +54,21 @@ export class ContactsComponent {
     }
   }
 
-  selectMail(mail: string) {
-    this.router.navigate(['/editor'], { queryParams: { to: mail } });
+  selectMail() {
+    for (let i = 0; i < this.contacts.length; i++) {
+      const mail = this.contacts[i];
+  
+      if (mail) {
+        console.log('select mail', mail);
+        const queryParams = {       
+          to: mail,
+        };       
+        this.router.navigate(['/editor'], { queryParams: queryParams });
+       
+        break;
+      }
+    }
   }
+  
   
 }

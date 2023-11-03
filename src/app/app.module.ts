@@ -9,6 +9,7 @@ import { MessageViewerComponent } from './components/message-viewer/message-view
 import { MainComponent } from "./components/main/main.component";
 import { FolderListComponent } from "./components/folder-list/folder-list.component";
 import { MaterialModule } from './material-module/material/material.module';
+import { ComposeComponent } from "./components/compose/compose.component";
 
 
 
@@ -28,7 +29,8 @@ import { MaterialModule } from './material-module/material/material.module';
         MessageViewerComponent,
         MainComponent,
         FolderListComponent,
-        MaterialModule
+        MaterialModule,
+        ComposeComponent
     ]
 })
 export class AppModule { }

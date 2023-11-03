@@ -55,7 +55,7 @@ export class MessageActionsComponent {
       this.importantButtonLabel = this.messaggio.important
         ? 'Rimuovi dagli Importanti'
         : 'Importante';
-      this.markAsImportantEvent.emit(this.messageSelected);
+      this.markAsImportantEvent.emit(this.messaggio);
     }
   }
 

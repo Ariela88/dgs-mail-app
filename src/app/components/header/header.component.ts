@@ -13,10 +13,6 @@ import { SearchComponent } from '../search/search.component';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  @Output() searchInputChange: EventEmitter<string> =
-    new EventEmitter<string>();
-  searchTerm = '';
 
-  constructor() {}
  
 }

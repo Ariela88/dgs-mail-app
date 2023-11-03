@@ -5,13 +5,13 @@
       <mat-label>Destinatario</mat-label>
       <mat-chip-grid #chipList aria-label="Selezione dei destinatari">
         <mat-chip *ngFor="let recipient of selectedRecipients" [removable]="true" (removed)="remove(recipient)">
-         {{ recipient }}
+          {{ recipient }}
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
       </mat-chip-grid>
-      <input placeholder="Inserisci un destinatario" #contactsInput [formControl]="contactCtrl" formControlName="to"
-             [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-             (matChipInputTokenEnd)="add($event)" />
+      <input  placeholder="Inserisci un destinatario" #contactsInput 
+        [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)" />
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
         <mat-option *ngFor="let contact of filteredOptions | async" [value]="contact">
           {{ contact }}

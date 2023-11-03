@@ -2,16 +2,14 @@
 
 
 <div class="contacts-wrapper">
-    <div class="header-contacts">
-        <h2>Contatti</h2>
-    </div>
-    <div>
+    
+    <div class="input-container">
         <input [(ngModel)]="newContactEmail" placeholder="Inserisci un nuovo contatto email" />
         <button mat-raised-button color="primary" (click)="addContact()">Aggiungi Contatto</button>
       </div>
       
-      <div *ngFor="let contact of contacts" (click)="selectMail(contact)">
-        {{ contact }}
+      <div *ngFor="let contact of contacts" (click)="selectMail()" class="mail-row-element">
+        <span class="from-email"> {{ contact }} </span>
       </div>
       
       

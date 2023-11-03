@@ -1,9 +1,9 @@
 <ul>
-    <li (click)="changeFolder('all')"><mat-icon> inbox</mat-icon>  Tutte le mail</li>
-    <li (click)="changeFolder('inbox')"><mat-icon> inbox</mat-icon>  In Box</li>
-    <li (click)="changeFolder('sent')"><mat-icon> send</mat-icon>  Inviate</li>
-    <li (click)="changeFolder('favorite')"><mat-icon> favorite</mat-icon>  Preferiti</li>
-    <li (click)="changeFolder('important')"><mat-icon> star</mat-icon>  Importanti</li>
-    <li (click)="changeFolder('trash')"><mat-icon>delete</mat-icon>  Cestino</li>
+    <li (click)="changeFolder('all')"><mat-icon > inbox</mat-icon>  <span *ngIf="!shouldShowIcons()"> Tutte le mail</span></li>
+    <li (click)="changeFolder('inbox')"><mat-icon> inbox</mat-icon>  <span *ngIf="!shouldShowIcons()"> In arrivo</span></li>
+    <li (click)="changeFolder('sent')"><mat-icon > send</mat-icon>  <span *ngIf="!shouldShowIcons()"> Inviate</span></li>
+    <li (click)="changeFolder('favorite')"><mat-icon > favorite</mat-icon>  <span *ngIf="!shouldShowIcons()"> Preferiti</span></li>
+    <li (click)="changeFolder('important')"><mat-icon > star</mat-icon>  <span *ngIf="!shouldShowIcons()">Importanti</span></li>
+    <li (click)="changeFolder('trash')"><mat-icon >delete</mat-icon>  <span *ngIf="!shouldShowIcons()"> Cestino</span></li>
 </ul>
   

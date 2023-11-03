@@ -29,6 +29,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-compose',
@@ -38,6 +39,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
     ReactiveFormsModule,
     MaterialModule,
     NavActionsComponent,
+    FormsModule,
   ],
   templateUrl: './compose.component.html',
   styleUrls: ['./compose.component.scss'],
@@ -70,7 +72,7 @@ export class ComposeComponent implements OnInit {
   ) {
     this.newMailForm = this.fb.group({
       to: [
-        this.contacts.length > 0 ? this.contacts: '',
+        this.contacts.length > 0 ? this.contacts : '',
         [Validators.required],
       ],
       from: [''],
@@ -80,6 +82,9 @@ export class ComposeComponent implements OnInit {
     });
 
     this.route.queryParams.subscribe((params) => {
+      const recipient = params['to'];
+      console.log('Recipient:', recipient);
+
       this.newMailForm.patchValue({
         to: params['to'] || '',
         from: params['from'] || '',
@@ -89,8 +94,8 @@ export class ComposeComponent implements OnInit {
     });
     this.filteredOptions = this.contactCtrl.valueChanges.pipe(
       startWith(null),
-      map((ingredient: string | null) =>
-        ingredient ? this._filter(ingredient) : this.contacts.slice()
+      map((contact: string | null) =>
+        contact ? this._filter(contact) : this.contacts.slice()
       )
     );
   }
@@ -107,9 +112,11 @@ export class ComposeComponent implements OnInit {
     });
 
     this.route.queryParams.subscribe((params) => {
-      const emailData = params['emailData'];
+      const emailDataString = params['emailData'];
       const isForwarding = params['isForwarding'];
-      if (emailData) {
+    
+      if (emailDataString) {
+        const emailData = JSON.parse(emailDataString);
         this.newMailForm.patchValue({
           to: emailData.to,
           subject: isForwarding
@@ -122,6 +129,7 @@ export class ComposeComponent implements OnInit {
         console.log('Errore nel compose');
       }
     });
+    
   }
 
   generateRandomId(): string {
@@ -138,14 +146,14 @@ export class ComposeComponent implements OnInit {
   onSubmit() {
     if (this.newMailForm.valid) {
       const selectedEmail = this.newMailForm.get('to')?.value;
-      const selectedContact = this.contacts.find(
+      this.selectedContact = this.contacts.find(
         (contact) => contact === selectedEmail
       );
       const sentMail: Mail = {
         id: this.generateRandomId(),
         from: 'mittente@esempio.com',
         to: selectedEmail,
-        recipientName: selectedContact ? selectedContact : '',
+        recipientName: this.selectedContact ? this.selectedContact : '',
         subject: this.newMailForm.get('subject')?.value,
         body: this.newMailForm.get('body')?.value,
         sent: true,
@@ -172,18 +180,14 @@ export class ComposeComponent implements OnInit {
       this.modalService.closeModal();
     }
   }
-  
+
   private _filter(value: string): any[] {
     const filterValue = value.toLowerCase();
     return this.contacts.filter((contact) => {
       return contact && contact.toLowerCase().includes(filterValue);
     });
   }
-  
-  
-  
-  
-  
+
   displayContact(contact: any): string {
     if (contact) {
       return `${contact}`;
@@ -202,45 +206,39 @@ export class ComposeComponent implements OnInit {
     this.contactCtrl.setValue(null);
   }
 
-  remove(ingredient: string): void {
-    const index = this.contacts.indexOf(ingredient);
+  remove(contact: string): void {
+    const index = this.contacts.indexOf(contact);
 
     if (index >= 0) {
       this.contacts.splice(index, 1);
 
-      this.announcer.announce(`Removed ${ingredient}`);
+      this.announcer.announce(`Removed ${contact}`);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
     const selectedEmail = event.option.viewValue.trim();
-    const isDuplicate = this.selectedRecipients.some((recipient) => recipient.trim() === selectedEmail);
-  
+    const isDuplicate = this.selectedRecipients.some(
+      (recipient) => recipient.trim() === selectedEmail
+    );
+
     if (!isDuplicate) {
       this.selectedRecipients.push(selectedEmail);
       this.newMailForm.get('to')?.setValue(selectedEmail);
-  
 
       if (!this.contacts.includes(selectedEmail)) {
         this.contacts.push(selectedEmail);
         this.contactsService.setContacts(this.contacts);
         this.filteredOptions = this.contactCtrl.valueChanges.pipe(
           startWith(null),
-          map((ingredient: string | null) =>
-            ingredient ? this._filter(ingredient) : this.contacts.slice()
+          map((contact: string | null) =>
+            contact ? this._filter(contact) : this.contacts.slice()
           )
         );
       }
     }
-  
+
     this.contactsInput!.nativeElement.value = '';
     this.contactCtrl.setValue(null);
   }
-  
-  
-  
-  
-  
-  
-  
 }
