@@ -13,6 +13,7 @@ export interface Mail {
   selected:boolean;
   folderName:string;
   attachment?: File;
+  recipientName?: string;
 
 }
 

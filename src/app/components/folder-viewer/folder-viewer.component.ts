@@ -8,11 +8,12 @@ import { SearchService } from 'src/app/services/search.service';
 import { DataService } from 'src/app/services/data.service';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { NavActionsComponent } from '../nav-actions/nav-actions.component';
+import { ContactsComponent } from '../contacts/contacts.component';
 
 @Component({
   selector: 'app-folder-viewer',
   standalone: true,
-  imports: [CommonModule, FormsModule, MaterialModule,NavActionsComponent],
+  imports: [CommonModule, FormsModule, MaterialModule,NavActionsComponent,ContactsComponent],
   templateUrl: './folder-viewer.component.html',
   styleUrls: ['./folder-viewer.component.scss'],
 })
@@ -23,6 +24,7 @@ export class FolderViewerComponent implements OnInit {
   searchTerm: string = '';
   emails: Mail[] = [];
   messageSelected?:Mail;
+ 
 
   constructor(
     public route: ActivatedRoute,

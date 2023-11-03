@@ -5,10 +5,21 @@
     
     <mat-form-field appearance="fill">
       <mat-label>Destinatario</mat-label>
-      <input matInput formControlName="to" type="email" required />
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let recipient of selectedRecipients" [removable]="true" (removed)="removeRecipient(recipient)">
+          {{ recipient.name }} - {{ recipient.email }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+      <mat-select formControlName="to" required (selectionChange)="addRecipient($event)">
+        <mat-option *ngFor="let contact of contacts" [value]="contact">
+          {{ contact.name }} - {{ contact.email }}
+        </mat-option>
+      </mat-select>
       <mat-error *ngIf="newMailForm.get('to')?.hasError('required')">Il destinatario è obbligatorio</mat-error>
-      <mat-error *ngIf="newMailForm.get('to')?.hasError('email')">Indirizzo email non valido</mat-error>
     </mat-form-field>
+    
+    
     <mat-form-field appearance="fill">
       <mat-label>Oggetto</mat-label>
       <input matInput formControlName="subject" required />

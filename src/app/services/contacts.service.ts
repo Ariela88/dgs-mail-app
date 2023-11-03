@@ -1,9 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ContactsService {
+export class ContactsService  {
 
-  constructor() { }
+
+    private contactsSubject = new BehaviorSubject<any[]>([]);
+    contacts$ = this.contactsSubject.asObservable();
+  
+    setContacts(contacts: any[]) {
+      this.contactsSubject.next(contacts);
+    }
 }

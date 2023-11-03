@@ -12,6 +12,7 @@ import { NavActionsComponent } from '../nav-actions/nav-actions.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from 'src/app/services/modal.service';
 import { FolderService } from 'src/app/services/folder.service';
+import { ContactsService } from 'src/app/services/contacts.service';
 
 @Component({
   selector: 'app-compose',
@@ -32,16 +33,20 @@ export class ComposeComponent implements OnInit {
   @Input() writeNewMail: boolean = true;
   @Input() selectedMail?: Mail | null = null;
   @Input() data: any;
+  contacts: any[] = [];
+  selectedRecipients: any[] = [];
+ 
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private modalService: ModalService,
     private folderService: FolderService,
-    private router:Router
+    private router:Router,
+    private contactsService: ContactsService
   ) {
     this.newMailForm = this.fb.group({
-      to: ['', [Validators.required, Validators.email]],
+      to: [this.contacts.length > 0 ? this.contacts[0].email : '', [Validators.required, Validators.email]],
       from: [''],
       subject: [''],
       body: [''],
@@ -76,6 +81,9 @@ export class ComposeComponent implements OnInit {
         console.log('Errore nel compose');
       }
     });
+
+    this.contactsService.contacts$.subscribe((contacts) => {
+      this.contacts = contacts;});
   }
 
   generateRandomId(): string {
@@ -91,10 +99,13 @@ export class ComposeComponent implements OnInit {
 
   onSubmit() {
     if (this.newMailForm.valid) {
+      const selectedEmail = this.newMailForm.get('to')?.value;
+      const selectedContact = this.contacts.find(contact => contact.email === selectedEmail);
       const sentMail: Mail = {
         id: this.generateRandomId(),
         from: 'mittente@esempio.com',
-        to: this.newMailForm.get('to')?.value,
+        to: selectedEmail,
+        recipientName: selectedContact ? selectedContact.name : '',
         subject: this.newMailForm.get('subject')?.value,
         body: this.newMailForm.get('body')?.value,
         sent: true,
@@ -125,6 +136,21 @@ export class ComposeComponent implements OnInit {
     }
   }
 
+  addRecipient(event: any) {
+    const selectedContact = event.value;
+    if (!this.selectedRecipients.some(recipient => recipient.email === selectedContact.email)) {
+      this.selectedRecipients.push(selectedContact);
+    }
+    
+    this.newMailForm.get('to')?.setValue('');
+  }
+
+  removeRecipient(recipient: any) {
+    const index = this.selectedRecipients.indexOf(recipient);
+    if (index >= 0) {
+      this.selectedRecipients.splice(index, 1);
+    }
+  }
 
   
 }  
