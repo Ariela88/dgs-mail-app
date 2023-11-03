@@ -220,7 +220,7 @@ export class ComposeComponent implements OnInit {
       this.selectedRecipients.push(selectedEmail);
       this.newMailForm.get('to')?.setValue(selectedEmail);
   
-     
+
       if (!this.contacts.includes(selectedEmail)) {
         this.contacts.push(selectedEmail);
         this.contactsService.setContacts(this.contacts);

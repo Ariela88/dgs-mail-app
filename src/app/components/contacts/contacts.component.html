@@ -10,7 +10,7 @@
         <button mat-raised-button color="primary" (click)="addContact()">Aggiungi Contatto</button>
       </div>
       
-      <div *ngFor="let contact of contacts">
+      <div *ngFor="let contact of contacts" (click)="selectMail(contact)">
         {{ contact }}
       </div>
       

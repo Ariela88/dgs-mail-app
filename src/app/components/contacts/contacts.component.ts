@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ContactsService } from 'src/app/services/contacts.service';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-contacts',
@@ -18,7 +19,8 @@ export class ContactsComponent {
 
   newContactEmail: string = '';
 
-  constructor(private contactsService: ContactsService) {}
+  constructor(private contactsService: ContactsService, private router: Router) {}
+
 
   ngOnInit() {
     this.contactsService.contacts$.subscribe(contacts => {
@@ -49,4 +51,9 @@ export class ContactsComponent {
       alert('L\'indirizzo email non è valido.');
     }
   }
+
+  selectMail(mail: string) {
+    this.router.navigate(['/editor'], { queryParams: { to: mail } });
+  }
+  
 }

@@ -72,6 +72,7 @@ export class FolderService {
           this.emails['trash'] = [];
         }
         this.emails['trash'].push(removedEmail);
+        this.emails['all'].push(removedEmail);
         
         this.emailRemovedSubject.next();
       }

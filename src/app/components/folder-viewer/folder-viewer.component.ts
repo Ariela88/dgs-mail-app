@@ -50,6 +50,7 @@ export class FolderViewerComponent implements OnInit {
         console.error('folderName non definito.');
       }
     });
+    
     this.route.queryParams.subscribe((params) => {
       const searchTerm = params['q'];
       if (searchTerm) {
