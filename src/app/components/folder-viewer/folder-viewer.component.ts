@@ -19,7 +19,7 @@ import { ContactsComponent } from '../contacts/contacts.component';
 })
 export class FolderViewerComponent implements OnInit {
   originalEmails: Mail[] = [];
-  searchResults: Mail[] = [];
+  searchResults: Mail[] = []
   folderName?: string;
   searchTerm: string = '';
   emails: Mail[] = [];

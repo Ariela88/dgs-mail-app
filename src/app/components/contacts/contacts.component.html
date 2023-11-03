@@ -5,10 +5,14 @@
     <div class="header-contacts">
         <h2>Contatti</h2>
     </div>
-    <ul> 
-        <li *ngFor="let contact of contacts">
-            <span> {{contact.name}}</span>
-            <span> {{contact.email}}</span>
-        </li>
-    </ul>
+    <div>
+        <input [(ngModel)]="newContactEmail" placeholder="Inserisci un nuovo contatto email" />
+        <button mat-raised-button color="primary" (click)="addContact()">Aggiungi Contatto</button>
+      </div>
+      
+      <div *ngFor="let contact of contacts">
+        {{ contact }}
+      </div>
+      
+      
 </div>

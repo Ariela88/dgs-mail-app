@@ -1,45 +1,48 @@
-<div class="modal">
+<div>
   <h1>{{ isComposeMode ? 'Nuova Mail' : 'Rispondi alla Mail' }}</h1>
   <form [formGroup]="newMailForm" (ngSubmit)="onSubmit()">
-   
-    
     <mat-form-field appearance="fill">
       <mat-label>Destinatario</mat-label>
-      <mat-chip-list #chipList>
-        <mat-chip *ngFor="let recipient of selectedRecipients" [removable]="true" (removed)="removeRecipient(recipient)">
-          {{ recipient.name }} - {{ recipient.email }}
+      <mat-chip-grid #chipList aria-label="Selezione dei destinatari">
+        <mat-chip *ngFor="let recipient of selectedRecipients" [removable]="true" (removed)="remove(recipient)">
+         {{ recipient }}
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
-      </mat-chip-list>
-      <mat-select formControlName="to" required (selectionChange)="addRecipient($event)">
-        <mat-option *ngFor="let contact of contacts" [value]="contact">
-          {{ contact.name }} - {{ contact.email }}
+      </mat-chip-grid>
+      <input placeholder="Inserisci un destinatario" #contactsInput [formControl]="contactCtrl"
+             [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             (matChipInputTokenEnd)="add($event)" />
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let contact of filteredOptions | async" [value]="contact">
+          {{ contact }}
         </mat-option>
-      </mat-select>
+      </mat-autocomplete>
       <mat-error *ngIf="newMailForm.get('to')?.hasError('required')">Il destinatario è obbligatorio</mat-error>
     </mat-form-field>
-    
-    
+
     <mat-form-field appearance="fill">
       <mat-label>Oggetto</mat-label>
       <input matInput formControlName="subject" required />
       <mat-error *ngIf="newMailForm.get('subject')?.hasError('required')">L'oggetto è obbligatorio</mat-error>
     </mat-form-field>
+
     <mat-form-field appearance="fill">
       <mat-label>Messaggio</mat-label>
       <textarea matInput formControlName="body"></textarea>
-      
     </mat-form-field>
+
     <ng-container *ngIf="!isComposeMode">
       <mat-form-field appearance="fill">
         <mat-label>Allega Messaggio Originale</mat-label>
         <input matInput formControlName="originalMessageAttachment" />
       </mat-form-field>
     </ng-container>
-    <button mat-raised-button color="primary" type="submit" [disabled]="newMailForm.invalid">
-      Invia Mail
-    </button>
-    <button mat-button (click)="closeModal()">Chiudi</button>
 
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit" [disabled]="newMailForm.invalid">
+        Invia Mail
+      </button>
+      <button mat-button (click)="closeModal()">Chiudi</button>
+    </div>
   </form>
 </div>
