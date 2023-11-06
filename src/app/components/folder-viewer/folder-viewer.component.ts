@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { SearchService } from 'src/app/services/search.service';
 import { DataService } from 'src/app/services/data.service';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
-import { NavActionsComponent } from '../nav-actions/nav-actions.component';
 import { ContactsComponent } from '../contacts/contacts.component';
 import { ComposeComponent } from "../compose/compose.component";
 
@@ -20,7 +19,6 @@ import { ComposeComponent } from "../compose/compose.component";
         CommonModule,
         FormsModule,
         MaterialModule,
-        NavActionsComponent,
         ContactsComponent,
         ComposeComponent
     ]
@@ -79,15 +77,15 @@ export class FolderViewerComponent implements OnInit {
   }
 
   selectedMail(id: string) {
-    console.log('Selected mail ID:', id);
-    console.log('Current folder:', this.folderName);
-
     if (this.folderName && id) {
+      console.log('Selected mail ID:', id);
+      console.log('Current folder:', this.folderName);
       this.router.navigate(['/folder', this.folderName, 'mail', id]);
     } else {
       console.error('folderName o id non definiti.');
     }
   }
+  
 
   exitResultsView() {
     this.router.navigate(['/folder', this.folderName]);

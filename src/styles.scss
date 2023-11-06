@@ -14,7 +14,7 @@ body { margin: 0;
 
 app-folder-viewer{
   position: absolute;
-  width: 85%
+  width: 80%
  
 }
 
@@ -24,7 +24,14 @@ app-folder-viewer{
 
 app-message-viewer{
   position: absolute;
-  left: 15%;
+  left: 20%;
   width: 100%;
   
+}
+
+app-contacts{
+  position: absolute;
+  left: 20%;
+  width: 100%;
+
 }

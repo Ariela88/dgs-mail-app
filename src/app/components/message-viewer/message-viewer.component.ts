@@ -4,7 +4,7 @@ import { Mail } from 'src/app/model/mail';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { FolderService } from 'src/app/services/folder.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NavActionsComponent } from '../nav-actions/nav-actions.component';
+
 import { MessageActionsComponent } from '../message-actions/message-actions.component';
 import { ContactsService } from 'src/app/services/contacts.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -15,7 +15,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   imports: [
     CommonModule,
     MaterialModule,
-    NavActionsComponent,
     MessageActionsComponent,
   ],
   templateUrl: './message-viewer.component.html',

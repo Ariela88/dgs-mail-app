@@ -13,16 +13,25 @@ import { FolderViewerComponent } from '../folder-viewer/folder-viewer.component'
 })
 export class FolderListComponent{
 
+  showFolderTree = false;
+
+  toggleFolderTree() {
+    this.showFolderTree = !this.showFolderTree;
+  }
+
   constructor(private router: Router) {}
 
   changeFolder(folderName: string) {  
     this.router.navigate(['/folder', folderName]);
   }
  
+  contacts() {  
+    this.router.navigate(['/contacts']);
+  }
+ 
   shouldShowIcons(): boolean {
     const screenWidth = window.innerWidth;
-    
-    const thresholdWidth = 1024; 
+    const thresholdWidth = 1024;
     return screenWidth <= thresholdWidth;
   }
   

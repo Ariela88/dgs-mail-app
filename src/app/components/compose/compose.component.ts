@@ -1,10 +1,8 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -18,7 +16,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Mail } from 'src/app/model/mail';
-import { NavActionsComponent } from '../nav-actions/nav-actions.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from 'src/app/services/modal.service';
 import { FolderService } from 'src/app/services/folder.service';
@@ -37,7 +34,6 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     ReactiveFormsModule,
     MaterialModule,
-    NavActionsComponent,
     FormsModule,
   ],
   templateUrl: './compose.component.html',
@@ -45,21 +41,19 @@ import { FormsModule } from '@angular/forms';
 })
 export class ComposeComponent implements OnInit {
   newMailForm: FormGroup;
-  @Output() emailSent: EventEmitter<Mail> = new EventEmitter<Mail>();
+  data:any;
+
   @Input() isComposeMode: boolean = true;
-  @Input() writeNewMail: boolean = true;
   @Input() selectedMail?: Mail | null = null;
-  @Input() data: any;
+
   contacts: string[] = [];
-  selectedRecipients: any[] = [];
+  selectedRecipients: string[] = [];
   selectedContact: any;
-  myContacts?: Observable<any[]>;
   contactCtrl = new FormControl('');
   filteredOptions: Observable<any[]>;
   @ViewChild('contactsInput') contactsInput?: ElementRef<HTMLInputElement>;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   announcer = inject(LiveAnnouncer);
-  resolvedData: any;
 
   constructor(
     private fb: FormBuilder,
@@ -67,8 +61,7 @@ export class ComposeComponent implements OnInit {
     private modalService: ModalService,
     private folderService: FolderService,
     private router: Router,
-    private contactsService: ContactsService,
-
+    private contactsService: ContactsService
   ) {
     this.newMailForm = this.fb.group({
       to: ['', [Validators.required]],
@@ -87,20 +80,20 @@ export class ComposeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.contacts = this.contactsService.getContact();
     const emailDataString = this.route.snapshot.queryParams['emailData'];
-      const isForwarding = this.route.snapshot.queryParams['isForwarding'];
-      const isReply = this.route.snapshot.queryParams['isReply'];
-      const isContact = this.route.snapshot.queryParams['isContact'];
+    const isForwarding = this.route.snapshot.queryParams['isForwarding'];
+    const isReply = this.route.snapshot.queryParams['isReply'];
+    const isContact = this.route.snapshot.queryParams['isContact'];
     this.route.queryParams.subscribe((params) => {
       const recipient = params['to'];
       console.log('Recipient:', recipient);
-      
+
       if (isContact && recipient) {
         this.newMailForm.patchValue({
           to: recipient,
         });
       }
-    
 
       if (isForwarding && emailDataString) {
         const emailData = JSON.parse(emailDataString);
@@ -118,17 +111,9 @@ export class ComposeComponent implements OnInit {
           body: '',
           originalMessageAttachment: emailData.body,
         });
-      // }  else if (isContact && emailDataString) {
-      //   const emailData = JSON.parse(emailDataString);
-      //   this.newMailForm.patchValue({
-      //     to: emailData,
-         
-      //   });
-      } else {
         console.log('Errore nel compose');
       }
     });
-  
   }
 
   generateRandomId(): string {
@@ -180,37 +165,26 @@ export class ComposeComponent implements OnInit {
     }
   }
 
-  private _filter(value: string): any[] {
-    const filterValue = value.toLowerCase();
-    return this.contacts.filter((contact) => {
-      return contact && contact.toLowerCase().includes(filterValue);
-    });
-  }
-
-  displayContact(contact: any): string {
-    if (contact) {
-      return `${contact}`;
-    }
-    return '';
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase().trim();
+    return this.contacts.filter((contact) =>
+      contact.toLowerCase().includes(filterValue)
+    );
   }
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     if (value) {
       this.contacts.push(value);
-      console.log(this.contacts);
     }
     event.chipInput!.clear();
-
     this.contactCtrl.setValue(null);
   }
 
   remove(contact: string): void {
-    const index = this.contacts.indexOf(contact);
-
+    const index = this.selectedRecipients.indexOf(contact);
     if (index >= 0) {
-      this.contacts.splice(index, 1);
-
+      this.selectedRecipients.splice(index, 1);
       this.announcer.announce(`Removed ${contact}`);
     }
   }
@@ -228,12 +202,6 @@ export class ComposeComponent implements OnInit {
       if (!this.contacts.includes(selectedEmail)) {
         this.contacts.push(selectedEmail);
         this.contactsService.setContacts(this.contacts);
-        this.filteredOptions = this.contactCtrl.valueChanges.pipe(
-          startWith(null),
-          map((contact: string | null) =>
-            contact ? this._filter(contact) : this.contacts.slice()
-          )
-        );
       }
     }
 

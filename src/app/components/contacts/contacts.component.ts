@@ -4,6 +4,8 @@ import { ContactsService } from 'src/app/services/contacts.service';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-contacts',
@@ -22,7 +24,7 @@ export class ContactsComponent {
   isComposeMode:boolean = false;
   writeNewMail:boolean = false
 
-  constructor(private contactsService: ContactsService, private router: Router) {}
+  constructor(private contactsService: ContactsService, private router: Router,public dialog: MatDialog) {}
 
 
   ngOnInit() {
@@ -70,6 +72,26 @@ export class ContactsComponent {
       this.router.navigate(['/editor'], { queryParams: queryParams });
     }
   }
+
+  deleteContact(contact: string) {
+    const index = this.contacts.indexOf(contact);
   
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '250px',
+      data: {
+        title: 'Conferma eliminazione',
+        message: 'Sei sicuro di voler eliminare il contatto?',
+      },
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (index !== -1) {
+          this.contacts.splice(index, 1);
+          this.contactsService.setContacts(this.contacts);
+        }
+      }
+    });
+  }
   
 }

@@ -1,5 +1,8 @@
 <!-- inserire un componente rubrica, con relativo service, che, implementato nell'editor, inserendo un nuovo indirizzo mail, lo aggiunga alla rubrica in caso non fosse già presente, e diventasse una chips. implementare l'autocompletamento con il tasto invio che inserisce il suggerimento, e trasformare la search in un componente, creando anche per questo un autompletamento ma senza material. Inserire la rubrica come una scheda dove cambiare da rubrica ad eleneco mail -->
+<div class="header-folder-viewer">
 
+  <h2 class="folder-name"> <span class="folder-name-bold"> Rubrica </span> </h2>
+</div>
 
 <div class="contacts-wrapper">
     
@@ -8,8 +11,8 @@
         <button mat-raised-button color="primary" (click)="addContact()">Aggiungi Contatto</button>
       </div>
       
-      <div *ngFor="let contact of contacts" (click)="selectContact(contact)" class="mail-row-element">
-        <span class="from-email"> {{ contact }} </span>
+      <div *ngFor="let contact of contacts"  class="mail-row-element">
+        <mat-icon (click)="deleteContact(contact)" class="delete-btn"> delete </mat-icon><span class="from-email" (click)="selectContact(contact)"> {{ contact }} </span>
       </div>
       
       

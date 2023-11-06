@@ -3,6 +3,7 @@ span:hover {
   cursor: pointer;
 }
 
+
 span {
   list-style: none;
   font-family: 'Montserrat Alternates', sans-serif;
@@ -72,7 +73,8 @@ mat-icon:hover{
   color:white;
   font-family: "Montserrat Alternates", sans-serif;
   font-size: 32px;
-  padding-right: 24px;
+  padding: 16px 24px 16px 0;
+  margin: 0;
   
 
   

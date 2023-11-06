@@ -1,22 +1,25 @@
-<div>
+<div class="modal">
   <h1>{{ isComposeMode ? 'Nuova Mail' : 'Rispondi alla Mail' }}</h1>
   <form [formGroup]="newMailForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
       <mat-label>Destinatario</mat-label>
-      <mat-chip-grid #chipList aria-label="Selezione dei destinatari">
-        <mat-chip *ngFor="let recipient of selectedRecipients" [removable]="true" (removed)="remove(recipient)">
-          {{ recipient }}
-          <mat-icon matChipRemove>cancel</mat-icon>
-        </mat-chip>
+      <mat-chip-grid #chipGrid aria-label="Selezione dei destinatari">
+        <mat-chip-row *ngFor="let recipient of selectedRecipients" [removable]="true" (removed)="remove(recipient)">
+          {{ recipient }} <button matChipRemove aria-label="'remove ' + recipient">
+            <mat-icon>cancel</mat-icon>
+          </button>
+         
+        </mat-chip-row>
       </mat-chip-grid>
-      <input  placeholder="Inserisci un destinatario" #contactsInput 
-        [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        (matChipInputTokenEnd)="add($event)" />
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-        <mat-option *ngFor="let contact of filteredOptions | async" [value]="contact">
-          {{ contact }}
-        </mat-option>
-      </mat-autocomplete>
+      <input placeholder="Inserisci un destinatario" #contactsInput 
+       [matAutocomplete]="auto" [matChipInputFor]="chipGrid" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+       (matChipInputTokenEnd)="add($event)" />
+<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+     <mat-option *ngFor="let contact of filteredOptions | async" [value]="contact">
+       {{ contact }}
+     </mat-option>
+</mat-autocomplete>
+
       <mat-error *ngIf="newMailForm.get('to')?.hasError('required')">Il destinatario è obbligatorio</mat-error>
     </mat-form-field>
 

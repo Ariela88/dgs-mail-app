@@ -1,11 +1,11 @@
-
-<div class="search-container">
-<input type="text" [(ngModel)]="searchTerm" placeholder="Cerca..." (input)="onSearchInput($event)" />
-<button (click)="onSearch()">cerca</button></div>
-<ul *ngIf="recentSearchTerms.length > 0">
-  <li *ngFor="let term of recentSearchTerms">{{ term }}</li>
-</ul>
-<ul *ngIf="getFilteredSuggestions().length > 0">
-    <li *ngFor="let term of getFilteredSuggestions()">{{ term }}</li>
-  </ul>
-
+<div class="search-bar">
+  <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca..." (input)="onSearchInput($event)" />
+  <div *ngIf="searchTerm" class="recent-searches">
+    <ul>
+      <li *ngFor="let search of recentSearchTerms">
+        <span (click)="performSearch(search)" >{{ search }}</span>
+      </li>
+    </ul>
+  </div>
+  <button (click)="onSearch()">cerca</button>
+</div>

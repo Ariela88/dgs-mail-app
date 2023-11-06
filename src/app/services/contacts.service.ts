@@ -21,6 +21,10 @@ export class ContactsService  {
       this.contactsSubject.next(contacts);
     }
 
+    getContact(): string[] {
+      return this.contacts;
+    }
+
     constructor(){
       this.setContacts(this.contacts)
     }
