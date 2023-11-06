@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NavActionsComponent } from '../nav-actions/nav-actions.component';
 import { MessageActionsComponent } from '../message-actions/message-actions.component';
 import { ContactsService } from 'src/app/services/contacts.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-message-viewer',
@@ -31,7 +32,8 @@ export class MessageViewerComponent implements OnInit {
     private folderService: FolderService,
     private route: ActivatedRoute,
     private router: Router,
-    private contactServ:ContactsService
+    private contactServ:ContactsService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -62,27 +64,25 @@ export class MessageViewerComponent implements OnInit {
     this.isComposeMode = false;
     if (this.selectedMessage) {
       const queryParams = {
-        to: this.selectedMessage.from,
-        subject: 'Re: ' + this.selectedMessage.subject,
+        emailData:JSON.stringify(this.selectedMessage), 
+        isReply: true
       };
-
+  
       this.router.navigate(['/editor'], { queryParams: queryParams });
     }
   }
-
+  
   forwardMail() {
     this.writeNewMail = true;
     this.isComposeMode = false;
     if (this.selectedMessage) {
       const queryParams = {
-        subject: 'Inolter: ' + this.selectedMessage.subject,
-        body: 'Inoltrato:' + '(' + this.selectedMessage.body + ')',
+        emailData: JSON.stringify(this.selectedMessage), 
         isForwarding: true,
       };
       this.router.navigate(['/editor'], { queryParams: queryParams });
     }
   }
-
 
 
   addToFavorites(email: Mail): void {
@@ -152,10 +152,17 @@ export class MessageViewerComponent implements OnInit {
       if (!contacts.includes(senderEmail)) {
         this.contactServ.addContact(senderEmail);
         console.log('Email aggiunta alla rubrica:', senderEmail);
+        this.snackBar.open('Contatto aggiunto alla rubrica', 'Chiudi', {
+          duration: 2000,
+        });
+        
       } else {
         console.log('Email già presente nella rubrica:', senderEmail);
-        
+        this.snackBar.open('Email già presente nella rubrica', 'Chiudi', {
+          duration: 2000,
+        });
       }
     }
+
   }
 }

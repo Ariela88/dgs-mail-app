@@ -2,7 +2,6 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { Router } from '@angular/router';
-import { Mail } from 'src/app/model/mail';
 import { FolderViewerComponent } from '../folder-viewer/folder-viewer.component';
 
 @Component({
@@ -13,8 +12,6 @@ import { FolderViewerComponent } from '../folder-viewer/folder-viewer.component'
   styleUrls: ['./folder-list.component.scss']
 })
 export class FolderListComponent{
-  folders?: any[];
-  email?: Mail;
 
   constructor(private router: Router) {}
 

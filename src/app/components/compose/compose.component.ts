@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -60,6 +59,7 @@ export class ComposeComponent implements OnInit {
   @ViewChild('contactsInput') contactsInput?: ElementRef<HTMLInputElement>;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   announcer = inject(LiveAnnouncer);
+  resolvedData: any;
 
   constructor(
     private fb: FormBuilder,
@@ -68,30 +68,16 @@ export class ComposeComponent implements OnInit {
     private folderService: FolderService,
     private router: Router,
     private contactsService: ContactsService,
-    private cdr: ChangeDetectorRef
+
   ) {
     this.newMailForm = this.fb.group({
-      to: [
-        this.contacts.length > 0 ? this.contacts : '',
-        [Validators.required],
-      ],
+      to: ['', [Validators.required]],
       from: [''],
       subject: [''],
       body: [''],
       originalMessageAttachment: [''],
     });
 
-    this.route.queryParams.subscribe((params) => {
-      const recipient = params['to'];
-      console.log('Recipient:', recipient);
-
-      this.newMailForm.patchValue({
-        to: params['to'] || '',
-        from: params['from'] || '',
-        subject: params['subject'] || '',
-        body: params['body'] || '',
-      });
-    });
     this.filteredOptions = this.contactCtrl.valueChanges.pipe(
       startWith(null),
       map((contact: string | null) =>
@@ -99,37 +85,50 @@ export class ComposeComponent implements OnInit {
       )
     );
   }
+
   ngOnInit() {
-    this.contactsService.contacts$.subscribe((contacts) => {
-      console.log('Contatti nel componente Compose:', contacts);
-      this.contacts = contacts;
-      this.cdr.detectChanges();
-
-      this.myContacts = this.contactCtrl.valueChanges.pipe(
-        startWith(''),
-        map((value) => this._filter(value || ''))
-      );
-    });
-
+    const emailDataString = this.route.snapshot.queryParams['emailData'];
+      const isForwarding = this.route.snapshot.queryParams['isForwarding'];
+      const isReply = this.route.snapshot.queryParams['isReply'];
+      const isContact = this.route.snapshot.queryParams['isContact'];
     this.route.queryParams.subscribe((params) => {
-      const emailDataString = params['emailData'];
-      const isForwarding = params['isForwarding'];
+      const recipient = params['to'];
+      console.log('Recipient:', recipient);
+      
+      if (isContact && recipient) {
+        this.newMailForm.patchValue({
+          to: recipient,
+        });
+      }
     
-      if (emailDataString) {
+
+      if (isForwarding && emailDataString) {
         const emailData = JSON.parse(emailDataString);
         this.newMailForm.patchValue({
-          to: emailData.to,
-          subject: isForwarding
-            ? 'Inolter: ' + emailData.subject
-            : 'Re: ' + emailData.subject,
-          body: isForwarding ? 'Inoltrato:' + '(' + emailData.body + ')' : '',
+          to: emailData.from,
+          subject: 'Inolter: ' + emailData.subject,
+          body: 'Inoltrato:' + '(' + emailData.body + ')',
           originalMessageAttachment: emailData.body,
         });
+      } else if (isReply && emailDataString) {
+        const emailData = JSON.parse(emailDataString);
+        this.newMailForm.patchValue({
+          to: emailData.from,
+          subject: 'Re: ' + emailData.subject,
+          body: '',
+          originalMessageAttachment: emailData.body,
+        });
+      // }  else if (isContact && emailDataString) {
+      //   const emailData = JSON.parse(emailDataString);
+      //   this.newMailForm.patchValue({
+      //     to: emailData,
+         
+      //   });
       } else {
         console.log('Errore nel compose');
       }
     });
-    
+  
   }
 
   generateRandomId(): string {

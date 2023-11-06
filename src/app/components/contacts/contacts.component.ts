@@ -18,8 +18,9 @@ export class ContactsComponent {
   ];
 
   newContactEmail: string = '';
-
-  selectedMessage?:string
+  contact?:string;
+  isComposeMode:boolean = false;
+  writeNewMail:boolean = false
 
   constructor(private contactsService: ContactsService, private router: Router) {}
 
@@ -54,19 +55,19 @@ export class ContactsComponent {
     }
   }
 
-  selectMail() {
-    for (let i = 0; i < this.contacts.length; i++) {
-      const mail = this.contacts[i];
-  
-      if (mail) {
-        console.log('select mail', mail);
-        const queryParams = {       
-          to: mail,
-        };       
-        this.router.navigate(['/editor'], { queryParams: queryParams });
-       
-        break;
-      }
+ 
+  selectContact(contact:string) {
+    
+    this.writeNewMail = true;
+    this.isComposeMode = false;
+    if (contact) {
+      const queryParams = {
+        emailData: JSON.stringify(contact),
+        isContact: true,
+        to:contact
+        
+      };
+      this.router.navigate(['/editor'], { queryParams: queryParams });
     }
   }
   

@@ -10,6 +10,8 @@ import { MainComponent } from "./components/main/main.component";
 import { FolderListComponent } from "./components/folder-list/folder-list.component";
 import { MaterialModule } from './material-module/material/material.module';
 import { ComposeComponent } from "./components/compose/compose.component";
+import { ContactsComponent } from "./components/contacts/contacts.component";
+import { FolderViewerComponent } from "./components/folder-viewer/folder-viewer.component";
 
 
 
@@ -30,7 +32,9 @@ import { ComposeComponent } from "./components/compose/compose.component";
         MainComponent,
         FolderListComponent,
         MaterialModule,
-        ComposeComponent
+        ComposeComponent,
+        ContactsComponent,
+        FolderViewerComponent
     ]
 })
 export class AppModule { }

@@ -8,7 +8,7 @@
         <button mat-raised-button color="primary" (click)="addContact()">Aggiungi Contatto</button>
       </div>
       
-      <div *ngFor="let contact of contacts" (click)="selectMail()" class="mail-row-element">
+      <div *ngFor="let contact of contacts" (click)="selectContact(contact)" class="mail-row-element">
         <span class="from-email"> {{ contact }} </span>
       </div>
       
