@@ -2,8 +2,8 @@
   <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca..."/>
   <div *ngIf="searchTerm" class="recent-searches">
     <ul>
-      <li *ngFor="let search of filterSearchTerms(searchTerm)">
-        <span (click)="insertInInput(search)">{{ search }}</span>
+      <li *ngFor="let search of filterSearchTerms(searchTerm)"  (click)="insertInInput(search)">
+        <span>{{ search }}</span>
       </li>
     </ul>
   </div>

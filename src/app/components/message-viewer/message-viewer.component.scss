@@ -10,8 +10,8 @@ button{
 .action-button{
     display: flex;
     gap: 24px;
-    width: 85%;
-    background-color: rgb(182, 182, 182);
+  
+    background-color: #7d59bd;
    padding-left: 16px;
     align-items: center;
     height: 56px;
@@ -38,4 +38,9 @@ button{
     color: orangered;
     font-size: larger;
     font-weight: bold;
+}
+
+.body-text{
+    width: 60%;
+    text-align: justify;
 }

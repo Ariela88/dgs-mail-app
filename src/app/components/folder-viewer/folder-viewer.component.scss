@@ -63,6 +63,7 @@ mat-icon:hover{
   justify-content: flex-start;
   gap: 4px;
   align-items: center;
+  
 }
 .mail-row-element:hover{
   background-color: rgb(157, 163, 247)
@@ -89,7 +90,7 @@ mat-icon:hover{
 }
 
 .header-folder-viewer{
-  background-color: rgb(119, 111, 132);
+  background-color: #7d59bd;;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -109,4 +110,38 @@ mat-icon:hover{
 
 .mat-tab-group {
   margin-bottom: 48px;
+}
+
+.email-details{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  width: 100%;
+  gap: 4px;
+}
+
+.color-even{
+  height: 100vh;
+  overflow: scroll;
+}
+
+.spacer{
+  flex:1;
+}
+
+
+.read-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.unread {
+  background-color: red; 
+}
+
+.read {
+  background-color: green; 
 }

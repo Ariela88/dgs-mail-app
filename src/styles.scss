@@ -1,6 +1,6 @@
 
   @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;700&display=swap');
-
+  @import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
 
 html, body { height: 100%; 
 width: 100%; }
@@ -13,8 +13,11 @@ body { margin: 0;
 }
 
 app-folder-viewer{
-  position: absolute;
-  width: 80%
+ position: fixed;
+ left: 20%;
+ top: 10%;
+ width: 80%;
+ 
  
 }
 
@@ -24,8 +27,9 @@ app-folder-viewer{
 
 app-message-viewer{
   position: absolute;
+  top: 10%;
   left: 20%;
-  width: 100%;
+  width: 80%;
   
 }
 
@@ -34,4 +38,41 @@ app-contacts{
   left: 20%;
   width: 100%;
 
+}
+
+aside, app-header{
+  position: fixed;
+ 
+ 
+}
+
+app-header{
+  width: 100%;
+  left: 0;
+  height: 10%;
+}
+
+mat-toolbar{
+  height: 100% !important;
+}
+
+aside{
+  top:10%;
+}
+
+app-contacts{
+  position: fixed;
+  top: 10%;
+  left: 20%;
+  width: 80%;
+ 
+ 
+}
+
+.mat-body{
+  font-size: 12px;
+}
+
+app-search{
+  position: relative;
 }

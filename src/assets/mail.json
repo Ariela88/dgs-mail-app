@@ -1,26 +1,50 @@
 [
     { "id":"1",
-        "to": "carlo.bonamico@gmail.com",
+        "to": "manuela@gmail.com",
         "from": "sonia.pini@gmail.com",
         "subject": "Angular 1.5",
         "body": " a b c "
     },
     { "id":"2",
-        "to": "carlo.bonamico@gmail.com",
+        "to": "manuela@gmail.com",
         "from": "carlo.bonamico@gmail.com",
         "subject": "Typescript",
         "body": " a b c d e f  "
     },
     {"id":"3",
-        "to": "carlo.bonamico@gmail.com",
-        "from": "sonia.pini@gmail.com",
+        "to": "manuela@gmail.com",
+        "from": "nuttyBethany69@mail.ru",
         "subject": "Flexbox how-to",
-        "body": " a b c d e f  "
+        "body": " Pellentesque turpis ante, gravida ut tempus ac, pretium in odio. Vestibulum bibendum fringilla egestas. Nulla facilisi. Vestibulum turpis dui, maximus sit amet lectus sit amet, maximus dignissim nibh. Nunc at urna sit amet orci placerat gravida at vitae diam. Praesent mauris nulla, porttitor sed ornare id, tristique ac orci. Nulla elementum aliquam facilisis. Praesent aliquam a nunc nec semper. Morbi mollis tellus fermentum posuere varius. In in justo sit amet nunc cursus lobortis.   "
     },
     { "id":"4",
-        "to": "carlo.bonamico@gmail.com",
-        "from": "sonia.pini@gmail.com",
+        "to": "manuela@gmail.com",
+        "from": "kindAnn58@sfr.fr",
         "subject": "Re: ES6 tutorial",
-        "body": " a b c d e f  "
+        "body": "Etiam ex tellus, ultrices at rutrum eget, porta ut tortor. In non porta purus, id vehicula risus. Suspendisse posuere nulla metus, non bibendum nulla rhoncus in. Maecenas aliquam sagittis aliquet. Sed fermentum lacinia dui vel rutrum. Sed ut finibus sapien. Maecenas non nunc nisi. Ut porttitor, eros sit amet venenatis aliquet, orci diam feugiat est, in euismod turpis eros a lorem. Donec ullamcorper consectetur mauris, sit amet mollis tortor volutpat non. Nam efficitur ex massa, eu aliquam turpis sodales a. Phasellus in maximus eros. Pellentesque cursus libero id massa pretium porttitor. Integer sapien quam, consectetur sit amet ex eget, convallis feugiat nulla. Quisque justo lectus, euismod sit amet orci eget, venenatis maximus nunc.  "
+    },
+    { "id":"5",
+        "to": "manuela@gmail.com",
+        "from": "dangerousJon87@yahoo.it",
+        "subject": "Re: ES6 tutorial",
+        "body": "Mauris tempor dolor eu lectus eleifend, a feugiat arcu ornare. Maecenas tempor ligula vitae enim mattis, id tincidunt felis bibendum. Cras at neque ante. Nulla sit amet massa ac tellus sollicitudin posuere vel id augue. Donec in justo orci. Nullam arcu ipsum, mattis quis justo id, fermentum fringilla lectus. Integer eget nisl dictum, semper nulla quis, laoreet neque. Quisque vel felis suscipit, efficitur lectus ut, tempor orci. Nulla vulputate in purus non porttitor. Donec quis lacus quis ex faucibus interdum. Ut sit amet elementum magna, in dapibus mauris. Sed maximus pulvinar quam, et ultricies augue fermentum auctor. Mauris eu quam magna. Phasellus condimentum, ipsum vitae facilisis vestibulum, ligula ex porttitor dui, vitae posuere ipsum metus sed tellus. Nam vulputate lobortis ipsum, sed pulvinar neque dapibus quis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;   "
+    },
+    { "id":"6",
+        "to": "manuela@gmail.com",
+        "from": "Emmanuelbreakable@frontiernet.net",
+        "subject": "Re: ES6 tutorial",
+        "body": "Cras porttitor maximus erat. Quisque a augue id eros finibus pharetra et efficitur metus. Phasellus ullamcorper neque quis nunc vehicula ultricies. Vestibulum eu luctus lectus. Proin sodales hendrerit consequat. Vestibulum sed blandit urna, dignissim iaculis orci. Nulla egestas mattis magna a pretium. Fusce quis sollicitudin odio. Suspendisse mi enim, facilisis nec porttitor vitae, sodales vitae felis. Aliquam tincidunt porta aliquet. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris molestie feugiat neque ornare auctor. Donec eleifend consectetur eros. Donec auctor urna non libero euismod egestas. Ut imperdiet tincidunt ullamcorper. "
+    },
+    { "id":"7",
+        "to": "manuela@gmail.com",
+        "from": "dangerousJon87@yahoo.it",
+        "subject": "Re: ES6 tutorial",
+        "body": " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sed libero non ipsum fringilla varius non quis metus. Donec scelerisque condimentum ipsum, non congue odio gravida non. Vivamus porta id nisl tempor euismod. Duis pellentesque, mi non aliquet ullamcorper, tellus arcu gravida libero, sed convallis eros sapien eleifend sapien. Cras iaculis egestas ante. Morbi eu eros quis risus tempus interdum. Donec ac erat ut dolor laoreet interdum. Fusce faucibus metus id nisi rutrum mollis. Pellentesque eu tincidunt ex.   "
+    },
+    { "id":"8",
+        "to": "manuela@gmail.com",
+        "from": "blue-eyedMark@hetnet.nl",
+        "subject": "Re: ES6 tutorial",
+        "body": " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam luctus auctor augue vel accumsan. Etiam ac efficitur erat. Suspendisse venenatis metus sit amet diam imperdiet pharetra. Donec quam lectus, hendrerit non fermentum eu, ornare in eros. Morbi suscipit turpis id eros blandit fermentum. Aenean vitae placerat dui, nec sollicitudin tortor. Integer semper fermentum venenatis. Integer laoreet, urna id egestas efficitur, tortor metus commodo purus, non pretium lacus felis non felis. Nunc a volutpat sapien, at interdum lorem. Donec placerat maximus augue, vel facilisis risus egestas et. Vivamus vestibulum quam a elit semper, a eleifend lorem pellentesque. Pellentesque aliquam sapien iaculis orci dapibus sollicitudin. Nulla tempor nunc eget dapibus condimentum. "
     }
 ]

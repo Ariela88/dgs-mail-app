@@ -14,6 +14,7 @@ export interface Mail {
   folderName:string;
   attachment?: File;
   recipientName?: string;
+  read:boolean;
 
 }
 

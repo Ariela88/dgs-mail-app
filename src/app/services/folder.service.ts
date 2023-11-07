@@ -68,8 +68,10 @@ export class FolderService {
     );
     if (index !== -1) {
       const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        
         width: '250px',
-        data: { message: 'Sei sicuro di voler eliminare la mail?' },
+        data: { title: 'Conferma eliminazione',
+          message: 'Sei sicuro di voler eliminare la mail?' },
       });
 
       dialogRef.afterClosed().subscribe((result) => {

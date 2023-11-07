@@ -76,12 +76,23 @@ export class FolderViewerComponent implements OnInit {
   selectedMail(id: string) {
     if (this.folderName && id) {
       console.log('Selected mail ID:', id);
-      console.log('Current folder:', this.folderName);
-      this.router.navigate(['/folder', this.folderName, 'mail', id]);
+      console.log('Current folder:', this.folderName);  
+    
+      const selectedEmail = this.originalEmails.find(email => email.id === id);
+  
+      if (selectedEmail) {
+      
+        selectedEmail.read = true; 
+       
+        this.router.navigate(['/folder', this.folderName, 'mail', id]);
+      } else {
+        console.error('Mail non trovata.');
+      }
     } else {
       console.error('folderName o id non definiti.');
     }
   }
+  
   
 
   exitResultsView() {

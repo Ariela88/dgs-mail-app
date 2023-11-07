@@ -4,6 +4,16 @@
 
   .title{
     padding-left: 16px;
+    font-family: 'Satisfy', cursive;
+    font-size: 40px;
   }
   
+  .icon-mail:hover{
+    color: #ffd740;
+  }
+
+  .icon-mail{
+    transform: rotateX(180deg);
+    cursor: pointer;
+  }
   

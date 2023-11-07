@@ -16,7 +16,7 @@
      right: 0;
      bottom: 0;
      height:max-content;
-     background: rgba(0, 0, 0, 0.5);
+     background: #7e59bdce;
      display: flex;
      justify-content: center;
      align-items: center;
@@ -33,5 +33,14 @@
    .mat-autocomplete-panel {
     z-index: 9999; 
   }
+
+  .custom-modal .cdk-overlay-container {
+    pointer-events: none; 
+  }
+  
+  .custom-modal .cdk-overlay-pane {
+    pointer-events: auto;
+  }
+  
   
    

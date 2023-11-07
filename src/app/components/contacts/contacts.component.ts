@@ -15,25 +15,25 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
   styleUrls: ['./contacts.component.scss'],
 })
 export class ContactsComponent {
-  contacts: string[] = [
-    
-  ];
+  contacts: string[] = [];
 
   newContactEmail: string = '';
-  contact?:string;
-  isComposeMode:boolean = false;
-  writeNewMail:boolean = false
+  contact?: string;
+  isComposeMode: boolean = false;
+  writeNewMail: boolean = false;
 
-  constructor(private contactsService: ContactsService, private router: Router,public dialog: MatDialog) {}
-
+  constructor(
+    private contactsService: ContactsService,
+    private router: Router,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
-    this.contactsService.contacts$.subscribe(contacts => {
+    this.contactsService.contacts$.subscribe((contacts) => {
       this.contacts = contacts;
-      console.log('rubrica',contacts)
+      console.log('rubrica', contacts);
     });
   }
-  
 
   addNewContact() {
     if (this.newContactEmail && !this.contacts.includes(this.newContactEmail)) {
@@ -44,7 +44,6 @@ export class ContactsComponent {
   }
 
   isEmailValid(email: string): boolean {
-   
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
@@ -53,27 +52,23 @@ export class ContactsComponent {
     if (this.newContactEmail && this.isEmailValid(this.newContactEmail)) {
       this.addNewContact();
     } else {
-      alert('L\'indirizzo email non è valido.');
+      alert("L'indirizzo email non è valido.");
     }
   }
 
- 
   selectContact(contact: string) {
     if (contact) {
       const queryParams = {
         to: contact,
         isContact: true,
-        
       };
       this.router.navigate(['/editor'], { queryParams: queryParams });
     }
   }
-  
-  
 
   deleteContact(contact: string) {
     const index = this.contacts.indexOf(contact);
-  
+
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '250px',
       data: {
@@ -81,8 +76,8 @@ export class ContactsComponent {
         message: 'Sei sicuro di voler eliminare il contatto?',
       },
     });
-  
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         if (index !== -1) {
           this.contacts.splice(index, 1);
@@ -91,5 +86,4 @@ export class ContactsComponent {
       }
     });
   }
-  
 }

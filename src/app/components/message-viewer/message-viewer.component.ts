@@ -4,7 +4,6 @@ import { Mail } from 'src/app/model/mail';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { FolderService } from 'src/app/services/folder.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { MessageActionsComponent } from '../message-actions/message-actions.component';
 import { ContactsService } from 'src/app/services/contacts.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,11 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-message-viewer',
   standalone: true,
-  imports: [
-    CommonModule,
-    MaterialModule,
-    MessageActionsComponent,
-  ],
+  imports: [CommonModule, MaterialModule, MessageActionsComponent],
   templateUrl: './message-viewer.component.html',
   styleUrls: ['./message-viewer.component.scss'],
 })
@@ -25,13 +20,13 @@ export class MessageViewerComponent implements OnInit {
   @Input() isComposeMode: boolean = false;
   selectedMessage?: Mail | undefined;
 
-  @Output() addEmailContacts = new EventEmitter<string[]>
-  
+  @Output() addEmailContacts = new EventEmitter<string[]>();
+
   constructor(
     private folderService: FolderService,
     private route: ActivatedRoute,
     private router: Router,
-    private contactServ:ContactsService,
+    private contactServ: ContactsService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -59,48 +54,41 @@ export class MessageViewerComponent implements OnInit {
   }
 
   replyToEmail() {
-    
     this.writeNewMail = true;
     this.isComposeMode = false;
     if (this.selectedMessage) {
       const queryParams = {
         emailData: JSON.stringify(this.selectedMessage),
         isReply: true,
-        
       };
-  
+
       this.router.navigate(['/editor'], { queryParams: queryParams });
     }
   }
-  
-  
+
   forwardMail() {
     this.writeNewMail = true;
     this.isComposeMode = false;
     if (this.selectedMessage) {
       const queryParams = {
-        emailData: JSON.stringify(this.selectedMessage), 
+        emailData: JSON.stringify(this.selectedMessage),
         isForwarding: true,
       };
       this.router.navigate(['/editor'], { queryParams: queryParams });
     }
   }
 
-
   addToFavorites(email: Mail): void {
-   
     this.folderService.copyEmailToFolder(email, 'favorite');
     email.folderName = 'favorite';
     email.isFavourite = true;
   }
 
   markAsImportant(email: Mail): void {
-    
     this.folderService.copyEmailToFolder(email, 'important');
     email.folderName = 'important';
     email.important = true;
   }
-
 
   removeFromFavorites(email: Mail): void {
     console.log('Rimuovi dai preferiti:', email);
@@ -115,7 +103,6 @@ export class MessageViewerComponent implements OnInit {
     email.folderName = 'inbox';
     email.important = false;
   }
- 
 
   toggleImportant(email: Mail): void {
     if (this.isEmailImportant(email)) {
@@ -133,9 +120,6 @@ export class MessageViewerComponent implements OnInit {
     }
   }
 
-
- 
-
   isEmailImportant(email: Mail): boolean {
     const importantEmails = this.folderService.getEmails('important');
     return importantEmails.some((important) => important.id === email.id);
@@ -150,14 +134,13 @@ export class MessageViewerComponent implements OnInit {
     if (this.selectedMessage) {
       const senderEmail = this.selectedMessage.from;
       const contacts = this.contactServ.contacts;
-  
+
       if (!contacts.includes(senderEmail)) {
         this.contactServ.addContact(senderEmail);
         console.log('Email aggiunta alla rubrica:', senderEmail);
         this.snackBar.open('Contatto aggiunto alla rubrica', 'Chiudi', {
           duration: 2000,
         });
-        
       } else {
         console.log('Email già presente nella rubrica:', senderEmail);
         this.snackBar.open('Email già presente nella rubrica', 'Chiudi', {
@@ -165,6 +148,5 @@ export class MessageViewerComponent implements OnInit {
         });
       }
     }
-
   }
 }
