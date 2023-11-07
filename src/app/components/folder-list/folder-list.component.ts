@@ -28,11 +28,6 @@ export class FolderListComponent{
   contacts() {  
     this.router.navigate(['/contacts']);
   }
- 
-  shouldShowIcons(): boolean {
-    const screenWidth = window.innerWidth;
-    const thresholdWidth = 1024;
-    return screenWidth <= thresholdWidth;
-  }
+
   
 }

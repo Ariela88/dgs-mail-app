@@ -58,20 +58,18 @@ export class ContactsComponent {
   }
 
  
-  selectContact(contact:string) {
-    
-    this.writeNewMail = true;
-    this.isComposeMode = false;
+  selectContact(contact: string) {
     if (contact) {
       const queryParams = {
-        emailData: JSON.stringify(contact),
+        to: contact,
         isContact: true,
-        to:contact
         
       };
       this.router.navigate(['/editor'], { queryParams: queryParams });
     }
   }
+  
+  
 
   deleteContact(contact: string) {
     const index = this.contacts.indexOf(contact);

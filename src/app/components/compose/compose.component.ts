@@ -40,9 +40,12 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./compose.component.scss'],
 })
 export class ComposeComponent implements OnInit {
-  newMailForm: FormGroup;
+  newMailForm: FormGroup
   data:any;
+  isContact: boolean = false;
+  toValue: string = '';
 
+  
   @Input() isComposeMode: boolean = true;
   @Input() selectedMail?: Mail | null = null;
 
@@ -52,6 +55,7 @@ export class ComposeComponent implements OnInit {
   contactCtrl = new FormControl('');
   filteredOptions: Observable<any[]>;
   @ViewChild('contactsInput') contactsInput?: ElementRef<HTMLInputElement>;
+  
   separatorKeysCodes: number[] = [ENTER, COMMA];
   announcer = inject(LiveAnnouncer);
 
@@ -64,12 +68,13 @@ export class ComposeComponent implements OnInit {
     private contactsService: ContactsService
   ) {
     this.newMailForm = this.fb.group({
-      to: ['', [Validators.required]],
+      to: new FormControl("", [Validators.required]),
       from: [''],
       subject: [''],
       body: [''],
-      originalMessageAttachment: [''],
+      
     });
+    console.log(this.newMailForm)
 
     this.filteredOptions = this.contactCtrl.valueChanges.pipe(
       startWith(null),
@@ -80,41 +85,47 @@ export class ComposeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.contacts = this.contactsService.getContact();
-    const emailDataString = this.route.snapshot.queryParams['emailData'];
-    const isForwarding = this.route.snapshot.queryParams['isForwarding'];
-    const isReply = this.route.snapshot.queryParams['isReply'];
-    const isContact = this.route.snapshot.queryParams['isContact'];
+
     this.route.queryParams.subscribe((params) => {
-      const recipient = params['to'];
-      console.log('Recipient:', recipient);
-
-      if (isContact && recipient) {
-        this.newMailForm.patchValue({
-          to: recipient,
-        });
-      }
-
-      if (isForwarding && emailDataString) {
+    this.contacts = this.contactsService.getContact();
+      const emailDataString = this.route.snapshot.queryParams['emailData'];
+      const isForwarding = this.route.snapshot.queryParams['isForwarding'];
+      const isReply = this.route.snapshot.queryParams['isReply'];
+      const isContact = this.route.snapshot.queryParams['isContact'];  
+      const recipient = params['to']; 
+         
+    
+      if (isReply && emailDataString) {
         const emailData = JSON.parse(emailDataString);
         this.newMailForm.patchValue({
-          to: emailData.from,
+          to: emailData.from,     
+          subject: 'Re: ' + emailData.subject,  
+                       
+        });
+        console.log(emailDataString)
+       console.log(emailData.from,isReply)
+      }     
+      
+      else if (isForwarding && emailDataString) {
+        const emailData = JSON.parse(emailDataString);
+        this.newMailForm.patchValue({          
           subject: 'Inolter: ' + emailData.subject,
           body: 'Inoltrato:' + '(' + emailData.body + ')',
-          originalMessageAttachment: emailData.body,
-        });
-      } else if (isReply && emailDataString) {
-        const emailData = JSON.parse(emailDataString);
+           });
+     } 
+    
+      else if (isContact && recipient) {
         this.newMailForm.patchValue({
-          to: emailData.from,
-          subject: 'Re: ' + emailData.subject,
-          body: '',
-          originalMessageAttachment: emailData.body,
+          to: recipient ,
         });
-        console.log('Errore nel compose');
+        console.log('Contact to:');
+        console.log('Recipient:', recipient); 
       }
     });
+
+    
   }
+  
 
   generateRandomId(): string {
     const characters =

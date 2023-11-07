@@ -21,3 +21,13 @@ ul mat-icon:hover{
   li:hover{
     color: black;
   }
+
+  @media (max-width: 800px) {
+    .icon-label {
+      display: none;
+    }
+  }
+  
+  
+
+ 

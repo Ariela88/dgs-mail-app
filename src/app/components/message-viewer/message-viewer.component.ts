@@ -59,17 +59,20 @@ export class MessageViewerComponent implements OnInit {
   }
 
   replyToEmail() {
+    
     this.writeNewMail = true;
     this.isComposeMode = false;
     if (this.selectedMessage) {
       const queryParams = {
-        emailData:JSON.stringify(this.selectedMessage), 
-        isReply: true
+        emailData: JSON.stringify(this.selectedMessage),
+        isReply: true,
+        
       };
   
       this.router.navigate(['/editor'], { queryParams: queryParams });
     }
   }
+  
   
   forwardMail() {
     this.writeNewMail = true;

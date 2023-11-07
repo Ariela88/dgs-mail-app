@@ -40,34 +40,30 @@ export class FolderViewerComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.dataServ.getMailMessage().subscribe((emails) => {
-      this.folderServ.setEmails(emails, 'inbox');
-      this.originalEmails = this.folderServ.getEmails(
-        this.folderName || 'inbox'
-      );
-      this.emails = this.originalEmails;
-    });
     this.route.params.subscribe((params) => {
       this.folderName = params['folderName'];
       if (this.folderName) {
         this.originalEmails = this.folderServ.getEmails(this.folderName);
+        this.route.queryParams.subscribe((params) => {
+          const searchTerm = params['q'];
+          if (searchTerm) {
+            this.searchTerm = searchTerm;
+            this.searchService.searchMail(searchTerm);
+            this.searchService.searchResults$.subscribe((searchResults) => {
+              this.searchResults = searchResults;
+              this.handleEmails();
+            });
+          } else {
+            this.emails = this.originalEmails;
+          }
+        });
       } else {
         console.error('folderName non definito.');
       }
     });
-
-    this.route.queryParams.subscribe((params) => {
-      const searchTerm = params['q'];
-      if (searchTerm) {
-        this.searchTerm = searchTerm;
-        this.searchService.searchMail(searchTerm);
-      }
-    });
-
-    this.searchService.searchResults$.subscribe((searchResults) => {
-      this.searchResults = searchResults;
-    });
-
+  }
+  
+  handleEmails() {
     if (!this.searchTerm) {
       this.emails = this.originalEmails;
     } else {
@@ -75,6 +71,7 @@ export class FolderViewerComponent implements OnInit {
     }
     console.log('folder viewer', this.folderName, this.emails);
   }
+  
 
   selectedMail(id: string) {
     if (this.folderName && id) {

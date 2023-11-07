@@ -10,15 +10,15 @@ import { EmailResolver } from './email-resolver.resolver';
 import { ContactsComponent } from './components/contacts/contacts.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'folder/inbox', pathMatch: 'full' },
+  { path: '', redirectTo: 'folder/all', pathMatch: 'full' },
   { path: 'folder/:folderName', component: FolderViewerComponent, resolve: { emails: ResolverResolver }},
   { path: 'folder/inbox', component: FolderViewerComponent, resolve: { emails: ResolverResolver }},
   { path: 'editor', component: ComposeComponent },
   { path: 'contacts', component: ContactsComponent },
   { path: 'folder/:folderName/mail/:id', component: MessageViewerComponent },
   { path: 'results', component: FolderViewerComponent, resolve: { searchResults: SearchResolver } },
-  { path: 'editor', component: ComposeComponent, resolve: { emailData: EmailResolver } },
-  { path: 'editor', component: ComposeComponent, resolve: { resolve: ResolverResolver } },
+  { path: 'editor', component: ComposeComponent, resolve: { emailData: EmailResolver, resolve: ResolverResolver } },
+
   { path: '**', redirectTo: 'folder/inbox', pathMatch: 'full' },
 ];
 

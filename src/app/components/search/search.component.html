@@ -1,9 +1,9 @@
-<div class="search-bar">
-  <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca..." (input)="onSearchInput($event)" />
+<div class="search-bar" #elementoRicerca>
+  <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca..."/>
   <div *ngIf="searchTerm" class="recent-searches">
     <ul>
-      <li *ngFor="let search of recentSearchTerms">
-        <span (click)="performSearch(search)" >{{ search }}</span>
+      <li *ngFor="let search of filterSearchTerms(searchTerm)">
+        <span (click)="insertInInput(search)">{{ search }}</span>
       </li>
     </ul>
   </div>

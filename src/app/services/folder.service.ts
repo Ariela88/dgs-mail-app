@@ -1,6 +1,8 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Mail } from '../model/mail';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +17,6 @@ export class FolderService {
     sent: [],
     trash: [],
     results: [],
-    
-    
   };
 
   private selectedFolderSubject = new BehaviorSubject<string>('all');
@@ -30,6 +30,7 @@ export class FolderService {
   folderName$ = this.folderNameSubject.asObservable();
   folderChanged = new EventEmitter<string>();
 
+  constructor(private dialog: MatDialog) {}
   changeFolder(folderName: string) {
     this.folderChanged.emit(folderName);
   }
@@ -44,7 +45,6 @@ export class FolderService {
     console.log('Messaggi nella cartella', folderName, ':', emails);
     return of(emails);
   }
-  
 
   getEmails(folderName: string): Mail[] {
     return this.emails[folderName] || [];
@@ -61,34 +61,42 @@ export class FolderService {
     this.emails[folderName].push(email);
     this.emails['all'].push(email);
   }
+
   removeEmailFromFolder(emailId: string, folderName: string): void {
-    const index = this.emails[folderName].findIndex(existingEmail => existingEmail.id === emailId);
-    const isConfirmed = window.confirm('Sei sicuro di voler eliminare la mail?');  
-    if (isConfirmed) {
-      if (index !== -1) {
-        const removedEmail = this.emails[folderName][index];
-        this.emails[folderName].splice(index, 1);
-  
-        removedEmail.folderName = 'trash';
-        if (!this.emails['trash']) {
-          this.emails['trash'] = [];
+    const index = this.emails[folderName].findIndex(
+      (existingEmail) => existingEmail.id === emailId
+    );
+    if (index !== -1) {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '250px',
+        data: { message: 'Sei sicuro di voler eliminare la mail?' },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          const removedEmail = this.emails[folderName][index];
+          this.emails[folderName].splice(index, 1);
+          removedEmail.folderName = 'trash';
+          if (!this.emails['trash']) {
+            this.emails['trash'] = [];
+          }
+          this.emails['trash'].push(removedEmail);
+          this.emails['all'].push(removedEmail);
+          this.emailRemovedSubject.next();
         }
-        this.emails['trash'].push(removedEmail);
-        this.emails['all'].push(removedEmail);
-        
-        this.emailRemovedSubject.next();
-      }
+      });
     }
   }
-  
-copyEmailToFolder(email: Mail, targetFolder: string) {
+
+  copyEmailToFolder(email: Mail, targetFolder: string) {
     const mailToCopy = { ...email };
     if (!(targetFolder in this.emails)) {
       this.emails[targetFolder] = [];
     }
     this.emails[targetFolder].push(mailToCopy);
     this.emails['all'].push(mailToCopy);
-    mailToCopy.folderName = targetFolder
+    mailToCopy.folderName = targetFolder;
+    console.log(`Aggiungendo email alla cartella ${targetFolder}:`, email);
   }
 
   getMailById(id: string): Observable<Mail | undefined> {
@@ -97,6 +105,4 @@ copyEmailToFolder(email: Mail, targetFolder: string) {
     console.log('Mail trovata:', mail);
     return of(mail);
   }
-  
-  
 }

@@ -1,5 +1,5 @@
 span:hover {
-  background-color: rgb(255, 237, 137);
+  
   cursor: pointer;
 }
 
@@ -64,6 +64,10 @@ mat-icon:hover{
   gap: 4px;
   align-items: center;
 }
+.mail-row-element:hover{
+  background-color: rgb(157, 163, 247)
+
+}
 
 .folder-name{
   text-transform: capitalize;
@@ -93,13 +97,13 @@ mat-icon:hover{
 
 }
 
-.mail-row-element:nth-child(even) {
-  background-color: #b5b5b5;
-}
+// .mail-row-element:nth-child(even) {
+//   background-color: #b5b5b5;
+// }
 
-.mail-row-element:nth-child(odd) {
-  background-color: #ffffff;
-}
+// .mail-row-element:nth-child(odd) {
+//   background-color: #ffffff;
+// }
 
 
 
