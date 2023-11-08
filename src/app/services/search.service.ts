@@ -26,9 +26,9 @@ export class SearchService {
       this.searchResultsSubject.next(emails);
     });
 
-    this.contactServ.contacts$.subscribe((contacts) => {
-      this.contacts = contacts;
-    });
+    // this.contactServ.contacts$.subscribe((contacts) => {
+    //   this.contacts = contacts;
+   // });
   }
 
   searchMail(searchTerm: string): void {

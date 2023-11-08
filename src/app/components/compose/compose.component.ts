@@ -29,6 +29,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Contact } from 'src/app/model/contact';
 
 @Component({
   selector: 'app-compose',
@@ -46,8 +47,9 @@ export class ComposeComponent implements OnInit {
   @Input() isComposeMode: boolean = true;
   @Input() selectedMail?: Mail | null = null;
 
-  contacts: string[] = [];
-  selectedRecipients: string[] = [];
+  contacts: Contact[] = [];
+  selectedRecipients: Contact[] = [];
+
   selectedContact: any;
   contactCtrl = new FormControl('');
   filteredOptions: Observable<any[]>;
@@ -63,8 +65,8 @@ export class ComposeComponent implements OnInit {
     private folderService: FolderService,
     private router: Router,
     private contactsService: ContactsService,
-    private dialog:MatDialog,
-    private snackBar:MatSnackBar
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {
     this.newMailForm = this.fb.group({
       to: new FormControl('', [Validators.required]),
@@ -84,12 +86,20 @@ export class ComposeComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
-      this.contacts = this.contactsService.getContact();
-      const emailDataString = this.route.snapshot.queryParams['emailData'];
-      const isForwarding = this.route.snapshot.queryParams['isForwarding'];
-      const isReply = this.route.snapshot.queryParams['isReply'];
-      const isContact = this.route.snapshot.queryParams['isContact'];
+      this.contactsService.contacts$.subscribe((contacts) => {
+        this.contacts = contacts;
+      });
+      const emailDataString = params['emailData'];
+      const isForwarding = params['isForwarding'];
+      const isReply = params['isReply'];
+      const isContact = params['isContact'];
       const recipient = params['to'];
+      const selectedContact: Contact = {
+        email: recipient,
+        isFavourite: false,
+        isContact: true,
+        isSelected: false
+      };
 
       if (isReply && emailDataString) {
         const emailData = JSON.parse(emailDataString);
@@ -97,7 +107,7 @@ export class ComposeComponent implements OnInit {
           to: emailData.from,
           subject: 'Re: ' + emailData.subject,
         });
-        this.selectedRecipients.push(emailData.from)
+        this.selectedRecipients.push(emailData.from);
         console.log(emailDataString);
         console.log(emailData.from, isReply);
       } else if (isForwarding && emailDataString) {
@@ -108,13 +118,13 @@ export class ComposeComponent implements OnInit {
         });
       } else if (isContact && recipient) {
         this.newMailForm.patchValue({
-          to: recipient,
+          to: selectedContact,
         });
-        this.selectedRecipients.push(recipient)
-        console.log('Contact to:');
+
+        this.selectedRecipients.push(selectedContact);
+        console.log(selectedContact);
         console.log('Recipient:', recipient);
       }
-     
     });
   }
 
@@ -149,7 +159,7 @@ export class ComposeComponent implements OnInit {
         selected: false,
         folderName: 'sent',
         attachment: this.selectedMail?.attachment,
-        read:false
+        read: false,
       };
 
       this.folderService.copyEmailToFolder(sentMail, 'sent');
@@ -170,35 +180,41 @@ export class ComposeComponent implements OnInit {
         message: 'Sei sicuro di voler uscire dall editor?',
       },
     });
-  
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.modalService.closeModal(); 
+        this.modalService.closeModal();
         this.router.navigateByUrl('home');
       }
     });
   }
-  
-  
 
-  private _filter(value: string): string[] {
+  private _filter(value: string): Contact[] {
     const filterValue = value.toLowerCase().trim();
-    return this.contacts.filter((contact) =>
-      contact.toLowerCase().includes(filterValue)
+    return this.selectedRecipients.filter((contact) =>
+      contact.email.toLowerCase().includes(filterValue)
     );
   }
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     if (value) {
-      this.contacts.push(value);
+      const newContact: Contact = {
+        email: value.toLowerCase(),
+        isFavourite: false,
+        isContact: true,
+        isSelected: false
+      };
+      this.contacts.push(newContact);
+      this.selectedRecipients.push(newContact);
+      this.newMailForm.get('to')?.patchValue(value.toLowerCase());
     }
     event.chipInput!.clear();
     this.contactCtrl.setValue(null);
   }
 
-  remove(contact: string): void {
-    const index = this.selectedRecipients.indexOf(contact);
+  remove(contact: Contact): void {
+    const index = this.contacts.indexOf(contact);
     if (index >= 0) {
       this.selectedRecipients.splice(index, 1);
       this.announcer.announce(`Removed ${contact}`);
@@ -206,22 +222,29 @@ export class ComposeComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    const selectedEmail = event.option.viewValue.trim();
-    const isDuplicate = this.selectedRecipients.some(
-      (recipient) => recipient.trim() === selectedEmail
+    const selectedEmail = event.option.viewValue.trim().toLowerCase();
+    this.newMailForm.get('to')?.patchValue(selectedEmail);
+    const existingContact = this.contacts.find(
+      (contact) => contact.email.toLowerCase() === selectedEmail
     );
 
-    if (!isDuplicate) {
-      this.selectedRecipients.push(selectedEmail);
-      this.newMailForm.get('to')?.setValue(selectedEmail);
+    if (existingContact) {
+      const isDuplicate = this.selectedRecipients.some(
+        (recipient) => recipient.email.toLowerCase() === selectedEmail
+      );
 
-      if (!this.contacts.includes(selectedEmail)) {
-        this.contacts.push(selectedEmail);
-        this.contactsService.setContacts(this.contacts);
+      if (!isDuplicate) {
+        const newContact: Contact = {
+          email: existingContact.email,
+          isFavourite: existingContact.isFavourite,
+          isContact: existingContact.isContact,
+          isSelected: false
+        };
+
+        this.selectedRecipients.push(newContact);
+        this.contactsInput!.nativeElement.value = '';
+        this.contactCtrl.setValue(null);
       }
     }
-
-    this.contactsInput!.nativeElement.value = '';
-    this.contactCtrl.setValue(null);
   }
 }

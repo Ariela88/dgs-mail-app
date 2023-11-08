@@ -1,49 +1,60 @@
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Contact } from '../model/contact';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContactsService {
-  contacts = [
-    'carlobonamico@dgsspa.it',
-    'Emmanuelbreakable@frontiernet.net',
-    'Justinreal@sympatico.ca',
-    'dangerousJon87@yahoo.it',
-    'blue-eyedMark@hetnet.nl',
-    'betterCharlotte4@live.co.uk',
-    'kindAnn58@sfr.fr',
-    'thoughtlessThomas55@yahoo.de',
-    'Tammyarrogant@att.net',
-    'soreSarah@yahoo.com',
-    'nuttyBethany69@mail.ru',
-  ];
+  contacts:Contact[] = []
+  private contactsSubject: BehaviorSubject<Contact[]> = new BehaviorSubject<Contact[]>([]);
+  contacts$: Observable<Contact[]> = this.contactsSubject.asObservable();
+
+  constructor(private http:HttpClient){
+    this.loadContacts();;
+  }
+
+  private loadContacts() {
+    this.http.get<Contact[]>('/assets/contacts.json').subscribe(
+      (contacts: Contact[]) => {
+        this.contactsSubject.next(contacts);
+      },
+      (error) => {
+        console.error('Errore durante il caricamento dei contatti:', error);
+      }
+    );
+  }
+  
   private selectedRecipientSubject: BehaviorSubject<string> =
     new BehaviorSubject<string>('');
   public selectedRecipient$: Observable<string> =
     this.selectedRecipientSubject.asObservable();
 
-  private contactsSubject = new BehaviorSubject<any[]>([]);
-  contacts$ = this.contactsSubject.asObservable();
 
-  setContacts(contacts: string[]) {
-    this.contactsSubject.next(contacts);
-  }
 
-  getContact(): string[] {
-    return this.contacts;
-  }
+    setContacts(contacts: Contact[]): void {
+      this.contactsSubject.next(contacts);
+    }
+  
+    getContacts(): Contact[] {
+      return this.contactsSubject.getValue();
+    }
 
-  constructor() {
-    this.setContacts(this.contacts);
-  }
+  
 
-  addContact(contact: string): void {
+  addContact(contact: Contact): void {
     this.contacts.push(contact);
     this.contactsSubject.next(this.contacts);
   }
+  
 
   getSelectedRecipient(): string | null {
     return this.selectedRecipientSubject.value;
   }
+
+  addToFavorites(contact: Contact): void {
+    
+  }
+  
 }

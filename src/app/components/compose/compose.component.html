@@ -1,18 +1,19 @@
 <div class="modal">
   <h1>{{ isComposeMode ? 'Nuova Mail' : 'Rispondi alla Mail' }}</h1>
   <form [formGroup]="newMailForm" (ngSubmit)="onSubmit()">
-      <!-- <pre> {{ newMailForm.value | json}}</pre>
-        creare un componente da inserire nelle mail e nei contatti che quando il valore prefriti cambia, aggiunge una stellina piena, e viene inizializzato con una stellina vuota, e quando i contatti p'refeiriti, o le mail preferite sono in elenco vengono in ordine prima degli altri
-      <pre> {{ selectedRecipients | json}}</pre> -->
+     <!-- <pre> {{ newMailForm.value | json}}</pre> -->
+       <!--   creare un componente da inserire nelle mail e nei contatti che quando il valore prefriti cambia, aggiunge una stellina piena, e viene inizializzato con una stellina vuota, e quando i contatti p'refeiriti, o le mail preferite sono in elenco vengono in ordine prima degli altri -->
+      <!-- <pre> {{ selectedRecipients | json}}</pre> -->
+      
     <mat-form-field appearance="fill">
       <mat-label>Destinatario</mat-label>
       <mat-chip-grid #chipGrid aria-label="Selezione dei destinatari">
-        <mat-chip-row *ngFor="let recipient of selectedRecipients" [removable]="true" (removed)="remove(recipient)">
-          {{ recipient }} <button matChipRemove aria-label="'remove ' + recipient">
+        <mat-chip-row *ngFor="let contact of selectedRecipients" [removable]="true" (removed)="remove(contact)">
+          {{ contact.email }} <button matChipRemove aria-label="'remove ' + contact.email">
             <mat-icon>cancel</mat-icon>
           </button>
-
         </mat-chip-row>
+        
       </mat-chip-grid>
       <input formControlName="to" matInput 
        placeholder="Inserisci un destinatario" #contactsInput
@@ -22,7 +23,7 @@
 
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
         <mat-option *ngFor="let contact of filteredOptions | async" [value]="contact">
-          {{ contact }}
+          {{ contact.email }}
         </mat-option>
       </mat-autocomplete>
 

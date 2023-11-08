@@ -5,7 +5,9 @@
       (forwardMail)="forwardMail()"></app-message-actions>
   </div>
   <div class="email-content">
+    <i class="material-icons" *ngIf="selectedMessage.isFavourite">favorite</i>
     <span>{{selectedMessage.folderName}}</span>
+   
     <p class="smaller-text">From: <span class="email-from" (click)="addEmail()"> {{ selectedMessage.from }}</span></p>
     <p class="smaller-text">To: {{ selectedMessage.to }}</p>
     <h2>{{ selectedMessage.subject }}</h2>

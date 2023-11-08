@@ -13,7 +13,7 @@ export class DataService {
 
   getMailMessage(): Observable<Mail[]> {
     return this.http.get<Mail[]>('/assets/mail.json').pipe(
-      tap((emails: Mail[]) => {
+      tap((emails: Mail[])=> {
         this.folderServ.setEmails(emails, 'inbox');
       })
     );

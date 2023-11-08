@@ -14,10 +14,18 @@
   </div>
   
   <div class="contacts-wrapper">
-  <div *ngFor="let contact of contacts" class="mail-row-element">
-    <span class="from-email"
-      (click)="selectContact(contact)"> {{ contact }} </span><span class="spacer"></span><mat-icon (click)="deleteContact(contact)" class="delete-btn"> delete </mat-icon>
-  </div>
+    <div *ngFor="let contact of contacts" class="mail-row-element">
+      <mat-icon (click)="selectContact(contact)" >mail</mat-icon>
+      <mat-icon *ngIf="contact.isFavourite" (click)="toggleFavorite(contact)">favorite</mat-icon>
+        <mat-icon *ngIf="!contact.isFavourite" (click)="toggleFavorite(contact)">favorite_border</mat-icon>
+      <span class="from-email">
+        {{ contact.email }}
+        
+      </span>
+      <span class="spacer"></span>
+      <mat-icon (click)="deleteContact(contact)" class="delete-btn"> delete </mat-icon>
+    </div>
+    
 
 
 </div>

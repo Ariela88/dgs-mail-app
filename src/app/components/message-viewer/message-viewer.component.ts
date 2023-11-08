@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageActionsComponent } from '../message-actions/message-actions.component';
 import { ContactsService } from 'src/app/services/contacts.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Contact } from 'src/app/model/contact';
 
 @Component({
   selector: 'app-message-viewer',
@@ -133,20 +134,31 @@ export class MessageViewerComponent implements OnInit {
   addEmail() {
     if (this.selectedMessage) {
       const senderEmail = this.selectedMessage.from;
-      const contacts = this.contactServ.contacts;
-
-      if (!contacts.includes(senderEmail)) {
-        this.contactServ.addContact(senderEmail);
-        console.log('Email aggiunta alla rubrica:', senderEmail);
-        this.snackBar.open('Contatto aggiunto alla rubrica', 'Chiudi', {
-          duration: 2000,
-        });
-      } else {
-        console.log('Email già presente nella rubrica:', senderEmail);
-        this.snackBar.open('Email già presente nella rubrica', 'Chiudi', {
-          duration: 2000,
-        });
-      }
+      const newContact: Contact = {
+        email: senderEmail,
+        isFavourite: false, 
+        isContact:true,
+        isSelected: false
+      };
+  
+      const contact = this.createContactFromSelectedMessage();
+      this.contactServ.addContact(contact);
+      console.log('Email aggiunta alla rubrica:', senderEmail);
+      this.snackBar.open('Contatto aggiunto alla rubrica', 'Chiudi', {
+        duration: 2000,
+      });
     }
+  }
+
+  private createContactFromSelectedMessage(): Contact {
+    if (this.selectedMessage) {
+      return {
+        email: this.selectedMessage.from,
+        isFavourite: false,
+        isContact:true,
+        isSelected: false
+      };
+    }
+    throw new Error('Messaggio non selezionato.');
   }
 }
