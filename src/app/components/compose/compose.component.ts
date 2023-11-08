@@ -110,9 +110,11 @@ export class ComposeComponent implements OnInit {
         this.newMailForm.patchValue({
           to: recipient,
         });
+        this.selectedRecipients.push(recipient)
         console.log('Contact to:');
         console.log('Recipient:', recipient);
       }
+     
     });
   }
 
@@ -171,10 +173,12 @@ export class ComposeComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-         this.modalService.closeModal();
+        this.modalService.closeModal(); 
+        this.router.navigateByUrl('home');
       }
     });
   }
+  
   
 
   private _filter(value: string): string[] {
