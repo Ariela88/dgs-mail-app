@@ -10,6 +10,10 @@ export class ContactsService {
   contacts:Contact[] = []
   private contactsSubject: BehaviorSubject<Contact[]> = new BehaviorSubject<Contact[]>([]);
   contacts$: Observable<Contact[]> = this.contactsSubject.asObservable();
+  private selectedRecipientSubject: BehaviorSubject<string> =
+  new BehaviorSubject<string>('');
+public selectedRecipient$: Observable<string> =
+  this.selectedRecipientSubject.asObservable();
 
   constructor(private http:HttpClient){
     this.loadContacts();;
@@ -26,15 +30,15 @@ export class ContactsService {
     );
   }
   
-  private selectedRecipientSubject: BehaviorSubject<string> =
-    new BehaviorSubject<string>('');
-  public selectedRecipient$: Observable<string> =
-    this.selectedRecipientSubject.asObservable();
-
-
+ 
+  
+  
+   
 
     setContacts(contacts: Contact[]): void {
-      this.contactsSubject.next(contacts);
+      const sortedContacts = contacts.slice().sort((a, b) => (b.isFavourite ? 1 : -1));
+      this.contactsSubject.next(sortedContacts);
+      this.contactsSubject.next(contacts)
     }
   
     getContacts(): Contact[] {
@@ -44,8 +48,10 @@ export class ContactsService {
   
 
   addContact(contact: Contact): void {
-    this.contacts.push(contact);
-    this.contactsSubject.next(this.contacts);
+    this.contacts.push(contact)
+    this.contactsSubject.next(this.contacts)
+    
+    
   }
   
 
@@ -53,8 +59,5 @@ export class ContactsService {
     return this.selectedRecipientSubject.value;
   }
 
-  addToFavorites(contact: Contact): void {
-    
-  }
   
 }

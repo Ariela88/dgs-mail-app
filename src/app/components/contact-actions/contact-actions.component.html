@@ -1,0 +1,5 @@
+<div *ngIf="contact">
+    <mat-icon *ngIf="contact.isFavourite" class="favorite-icon" (click)="toggleFavorite()">&#9829;</mat-icon>
+    <mat-icon *ngIf="!contact.isFavourite" class="favorite-icon" (click)="toggleFavorite()">&#9825;</mat-icon>
+  </div>
+  

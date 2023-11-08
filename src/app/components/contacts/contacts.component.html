@@ -1,31 +1,26 @@
-<!-- inserire un componente rubrica, con relativo service, che, implementato nell'editor, inserendo un nuovo indirizzo mail, lo aggiunga alla rubrica in caso non fosse già presente, e diventasse una chips. implementare l'autocompletamento con il tasto invio che inserisce il suggerimento, e trasformare la search in un componente, creando anche per questo un autompletamento ma senza material. Inserire la rubrica come una scheda dove cambiare da rubrica ad eleneco mail -->
-
 <div class="header-folder-viewer">
-
   <h2 class="folder-name"> <span class="folder-name-bold"> Rubrica </span> </h2>
 </div>
-
-
-  <h3>Numero contatti in rubrica: {{contacts.length}}</h3>
-
+<h3>Numero contatti in rubrica: {{contacts.length}}</h3>
+<div class="input-container">
+  <input [(ngModel)]="newContactEmail" placeholder="Inserisci un nuovo contatto email" />
+  <button mat-raised-button color="primary" (click)="addContact()">Aggiungi Contatto</button>
   <div class="input-container">
-    <input [(ngModel)]="newContactEmail" placeholder="Inserisci un nuovo contatto email" />
-    <button mat-raised-button color="primary" (click)="addContact()">Aggiungi Contatto</button>
+   
+
+<button mat-raised-button color="primary" (click)="addFavorites()">{{ getButtonText() }}</button>
+  </div>
+</div>
+<div class="contacts-wrapper">
+  
+  <div *ngFor="let contact of contacts" class="mail-row-element">
+    <mat-icon (click)="selectContact(contact)">mail</mat-icon>
+    <app-contact-actions [contact]="contact" (toggleFavorite)="toggleFavorite(contact)"></app-contact-actions>
+    <mat-checkbox [(ngModel)]="contact.isSelected" (change)="handleCheckboxChange(contact)">{{ contact.email }}</mat-checkbox>
+    
+    <span class="spacer"></span>
+    <mat-icon (click)="deleteContact(contact)" class="delete-btn"> delete </mat-icon>
   </div>
   
-  <div class="contacts-wrapper">
-    <div *ngFor="let contact of contacts" class="mail-row-element">
-      <mat-icon (click)="selectContact(contact)" >mail</mat-icon>
-      <mat-icon *ngIf="contact.isFavourite" (click)="toggleFavorite(contact)">favorite</mat-icon>
-        <mat-icon *ngIf="!contact.isFavourite" (click)="toggleFavorite(contact)">favorite_border</mat-icon>
-      <span class="from-email">
-        {{ contact.email }}
-        
-      </span>
-      <span class="spacer"></span>
-      <mat-icon (click)="deleteContact(contact)" class="delete-btn"> delete </mat-icon>
-    </div>
-    
-
-
 </div>
+

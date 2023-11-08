@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { Contact } from 'src/app/model/contact';
 import { MessageActionsComponent } from "../message-actions/message-actions.component";
+import { ContactActionsComponent } from "../contact-actions/contact-actions.component";
 
 
 @Component({
@@ -15,12 +16,15 @@ import { MessageActionsComponent } from "../message-actions/message-actions.comp
     standalone: true,
     templateUrl: './contacts.component.html',
     styleUrls: ['./contacts.component.scss'],
-    imports: [CommonModule, MaterialModule, FormsModule, MessageActionsComponent]
+    imports: [CommonModule, MaterialModule, FormsModule, MessageActionsComponent, ContactActionsComponent]
 })
 export class ContactsComponent {
   contacts: Contact[] = [];
 contact?:Contact;
   newContactEmail: string = '';
+  selectedContacts: Contact[] = [];
+  selectedContact?: Contact;
+  selectAll: boolean = false;
  
   isComposeMode: boolean = false;
   writeNewMail: boolean = false;
@@ -107,9 +111,57 @@ contact?:Contact;
   }
   
   toggleFavorite(contact: Contact) {
-    contact.isFavourite = !contact.isFavourite;
-    this.contactsService.setContacts(this.contacts); 
+    const updatedContacts = this.contacts.map(c => {
+      if (c.email === contact.email) {
+        return { ...c, isFavourite: !c.isFavourite };
+      }
+      return c;
+    });
+  
+    this.contactsService.setContacts(updatedContacts);
   }
+  
+  
+  
+  
+  
+
+  toggleSelectAll() {
+    this.contacts.forEach(contact => contact.isFavourite = this.selectAll);
+    this.contactsService.setContacts(this.contacts);
+  }
+  
+ 
+
+  handleCheckboxChange(contact: Contact) {
+    
+    if (!contact.isSelected) {
+      contact.isSelected = true;
+    }
+  }
+  
+  addFavorites() {
+    const selectedContacts = this.contacts.filter(contact => contact.isSelected);
+    
+    selectedContacts.forEach(contact => {
+      contact.isFavourite = !contact.isFavourite; 
+      contact.isSelected = false; 
+    });
+    
+    this.contactsService.setContacts(this.contacts);
+  }
+  
+  
+  getButtonText(): string {
+    const selectedContacts = this.contacts.filter(contact => contact.isSelected && contact.isFavourite);
+    if (selectedContacts.length > 0) {
+      return 'Rimuovi dai preferiti';
+    } else {
+      return 'Aggiungi ai preferiti';
+    }
+  }
+  
+  
   
   
   

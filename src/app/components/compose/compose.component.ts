@@ -46,7 +46,7 @@ export class ComposeComponent implements OnInit {
 
   @Input() isComposeMode: boolean = true;
   @Input() selectedMail?: Mail | null = null;
-
+  sortedOptions$: Observable<Contact[]>;
   contacts: Contact[] = [];
   selectedRecipients: Contact[] = [];
 
@@ -81,6 +81,14 @@ export class ComposeComponent implements OnInit {
       map((contact: string | null) =>
         contact ? this._filter(contact) : this.contacts.slice()
       )
+    );
+
+    this.sortedOptions$ = this.contactCtrl.valueChanges.pipe(
+      startWith(null),
+      map((contact: string | null) =>
+        contact ? this._filter(contact) : this.contacts.slice()
+      ),
+      map(contacts => this.sortContacts(contacts))
     );
   }
 
@@ -190,10 +198,10 @@ export class ComposeComponent implements OnInit {
   }
 
   private _filter(value: string): Contact[] {
-    const filterValue = value.toLowerCase().trim();
-    return this.selectedRecipients.filter((contact) =>
-      contact.email.toLowerCase().includes(filterValue)
-    );
+    const filterValue = value.toLowerCase();
+    const favoriteContacts = this.contacts.filter(contact => contact.isFavourite && contact.email.toLowerCase().includes(filterValue));
+    const otherContacts = this.contacts.filter(contact => !contact.isFavourite && contact.email.toLowerCase().includes(filterValue));
+    return [...favoriteContacts, ...otherContacts];
   }
 
   add(event: MatChipInputEvent): void {
@@ -247,4 +255,10 @@ export class ComposeComponent implements OnInit {
       }
     }
   }
+
+  sortContacts(contacts: Contact[]): Contact[] {
+    return contacts.sort((a, b) => (b.isFavourite ? 1 : -1));
+  }
+
+  
 }
