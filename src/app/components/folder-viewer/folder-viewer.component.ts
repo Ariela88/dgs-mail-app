@@ -9,6 +9,7 @@ import { DataService } from 'src/app/services/data.service';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { ContactsComponent } from '../contacts/contacts.component';
 import { ComposeComponent } from "../compose/compose.component";
+import { MessageActionsComponent } from "../message-actions/message-actions.component";
 
 @Component({
     selector: 'app-folder-viewer',
@@ -20,7 +21,8 @@ import { ComposeComponent } from "../compose/compose.component";
         FormsModule,
         MaterialModule,
         ContactsComponent,
-        ComposeComponent
+        ComposeComponent,
+        MessageActionsComponent
     ]
 })
 export class FolderViewerComponent implements OnInit {
@@ -102,5 +104,10 @@ export class FolderViewerComponent implements OnInit {
   deleteEmail(email: Mail) {
     console.log('delete');
     this.folderServ.removeEmailFromFolder(email.id, 'inbox');
+  }
+
+  handleClick(folderName:string): void {
+  console.log('aggiorno lista',folderName)
+      this.folderServ.updateEmailList(folderName);
   }
 }

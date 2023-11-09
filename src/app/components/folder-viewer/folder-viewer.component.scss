@@ -45,6 +45,7 @@ li {
   display: flex;
   justify-content: center;
   align-items: center;
+  align-self: first baseline;
   
   cursor: pointer;
 }

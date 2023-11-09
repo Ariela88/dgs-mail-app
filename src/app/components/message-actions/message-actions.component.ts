@@ -27,6 +27,9 @@ export class MessageActionsComponent {
   @Output() addToFavoriteEvent: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() markAsImportantEvent: EventEmitter<Mail> = new EventEmitter<Mail>();
   @Output() deleteEmail: EventEmitter<Mail> = new EventEmitter<Mail>();
+  @Output() selectedEmails: EventEmitter<any> = new EventEmitter<any>();
+
+
   favoriteButtonLabel: string = 'Aggiungi ai preferiti';
   importantButtonLabel: string = 'Importante';
   messaggio: any;
@@ -70,4 +73,12 @@ export class MessageActionsComponent {
       this.messageSelected.important = false;
     }
   }
+
+  deleteMail() {
+    if (this.messaggio) {
+      this.deleteEmail.emit(this.messaggio);
+    }
+  }
+  
+  
 }

@@ -14,8 +14,7 @@ import { FormsModule } from '@angular/forms';
 export class ContactActionsComponent {
   @Input() contact?: Contact;
   @Output() toggleFavoriteOut: EventEmitter<Contact> = new EventEmitter<Contact>();
-  @Output() selectionChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-  isSelected: boolean = false;
+
 
   toggleFavorite() {
     if (this.contact) {
@@ -23,4 +22,6 @@ export class ContactActionsComponent {
       this.toggleFavoriteOut.emit(this.contact);
     }
   }
+
+ 
 }

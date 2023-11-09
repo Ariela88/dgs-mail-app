@@ -198,22 +198,21 @@ export class ComposeComponent implements OnInit {
         attachment: this.selectedMail?.attachment,
         read: false,
       };
-      this.isSent = true;
-      console.log(selectedEmail, 'selectedmail');
 
-      this.folderService.copyEmailToFolder(sentMail, 'sent');
       if (this.isDraft) {
-        this.isSent = false;
+        sentMail.sent = false;
         this.folderService.copyEmailToFolder(sentMail, 'bozze');
         this.snackBar.open('Email salvata in bozze', 'Chiudi', {
           duration: 2000,
         });
       } else {
         sentMail.folderName = 'sent';
+        this.folderService.copyEmailToFolder(sentMail, 'sent');
         this.snackBar.open('Email inviata con successo', 'Chiudi', {
           duration: 2000,
         });
       }
+
       console.log(sentMail);
       this.router.navigateByUrl('home');
     }

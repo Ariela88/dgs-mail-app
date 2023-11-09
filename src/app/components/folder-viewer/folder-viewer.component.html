@@ -1,12 +1,18 @@
 <div class="container">
   <div class="header-folder-viewer">
-
+   
+<div class="spacer"></div>
     <h2 class="folder-name">Cartella <span class="folder-name-bold"> {{folderName}} </span> </h2>
   </div>
+  <div class="update"><mat-icon (click)="handleClick(folderName!)">update</mat-icon></div>
   <ul class="color-even">
+    
     <ng-container *ngIf="!searchTerm; else searchResultsTemplate">
       <div *ngFor="let email of originalEmails" class="mail-row-element">
-
+        <button *ngIf="folderName === 'inbox'" (click)="deleteEmail(email)" class="delete-btn"><mat-icon
+          class="material-symbols-outlined">
+          delete
+        </mat-icon> </button>
         <div class="email-details">
           <span>
             <div class="read-indicator" [ngClass]="{'unread': !email.read, 'read': email.read}"></div>{{email.read?
@@ -22,10 +28,7 @@
         </div>
         <span class="spacer"></span>
 
-        <button *ngIf="folderName === 'inbox'" (click)="deleteEmail(email)" class="delete-btn"><mat-icon
-            class="material-symbols-outlined">
-            delete
-          </mat-icon> </button>
+       
 
       </div>
     </ng-container>

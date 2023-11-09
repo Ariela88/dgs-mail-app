@@ -31,15 +31,23 @@ export class FolderService {
   folderName$ = this.folderNameSubject.asObservable();
   folderChanged = new EventEmitter<string>();
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog) {
+    for (const folderName in this.emails) {
+      if (folderName !== 'all') {
+        this.emails['all'] = this.emails['all'].concat(this.emails[folderName]);
+      }
+    }
+  }
   changeFolder(folderName: string) {
     this.folderChanged.emit(folderName);
   }
 
   setEmails(emails: Mail[], folderName: string): void {
     this.emails[folderName] = emails;
+   
     this.emailsSubject.next(emails);
   }
+  
 
   getEmailsObservable(folderName: string): Observable<Mail[]> {
     const emails = this.emails[folderName] || [];
@@ -52,8 +60,13 @@ export class FolderService {
   }
 
   selectFolder(folderName: string) {
-    this.selectedFolderSubject.next(folderName);
+    this.currentFolderName = folderName;
+    this.folderNameSubject.next(folderName);
+  
+    const emails = this.emails[folderName] || [];
+    this.emailsSubject.next(emails);
   }
+  
 
   addEmailToFolder(email: Mail, folderName: string) {
     if (!(folderName in this.emails)) {
@@ -90,6 +103,12 @@ export class FolderService {
       });
     }
   }
+
+  updateEmailList(folderName: string): void {
+    const emails = this.emails[folderName] || [];
+    this.emailsSubject.next(emails);
+  }
+  
 
   copyEmailToFolder(email: Mail, targetFolder: string) {
     const mailToCopy = { ...email };

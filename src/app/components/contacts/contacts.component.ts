@@ -89,25 +89,27 @@ contact?:Contact;
   
   
 
-  deleteContact(contact: Contact) {
-    const index = this.contacts.indexOf(contact);
+  deleteSelectedContacts() {
+    const selectedContacts = this.contacts.filter(contact => contact.isSelected);
   
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '250px',
-      data: {
-        title: 'Conferma eliminazione',
-        message: 'Sei sicuro di voler eliminare il contatto?',
-      },
-    });
+    if (selectedContacts.length > 0) {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '250px',
+        data: {
+          title: 'Conferma eliminazione',
+          message: 'Sei sicuro di voler eliminare i contatti selezionati?',
+        },
+      });
   
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        if (index !== -1) {
-          this.contacts.splice(index, 1);
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.contacts = this.contacts.filter(contact => !contact.isSelected);
           this.contactsService.setContacts(this.contacts);
         }
-      }
-    });
+      });
+    } else {
+      alert('Seleziona almeno un contatto da eliminare.');
+    }
   }
   
   toggleFavorite(contact: Contact) {
