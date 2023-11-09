@@ -6,22 +6,26 @@
   <ul class="color-even">
     <ng-container *ngIf="!searchTerm; else searchResultsTemplate">
       <div *ngFor="let email of originalEmails" class="mail-row-element">
-       
-          <div class="email-details"> 
-        <span><div class="read-indicator" [ngClass]="{'unread': !email.read, 'read': email.read}"></div>{{email.read? 'Letta':'Da Leggere'}}  {{email.folderName? email.folderName : 'inBox'}} </span>
-        
-        <span class="from-email" (click)="selectedMail(email.id)"><i class="material-icons" *ngIf="email.isFavourite">favorite</i> {{ folderName === 'sent' ? email.to : email.from
-          }}</span>
-        <br>
-        <span class="second-row" (click)="selectedMail(email.id)">Oggetto: <a>{{ email.subject }}</a></span> <br>
-        
-      </div>
-      <span class="spacer"></span>
-      
+
+        <div class="email-details">
+          <span>
+            <div class="read-indicator" [ngClass]="{'unread': !email.read, 'read': email.read}"></div>{{email.read?
+            'Letta':'Da Leggere'}} {{email.folderName? email.folderName : 'inBox'}}
+          </span>
+
+          <span class="from-email" (click)="selectedMail(email.id)"><i class="material-icons"
+              *ngIf="email.isFavourite">favorite</i> {{ folderName === 'sent' ? email.to : email.from
+            }}</span>
+          <br>
+          <span class="second-row" (click)="selectedMail(email.id)">Oggetto: <a>{{ email.subject }}</a></span> <br>
+
+        </div>
+        <span class="spacer"></span>
+
         <button *ngIf="folderName === 'inbox'" (click)="deleteEmail(email)" class="delete-btn"><mat-icon
-          class="material-symbols-outlined">
-          delete
-        </mat-icon> </button>
+            class="material-symbols-outlined">
+            delete
+          </mat-icon> </button>
 
       </div>
     </ng-container>
@@ -30,15 +34,15 @@
       <div *ngFor="let email of searchResults">
 
         <!-- <pre> {{email | json}}</pre> -->
-        <div class="email-details"> 
+        <div class="email-details">
           <i class="material-icons" *ngIf="email.isFavourite">favorite</i>
-        <span>{{email.folderName? email.folderName : 'inBox'}}</span>
-        <div class="read-indicator" [ngClass]="{'unread': !email.read, 'read': email.read}"></div>
-        <span (click)="selectedMail(email.id)" class="from-email">{{ folderName === 'sent'||'bozze' ? email.to : email.from
-        }}</span>
-        <br>
-        <span class="second-row">Oggetto: <a>{{ email.subject }}</a></span> <br>
-</div>
+          <span>{{email.folderName? email.folderName : 'inBox'}}</span>
+          <div class="read-indicator" [ngClass]="{'unread': !email.read, 'read': email.read}"></div>
+          <span (click)="selectedMail(email.id)" class="from-email">{{ folderName === 'sent' ? email.to : email.from
+            }}</span>
+          <br>
+          <span class="second-row">Oggetto: <a>{{ email.subject }}</a></span> <br>
+        </div>
 
       </div>
     </ng-template>
