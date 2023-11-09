@@ -8,22 +8,22 @@ import { SearchService } from 'src/app/services/search.service';
 import { DataService } from 'src/app/services/data.service';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { ContactsComponent } from '../contacts/contacts.component';
-import { ComposeComponent } from "../compose/compose.component";
-import { MessageActionsComponent } from "../message-actions/message-actions.component";
+import { ComposeComponent } from '../compose/compose.component';
+import { MessageActionsComponent } from '../message-actions/message-actions.component';
 
 @Component({
-    selector: 'app-folder-viewer',
-    standalone: true,
-    templateUrl: './folder-viewer.component.html',
-    styleUrls: ['./folder-viewer.component.scss'],
-    imports: [
-        CommonModule,
-        FormsModule,
-        MaterialModule,
-        ContactsComponent,
-        ComposeComponent,
-        MessageActionsComponent
-    ]
+  selector: 'app-folder-viewer',
+  standalone: true,
+  templateUrl: './folder-viewer.component.html',
+  styleUrls: ['./folder-viewer.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MaterialModule,
+    ContactsComponent,
+    ComposeComponent,
+    MessageActionsComponent,
+  ],
 })
 export class FolderViewerComponent implements OnInit {
   originalEmails: Mail[] = [];
@@ -64,7 +64,7 @@ export class FolderViewerComponent implements OnInit {
       }
     });
   }
-  
+
   handleEmails() {
     if (!this.searchTerm) {
       this.emails = this.originalEmails;
@@ -73,19 +73,16 @@ export class FolderViewerComponent implements OnInit {
     }
     console.log('folder viewer', this.folderName, this.emails);
   }
-  
 
   selectedMail(id: string) {
     if (this.folderName && id) {
       console.log('Selected mail ID:', id);
-      console.log('Current folder:', this.folderName);  
-    
-      const selectedEmail = this.originalEmails.find(email => email.id === id);
-  
+      console.log('Current folder:', this.folderName);
+      const selectedEmail = this.originalEmails.find(
+        (email) => email.id === id
+      );
       if (selectedEmail) {
-      
-        selectedEmail.read = true; 
-       
+        selectedEmail.read = true;
         this.router.navigate(['/folder', this.folderName, 'mail', id]);
       } else {
         console.error('Mail non trovata.');
@@ -94,8 +91,6 @@ export class FolderViewerComponent implements OnInit {
       console.error('folderName o id non definiti.');
     }
   }
-  
-  
 
   exitResultsView() {
     this.router.navigate(['/folder', this.folderName]);
@@ -106,8 +101,8 @@ export class FolderViewerComponent implements OnInit {
     this.folderServ.removeEmailFromFolder(email.id, 'inbox');
   }
 
-  handleClick(folderName:string): void {
-  console.log('aggiorno lista',folderName)
-      this.folderServ.updateEmailList(folderName);
+  handleClick(folderName: string): void {
+    console.log('aggiorno lista', folderName);
+    this.folderServ.updateEmailList(folderName);
   }
 }

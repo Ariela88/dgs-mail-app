@@ -43,11 +43,23 @@
 
   .input-container{
     display: flex;
-    margin-left: 24px;
+    justify-content: flex-end;
+    margin-right: 24px;
     margin-bottom: 32px;
     width: 100%;
     gap: 16px;
    
+  }
+
+  .add-container{
+    width: 100%;
+    margin-left: 24px;
+  }
+
+  .button-container{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
 
   .header-folder-viewer{

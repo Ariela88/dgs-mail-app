@@ -94,14 +94,14 @@ export class MessageViewerComponent implements OnInit {
 
   removeFromFavorites(email: Mail): void {
     console.log('Rimuovi dai preferiti:', email);
-    // this.folderService.removeEmailFromFolder(email, 'favorite');
+    this.folderService.removeEmailFromFolder(email.id, 'favorite');
     email.folderName = 'inbox';
     email.isFavourite = false;
   }
 
   removeAsImportant(email: Mail): void {
     console.log('Rimuovi importante:', email);
-    // this.folderService.removeEmailFromFolder(email.id, 'important');
+    this.folderService.removeEmailFromFolder(email.id, 'important');
     email.folderName = 'inbox';
     email.important = false;
   }
