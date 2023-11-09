@@ -20,6 +20,7 @@ export class MessageViewerComponent implements OnInit {
   @Input() writeNewMail: boolean = false;
   @Input() isComposeMode: boolean = false;
   selectedMessage?: Mail | undefined;
+  isEditing:boolean = false
 
   @Output() addEmailContacts = new EventEmitter<string[]>();
 
@@ -160,5 +161,24 @@ export class MessageViewerComponent implements OnInit {
       };
     }
     throw new Error('Messaggio non selezionato.');
+  }
+  
+
+  toggleEditing() {
+    
+    this.isEditing = true;
+    this.writeNewMail = true;
+    this.isComposeMode = false;
+  
+    if (this.isEditing && this.selectedMessage) {
+      const queryParams = {
+        emailData: JSON.stringify(this.selectedMessage),
+        isEditing: true,
+        
+      };
+  
+      
+      this.router.navigate(['editor'], { queryParams: queryParams });
+    }
   }
 }

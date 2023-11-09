@@ -34,7 +34,7 @@
           <i class="material-icons" *ngIf="email.isFavourite">favorite</i>
         <span>{{email.folderName? email.folderName : 'inBox'}}</span>
         <div class="read-indicator" [ngClass]="{'unread': !email.read, 'read': email.read}"></div>
-        <span (click)="selectedMail(email.id)" class="from-email">{{ folderName === 'sent' ? email.to : email.from
+        <span (click)="selectedMail(email.id)" class="from-email">{{ folderName === 'sent'||'bozze' ? email.to : email.from
         }}</span>
         <br>
         <span class="second-row">Oggetto: <a>{{ email.subject }}</a></span> <br>

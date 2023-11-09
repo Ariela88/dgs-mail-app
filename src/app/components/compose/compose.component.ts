@@ -27,9 +27,9 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contact } from 'src/app/model/contact';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-compose',
@@ -49,12 +49,13 @@ export class ComposeComponent implements OnInit {
   sortedOptions$: Observable<Contact[]>;
   contacts: Contact[] = [];
   selectedRecipients: Contact[] = [];
+  isSent: boolean = false;
 
   selectedContact: any;
   contactCtrl = new FormControl('');
   filteredOptions: Observable<any[]>;
   @ViewChild('contactsInput') contactsInput?: ElementRef<HTMLInputElement>;
-
+  isDraft: boolean = false;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   announcer = inject(LiveAnnouncer);
 
@@ -88,7 +89,7 @@ export class ComposeComponent implements OnInit {
       map((contact: string | null) =>
         contact ? this._filter(contact) : this.contacts.slice()
       ),
-      map(contacts => this.sortContacts(contacts))
+      map((contacts) => this.sortContacts(contacts))
     );
   }
 
@@ -102,20 +103,27 @@ export class ComposeComponent implements OnInit {
       const isReply = params['isReply'];
       const isContact = params['isContact'];
       const recipient = params['to'];
+      const isEditing = params['isEditing'];
       const selectedContact: Contact = {
         email: recipient,
         isFavourite: false,
         isContact: true,
-        isSelected: false
+        isSelected: false,
       };
 
       if (isReply && emailDataString) {
         const emailData = JSON.parse(emailDataString);
+        const recipientContact: Contact = {
+          email: emailData.from,
+          isFavourite: false,
+          isContact: true,
+          isSelected: false,
+        };
         this.newMailForm.patchValue({
-          to: emailData.from,
+          to: recipientContact,
           subject: 'Re: ' + emailData.subject,
         });
-        this.selectedRecipients.push(emailData.from);
+        this.selectedRecipients.push(recipientContact);
         console.log(emailDataString);
         console.log(emailData.from, isReply);
       } else if (isForwarding && emailDataString) {
@@ -128,10 +136,26 @@ export class ComposeComponent implements OnInit {
         this.newMailForm.patchValue({
           to: selectedContact,
         });
-
         this.selectedRecipients.push(selectedContact);
         console.log(selectedContact);
         console.log('Recipient:', recipient);
+      } else if (isEditing && emailDataString) {
+        const emailData = JSON.parse(emailDataString);
+        const recipientContact: Contact = {
+          email: emailData.to,
+          isFavourite: false,
+          isContact: true,
+          isSelected: false,
+        };
+        this.newMailForm.patchValue({
+          to: recipientContact,
+
+          subject: emailData.subject,
+          body: emailData.body,
+        });
+        this.selectedRecipients.push(recipientContact);
+        console.log(emailDataString);
+        console.log(emailData.from, isReply);
       }
     });
   }
@@ -146,7 +170,12 @@ export class ComposeComponent implements OnInit {
     }
     return randomId;
   }
-
+  isDuplicate(recipientEmail: string): boolean {
+    return this.selectedRecipients.some(
+      (recipient) =>
+        recipient.email.toLowerCase() === recipientEmail.toLowerCase()
+    );
+  }
   onSubmit() {
     if (this.newMailForm.valid) {
       const selectedEmail = this.newMailForm.get('to')?.value;
@@ -156,7 +185,7 @@ export class ComposeComponent implements OnInit {
       const sentMail: Mail = {
         id: this.generateRandomId(),
         from: 'manuela@gmail.com',
-        to: selectedEmail,
+        to: selectedEmail.email,
         recipientName: this.selectedContact ? this.selectedContact : '',
         subject: this.newMailForm.get('subject')?.value,
         body: this.newMailForm.get('body')?.value,
@@ -165,16 +194,26 @@ export class ComposeComponent implements OnInit {
         isFavourite: false,
         completed: false,
         selected: false,
-        folderName: 'sent',
+        folderName: this.isDraft ? 'bozze' : 'sent',
         attachment: this.selectedMail?.attachment,
         read: false,
       };
+      this.isSent = true;
+      console.log(selectedEmail, 'selectedmail');
 
       this.folderService.copyEmailToFolder(sentMail, 'sent');
-      sentMail.folderName = 'sent';
-      this.snackBar.open('Email inviata con successo', 'Chiudi', {
-        duration: 2000,
-      });
+      if (this.isDraft) {
+        this.isSent = false;
+        this.folderService.copyEmailToFolder(sentMail, 'bozze');
+        this.snackBar.open('Email salvata in bozze', 'Chiudi', {
+          duration: 2000,
+        });
+      } else {
+        sentMail.folderName = 'sent';
+        this.snackBar.open('Email inviata con successo', 'Chiudi', {
+          duration: 2000,
+        });
+      }
       console.log(sentMail);
       this.router.navigateByUrl('home');
     }
@@ -191,16 +230,24 @@ export class ComposeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.isDraft = true;
+        this.onSubmit();
         this.modalService.closeModal();
-        this.router.navigateByUrl('home');
       }
     });
   }
 
   private _filter(value: string): Contact[] {
     const filterValue = value.toLowerCase();
-    const favoriteContacts = this.contacts.filter(contact => contact.isFavourite && contact.email.toLowerCase().includes(filterValue));
-    const otherContacts = this.contacts.filter(contact => !contact.isFavourite && contact.email.toLowerCase().includes(filterValue));
+    const favoriteContacts = this.contacts.filter(
+      (contact) =>
+        contact.isFavourite && contact.email.toLowerCase().includes(filterValue)
+    );
+    const otherContacts = this.contacts.filter(
+      (contact) =>
+        !contact.isFavourite &&
+        contact.email.toLowerCase().includes(filterValue)
+    );
     return [...favoriteContacts, ...otherContacts];
   }
 
@@ -211,7 +258,7 @@ export class ComposeComponent implements OnInit {
         email: value.toLowerCase(),
         isFavourite: false,
         isContact: true,
-        isSelected: false
+        isSelected: false,
       };
       this.contacts.push(newContact);
       this.selectedRecipients.push(newContact);
@@ -231,22 +278,18 @@ export class ComposeComponent implements OnInit {
 
   selected(event: MatAutocompleteSelectedEvent): void {
     const selectedEmail = event.option.viewValue.trim().toLowerCase();
-    this.newMailForm.get('to')?.patchValue(selectedEmail);
-    const existingContact = this.contacts.find(
-      (contact) => contact.email.toLowerCase() === selectedEmail
-    );
 
-    if (existingContact) {
-      const isDuplicate = this.selectedRecipients.some(
-        (recipient) => recipient.email.toLowerCase() === selectedEmail
+    if (!this.isDuplicate(selectedEmail)) {
+      const existingContact = this.contacts.find(
+        (contact) => contact.email.toLowerCase() === selectedEmail
       );
 
-      if (!isDuplicate) {
+      if (existingContact) {
         const newContact: Contact = {
           email: existingContact.email,
           isFavourite: existingContact.isFavourite,
           isContact: existingContact.isContact,
-          isSelected: false
+          isSelected: false,
         };
 
         this.selectedRecipients.push(newContact);
@@ -259,6 +302,4 @@ export class ComposeComponent implements OnInit {
   sortContacts(contacts: Contact[]): Contact[] {
     return contacts.sort((a, b) => (b.isFavourite ? 1 : -1));
   }
-
-  
 }

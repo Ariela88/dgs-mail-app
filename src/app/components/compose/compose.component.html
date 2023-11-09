@@ -3,7 +3,8 @@
   <form [formGroup]="newMailForm" (ngSubmit)="onSubmit()">
      <!-- <pre> {{ newMailForm.value | json}}</pre> -->
        <!--   creare un componente da inserire nelle mail e nei contatti che quando il valore prefriti cambia, aggiunge una stellina piena, e viene inizializzato con una stellina vuota, e quando i contatti p'refeiriti, o le mail preferite sono in elenco vengono in ordine prima degli altri -->
-      <!-- <pre> {{ selectedRecipients | json}}</pre> -->
+    
+       <!-- <pre> {{ selectedRecipients | json}}</pre> -->
       
     <mat-form-field appearance="fill">
       <mat-label>Destinatario</mat-label>
@@ -13,6 +14,7 @@
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip-row>
+  
         
       </mat-chip-grid>
       <input formControlName="to" matInput 
@@ -53,7 +55,8 @@
       <button mat-raised-button color="primary" type="submit" [disabled]="newMailForm.invalid">
         Invia Mail
       </button>
-      <button mat-button (click)="closeModal()">Chiudi</button>
+     
     </div>
   </form>
+  <button mat-button (click)="closeModal()">Chiudi</button>
 </div>

@@ -3,6 +3,7 @@
     <app-message-actions [messageSelected]="selectedMessage" (addToFavoriteEvent)="toggleFavorite($event)"
       (markAsImportantEvent)="toggleImportant($event)" (replyMail)="replyToEmail()"
       (forwardMail)="forwardMail()"></app-message-actions>
+      <button *ngIf="selectedMessage.folderName === 'bozze'" (click)="toggleEditing()" mat-raised-button color="primary" >Modifica</button>
   </div>
   <div class="email-content">
     <i class="material-icons" *ngIf="selectedMessage.isFavourite">favorite</i>
@@ -12,5 +13,6 @@
     <p class="smaller-text">To: {{ selectedMessage.to }}</p>
     <h2>{{ selectedMessage.subject }}</h2>
     <div class="body-text">{{selectedMessage.body}} </div>
+   
   </div>
 </div>

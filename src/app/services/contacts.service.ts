@@ -22,38 +22,30 @@ public selectedRecipient$: Observable<string> =
   private loadContacts() {
     this.http.get<Contact[]>('/assets/contacts.json').subscribe(
       (contacts: Contact[]) => {
-        this.contactsSubject.next(contacts);
+        this.setContacts(contacts);
       },
       (error) => {
         console.error('Errore durante il caricamento dei contatti:', error);
       }
     );
   }
-  
- 
-  
-  
-   
 
-    setContacts(contacts: Contact[]): void {
-      const sortedContacts = contacts.slice().sort((a, b) => (b.isFavourite ? 1 : -1));
-      this.contactsSubject.next(sortedContacts);
-      this.contactsSubject.next(contacts)
-    }
-  
-    getContacts(): Contact[] {
-      return this.contactsSubject.getValue();
-    }
+  setContacts(contacts: Contact[]): void {
+    const sortedContacts = contacts.slice().sort((a, b) => (b.isFavourite ? 1 : -1));
+    this.contacts = sortedContacts;
+    this.contactsSubject.next(sortedContacts);
+  }
 
-  
+  getContacts(): Contact[] {
+    return this.contactsSubject.getValue();
+  }
 
   addContact(contact: Contact): void {
-    this.contacts.push(contact)
-    this.contactsSubject.next(this.contacts)
-    
-    
+    this.contacts = [...this.contacts, contact];
+    this.setContacts(this.contacts);
   }
-  
+
+
 
   getSelectedRecipient(): string | null {
     return this.selectedRecipientSubject.value;

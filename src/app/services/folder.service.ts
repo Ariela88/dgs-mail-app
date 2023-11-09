@@ -17,6 +17,7 @@ export class FolderService {
     sent: [],
     trash: [],
     results: [],
+    bozze:[]
   };
 
   private selectedFolderSubject = new BehaviorSubject<string>('all');
