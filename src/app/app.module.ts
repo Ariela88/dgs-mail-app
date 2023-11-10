@@ -18,6 +18,9 @@ import { MessageActionsComponent } from './components/message-actions/message-ac
 import { SearchComponent } from './components/search/search.component';
 import { ExampleComponent } from './components/example/example.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+
+
 
 
 
@@ -37,6 +40,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ExampleComponent,
     
     
+    
   ],
   providers: [],
   bootstrap: [AppComponent],
@@ -47,7 +51,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule,
+    
+    
     
   ]
 })

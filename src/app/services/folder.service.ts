@@ -1,8 +1,9 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Mail } from '../model/mail';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+
 
 @Injectable({
   providedIn: 'root',
@@ -77,45 +78,53 @@ emailsSubject = new BehaviorSubject<Mail[]>([]);
   }
 
   removeEmailFromFolder(emailId: string, folderName: string): void {
-    // const index = this.emails[folderName].findIndex(
-    //   (existingEmail) => existingEmail.id === emailId
-    // );
+
+    //Da qui----->
+    const index = this.emails[folderName].findIndex(
+      (existingEmail) => existingEmail.id === emailId
+    );
   
-    // if (index !== -1) {
-    //   const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-    //     width: '250px',
-    //     data: {
-    //       title: 'Conferma eliminazione',
-    //       message: 'Sei sicuro di voler eliminare la mail?',
-    //     },
-    //   });
-  
-     // dialogRef.afterClosed().subscribe((result) => {
-        // if (result) {
-        //   const removedEmail = this.emails['inbox'][index];
+    if (index !== -1) {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '250px',
+        data: {
+          title: 'Conferma eliminazione',
+          message: 'Sei sicuro di voler eliminare la mail?',
+        },
+        
+      });
+      console.log(ConfirmDialogComponent)
+     dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          const removedEmail = this.emails['inbox'][index];
+          console.log(dialogRef)
   
          
-        //   this.emails['inbox'].splice(index, 1);
+          this.emails['inbox'].splice(index, 1);
   
-
+//A qui--------->
           const allIndex = this.emails['inbox'].findIndex(
             (allEmail) => allEmail.id === emailId
           );
           if (allIndex !== -1) {
             this.emails['inbox'].splice(allIndex, 1);
           }
+
+          // E dai qui----->
   
-    //       // Move email to 'trash' folder
-    //       removedEmail.folderName = 'trash';
-    //       if (!this.emails['trash']) {
-    //         this.emails['trash'] = [];
-    //       }
-    //       this.emails['trash'].push(removedEmail);
+   
+          removedEmail.folderName = 'trash';
+          if (!this.emails['trash']) {
+            this.emails['trash'] = [];
+          }
+          this.emails['trash'].push(removedEmail);
   
-    //       this.emailRemovedSubject.next();
-    //     }
-    //   });
-    // }
+          this.emailRemovedSubject.next();
+        }
+      });
+    }
+
+    //a qui--------> i test danno probelmi se scommentati
   }
   
   

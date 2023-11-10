@@ -1,11 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-
 import { Mail } from 'src/app/model/mail';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FolderService } from 'src/app/services/folder.service';
-
 import { SearchService } from 'src/app/services/search.service';
-import { DataService } from 'src/app/services/data.service';
 import { Observable, Subscription } from 'rxjs';
 
 
