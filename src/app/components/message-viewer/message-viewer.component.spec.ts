@@ -19,7 +19,7 @@ describe('MessageViewerComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            snapshot: { paramMap: convertToParamMap({ id: 'mail:id' }) },
+            snapshot: { paramMap: convertToParamMap({ foldername: 'mail' }) },
           },
         },
         {

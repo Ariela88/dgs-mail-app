@@ -32,7 +32,7 @@ public selectedRecipient$: Observable<string> =
 
   setContacts(contacts: Contact[]): void {
     const sortedContacts = contacts.slice().sort((a, b) => (b.isFavourite ? 1 : -1));
-    this.contacts = sortedContacts;
+    // this.contacts = sortedContacts;
     this.contactsSubject.next(sortedContacts);
   }
 

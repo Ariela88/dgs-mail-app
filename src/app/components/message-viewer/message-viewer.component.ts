@@ -33,8 +33,8 @@ export class MessageViewerComponent implements OnInit {
   ngOnInit() {
     const mailId = this.route.snapshot.params['id'];
     const folderName = this.route.snapshot.params['folderName'];
-
-    this.folderService.getEmailsObservable(folderName).subscribe(
+  
+    this.folderService.getEmailsObservable(folderName).forEach(
       (data: Mail[]) => {
         if (data && data.length > 0) {
           this.selectedMessage = data.find((mail) => mail.id === mailId);
@@ -47,11 +47,12 @@ export class MessageViewerComponent implements OnInit {
           console.log('Nessun messaggio trovato nella cartella:', folderName);
         }
       },
-      (error) => {
-        console.error('Errore durante il recupero dei messaggi:', error);
-      }
+      // (error) => {
+      //   console.error('Errore durante il recupero dei messaggi:', error);
+      // }
     );
   }
+  
 
   replyToEmail() {
     this.writeNewMail = true;

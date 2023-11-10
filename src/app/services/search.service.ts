@@ -25,11 +25,11 @@ export class SearchService {
     this.dataService.getMailMessage().subscribe((emails: Mail[]) => {
       this.searchResultsSubject.next(emails);
     });
-
-    // this.contactServ.contacts$.subscribe((contacts) => {
-    //   this.contacts = contacts;
-   // });
+  
+    this.searchResults$ = this.searchResultsSubject.asObservable(); 
   }
+  
+  
 
   searchMail(searchTerm: string): void {
     const searchResults: Mail[] = [];

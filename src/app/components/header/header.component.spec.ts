@@ -4,6 +4,7 @@ import { HeaderComponent } from './header.component';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
+import { AppModule } from 'src/app/app.module';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -12,7 +13,7 @@ describe('HeaderComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
         declarations: [HeaderComponent],
-        imports:[MaterialModule]
+        imports:[MaterialModule,AppModule]
     });
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;

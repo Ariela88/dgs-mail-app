@@ -6,7 +6,7 @@ import { FolderService } from 'src/app/services/folder.service';
 
 import { SearchService } from 'src/app/services/search.service';
 import { DataService } from 'src/app/services/data.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 
 @Component({
@@ -23,15 +23,14 @@ export class FolderViewerComponent implements OnInit,OnDestroy {
   emails: Mail[] = [];
   messageSelected?: Mail;
   private searchResultsSubscription?: Subscription;
-
+  private searchResults$?: Observable<Mail[]>
   constructor(
     public route: ActivatedRoute,
     private folderServ: FolderService,
     private router: Router,
     private searchService: SearchService,
-    private dataServ: DataService
+    
   ) {}
-
   ngOnInit() {
     this.route.params.subscribe((params) => {
       this.folderName = params['folderName'];
@@ -42,11 +41,14 @@ export class FolderViewerComponent implements OnInit,OnDestroy {
           if (searchTerm) {
             this.searchTerm = searchTerm;
             this.searchService.searchMail(searchTerm);
-            this.searchResultsSubscription = this.searchService.searchResults$.subscribe((searchResults) => {
-              this.searchResults = searchResults;
-              this.handleEmails();
-            });
-            
+            if (this.searchService.searchResults$) { 
+              this.searchResultsSubscription = this.searchService.searchResults$.subscribe((searchResults) => {
+                this.searchResults = searchResults;
+                this.handleEmails();
+              });
+            } else {
+              console.error('searchResults$ non definito.');
+            }
           } else {
             this.emails = this.originalEmails;
           }
@@ -55,9 +57,8 @@ export class FolderViewerComponent implements OnInit,OnDestroy {
         console.error('folderName non definito.');
       }
     });
-
-    
   }
+  
 
   ngOnDestroy() {
    
