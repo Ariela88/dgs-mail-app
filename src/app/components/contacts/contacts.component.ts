@@ -1,4 +1,4 @@
-import { Component, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContactsService } from 'src/app/services/contacts.service';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
@@ -9,6 +9,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 import { Contact } from 'src/app/model/contact';
 import { MessageActionsComponent } from "../message-actions/message-actions.component";
 import { ContactActionsComponent } from "../contact-actions/contact-actions.component";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -33,7 +34,8 @@ contact?:Contact;
   constructor(
     private contactsService: ContactsService,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar:MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -72,6 +74,9 @@ contact?:Contact;
   addContact() {
     if (this.newContactEmail && this.isEmailValid(this.newContactEmail)) {
       this.addNewContact();
+      this.snackBar.open('Contatto aggiunto alla rubrica', 'Chiudi', {
+        duration: 2000,
+      });
     } else {
       alert("L'indirizzo email non è valido.");
     }
@@ -105,6 +110,9 @@ contact?:Contact;
         if (result) {
           this.contacts = this.contacts.filter(contact => !contact.isSelected);
           this.contactsService.setContacts(this.contacts);
+          this.snackBar.open('Contatto Eliminato', 'Chiudi', {
+            duration: 2000,
+          });
         }
       });
     } else {

@@ -174,10 +174,7 @@ export class MessageViewerComponent implements OnInit {
       const queryParams = {
         emailData: JSON.stringify(this.selectedMessage),
         isEditing: true,
-        
-      };
-  
-      
+        };      
       this.router.navigate(['editor'], { queryParams: queryParams });
     }
   }

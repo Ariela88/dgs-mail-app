@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SearchService } from './services/search.service';
 import { Mail } from './model/mail';
 
