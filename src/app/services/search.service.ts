@@ -9,10 +9,10 @@ import { ContactsService } from './contacts.service';
   providedIn: 'root',
 })
 export class SearchService {
-  private searchResultsSubject = new BehaviorSubject<Mail[]>([]);
+  public searchResultsSubject = new BehaviorSubject<Mail[]>([]);
   public searchResults$: Observable<Mail[]> =
     this.searchResultsSubject.asObservable();
-  private recentSearchTermsSubject = new BehaviorSubject<string[]>([]);
+  public recentSearchTermsSubject = new BehaviorSubject<string[]>([]);
   public recentSearchTerms$: Observable<string[]> =
     this.recentSearchTermsSubject.asObservable();
   contacts: string[] = [];
@@ -31,38 +31,41 @@ export class SearchService {
   
   
 
-  searchMail(searchTerm: string): void {
+  searchMail(searchTerm: string): Mail[] {
     const searchResults: Mail[] = [];
     const addedEmails: Set<string> = new Set();
-    
+
     for (const folderName in this.folderService.emails) {
       if (this.folderService.emails.hasOwnProperty(folderName)) {
         const folderMails = this.folderService.emails[folderName];
         folderMails.forEach((mail) => {
           if (
-            this.contacts.includes(searchTerm.toLowerCase()) || 
-            (mail.from && mail.from.toLowerCase().includes(searchTerm.toLowerCase())) || 
+            this.contacts.includes(searchTerm.toLowerCase()) ||
+            (mail.from && mail.from.toLowerCase().includes(searchTerm.toLowerCase())) ||
             (mail.subject && mail.subject.toLowerCase().includes(searchTerm.toLowerCase())) ||
             (mail.body && mail.body.toLowerCase().includes(searchTerm.toLowerCase()))
           ) {
             if (!addedEmails.has(mail.id)) {
-              searchResults.push(mail);  
+              searchResults.push(mail);
               addedEmails.add(mail.id);
             }
           }
         });
       }
     }
-  
-    searchResults.forEach(mail => {
+
+    searchResults.forEach((mail) => {
       this.folderService.copyEmailToFolder(mail, 'results');
     });
-  
-    this.searchResultsSubject.next(searchResults);
+
     const recentSearchTerms = this.recentSearchTermsSubject.value;
     recentSearchTerms.push(searchTerm);
     this.recentSearchTermsSubject.next(recentSearchTerms);
+    console.log('Search results:', searchResults);
+    console.log('Recent search terms:', recentSearchTerms);
+    return searchResults;
   }
+
   
   
   

@@ -17,6 +17,7 @@ import { ContactActionsComponent } from './components/contact-actions/contact-ac
 import { MessageActionsComponent } from './components/message-actions/message-actions.component';
 import { SearchComponent } from './components/search/search.component';
 import { ExampleComponent } from './components/example/example.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -46,6 +47,7 @@ import { ExampleComponent } from './components/example/example.component';
     HttpClientModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule
     
   ]
 })

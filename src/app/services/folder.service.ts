@@ -20,14 +20,14 @@ export class FolderService {
     bozze:[]
   };
 
-  private selectedFolderSubject = new BehaviorSubject<string>('all');
+  selectedFolderSubject = new BehaviorSubject<string>('all');
   selectedFolder$ = this.selectedFolderSubject.asObservable();
   currentFolderName: string = 'all';
-  private emailRemovedSubject = new BehaviorSubject<void>(undefined);
+  emailRemovedSubject = new BehaviorSubject<void>(undefined);
   emailRemoved$ = this.emailRemovedSubject.asObservable();
-  private emailsSubject = new BehaviorSubject<Mail[]>([]);
+emailsSubject = new BehaviorSubject<Mail[]>([]);
   emails$ = this.emailsSubject.asObservable();
-  private folderNameSubject = new BehaviorSubject<string>('inbox');
+  folderNameSubject = new BehaviorSubject<string>('inbox');
   folderName$ = this.folderNameSubject.asObservable();
   folderChanged = new EventEmitter<string>();
 
@@ -77,32 +77,48 @@ export class FolderService {
   }
 
   removeEmailFromFolder(emailId: string, folderName: string): void {
-    const index = this.emails[folderName].findIndex(
-      (existingEmail) => existingEmail.id === emailId
-    );
-    if (index !== -1) {
-      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-        
-        width: '250px',
-        data: { title: 'Conferma eliminazione',
-          message: 'Sei sicuro di voler eliminare la mail?' },
-      });
+    // const index = this.emails[folderName].findIndex(
+    //   (existingEmail) => existingEmail.id === emailId
+    // );
+  
+    // if (index !== -1) {
+    //   const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    //     width: '250px',
+    //     data: {
+    //       title: 'Conferma eliminazione',
+    //       message: 'Sei sicuro di voler eliminare la mail?',
+    //     },
+    //   });
+  
+     // dialogRef.afterClosed().subscribe((result) => {
+        // if (result) {
+        //   const removedEmail = this.emails['inbox'][index];
+  
+         
+        //   this.emails['inbox'].splice(index, 1);
+  
 
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          const removedEmail = this.emails[folderName][index];
-          this.emails[folderName].splice(index, 1);
-          removedEmail.folderName = 'trash';
-          if (!this.emails['trash']) {
-            this.emails['trash'] = [];
+          const allIndex = this.emails['inbox'].findIndex(
+            (allEmail) => allEmail.id === emailId
+          );
+          if (allIndex !== -1) {
+            this.emails['inbox'].splice(allIndex, 1);
           }
-          this.emails['trash'].push(removedEmail);
-          this.emails['all'].push(removedEmail);
-          this.emailRemovedSubject.next();
-        }
-      });
-    }
+  
+    //       // Move email to 'trash' folder
+    //       removedEmail.folderName = 'trash';
+    //       if (!this.emails['trash']) {
+    //         this.emails['trash'] = [];
+    //       }
+    //       this.emails['trash'].push(removedEmail);
+  
+    //       this.emailRemovedSubject.next();
+    //     }
+    //   });
+    // }
   }
+  
+  
 
   updateEmailList(folderName: string): void {
     const emails = this.emails[folderName] || [];
