@@ -1,37 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
 import { Mail } from 'src/app/model/mail';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FolderService } from 'src/app/services/folder.service';
-import { FormsModule } from '@angular/forms';
+
 import { SearchService } from 'src/app/services/search.service';
 import { DataService } from 'src/app/services/data.service';
-import { MaterialModule } from 'src/app/material-module/material/material.module';
-import { ContactsComponent } from '../contacts/contacts.component';
-import { ComposeComponent } from '../compose/compose.component';
-import { MessageActionsComponent } from '../message-actions/message-actions.component';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-folder-viewer',
-  standalone: true,
   templateUrl: './folder-viewer.component.html',
   styleUrls: ['./folder-viewer.component.scss'],
-  imports: [
-    CommonModule,
-    FormsModule,
-    MaterialModule,
-    ContactsComponent,
-    ComposeComponent,
-    MessageActionsComponent,
-  ],
+ 
 })
-export class FolderViewerComponent implements OnInit {
+export class FolderViewerComponent implements OnInit,OnDestroy {
   originalEmails: Mail[] = [];
   searchResults: Mail[] = [];
   folderName?: string;
   searchTerm: string = '';
   emails: Mail[] = [];
   messageSelected?: Mail;
+  private searchResultsSubscription?: Subscription;
 
   constructor(
     public route: ActivatedRoute,
@@ -51,10 +42,11 @@ export class FolderViewerComponent implements OnInit {
           if (searchTerm) {
             this.searchTerm = searchTerm;
             this.searchService.searchMail(searchTerm);
-            this.searchService.searchResults$.subscribe((searchResults) => {
+            this.searchResultsSubscription = this.searchService.searchResults$.subscribe((searchResults) => {
               this.searchResults = searchResults;
               this.handleEmails();
             });
+            
           } else {
             this.emails = this.originalEmails;
           }
@@ -63,6 +55,15 @@ export class FolderViewerComponent implements OnInit {
         console.error('folderName non definito.');
       }
     });
+
+    
+  }
+
+  ngOnDestroy() {
+   
+    if (this.searchResultsSubscription) {
+      this.searchResultsSubscription.unsubscribe();
+    }
   }
 
   handleEmails() {

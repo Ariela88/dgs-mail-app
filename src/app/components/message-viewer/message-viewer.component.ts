@@ -11,8 +11,6 @@ import { Contact } from 'src/app/model/contact';
 
 @Component({
   selector: 'app-message-viewer',
-  standalone: true,
-  imports: [CommonModule, MaterialModule, MessageActionsComponent],
   templateUrl: './message-viewer.component.html',
   styleUrls: ['./message-viewer.component.scss'],
 })

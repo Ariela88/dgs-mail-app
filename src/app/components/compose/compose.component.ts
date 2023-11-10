@@ -6,13 +6,11 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MaterialModule } from 'src/app/material-module/material/material.module';
+
 import {
   FormBuilder,
   FormControl,
   FormGroup,
-  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { Mail } from 'src/app/model/mail';
@@ -25,7 +23,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { FormsModule } from '@angular/forms';
+
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contact } from 'src/app/model/contact';
@@ -33,8 +31,6 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 
 @Component({
   selector: 'app-compose',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MaterialModule, FormsModule],
   templateUrl: './compose.component.html',
   styleUrls: ['./compose.component.scss'],
 })
@@ -95,9 +91,12 @@ export class ComposeComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
-      this.contactsService.contacts$.subscribe((contacts) => {
-        this.contacts = contacts;
-      });
+      if (this.contactsService && this.contactsService.contacts$) {
+        this.contactsService.contacts$.subscribe((contacts) => {
+          this.contacts = contacts;
+        });
+      
+      }
       const emailDataString = params['emailData'];
       const isForwarding = params['isForwarding'];
       const isReply = params['isReply'];

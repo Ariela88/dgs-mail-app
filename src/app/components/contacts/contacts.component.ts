@@ -14,10 +14,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-contacts',
-    standalone: true,
+    
     templateUrl: './contacts.component.html',
-    styleUrls: ['./contacts.component.scss'],
-    imports: [CommonModule, MaterialModule, FormsModule, MessageActionsComponent, ContactActionsComponent]
+    styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent {
   contacts: Contact[] = [];

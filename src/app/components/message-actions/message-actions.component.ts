@@ -1,12 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { Mail } from 'src/app/model/mail';
 
 @Component({
   selector: 'app-message-actions',
-  standalone: true,
-  imports: [CommonModule, MaterialModule],
   templateUrl: './message-actions.component.html',
   styleUrls: ['./message-actions.component.scss'],
 })

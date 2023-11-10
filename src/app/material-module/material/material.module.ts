@@ -41,6 +41,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [],
@@ -82,6 +84,7 @@ import { MatTableModule } from '@angular/material/table';
     MatSortModule,
     MatTableModule,
     
+    
   ],
   exports: [
     MatAutocompleteModule,
@@ -118,7 +121,8 @@ import { MatTableModule } from '@angular/material/table';
     MatTooltipModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTableModule
+    MatTableModule,
+    
   ]
 })
 export class MaterialModule { }

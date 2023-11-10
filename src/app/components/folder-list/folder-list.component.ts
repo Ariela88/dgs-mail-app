@@ -6,8 +6,6 @@ import { FolderViewerComponent } from '../folder-viewer/folder-viewer.component'
 
 @Component({
   selector: 'app-folder-list',
-  standalone: true,
-  imports: [CommonModule,MaterialModule,FolderViewerComponent],
   templateUrl: './folder-list.component.html',
   styleUrls: ['./folder-list.component.scss']
 })

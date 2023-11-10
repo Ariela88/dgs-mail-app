@@ -1,19 +1,12 @@
 import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  ViewChild,
+  Component, ElementRef, HostListener, OnInit, ViewChild
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { SearchService } from 'src/app/services/search.service';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
