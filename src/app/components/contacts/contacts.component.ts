@@ -39,7 +39,7 @@ contact?:Contact;
   ngOnInit() {
     this.contactsService.contacts$.subscribe((contacts) => {
       this.contacts = contacts;
-      console.log('rubrica', contacts);
+     // console.log('rubrica', contacts);
     });
   }
 

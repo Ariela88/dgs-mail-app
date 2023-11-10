@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MessageViewerComponent } from './components/message-viewer/message-viewer.component';
-import { MainComponent } from "./components/main/main.component";
 import { FolderListComponent } from "./components/folder-list/folder-list.component";
 import { MaterialModule } from './material-module/material/material.module';
 import { ComposeComponent } from "./components/compose/compose.component";
@@ -30,7 +29,6 @@ import { FolderViewerComponent } from "./components/folder-viewer/folder-viewer.
         HeaderComponent,
         HttpClientModule,
         MessageViewerComponent,
-        MainComponent,
         FolderListComponent,
         MaterialModule,
         ComposeComponent,

@@ -71,13 +71,13 @@ export class FolderViewerComponent implements OnInit {
     } else {
       this.emails = this.searchResults;
     }
-    console.log('folder viewer', this.folderName, this.emails);
+   // console.log('folder viewer', this.folderName, this.emails);
   }
 
   selectedMail(id: string) {
     if (this.folderName && id) {
-      console.log('Selected mail ID:', id);
-      console.log('Current folder:', this.folderName);
+     // console.log('Selected mail ID:', id);
+      //console.log('Current folder:', this.folderName);
       const selectedEmail = this.originalEmails.find(
         (email) => email.id === id
       );
@@ -97,12 +97,12 @@ export class FolderViewerComponent implements OnInit {
   }
 
   deleteEmail(email: Mail) {
-    console.log('delete');
+    //console.log('delete');
     this.folderServ.removeEmailFromFolder(email.id, 'inbox');
   }
 
   handleClick(folderName: string): void {
-    console.log('aggiorno lista', folderName);
+   // console.log('aggiorno lista', folderName);
     this.folderServ.updateEmailList(folderName);
   }
 }

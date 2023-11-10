@@ -14,5 +14,5 @@ import { RouterModule } from '@angular/router';
 })
 export class HeaderComponent {
 
- personalEmail = 'manuela@gmail.com'
+
 }

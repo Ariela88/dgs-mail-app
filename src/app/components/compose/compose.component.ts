@@ -75,7 +75,7 @@ export class ComposeComponent implements OnInit {
       subject: [''],
       body: [''],
     });
-    console.log(this.newMailForm);
+    //console.log(this.newMailForm);
 
     this.filteredOptions = this.contactCtrl.valueChanges.pipe(
       startWith(null),
@@ -124,8 +124,8 @@ export class ComposeComponent implements OnInit {
           subject: 'Re: ' + emailData.subject,
         });
         this.selectedRecipients.push(recipientContact);
-        console.log(emailDataString);
-        console.log(emailData.from, isReply);
+        //console.log(emailDataString);
+        //console.log(emailData.from, isReply);
       } else if (isForwarding && emailDataString) {
         const emailData = JSON.parse(emailDataString);
         this.newMailForm.patchValue({
@@ -137,8 +137,8 @@ export class ComposeComponent implements OnInit {
           to: selectedContact,
         });
         this.selectedRecipients.push(selectedContact);
-        console.log(selectedContact);
-        console.log('Recipient:', recipient);
+       // console.log(selectedContact);
+        //console.log('Recipient:', recipient);
       } else if (isEditing && emailDataString) {
         const emailData = JSON.parse(emailDataString);
         const recipientContact: Contact = {
@@ -154,8 +154,8 @@ export class ComposeComponent implements OnInit {
           body: emailData.body,
         });
         this.selectedRecipients.push(recipientContact);
-        console.log(emailDataString);
-        console.log(emailData.from, isReply);
+       // console.log(emailDataString);
+        //console.log(emailData.from, isReply);
       }
     });
   }
@@ -213,7 +213,7 @@ export class ComposeComponent implements OnInit {
         });
       }
 
-      console.log(sentMail);
+     // console.log(sentMail);
       this.router.navigateByUrl('home');
     }
   }

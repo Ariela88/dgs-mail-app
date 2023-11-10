@@ -1,11 +1,6 @@
 <div class="modal">
   <h1>{{ isComposeMode ? 'Nuova Mail' : 'Rispondi alla Mail' }}</h1>
   <form [formGroup]="newMailForm" (ngSubmit)="onSubmit()">
-     <!-- <pre> {{ newMailForm.value | json}}</pre> -->
-       <!--   creare un componente da inserire nelle mail e nei contatti che quando il valore prefriti cambia, aggiunge una stellina piena, e viene inizializzato con una stellina vuota, e quando i contatti p'refeiriti, o le mail preferite sono in elenco vengono in ordine prima degli altri -->
-    
-       <!-- <pre> {{ selectedRecipients | json}}</pre> -->
-      
     <mat-form-field appearance="fill">
       <mat-label>Destinatario</mat-label>
       <mat-chip-grid #chipGrid aria-label="Selezione dei destinatari">
@@ -14,49 +9,42 @@
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip-row>
-  
-        
       </mat-chip-grid>
-      <input formControlName="to" matInput 
-       placeholder="Inserisci un destinatario" #contactsInput
+      <input formControlName="to" matInput placeholder="Inserisci un destinatario" #contactsInput
         [matAutocomplete]="auto" [matChipInputFor]="chipGrid" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        (matChipInputTokenEnd)="add($event)"
-         />
-
-         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-          <mat-option *ngFor="let contact of (sortedOptions$ | async)" [value]="contact">
-            <mat-icon *ngIf="contact.isFavourite">favorite</mat-icon> {{ contact.email }}
-          </mat-option>
-        </mat-autocomplete>
-        
-
+        (matChipInputTokenEnd)="add($event)" />
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let contact of (sortedOptions$ | async)" [value]="contact">
+          <mat-icon *ngIf="contact.isFavourite">favorite</mat-icon> {{ contact.email }}
+        </mat-option>
+      </mat-autocomplete>
       <mat-error *ngIf="newMailForm.get('to')?.hasError('required')">Il destinatario è obbligatorio</mat-error>
     </mat-form-field>
-
     <mat-form-field appearance="fill">
       <mat-label>Oggetto</mat-label>
       <input matInput formControlName="subject" />
       <mat-error *ngIf="newMailForm.get('subject')?.hasError('required')">L'oggetto è obbligatorio</mat-error>
     </mat-form-field>
-
     <mat-form-field appearance="fill">
       <mat-label>Messaggio</mat-label>
       <textarea matInput formControlName="body"></textarea>
     </mat-form-field>
-
     <ng-container *ngIf="!isComposeMode">
       <mat-form-field appearance="fill">
         <mat-label>Allega Messaggio Originale</mat-label>
         <input matInput formControlName="originalMessageAttachment" />
       </mat-form-field>
     </ng-container>
-
     <div class="button-container">
       <button mat-raised-button color="primary" type="submit" [disabled]="newMailForm.invalid">
         Invia Mail
       </button>
-     
     </div>
   </form>
   <button mat-button (click)="closeModal()">Chiudi</button>
 </div>
+
+<!-- <pre> {{ newMailForm.value | json}}</pre> -->
+
+
+<!-- <pre> {{ selectedRecipients | json}}</pre> -->

@@ -51,7 +51,7 @@ export class FolderService {
 
   getEmailsObservable(folderName: string): Observable<Mail[]> {
     const emails = this.emails[folderName] || [];
-    console.log('Messaggi nella cartella', folderName, ':', emails);
+   // console.log('Messaggi nella cartella', folderName, ':', emails);
     return of(emails);
   }
 
@@ -118,13 +118,13 @@ export class FolderService {
     this.emails[targetFolder].push(mailToCopy);
     this.emails['all'].push(mailToCopy);
     mailToCopy.folderName = targetFolder;
-    console.log(`Aggiungendo email alla cartella ${targetFolder}:`, email);
+   // console.log(`Aggiungendo email alla cartella ${targetFolder}:`, email);
   }
 
   getMailById(id: string): Observable<Mail | undefined> {
-    console.log('Chiamato getMailById con ID:', id);
+    //console.log('Chiamato getMailById con ID:', id);
     const mail = this.allEmails.find((email) => email.id === id);
-    console.log('Mail trovata:', mail);
+    //console.log('Mail trovata:', mail);
     return of(mail);
   }
 }
