@@ -7,16 +7,18 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class ContactsService {
-  contacts:Contact[] = []
-  private contactsSubject: BehaviorSubject<Contact[]> = new BehaviorSubject<Contact[]>([]);
+  contacts: Contact[] = [];
+  private contactsSubject: BehaviorSubject<Contact[]> = new BehaviorSubject<
+    Contact[]
+  >([]);
   contacts$: Observable<Contact[]> = this.contactsSubject.asObservable();
   private selectedRecipientSubject: BehaviorSubject<string> =
-  new BehaviorSubject<string>('');
-public selectedRecipient$: Observable<string> =
-  this.selectedRecipientSubject.asObservable();
+    new BehaviorSubject<string>('');
+  public selectedRecipient$: Observable<string> =
+    this.selectedRecipientSubject.asObservable();
 
-  constructor(private http:HttpClient){
-    this.loadContacts();;
+  constructor(private http: HttpClient) {
+    this.loadContacts();
   }
 
   private loadContacts() {
@@ -31,7 +33,9 @@ public selectedRecipient$: Observable<string> =
   }
 
   setContacts(contacts: Contact[]): void {
-    const sortedContacts = contacts.slice().sort((a, b) => (b.isFavourite ? 1 : -1));
+    const sortedContacts = contacts
+      .slice()
+      .sort((a, b) => (b.isFavourite ? 1 : -1));
     // this.contacts = sortedContacts;
     this.contactsSubject.next(sortedContacts);
   }
@@ -41,15 +45,25 @@ public selectedRecipient$: Observable<string> =
   }
 
   addContact(contact: Contact): void {
-    this.contacts = [...this.contacts, contact];
-    this.setContacts(this.contacts);
+    if (
+      !this.contactsSubject.getValue().some((c) => c.email === contact.email)
+    ) {
+      const currentContacts = this.contactsSubject.getValue();
+      const updatedContacts = [...currentContacts, contact];
+      this.contactsSubject.next(updatedContacts);
+
+      console.log(updatedContacts);
+    } else {
+      console.log('Il contatto è già presente nella rubrica.');
+    }
   }
 
-
+  isContactInRubrica(newContact: Contact): boolean {
+    return this.contactsSubject.getValue().some(c => c.email === newContact.email);
+  }
+  
 
   getSelectedRecipient(): string | null {
     return this.selectedRecipientSubject.value;
   }
-
-  
 }

@@ -77,54 +77,36 @@ emailsSubject = new BehaviorSubject<Mail[]>([]);
   }
 
   removeEmailFromFolder(emailId: string, folderName: string): void {
-
-   
-    // const index = this.emails[folderName].findIndex(
-    //   (existingEmail) => existingEmail.id === emailId
-    // );
+    const index = this.emails[folderName].findIndex(
+      (existingEmail) => existingEmail.id === emailId
+    );
   
-    // if (index !== -1) {
-    //   const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-    //     width: '250px',
-    //     data: {
-    //       title: 'Conferma eliminazione',
-    //       message: 'Sei sicuro di voler eliminare la mail?',
-    //     },
-        
-    //   });
-    //   console.log(ConfirmDialogComponent)
-    //  dialogRef.afterClosed().subscribe((result) => {
-    //     if (result) {
-    //       const removedEmail = this.emails['inbox'][index];
-    //       console.log(dialogRef)
+    if (index !== -1) {
+      const confirmed = window.confirm('Sei sicuro di voler eliminare la mail?');
   
-         
-    //       this.emails['inbox'].splice(index, 1);
+      if (confirmed) {
+        const removedEmail = this.emails['inbox'][index];
   
-//A qui--------->
-          const allIndex = this.emails['inbox'].findIndex(
-            (allEmail) => allEmail.id === emailId
-          );
-          if (allIndex !== -1) {
-            this.emails['inbox'].splice(allIndex, 1);
-          }
-
-    //       // E dai qui----->
+         this.emails['inbox'].splice(index, 1);
   
-   
-    //       removedEmail.folderName = 'trash';
-    //       if (!this.emails['trash']) {
-    //         this.emails['trash'] = [];
-    //       }
-    //       this.emails['trash'].push(removedEmail);
+         const allIndex = this.emails['inbox'].findIndex(
+          (allEmail) => allEmail.id === emailId
+        );
+        if (allIndex !== -1) {
+          this.emails['inbox'].splice(allIndex, 1);
+        }
   
-    //       this.emailRemovedSubject.next();
-    //     }
-    //   });
-    // }
-
-    // //a qui--------> i test danno probelmi se scommentati
+        removedEmail.folderName = 'trash';
+        if (!this.emails['trash']) {
+          this.emails['trash'] = [];
+        }
+        this.emails['trash'].push(removedEmail);
+  
+        this.emailRemovedSubject.next();
+      }
+    }
   }
+  
   
   
 
@@ -142,8 +124,11 @@ emailsSubject = new BehaviorSubject<Mail[]>([]);
     this.emails[targetFolder].push(mailToCopy);
     this.emails['all'].push(mailToCopy);
     mailToCopy.folderName = targetFolder;
-   // console.log(`Aggiungendo email alla cartella ${targetFolder}:`, email);
+    console.log(`Aggiungendo email alla cartella ${targetFolder}:`, email);
+    console.log('Emails in ' + targetFolder + ':', this.emails[targetFolder]);
+    console.log('All emails:', this.emails['all']);
   }
+
 
   getMailById(id: string): Observable<Mail | undefined> {
     //console.log('Chiamato getMailById con ID:', id);

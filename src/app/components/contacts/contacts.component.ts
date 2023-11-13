@@ -66,14 +66,31 @@ contact?:Contact;
 
   addContact() {
     if (this.newContactEmail && this.isEmailValid(this.newContactEmail)) {
-      this.addNewContact();
-      this.snackBar.open('Contatto aggiunto alla rubrica', 'Chiudi', {
-        duration: 2000,
-      });
+      const newContact: Contact = {
+        email: this.newContactEmail,
+        isFavourite: false,
+        isContact: true,
+        isSelected: false
+      };
+  
+      if (!this.contactsService.isContactInRubrica(newContact)) {
+      
+        this.contactsService.addContact(newContact);
+        this.snackBar.open('Contatto aggiunto alla rubrica', 'Chiudi', {
+          duration: 2000,
+        });
+        this.newContactEmail = '';
+      } else {
+       
+        this.snackBar.open('Il contatto è già presente nella rubrica', 'Chiudi', {
+          duration: 2000,
+        });
+      }
     } else {
       alert("L'indirizzo email non è valido.");
     }
   }
+  
 
   selectContact(contact: Contact) {
     if (contact) {

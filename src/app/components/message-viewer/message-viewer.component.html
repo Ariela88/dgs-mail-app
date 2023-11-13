@@ -6,12 +6,14 @@
       <button *ngIf="selectedMessage.folderName === 'bozze'" (click)="toggleEditing()" mat-raised-button color="primary" >Modifica</button>
   </div>
   <div class="email-content">
+    <div class="icon-content"> 
     <i class="material-icons" *ngIf="selectedMessage.isFavourite">favorite</i>
-    <span>{{selectedMessage.folderName}}</span>
+    <i class="material-icons" *ngIf="selectedMessage.important">star</i></div>
+    <!-- <span>{{selectedMessage.folderName}}</span> -->
    
     <p class="smaller-text">From: <span class="email-from" (click)="addEmail()"> {{ selectedMessage.from }}</span></p>
     <p class="smaller-text">To: {{ selectedMessage.to }}</p>
-    <h2>{{ selectedMessage.subject }}</h2>
+    <h3>Oggetto: {{ selectedMessage.subject }}</h3>
     <div class="body-text">{{selectedMessage.body}} </div>
    
   </div>

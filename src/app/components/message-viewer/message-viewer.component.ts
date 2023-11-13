@@ -131,21 +131,31 @@ export class MessageViewerComponent implements OnInit {
       const senderEmail = this.selectedMessage.from;
       const newContact: Contact = {
         email: senderEmail,
-        isFavourite: false, 
-        isContact:true,
+        isFavourite: false,
+        isContact: true,
         isSelected: false
       };
   
-      const contact = this.createContactFromSelectedMessage();
-      this.contactServ.addContact(contact);
-      console.log('Email aggiunta alla rubrica:', senderEmail);
-      this.snackBar.open('Contatto aggiunto alla rubrica', 'Chiudi', {
-        duration: 2000,
-      });
-    }
-  }
+     
+      if (!this.contactServ.isContactInRubrica(newContact)) {
+        this.contactServ.addContact(newContact);
+  
+        console.log('Email aggiunta alla rubrica:', senderEmail);
+        this.snackBar.open('Contatto aggiunto alla rubrica', 'Chiudi', {
+          duration: 2000,
+        });
+      } else {
+        console.log('Il contatto è già presente nella rubrica.');
+        this.snackBar.open('Il contatto è già presente nella rubrica', 'Chiudi', {
+          duration: 2000,
+        });
+      }
+    }}
 
-  private createContactFromSelectedMessage(): Contact {
+  
+  
+
+  createContactFromSelectedMessage(): Contact {
     if (this.selectedMessage) {
       return {
         email: this.selectedMessage.from,

@@ -4,29 +4,37 @@
     <div class="spacer"></div>
     <h2 class="folder-name">Cartella <span class="folder-name-bold"> {{folderName}} </span> </h2>
   </div>
-  <div class="update"><mat-icon (click)="handleClick(folderName!)">update</mat-icon></div>
+  <div class="number-emails">
+    <p>Email nella cartella {{folderName}}:{{emails.length}}</p>
+   
+  </div>
+  <div class="update">
+    <!-- <mat-icon (click)="handleClick(folderName!)">update</mat-icon> -->
+    
+    <button *ngIf="folderName === 'inbox'" (click)="deleteSelectedEmails()" class="delete-btn" mat-raised-button color="warn"><mat-icon>delete</mat-icon></button>
+  </div>
   <ul class="color-even">
-    <div class="number-emails">
-      <p>Email nella cartella {{folderName}}:{{emails.length}}</p>
-    </div>
+    
+    
+   
+
 
     <ng-container *ngIf="!searchTerm; else searchResultsTemplate">
       <div *ngFor="let email of originalEmails" class="mail-row-element">
-        <button *ngIf="folderName === 'inbox'" (click)="deleteEmail(email)" class="delete-btn"><mat-icon
-            class="material-symbols-outlined">
-            delete
-          </mat-icon> </button>
+        <input *ngIf="folderName === 'inbox'" type="checkbox" [(ngModel)]="email.selected" class="mail-checkbox">
         <div class="email-details">
           <span>
             <div class="read-indicator" [ngClass]="{'unread': !email.read, 'read': email.read}"></div>{{email.read?
             'Letta':'Da Leggere'}} {{email.folderName? email.folderName : 'inBox'}}
           </span>
 
-          <span class="from-email" (click)="selectedMail(email.id)"><i class="material-icons"
-              *ngIf="email.isFavourite">favorite</i> {{ folderName === 'sent' ? email.to : email.from
+          <span class="from-email" (click)="selectedMail(email.id)">
+            <i class="material-icons"*ngIf="email.isFavourite">favorite</i> 
+            <i class="material-icons"*ngIf="email.important">star</i> 
+            {{ folderName === 'sent' ? email.to : email.from
             }}</span>
-          <br>
-          <span class="second-row" (click)="selectedMail(email.id)">Oggetto: <a>{{ email.subject }}</a></span> <br>
+       
+          <span class="second-row" (click)="selectedMail(email.id)">Oggetto: <a>{{ email.subject }}</a></span>
         </div>
         <span class="spacer"></span>
       </div>

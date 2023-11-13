@@ -104,4 +104,17 @@ export class FolderViewerComponent implements OnInit,OnDestroy {
    // console.log('aggiorno lista', folderName);
     this.folderServ.updateEmailList(folderName);
   }
+
+  deleteSelectedEmails() {
+    const selectedEmails = this.originalEmails.filter(email => email.selected);
+    if (selectedEmails.length > 0) {
+      selectedEmails.forEach(selectedEmail => {
+        this.folderServ.removeEmailFromFolder(selectedEmail.id, 'inbox');
+      });
+      this.originalEmails = this.originalEmails.filter(email => !email.selected);
+    } else {
+      console.log('Nessuna email selezionata per l\'eliminazione');
+    }
+  }
+  
 }

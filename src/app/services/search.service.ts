@@ -30,8 +30,7 @@ export class SearchService {
   }
   
   
-
-  searchMail(searchTerm: string): Mail[] {
+  searchMail(searchTerm: string): void {
     const searchResults: Mail[] = [];
     const addedEmails: Set<string> = new Set();
   
@@ -39,9 +38,8 @@ export class SearchService {
       folderMails.forEach((mail) => {
         if (
           this.contacts.includes(searchTerm.toLowerCase()) ||
-          (mail.from && mail.from.toLowerCase().includes(searchTerm.toLowerCase())) ||
-          (mail.subject && mail.subject.toLowerCase().includes(searchTerm.toLowerCase())) ||
-          (mail.body && mail.body.toLowerCase().includes(searchTerm.toLowerCase()))
+          (mail.body && mail.body.toLowerCase().includes(searchTerm.toLowerCase())) ||
+          (mail.from && mail.from.toLowerCase().includes(searchTerm.toLowerCase()))
         ) {
           if (!addedEmails.has(mail.id)) {
             searchResults.push(mail);
@@ -58,10 +56,12 @@ export class SearchService {
     const recentSearchTerms = this.recentSearchTermsSubject.value;
     recentSearchTerms.push(searchTerm);
     this.recentSearchTermsSubject.next(recentSearchTerms);
+  
+    this.searchResultsSubject.next(searchResults);
     console.log('Search results:', searchResults);
     console.log('Recent search terms:', recentSearchTerms);
-    return searchResults;
   }
+  
   
 
   
