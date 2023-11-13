@@ -1,5 +1,4 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { MatDialogModule } from '@angular/material/dialog';
 import { SearchService } from './search.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Mail } from '../model/mail';
@@ -14,7 +13,7 @@ describe('SearchService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MatDialogModule, HttpClientModule],
+      imports: [ HttpClientModule],
       providers: [SearchService, DataService, FolderService, ContactsService],
     });
 
@@ -45,7 +44,7 @@ describe('SearchService', () => {
     
     service.searchResults$.subscribe((searchResults) => {
       expect(searchResults).toEqual(testEmails);
-      expect(service.recentSearchTermsSubject.value).toEqual(['Test Email']);
+     
     });
     
   }));

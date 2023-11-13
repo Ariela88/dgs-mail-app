@@ -1,14 +1,8 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ContactsService } from 'src/app/services/contacts.service';
-import { MaterialModule } from 'src/app/material-module/material/material.module';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { Contact } from 'src/app/model/contact';
-import { MessageActionsComponent } from "../message-actions/message-actions.component";
-import { ContactActionsComponent } from "../contact-actions/contact-actions.component";
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 
@@ -95,25 +89,17 @@ contact?:Contact;
 
   deleteSelectedContacts() {
     const selectedContacts = this.contacts.filter(contact => contact.isSelected);
-  
+
     if (selectedContacts.length > 0) {
-      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-        width: '250px',
-        data: {
-          title: 'Conferma eliminazione',
-          message: 'Sei sicuro di voler eliminare i contatti selezionati?',
-        },
-      });
-  
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.contacts = this.contacts.filter(contact => !contact.isSelected);
-          this.contactsService.setContacts(this.contacts);
-          this.snackBar.open('Contatto Eliminato', 'Chiudi', {
-            duration: 2000,
-          });
-        }
-      });
+      const confirmDelete = window.confirm('Sei sicuro di voler eliminare i contatti selezionati?');
+
+      if (confirmDelete) {
+        this.contacts = this.contacts.filter(contact => !contact.isSelected);
+        this.contactsService.setContacts(this.contacts);
+        this.snackBar.open('Contatto Eliminato', 'Chiudi', {
+          duration: 2000,
+        });
+      }
     } else {
       alert('Seleziona almeno un contatto da eliminare.');
     }

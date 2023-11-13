@@ -66,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "dgs-mail-app:build:production"
+              "buildTarget": "dgs-mail-app:build:production"
             },
             "development": {
-              "browserTarget": "dgs-mail-app:build:development"
+              "buildTarget": "dgs-mail-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -77,7 +77,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "dgs-mail-app:build"
+            "buildTarget": "dgs-mail-app:build"
           }
         },
         "test": {

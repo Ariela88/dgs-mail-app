@@ -34,7 +34,7 @@
 
     <ng-template #searchResultsTemplate>
       <div *ngFor="let email of searchResults">
-        <!-- <pre> {{email | json}}</pre> -->
+       <!-- <pre> {{searchResults$ | json}}</pre> -->
         <div class="email-details">
           <i class="material-icons" *ngIf="email.isFavourite">favorite</i>
           <span>{{email.folderName? email.folderName : 'inBox'}}</span>

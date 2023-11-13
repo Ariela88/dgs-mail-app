@@ -1,8 +1,6 @@
 import { Component} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { Router } from '@angular/router';
-import { FolderViewerComponent } from '../folder-viewer/folder-viewer.component';
+
 
 @Component({
   selector: 'app-folder-list',

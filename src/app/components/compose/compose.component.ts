@@ -27,7 +27,6 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contact } from 'src/app/model/contact';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-compose',
@@ -218,22 +217,14 @@ export class ComposeComponent implements OnInit {
   }
 
   closeModal() {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '250px',
-      data: {
-        title: 'Conferma uscita',
-        message: 'Sei sicuro di voler uscire dall editor?',
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.isDraft = true;
-        this.onSubmit();
-        this.modalService.closeModal();
-      }
-    });
+    if (window.confirm('Sei sicuro di voler uscire dall\'editor?')) {
+      this.isDraft = true;
+      this.onSubmit();
+      this.modalService.closeModal();
+    }
   }
+  
+    
 
   private _filter(value: string): Contact[] {
     const filterValue = value.toLowerCase();

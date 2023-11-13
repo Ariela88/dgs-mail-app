@@ -1,4 +1,3 @@
-// app.module.ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,14 +15,8 @@ import { FormsModule } from '@angular/forms';
 import { ContactActionsComponent } from './components/contact-actions/contact-actions.component';
 import { MessageActionsComponent } from './components/message-actions/message-actions.component';
 import { SearchComponent } from './components/search/search.component';
-import { ExampleComponent } from './components/example/example.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
-
-
-
-
-
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -37,13 +30,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     FolderViewerComponent,
     MessageActionsComponent,
     ContactActionsComponent,
-    SearchComponent,
-    ExampleComponent,
-    
-    
+    SearchComponent,   
     
   ],
-  providers: [],
+  providers: [ {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}],
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,

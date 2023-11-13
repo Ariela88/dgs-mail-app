@@ -1,7 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Mail } from '../model/mail';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
 
