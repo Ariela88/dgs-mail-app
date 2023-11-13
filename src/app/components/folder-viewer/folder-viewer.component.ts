@@ -29,17 +29,17 @@ export class FolderViewerComponent implements OnInit,OnDestroy {
     
   ) {}
   ngOnInit() {
-    this.route.params.subscribe((params) => {
+    this.route.params?.subscribe((params) => {
       this.folderName = params['folderName'];
       if (this.folderName) {
         this.originalEmails = this.folderServ.getEmails(this.folderName);
-        this.route.queryParams.subscribe((params) => {
+        this.route.queryParams?.subscribe((params) => {
           const searchTerm = params['q'];
           if (searchTerm) {
             this.searchTerm = searchTerm;
             this.searchService.searchMail(searchTerm);
             if (this.searchService.searchResults$) { 
-              this.searchResultsSubscription = this.searchService.searchResults$.subscribe((searchResults) => {
+              this.searchResultsSubscription = this.searchService.searchResults$?.subscribe((searchResults) => {
                 this.searchResults = searchResults;
                 this.handleEmails();
               });
@@ -60,7 +60,7 @@ export class FolderViewerComponent implements OnInit,OnDestroy {
   ngOnDestroy() {
    
     if (this.searchResultsSubscription) {
-      this.searchResultsSubscription.unsubscribe();
+      this.searchResultsSubscription?.unsubscribe();
     }
   }
 

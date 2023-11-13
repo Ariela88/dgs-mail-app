@@ -34,30 +34,27 @@ export class SearchService {
   searchMail(searchTerm: string): Mail[] {
     const searchResults: Mail[] = [];
     const addedEmails: Set<string> = new Set();
-
-    for (const folderName in this.folderService.emails) {
-      if (this.folderService.emails.hasOwnProperty(folderName)) {
-        const folderMails = this.folderService.emails[folderName];
-        folderMails.forEach((mail) => {
-          if (
-            this.contacts.includes(searchTerm.toLowerCase()) ||
-            (mail.from && mail.from.toLowerCase().includes(searchTerm.toLowerCase())) ||
-            (mail.subject && mail.subject.toLowerCase().includes(searchTerm.toLowerCase())) ||
-            (mail.body && mail.body.toLowerCase().includes(searchTerm.toLowerCase()))
-          ) {
-            if (!addedEmails.has(mail.id)) {
-              searchResults.push(mail);
-              addedEmails.add(mail.id);
-            }
+  
+    Object.values(this.folderService.emails).forEach((folderMails) => {
+      folderMails.forEach((mail) => {
+        if (
+          this.contacts.includes(searchTerm.toLowerCase()) ||
+          (mail.from && mail.from.toLowerCase().includes(searchTerm.toLowerCase())) ||
+          (mail.subject && mail.subject.toLowerCase().includes(searchTerm.toLowerCase())) ||
+          (mail.body && mail.body.toLowerCase().includes(searchTerm.toLowerCase()))
+        ) {
+          if (!addedEmails.has(mail.id)) {
+            searchResults.push(mail);
+            addedEmails.add(mail.id);
           }
-        });
-      }
-    }
-
+        }
+      });
+    });
+  
     searchResults.forEach((mail) => {
       this.folderService.copyEmailToFolder(mail, 'results');
     });
-
+  
     const recentSearchTerms = this.recentSearchTermsSubject.value;
     recentSearchTerms.push(searchTerm);
     this.recentSearchTermsSubject.next(recentSearchTerms);
@@ -65,6 +62,7 @@ export class SearchService {
     console.log('Recent search terms:', recentSearchTerms);
     return searchResults;
   }
+  
 
   
   

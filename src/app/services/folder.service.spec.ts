@@ -62,7 +62,7 @@ describe('FolderService', () => {
     
     service.removeEmailFromFolder('1', 'inbox');
     tick();
-    flushMicrotasks(); // Add this line
+    flushMicrotasks();
     
     console.log('After removal:', service.emails['inbox']);
   
@@ -70,6 +70,8 @@ describe('FolderService', () => {
     console.log('All emails:', service.emails['all']);
   
     expect(service.emails['inbox']).not.toContain(testEmail);
+    
+
   }));
   
 

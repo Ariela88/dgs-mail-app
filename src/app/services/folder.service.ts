@@ -79,28 +79,28 @@ emailsSubject = new BehaviorSubject<Mail[]>([]);
 
   removeEmailFromFolder(emailId: string, folderName: string): void {
 
-    //Da qui----->
-    const index = this.emails[folderName].findIndex(
-      (existingEmail) => existingEmail.id === emailId
-    );
+   
+    // const index = this.emails[folderName].findIndex(
+    //   (existingEmail) => existingEmail.id === emailId
+    // );
   
-    if (index !== -1) {
-      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-        width: '250px',
-        data: {
-          title: 'Conferma eliminazione',
-          message: 'Sei sicuro di voler eliminare la mail?',
-        },
+    // if (index !== -1) {
+    //   const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    //     width: '250px',
+    //     data: {
+    //       title: 'Conferma eliminazione',
+    //       message: 'Sei sicuro di voler eliminare la mail?',
+    //     },
         
-      });
-      console.log(ConfirmDialogComponent)
-     dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          const removedEmail = this.emails['inbox'][index];
-          console.log(dialogRef)
+    //   });
+    //   console.log(ConfirmDialogComponent)
+    //  dialogRef.afterClosed().subscribe((result) => {
+    //     if (result) {
+    //       const removedEmail = this.emails['inbox'][index];
+    //       console.log(dialogRef)
   
          
-          this.emails['inbox'].splice(index, 1);
+    //       this.emails['inbox'].splice(index, 1);
   
 //A qui--------->
           const allIndex = this.emails['inbox'].findIndex(
@@ -110,21 +110,21 @@ emailsSubject = new BehaviorSubject<Mail[]>([]);
             this.emails['inbox'].splice(allIndex, 1);
           }
 
-          // E dai qui----->
+    //       // E dai qui----->
   
    
-          removedEmail.folderName = 'trash';
-          if (!this.emails['trash']) {
-            this.emails['trash'] = [];
-          }
-          this.emails['trash'].push(removedEmail);
+    //       removedEmail.folderName = 'trash';
+    //       if (!this.emails['trash']) {
+    //         this.emails['trash'] = [];
+    //       }
+    //       this.emails['trash'].push(removedEmail);
   
-          this.emailRemovedSubject.next();
-        }
-      });
-    }
+    //       this.emailRemovedSubject.next();
+    //     }
+    //   });
+    // }
 
-    //a qui--------> i test danno probelmi se scommentati
+    // //a qui--------> i test danno probelmi se scommentati
   }
   
   

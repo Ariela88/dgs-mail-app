@@ -90,9 +90,9 @@ export class ComposeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
+    this.route.queryParams?.subscribe((params) => {
       if (this.contactsService && this.contactsService.contacts$) {
-        this.contactsService.contacts$.subscribe((contacts) => {
+        this.contactsService.contacts$?.subscribe((contacts) => {
           this.contacts = contacts;
         });
       

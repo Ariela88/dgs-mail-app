@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Mail } from 'src/app/model/mail';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 import { FolderService } from 'src/app/services/folder.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterStateSnapshot } from '@angular/router';
 import { MessageActionsComponent } from '../message-actions/message-actions.component';
 import { ContactsService } from 'src/app/services/contacts.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -31,7 +31,7 @@ export class MessageViewerComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const mailId = this.route.snapshot.params['id'];
+    if(this.selectedMessage){const mailId = this.route.snapshot.params['id'];
     const folderName = this.route.snapshot.params['folderName'];
   
     this.folderService.getEmailsObservable(folderName).forEach(
@@ -47,11 +47,14 @@ export class MessageViewerComponent implements OnInit {
           console.log('Nessun messaggio trovato nella cartella:', folderName);
         }
       },
-      // (error) => {
-      //   console.error('Errore durante il recupero dei messaggi:', error);
-      // }
-    );
+     
+    )}
+    
   }
+  
+  
+  
+  
   
 
   replyToEmail() {
