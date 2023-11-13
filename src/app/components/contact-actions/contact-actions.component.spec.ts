@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ContactActionsComponent } from './contact-actions.component'; 
-import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MaterialModule } from 'src/app/material-module/material/material.module';
 
