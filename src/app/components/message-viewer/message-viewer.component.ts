@@ -88,14 +88,14 @@ export class MessageViewerComponent implements OnInit {
 
   removeFromFavorites(email: Mail): void {
     console.log('Rimuovi dai preferiti:', email);
-    this.folderService.removeEmailFromFolder([email.id], 'favorite')
+    this.folderService.deleteEmails([email.id], 'favorite')
     email.folderName = 'inbox';
     email.isFavourite = false;
   }
 
   removeAsImportant(email: Mail): void {
     console.log('Rimuovi importante:', email);
-    this.folderService.removeEmailFromFolder([email.id], 'important')
+    this.folderService.deleteEmails([email.id], 'important')
     email.folderName = 'inbox';
     email.important = false;
   }
@@ -117,14 +117,21 @@ export class MessageViewerComponent implements OnInit {
   }
 
   isEmailImportant(email: Mail): boolean {
-    const importantEmails = this.folderService.getEmails('important');
-    return importantEmails.some((important) => important.id === email.id);
+    let isImportant = false;
+    this.folderService.getEmails('important').subscribe((importantEmails) => {
+      isImportant = importantEmails.some((important) => important.id === email.id);
+    });
+    return isImportant;
   }
-
+  
   isEmailInFavorites(email: Mail): boolean {
-    const favoriteEmails = this.folderService.getEmails('favorite');
-    return favoriteEmails.some((favorite) => favorite.id === email.id);
+    let isInFavorites = false;
+    this.folderService.getEmails('favorite').subscribe((favoriteEmails) => {
+      isInFavorites = favoriteEmails.some((favorite) => favorite.id === email.id);
+    });
+    return isInFavorites;
   }
+  
 
   addEmail() {
     if (this.selectedMessage) {

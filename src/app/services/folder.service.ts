@@ -1,7 +1,8 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Mail } from '../model/mail';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, map, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { DataService } from './data.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,30 +22,23 @@ export class FolderService {
 
   selectedFolderSubject = new BehaviorSubject<string>('all');
   selectedFolder$ = this.selectedFolderSubject.asObservable();
-  currentFolderName: string = 'all';
+  currentFolderName: string = 'inbox';
   emailRemovedSubject = new BehaviorSubject<void>(undefined);
   emailRemoved$ = this.emailRemovedSubject.asObservable();
   emailsSubject = new BehaviorSubject<Mail[]>([]);
   emails$ = this.emailsSubject.asObservable();
   folderNameSubject = new BehaviorSubject<string>('inbox');
   folderName$ = this.folderNameSubject.asObservable();
-  folderChanged = new EventEmitter<string>();
 
-  constructor(private dialog: MatDialog) {
-    for (const folderName in this.emails) {
-      if (folderName !== 'all') {
-        this.emails['all'] = this.emails['all'].concat(this.emails[folderName]);
-      }
-    }
-  }
-  changeFolder(folderName: string) {
-    this.folderChanged.emit(folderName);
+  constructor(private dataServ: DataService) {
+    
   }
 
   setEmails(emails: Mail[], folderName: string): void {
     this.emails[folderName] = emails;
 
     this.emailsSubject.next(emails);
+    console.log(this.emails, 'setEmails');
   }
 
   getEmailsObservable(folderName: string): Observable<Mail[]> {
@@ -53,35 +47,27 @@ export class FolderService {
     return of(emails);
   }
 
-  getEmails(folderName: string): Mail[] {
-    return this.emails[folderName] || [];
-  }
-
-  selectFolder(folderName: string) {
-    this.currentFolderName = folderName;
-    this.folderNameSubject.next(folderName);
-
-    const emails = this.emails[folderName] || [];
-    this.emailsSubject.next(emails);
-  }
-
-  addEmailToFolder(email: Mail, folderName: string) {
-    if (!(folderName in this.emails)) {
-      this.emails[folderName] = [];
-    }
-    this.emails[folderName].push(email);
-    this.emails['all'].push(email);
-  }
-
-  removeEmailFromFolder(emailIds: string[], folderName: string): void {
-    const emailsToRemove = emailIds.map((emailId) =>
-      this.emails[folderName].find(
-        (existingEmail) => existingEmail.id === emailId
-      )
+  getEmails(folderName: string): Observable<Mail[]> {
+    return this.dataServ.getMailMessage().pipe(
+      map((emails) => {
+        this.emails[folderName] = emails;
+        this.updateEmailList(folderName);
+        return this.emails[folderName] || [];
+      })
     );
+  }
+  
 
+  
+  addEmailToFolder(email: Mail, folderName: string) {
+    console.log('add email to folder')
+    this.emails[folderName].push(email);
+
+    //console.log(this.emails,'addEmail')
+  }
+
+  deleteEmails(emailIds: string[], folderName: string): void {
     const indicesToRemove: number[] = [];
-
     emailIds.forEach((emailId) => {
       const index = this.emails[folderName].findIndex(
         (existingEmail) => existingEmail.id === emailId
@@ -93,45 +79,45 @@ export class FolderService {
     });
 
     indicesToRemove.reverse().forEach((index) => {
-      const removedEmail = { ...this.emails[folderName][index] };
       this.emails[folderName].splice(index, 1);
-
-      if (folderName === 'inbox') {
-        const allIndex = this.emails['inbox'].findIndex(
-          (allEmail) => allEmail.id === removedEmail.id
-        );
-        if (allIndex !== -1) {
-          this.emails['inbox'].splice(allIndex, 1);
-        }
-      }
-
-      removedEmail.folderName = 'trash';
-      if (!this.emails['trash']) {
-        this.emails['trash'] = [];
-      }
-      this.emails['trash'].push(removedEmail);
-      removedEmail.selected = false;
     });
 
-    this.emailRemovedSubject.next();
+    this.dataServ.deleteMail(emailIds).subscribe(
+      () => {
+        console.log('Mail cancellata con successo');
+        this.emailRemovedSubject.next();
+      },
+      (error) => {
+        console.error('Errore nella cancellazione della mail:', error);
+      }
+    );
   }
 
   updateEmailList(folderName: string): void {
     const emails = this.emails[folderName] || [];
+    this.emails['all'] = [...emails]; 
     this.emailsSubject.next(emails);
   }
-
+  
   copyEmailToFolder(email: Mail, targetFolder: string) {
     const mailToCopy = { ...email };
     if (!(targetFolder in this.emails)) {
       this.emails[targetFolder] = [];
     }
     this.emails[targetFolder].push(mailToCopy);
-    this.emails['all'].push(mailToCopy);
+    //this.emails['all'].push(mailToCopy);
     mailToCopy.folderName = targetFolder;
     console.log(`Aggiungendo email alla cartella ${targetFolder}:`, email);
     console.log('Emails in ' + targetFolder + ':', this.emails[targetFolder]);
     console.log('All emails:', this.emails['all']);
+    this.dataServ.postMailMessage(email).subscribe(
+      (response) => {
+        console.log('Email copiata con successo:', response);
+      },
+      (error) => {
+        console.error("Errore durante la copia dell'email:", error);
+      }
+    );
   }
 
   getMailById(id: string): Observable<Mail | undefined> {

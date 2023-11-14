@@ -10,7 +10,7 @@ import { EmailResolver } from './email-resolver.resolver';
 import { ContactsComponent } from './components/contacts/contacts.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'folder/all', pathMatch: 'full' },
+  { path: '', redirectTo: 'folder/inbox', pathMatch: 'full' },
   { path: 'folder/:folderName', component: FolderViewerComponent, resolve: { emails: ResolverResolver }},
   { path: 'folder/inbox', component: FolderViewerComponent, resolve: { emails: ResolverResolver }},
   { path: 'editor', component: ComposeComponent },

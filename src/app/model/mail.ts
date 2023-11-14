@@ -2,6 +2,7 @@ export interface Mail {
  
  
   id: string;
+  created:Date;
   to: string;
   from: string;
   subject: string;

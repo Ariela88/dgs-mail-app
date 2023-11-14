@@ -27,6 +27,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contact } from 'src/app/model/contact';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-compose',
@@ -62,7 +63,8 @@ export class ComposeComponent implements OnInit {
     private router: Router,
     private contactsService: ContactsService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dataServ:DataService
   ) {
     this.newMailForm = this.fb.group({
       to: new FormControl('', [Validators.required]),
@@ -195,6 +197,7 @@ export class ComposeComponent implements OnInit {
         folderName: this.isDraft ? 'bozze' : 'sent',
         attachment: this.selectedMail?.attachment,
         read: false,
+        created: new Date,
       };
 
       if (this.isDraft) {
@@ -213,6 +216,8 @@ export class ComposeComponent implements OnInit {
 
      // console.log(sentMail);
       this.router.navigateByUrl('home');
+     
+      
     }
   }
 

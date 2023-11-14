@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FolderService } from 'src/app/services/folder.service';
 import { SearchService } from 'src/app/services/search.service';
 import { Subscription } from 'rxjs';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-folder-viewer',
   templateUrl: './folder-viewer.component.html',
   styleUrls: ['./folder-viewer.component.scss'],
 })
-export class FolderViewerComponent implements OnInit, OnDestroy {
+export class FolderViewerComponent implements OnInit {
   originalEmails: Mail[] = [];
   searchResults: Mail[] = [];
   folderName?: string;
@@ -18,59 +19,64 @@ export class FolderViewerComponent implements OnInit, OnDestroy {
   emails: Mail[] = [];
   isCheccked = false;
   private searchResultsSubscription?: Subscription;
-  
+  selectedMails: Mail[] = [];
+
   constructor(
     public route: ActivatedRoute,
     private folderServ: FolderService,
     private router: Router,
     private searchService: SearchService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    
   ) {}
+
   ngOnInit() {
     this.route.params?.subscribe((params) => {
       this.folderName = params['folderName'];
       if (this.folderName) {
-        this.originalEmails = this.folderServ.getEmails(this.folderName);
-        this.route.queryParams?.subscribe((params) => {
-          const searchTerm = params['q'];
-          if (searchTerm) {
-            this.searchTerm = searchTerm;
-            this.searchService.searchMail(searchTerm);
-            if (this.searchService.searchResults$) {
-              this.searchResultsSubscription =
-                this.searchService.searchResults$?.subscribe(
-                  (searchResults) => {
-                    this.searchResults = searchResults;
-                    this.handleEmails();
-                  }
-                );
-            } else {
-              console.error('searchResults$ non definito.');
-            }
-          } else {
-            this.emails = this.originalEmails;
+        this.folderServ.getEmails(this.folderName).subscribe(
+          (data) => {
+            this.emails = data; 
+            console.log(this.emails);
+            this.route.queryParams?.subscribe((params) => {
+              const searchTerm = params['q'];
+              if (searchTerm) {
+                this.searchTerm = searchTerm;
+                this.searchService.searchMail(searchTerm);
+                if (this.searchService.searchResults$) {
+                  this.searchResultsSubscription =
+                    this.searchService.searchResults$?.subscribe(
+                      (searchResults) => {
+                        this.searchResults = searchResults;
+                        this.handleEmails();
+                      }
+                    );
+                } else {
+                  console.error('searchResults$ non definito.');
+                }
+              } else {
+                this.handleEmails(); 
+              }
+            });
+          },
+          (error) => {
+            console.error('Errore nel recupero delle email:', error);
           }
-        });
-      } else {
-        console.error('folderName non definito.');
+        );
       }
     });
   }
+  
+  
 
-  ngOnDestroy() {
-    if (this.searchResultsSubscription) {
-      this.searchResultsSubscription?.unsubscribe();
-    }
-  }
-
+ 
   handleEmails() {
-    if (!this.searchTerm) {
-      this.emails = this.originalEmails;
-    } else {
-      this.emails = this.searchResults;
-    }
-    // console.log('folder viewer', this.folderName, this.emails);
+    this.emails = this.searchTerm ? this.searchResults : this.emails;
+    this.cdr.detectChanges();
   }
+  
+  
+  
 
   selectedMail(id: string) {
     if (this.folderName && id) {
@@ -94,12 +100,7 @@ export class FolderViewerComponent implements OnInit, OnDestroy {
     this.router.navigate(['/folder', this.folderName]);
   }
 
-
-  handleClick(folderName: string): void {
-    // console.log('aggiorno lista', folderName);
-    this.folderServ.updateEmailList(folderName);
-  }
-
+  
   handleCheckboxChange() {
     this.isCheccked = this.originalEmails.some((email) => email.selected);
 
@@ -110,12 +111,14 @@ export class FolderViewerComponent implements OnInit, OnDestroy {
     const selectedEmails = this.originalEmails.filter(
       (email) => email.selected
     );
-  
+
     if (selectedEmails.length > 0) {
-      const selectedEmailIds = selectedEmails.map((selectedEmail) => selectedEmail.id);
-  
-      this.folderServ.removeEmailFromFolder(selectedEmailIds, 'inbox');
-  
+      const selectedEmailIds = selectedEmails.map(
+        (selectedEmail) => selectedEmail.id
+      );
+
+      this.folderServ.deleteEmails(selectedEmailIds, 'inbox');
+
       this.originalEmails = this.originalEmails.filter(
         (email) => !email.selected
       );
@@ -123,8 +126,6 @@ export class FolderViewerComponent implements OnInit, OnDestroy {
       console.log("Nessuna email selezionata per l'eliminazione");
     }
   }
-  
-  
 
   anyCheckboxSelected(): boolean {
     return this.originalEmails.some((email) => email.selected);
