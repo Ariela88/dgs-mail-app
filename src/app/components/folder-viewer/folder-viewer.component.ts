@@ -1,32 +1,30 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Mail } from 'src/app/model/mail';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FolderService } from 'src/app/services/folder.service';
 import { SearchService } from 'src/app/services/search.service';
-import { Observable, Subscription } from 'rxjs';
-
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-folder-viewer',
   templateUrl: './folder-viewer.component.html',
   styleUrls: ['./folder-viewer.component.scss'],
- 
 })
-export class FolderViewerComponent implements OnInit,OnDestroy {
+export class FolderViewerComponent implements OnInit, OnDestroy {
   originalEmails: Mail[] = [];
   searchResults: Mail[] = [];
   folderName?: string;
   searchTerm: string = '';
   emails: Mail[] = [];
-  messageSelected?: Mail;
+  isCheccked = false;
   private searchResultsSubscription?: Subscription;
-  private searchResults$?: Observable<Mail[]>
+  
   constructor(
     public route: ActivatedRoute,
     private folderServ: FolderService,
     private router: Router,
     private searchService: SearchService,
-    
+    private cdr: ChangeDetectorRef
   ) {}
   ngOnInit() {
     this.route.params?.subscribe((params) => {
@@ -38,11 +36,14 @@ export class FolderViewerComponent implements OnInit,OnDestroy {
           if (searchTerm) {
             this.searchTerm = searchTerm;
             this.searchService.searchMail(searchTerm);
-            if (this.searchService.searchResults$) { 
-              this.searchResultsSubscription = this.searchService.searchResults$?.subscribe((searchResults) => {
-                this.searchResults = searchResults;
-                this.handleEmails();
-              });
+            if (this.searchService.searchResults$) {
+              this.searchResultsSubscription =
+                this.searchService.searchResults$?.subscribe(
+                  (searchResults) => {
+                    this.searchResults = searchResults;
+                    this.handleEmails();
+                  }
+                );
             } else {
               console.error('searchResults$ non definito.');
             }
@@ -55,10 +56,8 @@ export class FolderViewerComponent implements OnInit,OnDestroy {
       }
     });
   }
-  
 
   ngOnDestroy() {
-   
     if (this.searchResultsSubscription) {
       this.searchResultsSubscription?.unsubscribe();
     }
@@ -70,12 +69,12 @@ export class FolderViewerComponent implements OnInit,OnDestroy {
     } else {
       this.emails = this.searchResults;
     }
-   // console.log('folder viewer', this.folderName, this.emails);
+    // console.log('folder viewer', this.folderName, this.emails);
   }
 
   selectedMail(id: string) {
     if (this.folderName && id) {
-     // console.log('Selected mail ID:', id);
+      // console.log('Selected mail ID:', id);
       //console.log('Current folder:', this.folderName);
       const selectedEmail = this.originalEmails.find(
         (email) => email.id === id
@@ -95,26 +94,48 @@ export class FolderViewerComponent implements OnInit,OnDestroy {
     this.router.navigate(['/folder', this.folderName]);
   }
 
-  deleteEmail(email: Mail) {
-    //console.log('delete');
-    this.folderServ.removeEmailFromFolder(email.id, 'inbox');
-  }
 
   handleClick(folderName: string): void {
-   // console.log('aggiorno lista', folderName);
+    // console.log('aggiorno lista', folderName);
     this.folderServ.updateEmailList(folderName);
   }
 
+  handleCheckboxChange() {
+    this.isCheccked = this.originalEmails.some((email) => email.selected);
+
+    this.cdr.detectChanges();
+  }
+
   deleteSelectedEmails() {
-    const selectedEmails = this.originalEmails.filter(email => email.selected);
+    const selectedEmails = this.originalEmails.filter(
+      (email) => email.selected
+    );
+  
     if (selectedEmails.length > 0) {
-      selectedEmails.forEach(selectedEmail => {
-        this.folderServ.removeEmailFromFolder(selectedEmail.id, 'inbox');
-      });
-      this.originalEmails = this.originalEmails.filter(email => !email.selected);
+      const selectedEmailIds = selectedEmails.map((selectedEmail) => selectedEmail.id);
+  
+      this.folderServ.removeEmailFromFolder(selectedEmailIds, 'inbox');
+  
+      this.originalEmails = this.originalEmails.filter(
+        (email) => !email.selected
+      );
     } else {
-      console.log('Nessuna email selezionata per l\'eliminazione');
+      console.log("Nessuna email selezionata per l'eliminazione");
     }
   }
   
+  
+
+  anyCheckboxSelected(): boolean {
+    return this.originalEmails.some((email) => email.selected);
+  }
+
+  toggleSelectAll(): void {
+    const allSelected = this.allEmailsSelected();
+    this.originalEmails.forEach((email) => (email.selected = !allSelected));
+  }
+
+  allEmailsSelected(): boolean {
+    return this.originalEmails.every((email) => email.selected);
+  }
 }
