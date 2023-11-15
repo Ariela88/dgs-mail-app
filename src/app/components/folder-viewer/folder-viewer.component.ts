@@ -121,8 +121,7 @@ toggleSelectAll(): void {
   const allSelected = this.allEmailsSelected();
     this.originalEmails.forEach((email) => (email.selected = !allSelected));
       }
-
 allEmailsSelected(): boolean {
   return this.originalEmails.every((email) => email.selected);
-    }
+}
 }
