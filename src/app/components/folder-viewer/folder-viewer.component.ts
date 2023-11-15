@@ -29,7 +29,7 @@ export class FolderViewerComponent implements OnInit {
     private cdr: ChangeDetectorRef,    
      ) {}
 
-ngOnInit() {  
+async ngOnInit() {  
   this.route.params?.subscribe((params) => {
     this.folderName = params['folderName'];
      if (this.folderName) {
@@ -39,9 +39,7 @@ ngOnInit() {
            console.log(this.emails);
             this.route.queryParams?.subscribe((params) => {
              const searchTerm = params['q'];
-              if (searchTerm) {
-               this.searchTerm = searchTerm;
-                this.searchService.searchMail(searchTerm);
+              
                  if (this.searchService.searchResults$) {
                   this.searchResultsSubscription =
                    this.searchService.searchResults$?.subscribe(
@@ -53,10 +51,7 @@ ngOnInit() {
                          } else {
                           console.error('searchResults$ non definito.');
                            }
-                            } else {
-                             this.handleEmails(); 
-                              }
-                               });
+                            });
                                 },
                                  (error) => {
                                   console.error('Errore nel recupero delle email:', error);

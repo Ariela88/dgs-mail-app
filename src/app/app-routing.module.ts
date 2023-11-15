@@ -17,8 +17,7 @@ const routes: Routes = [
   { path: 'contacts', component: ContactsComponent },
   { path: 'folder/:folderName/mail/:id', component: MessageViewerComponent },
   { path: 'results', component: FolderViewerComponent, resolve: { searchResults: SearchResolver } },
-  { path: 'editor', component: ComposeComponent, resolve: { emailData: EmailResolver, resolve: ResolverResolver } },
-
+  { path: 'editor', component: ComposeComponent, resolve: { emailData: EmailResolver, emails: ResolverResolver } },
   { path: '**', redirectTo: 'folder/inbox', pathMatch: 'full' },
 ];
 

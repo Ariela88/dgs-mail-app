@@ -1,6 +1,7 @@
 import {Component, ElementRef, HostListener, OnInit, ViewChild}from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
 import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -12,6 +13,7 @@ export class SearchComponent implements OnInit {
   recentSearchTerms: string[] = [];
   searchTerm = '';
   @ViewChild('elementoRicerca') elementoRicerca!: ElementRef;
+
 
   constructor(private router: Router, private searchServ: SearchService) {}
 
@@ -28,14 +30,17 @@ export class SearchComponent implements OnInit {
        );
         }
 
-  onSearch() {
-    this.searchServ.searchMail(this.searchTerm);
-      this.addRecentSearch(this.searchTerm);
-        this.router.navigate(['folder/results'], {
-         queryParams: { q: this.searchTerm },
+        onSearch() {
+          this.searchServ
+            .searchMail(this.searchTerm)            
+          this.addRecentSearch(this.searchTerm);
+          this.router.navigate(['folder/results'], {
+            queryParams: { q: this.searchTerm },
           });
-           }
 
+        }
+
+        
   addRecentSearch(query: string): void {
     const MAX_RECENT_SEARCHES = 10;
       if (!this.recentSearchTerms.includes(query)) {
@@ -57,5 +62,10 @@ export class SearchComponent implements OnInit {
         this.searchTerm = '';
          }
           }
+
+          submitSearchForm(): void {
+            this.searchServ.searchMail(this.searchTerm);
+          }
+          
 
 }

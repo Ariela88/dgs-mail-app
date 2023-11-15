@@ -13,7 +13,7 @@
     </div>
     <!-- <span>{{selectedMessage.folderName}}</span> -->
     <p class="smaller-text">From: <span class="email-from" (click)="addEmail()"> {{ selectedMessage.from }}</span></p>
-    <p class="smaller-text">To: {{ selectedMessage.to | lowercase}}</p>
+    <p class="smaller-text">To: {{ selectedMessage.to}}</p>
     <h3>Oggetto: {{ selectedMessage.subject }}</h3>
     <div class="body-text">{{selectedMessage.body}} </div>
   </div>

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Mail } from '../model/mail';
-import { DataService } from './data.service';
 import { FolderService } from './folder.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable} from 'rxjs';
 
 
 @Injectable({
@@ -15,13 +14,8 @@ export class SearchService {
   recentSearchTerms$: Observable<string[]> = this.recentSearchTermsSubject.asObservable();
   contacts: string[] = [];
 
-  constructor(
-    private dataService: DataService, public folderService: FolderService) {
-      this.dataService.getMailMessage().subscribe((emails: Mail[]) => {
-       this.searchResultsSubject.next(emails);
-        });  
-         this.searchResults$ = this.searchResultsSubject.asObservable(); 
-           }
+
+  constructor(public folderService: FolderService) {}
   
   
   searchMail(searchTerm: string): void {
@@ -43,14 +37,8 @@ export class SearchService {
                          searchResults.forEach((mail) => {
                           this.folderService.copyEmailToFolder(mail, 'results');
                            });
-                            const recentSearchTerms = this.recentSearchTermsSubject.value;
-                             recentSearchTerms.push(searchTerm);
-                              this.recentSearchTermsSubject.next(recentSearchTerms);
-                                this.searchResultsSubject.next(searchResults);
+                            this.searchResultsSubject.next(searchResults);
                                  }
-  
-  
-  setDestinationFolder(mail: Mail, folderName: string): void {
-    this.folderService.copyEmailToFolder(mail, folderName);
-      }
+
+     
 }

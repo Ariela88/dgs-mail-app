@@ -23,7 +23,7 @@
           <span class="from-email" (click)="selectedMail(email.id)">
             <i class="material-icons" *ngIf="email.isFavourite">favorite</i>
             <i class="material-icons" *ngIf="email.important">star</i>
-            {{folderName === 'sent' ? email.to : email.from | lowercase}}</span>
+            {{folderName === 'sent' ? email.to : email.from}}</span>
           <span class="second-row" (click)="selectedMail(email.id)">Oggetto: <a>{{ email.subject }}</a></span>
         </div>
         <span class="spacer"></span>

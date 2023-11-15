@@ -26,6 +26,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contact } from 'src/app/model/contact';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-compose',
@@ -62,6 +63,7 @@ export class ComposeComponent implements OnInit {
     private router: Router,
     private contactsService: ContactsService,
     private snackBar: MatSnackBar,
+    private dataServ:DataService
      ) {
       this.newMailForm = this.fb.group({
        to: new FormControl('', [Validators.required]),
@@ -135,6 +137,7 @@ ngOnInit() {
                                isContact: true,
                                 isSelected: false,
                                  };
+                                 
                                   this.newMailForm.patchValue({
                                    to: recipientContact,
                                     subject: emailData.subject,
@@ -169,10 +172,10 @@ onSubmit() {
    this.selectedContact = this.contacts.find(
     (contact) => contact === selectedEmail
      );
-      const sentMail: Mail = {
+      let sentMail: Mail = {
       id: this.generateRandomId(),
       from: 'manuela@gmail.com',
-      to: selectedEmail,
+      to: selectedEmail.email ? selectedEmail.email : this.newMailForm.get('to')?.value,
       recipientName: this.selectedContact ? this.selectedContact : '',
       subject: this.newMailForm.get('subject')?.value,
       body: this.newMailForm.get('body')?.value,
@@ -189,7 +192,8 @@ onSubmit() {
        console.log(sentMail.to,'onsubmit destinatario')
         if (this.isDraft) {
          sentMail.sent = false;
-          this.folderService.copyEmailToFolder(sentMail, 'bozze');
+          
+          this.folderService.addEmailToFolder(sentMail, 'bozze');
            this.snackBar.open('Email salvata in bozze', 'Chiudi', {
             duration: 2000,
              });
