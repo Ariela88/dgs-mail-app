@@ -11,6 +11,7 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+
   Validators,
 } from '@angular/forms';
 import { Mail } from 'src/app/model/mail';
@@ -23,10 +24,9 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contact } from 'src/app/model/contact';
+
 @Component({
   selector: 'app-compose',
   templateUrl: './compose.component.html',
@@ -172,7 +172,7 @@ onSubmit() {
       const sentMail: Mail = {
       id: this.generateRandomId(),
       from: 'manuela@gmail.com',
-      to: selectedEmail.email,
+      to: selectedEmail,
       recipientName: this.selectedContact ? this.selectedContact : '',
       subject: this.newMailForm.get('subject')?.value,
       body: this.newMailForm.get('body')?.value,
@@ -186,6 +186,7 @@ onSubmit() {
       read: false,
       created: new Date,
        };
+       console.log(sentMail.to,'onsubmit destinatario')
         if (this.isDraft) {
          sentMail.sent = false;
           this.folderService.copyEmailToFolder(sentMail, 'bozze');
@@ -256,19 +257,15 @@ selected(event: MatAutocompleteSelectedEvent): void {
    const existingContact = this.contacts.find(
     (contact) => contact.email.toLowerCase() === selectedEmail
      );
-      if (existingContact) {
-       const newContact: Contact = {
-        email: existingContact.email,
-         isFavourite: existingContact.isFavourite,
-          isContact: existingContact.isContact,
-           isSelected: false,
-            };
-             this.selectedRecipients.push(newContact);
-              this.contactsInput!.nativeElement.value = '';
-               this.contactCtrl.setValue(null);
-                }
-                 } 
-                  }
+      if (existingContact) {    
+       this.selectedRecipients.push(existingContact);
+        this.contactsInput!.nativeElement.value = '';
+         this.contactCtrl.setValue(null);
+         this.newMailForm.get('to')?.patchValue(existingContact.email.toLowerCase());
+         console.log('destinatario',existingContact)
+          }
+           } 
+            }
 
 sortContacts(contacts: Contact[]): Contact[] {
  return contacts.sort((a, b) => (b.isFavourite ? 1 : -1));

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Mail } from 'src/app/model/mail';
 import { FolderService } from 'src/app/services/folder.service';
 import { ActivatedRoute, Router } from '@angular/router';
