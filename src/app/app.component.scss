@@ -1,31 +1,46 @@
 .container {
-    width:100%;
-    height: 100%;
-    margin: 0;    
-  }
-
-  aside {
-    display: flex;
-    flex-direction: column;
-    float: left;
-   background-color: #673ab7;;
-   width: 20%;
-   height: 100%;   
+  width: 100%;
+  height: 100%;
+  margin: 0;
 }
 
-aside mat-icon{
+aside {
+  display: flex;
+  flex-direction: column;
+  float: left;
+  background-color: #673ab7;
+  ;
+  width: 20%;
+  height: 100%;
+}
+
+aside mat-icon {
   color: white;
 }
 
-.mail-wrapper{
+.mail-wrapper {
   height: 100%;
- display: flex;
- flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
-.newmail-btn{
+.newmail-btn {
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
   padding: 24px 0;
+  height: 2%;
+}
+
+
+
+mat-icon {
+  margin: 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 6px !important;
+
 }

@@ -1,5 +1,6 @@
 <div class="container">
   <div class="header-folder-viewer">
+    
     <button class="select-all-btn" (click)="toggleSelectAll()" mat-raised-button *ngIf="folderName === 'inbox'">
       {{ allEmailsSelected() ? 'Deseleziona tutto' : 'Seleziona tutto' }}
     </button>
