@@ -22,6 +22,7 @@ toggleFolderTree() {
 changeFolder(folderName: string) {  
   
   this.router.navigate(['/folder', folderName]);
+ 
    }
  
 contacts() {  

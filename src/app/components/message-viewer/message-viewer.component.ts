@@ -72,7 +72,7 @@ forwardMail() {
 
 addToFavorites(email: Mail): void {
   email.folderName = 'favorite';
-    email.important = true;
+    email.isFavourite = true;
      this.folderService.copyEmailToFolder(email, 'favorite');
       this.dataServ.putMailMessage(email).subscribe(updatedEmail => {
        email = updatedEmail;
@@ -91,21 +91,21 @@ markAsImportant(email: Mail): void {
 
 removeFromFavorites(email: Mail): void {
  console.log('Rimuovi dai preferiti:', email);
-  this.folderService.deleteEmails([email.id], 'favorite')
+  
    email.folderName = 'inbox';
     email.isFavourite = false;
      }
 
 removeAsImportant(email: Mail): void {
  console.log('Rimuovi importante:', email);
-  this.folderService.deleteEmails([email.id], 'important')
-   email.folderName = 'inbox';
+     email.folderName = 'inbox';
     email.important = false;
      }
 
 toggleImportant(email: Mail): void {
  if (this.isEmailImportant(email)) {
   this.removeAsImportant(email);
+  email.important = false;
    } else {
     this.markAsImportant(email);
      }
@@ -134,6 +134,8 @@ isEmailInFavorites(email: Mail): boolean {
      });
       return isInFavorites;
        }
+
+
 
 
 addEmail() {

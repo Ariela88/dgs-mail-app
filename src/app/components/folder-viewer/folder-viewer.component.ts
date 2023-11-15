@@ -38,9 +38,8 @@ async ngOnInit() {
           this.emails = data; 
            console.log(this.emails);
             this.route.queryParams?.subscribe((params) => {
-             const searchTerm = params['q'];
-              
-                 if (this.searchService.searchResults$) {
+             if (this.searchService.searchResults$) {
+              console.log(this.searchResults)
                   this.searchResultsSubscription =
                    this.searchService.searchResults$?.subscribe(
                     (searchResults) => {
@@ -48,9 +47,7 @@ async ngOnInit() {
                       this.handleEmails();
                        }
                         );
-                         } else {
-                          console.error('searchResults$ non definito.');
-                           }
+                         } 
                             });
                                 },
                                  (error) => {
