@@ -11,13 +11,11 @@ export class ContactActionsComponent {
   @Input() contact?: Contact;
   @Output() toggleFavoriteOut: EventEmitter<Contact> = new EventEmitter<Contact>();
 
-
-  toggleFavorite() {
-    if (this.contact) {
-      this.contact.isFavourite = !this.contact.isFavourite;
-      this.toggleFavoriteOut.emit(this.contact);
-    }
-  }
-
+ toggleFavorite() {
+  if (this.contact) {
+   this.contact.isFavourite = !this.contact.isFavourite;
+    this.toggleFavoriteOut.emit(this.contact);
+     }
+      }
  
 }

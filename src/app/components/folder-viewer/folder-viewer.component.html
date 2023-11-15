@@ -3,21 +3,18 @@
     <button class="select-all-btn" (click)="toggleSelectAll()" mat-raised-button *ngIf="folderName === 'inbox'">
       {{ allEmailsSelected() ? 'Deseleziona tutto' : 'Seleziona tutto' }}
     </button>
-    <button  *ngIf="anyCheckboxSelected()" (click)="deleteSelectedEmails()" class="delete-btn" mat-raised-button
+    <button *ngIf="anyCheckboxSelected()" (click)="deleteSelectedEmails()" class="delete-btn" mat-raised-button
       color="warn"><mat-icon>delete</mat-icon></button>
     <div class="spacer"></div>
     <h2 class="folder-name">Cartella <span class="folder-name-bold"> {{folderName}} : {{emails.length}}</span> </h2>
   </div>
-
   <div class="update">
-    </div>
+  </div>
   <ul class="color-even">
-
     <ng-container *ngIf="!searchTerm; else searchResultsTemplate">
       <div *ngFor="let email of originalEmails" class="mail-row-element">
         <input *ngIf="folderName === 'inbox'" type="checkbox" [(ngModel)]="email.selected"
           (change)="handleCheckboxChange()" class="mail-checkbox">
-
         <div class="email-details">
           <span *ngIf="folderName !== 'sent'">
             <div class="read-indicator" [ngClass]="{'unread': !email.read, 'read': email.read}"></div>{{email.read?
@@ -32,7 +29,6 @@
         <span class="spacer"></span>
       </div>
     </ng-container>
-
     <ng-template #searchResultsTemplate>
       <div *ngFor="let email of searchResults">
         <!-- <pre> {{searchResults$ | json}}</pre> -->

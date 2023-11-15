@@ -1,20 +1,20 @@
 <div *ngIf="selectedMessage" class="msg-view-container">
   <div class="action-button">
     <app-message-actions [messageSelected]="selectedMessage" (addToFavoriteEvent)="toggleFavorite($event)"
-      (markAsImportantEvent)="toggleImportant($event)" (replyMail)="replyToEmail()"
-      (forwardMail)="forwardMail()" *ngIf="selectedMessage.folderName !== 'bozze'"></app-message-actions>
-      <button *ngIf="selectedMessage.folderName === 'bozze'" (click)="toggleEditing()" mat-raised-button color="primary" >Modifica</button>
+      (markAsImportantEvent)="toggleImportant($event)" (replyMail)="replyToEmail()" (forwardMail)="forwardMail()"
+      *ngIf="selectedMessage.folderName !== 'bozze'"></app-message-actions>
+    <button *ngIf="selectedMessage.folderName === 'bozze'" (click)="toggleEditing()" mat-raised-button
+      color="primary">Modifica</button>
   </div>
   <div class="email-content">
-    <div class="icon-content"> 
-    <i class="material-icons" *ngIf="selectedMessage.isFavourite">favorite</i>
-    <i class="material-icons" *ngIf="selectedMessage.important">star</i></div>
+    <div class="icon-content">
+      <i class="material-icons" *ngIf="selectedMessage.isFavourite">favorite</i>
+      <i class="material-icons" *ngIf="selectedMessage.important">star</i>
+    </div>
     <!-- <span>{{selectedMessage.folderName}}</span> -->
-   
     <p class="smaller-text">From: <span class="email-from" (click)="addEmail()"> {{ selectedMessage.from }}</span></p>
     <p class="smaller-text">To: {{ selectedMessage.to | lowercase}}</p>
     <h3>Oggetto: {{ selectedMessage.subject }}</h3>
     <div class="body-text">{{selectedMessage.body}} </div>
-   
   </div>
 </div>

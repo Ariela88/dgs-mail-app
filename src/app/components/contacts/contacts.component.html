@@ -2,30 +2,22 @@
   <h2 class="folder-name"> <span class="folder-name-bold"> Rubrica </span> </h2>
 </div>
 <h3>Numero contatti in rubrica: {{contacts.length}}</h3>
-
 <div class="button-container">
   <div class="add-container">
     <input [(ngModel)]="newContactEmail" placeholder="Inserisci un nuovo contatto email" />
     <button mat-raised-button color="primary" (click)="addContact()">Aggiungi</button>
   </div>
-  
   <div class="input-container">
     <button mat-raised-button color="primary" (click)="addFavorites()">{{ getButtonText() }}</button>
     <button mat-raised-button color="warn" (click)="deleteSelectedContacts()">Elimina</button>
   </div>
 </div>
-  <div class="contacts-wrapper">
-
-
+<div class="contacts-wrapper">
   <div *ngFor="let contact of contacts" class="mail-row-element">
     <mat-icon (click)="selectContact(contact)">mail</mat-icon>
     <app-contact-actions [contact]="contact" (toggleFavorite)="toggleFavorite(contact)"></app-contact-actions>
-
     <mat-checkbox [(ngModel)]="contact.isSelected" (change)="handleCheckboxChange(contact)">{{ contact.email
       }}</mat-checkbox>
     <span class="spacer"></span>
-    <!-- <mat-icon (click)="deleteContact(contact)" class="delete-btn"> delete </mat-icon> -->
   </div>
- 
-
 </div>

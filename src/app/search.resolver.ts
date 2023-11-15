@@ -9,13 +9,12 @@ import { Mail } from './model/mail';
 })
 export class SearchResolver implements Resolve<Mail[]> {
 
-  constructor(private searchServ: SearchService) {}
-
-  resolve(route: ActivatedRouteSnapshot): Observable<Mail[]> {
-    const searchTerm = route.queryParams['q'];
-    this.searchServ.searchMail(searchTerm);
+ constructor(private searchServ: SearchService) {}
+ resolve(route: ActivatedRouteSnapshot): Observable<Mail[]> {
+  const searchTerm = route.queryParams['q'];
+   this.searchServ.searchMail(searchTerm);
     this.searchServ.setDestinationFolder(searchTerm,'results');
-    return this.searchServ.searchResults$;
-  }
+     return this.searchServ.searchResults$;
+      }
   
 }

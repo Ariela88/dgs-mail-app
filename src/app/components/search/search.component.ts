@@ -20,7 +20,7 @@ export class SearchComponent implements OnInit {
     const savedSearchTerms = localStorage.getItem('recentSearchTerms');
      this.recentSearchTerms = savedSearchTerms
       ? JSON.parse(savedSearchTerms):[];
-  }
+       }
 
   filterSearchTerms(inputValue: string): string[] {
     return this.recentSearchTerms.filter((searchTerm) =>
@@ -34,7 +34,7 @@ export class SearchComponent implements OnInit {
         this.router.navigate(['folder/results'], {
          queryParams: { q: this.searchTerm },
           });
-         }
+           }
 
   addRecentSearch(query: string): void {
     const MAX_RECENT_SEARCHES = 10;
@@ -42,32 +42,20 @@ export class SearchComponent implements OnInit {
        this.recentSearchTerms.unshift(query);
         if (this.recentSearchTerms.length > MAX_RECENT_SEARCHES) {
           this.recentSearchTerms.pop();
-         }
-       localStorage.setItem(
-        'recentSearchTerms',
-           JSON.stringify(this.recentSearchTerms)
-         );
-       }
-      }
-
-  @HostListener('document:click', ['$event'])
-    onClickOutside(event: Event): void {
-      const target = event.target as HTMLElement;
-
-        if (!this.elementoRicerca.nativeElement.contains(target)) {
-          this.searchTerm = '';
-        }
-       }
+            }
+             localStorage.setItem(
+              'recentSearchTerms',
+               JSON.stringify(this.recentSearchTerms)
+                );
+                 }
+                  }
 
   insertInInput(term: string) {
     this.searchTerm = term;
-    if (this.searchTerm) {
-      this.onSearch();
-      this.searchTerm = '';
-    }
-  }
+      if (this.searchTerm) {
+       this.onSearch();
+        this.searchTerm = '';
+         }
+          }
 
-
-
-  
 }

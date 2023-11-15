@@ -1,5 +1,6 @@
 import { Component} from '@angular/core';
 import { Router } from '@angular/router';
+import { FolderService } from 'src/app/services/folder.service';
 
 
 @Component({
@@ -9,21 +10,20 @@ import { Router } from '@angular/router';
 })
 export class FolderListComponent{
 
-  showFolderTree = false;
+showFolderTree = false;
 
-  toggleFolderTree() {
-    this.showFolderTree = !this.showFolderTree;
-  }
+constructor(private router: Router,private folderServ:FolderService) {}
 
-  constructor(private router: Router) {}
+toggleFolderTree() {
+  this.showFolderTree = !this.showFolderTree;
+   }
 
-  changeFolder(folderName: string) {  
-    this.router.navigate(['/folder', folderName]);
-  }
+changeFolder(folderName: string) {  
+  this.router.navigate(['/folder', folderName]);
+   }
  
-  contacts() {  
-    this.router.navigate(['/contacts']);
-  }
+contacts() {  
+  this.router.navigate(['/contacts']);
+    }
 
-  
 }

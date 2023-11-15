@@ -1,15 +1,12 @@
 <ul>
     <li (click)="contacts()"><mat-icon>person</mat-icon> <span class="icon-label"> Rubrica</span></li>
 </ul>
-
 <ul>
     <li (click)="toggleFolderTree()">
         <mat-icon>folder</mat-icon> <span class="icon-label"> Tutte le Cartelle</span>
     </li>
     <li *ngIf="showFolderTree">
         <ul>
-            <!-- <li (click)="changeFolder('all')"><mat-icon alt="tutte le mail">mail</mat-icon><span class="icon-label">
-                    Tutte le mail</span> </li> -->
             <li (click)="changeFolder('inbox')"><mat-icon>inbox</mat-icon> <span class="icon-label"> In Arrivo</span>
             </li>
             <li (click)="changeFolder('sent')"><mat-icon>send</mat-icon> <span class="icon-label"> Inviate</span></li>
@@ -19,7 +16,8 @@
                     Importanti</span></li>
             <li (click)="changeFolder('trash')"><mat-icon>delete</mat-icon> <span class="icon-label"> Cestino</span>
             </li>
-            <li (click)="changeFolder('bozze')"><mat-icon>edit_document</mat-icon> <span class="icon-label"> Bozze</span>
+            <li (click)="changeFolder('bozze')"><mat-icon>edit_document</mat-icon> <span class="icon-label">
+                    Bozze</span>
             </li>
         </ul>
     </li>
