@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ContactsService } from 'src/app/services/contacts.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contact } from 'src/app/model/contact';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-message-viewer',
@@ -23,7 +24,8 @@ constructor(
   private route: ActivatedRoute,
   private router: Router,
   private contactServ: ContactsService,
-  private snackBar: MatSnackBar
+  private snackBar: MatSnackBar,
+  private dataServ:DataService
 ) {}
 ngOnInit() {
  const mailId = this.route.snapshot.params['id'];
@@ -55,7 +57,7 @@ replyToEmail() {
         this.router.navigate(['/editor'], { queryParams: queryParams });
          }
           }
-          
+
 forwardMail() {
  this.writeNewMail = true;
   this.isComposeMode = false;
@@ -69,16 +71,23 @@ forwardMail() {
           }
 
 addToFavorites(email: Mail): void {
- this.folderService.copyEmailToFolder(email, 'favorite');
   email.folderName = 'favorite';
-   email.isFavourite = true;
-    }
+    email.important = true;
+     this.folderService.copyEmailToFolder(email, 'favorite');
+      this.dataServ.putMailMessage(email).subscribe(updatedEmail => {
+       email = updatedEmail;
+        });
+         }
 
 markAsImportant(email: Mail): void {
- this.folderService.copyEmailToFolder(email, 'important');
-  email.folderName = 'important';
-   email.important = true;
-    }
+ email.folderName = 'important'; 
+  email.important = true;
+   this.folderService.copyEmailToFolder(email, 'important');
+    this.dataServ.putMailMessage(email).subscribe(updatedEmail => {
+     email = updatedEmail;
+      });
+       }
+    
 
 removeFromFavorites(email: Mail): void {
  console.log('Rimuovi dai preferiti:', email);

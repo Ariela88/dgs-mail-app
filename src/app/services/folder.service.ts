@@ -31,7 +31,7 @@ export class FolderService {
 
   folderNameSubject = new BehaviorSubject<string>('inbox');
   folderName$ = this.folderNameSubject.asObservable();
-  
+
   emailsSelected: Mail[] = [];
 
   constructor(private dataServ: DataService) {
@@ -84,6 +84,7 @@ export class FolderService {
                if (!this.trash[folderName]) {
                 this.trash[folderName] = [];
                   this.emails['trash'].push(deletedEmail);
+                  deletedEmail.selected = false
                    }
                     }
                      });
@@ -119,11 +120,9 @@ export class FolderService {
                 }
 
   getMailById(id: string): Observable<Mail | undefined> {
-    //console.log('Chiamato getMailById con ID:', id);
-      const mail = this.allEmails.find((email) => email.id === id);
-        //console.log('Mail trovata:', mail);
-          return of(mail);
-            }
+    const mail = this.allEmails.find((email) => email.id === id);
+       return of(mail);
+         }
 
   clearTrash(): void {
     this.trash = {};

@@ -10,6 +10,7 @@ import { Observable, forkJoin, throwError } from 'rxjs';
 export class DataService {
   
   mockMail = 'https://651a7a94340309952f0d59cb.mockapi.io/emails'
+  emails:Mail[]=[]
 
   constructor(private http: HttpClient) {}
 
@@ -30,6 +31,12 @@ export class DataService {
               );
                }
 
+ putMailMessage(email: Mail): Observable<Mail> {
+   return this.http.put<Mail>(`${this.mockMail}/${email.id}`, email).pipe(
+     tap( data => console.log('email modificata',data))
+       );
+        }
+              
 
   deleteMail(emailIds: string[]): Observable<void> {
     const deleteUrls = emailIds.map((emailId) => `${this.mockMail}/${emailId}`);
