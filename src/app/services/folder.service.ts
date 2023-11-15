@@ -29,34 +29,35 @@ export class FolderService {
   emails$ = this.emailsSubject.asObservable();
   folderNameSubject = new BehaviorSubject<string>('inbox');
   folderName$ = this.folderNameSubject.asObservable();
+  emailsSelected: Mail[] = [];
 
   constructor(private dataServ: DataService) {
+    this.dataServ.getMailMessage().subscribe((data) => {
+      this.emailsSelected = data;
+      
+      this.setEmails(this.emailsSelected, 'inbox'); 
+    });
     
   }
 
   setEmails(emails: Mail[], folderName: string): void {
     this.emails[folderName] = emails;
-
     this.emailsSubject.next(emails);
-    console.log(this.emails, 'setEmails');
   }
 
   getEmailsObservable(folderName: string): Observable<Mail[]> {
     const emails = this.emails[folderName] || [];
-    // console.log('Messaggi nella cartella', folderName, ':', emails);
     return of(emails);
   }
 
   getEmails(folderName: string): Observable<Mail[]> {
-    return this.dataServ.getMailMessage().pipe(
-      map((emails) => {
-        this.emails[folderName] = emails;
-        this.updateEmailList(folderName);
-        return this.emails[folderName] || [];
-      })
-    );
+    const emails = this.emails[folderName] || [];
+   this.updateEmailList(folderName);
+    return of(emails);
   }
+
   
+
 
   
   addEmailToFolder(email: Mail, folderName: string) {
@@ -95,10 +96,8 @@ export class FolderService {
 
   updateEmailList(folderName: string): void {
     const emails = this.emails[folderName] || [];
-    this.emails['all'] = [...emails]; 
     this.emailsSubject.next(emails);
   }
-  
   copyEmailToFolder(email: Mail, targetFolder: string) {
     const mailToCopy = { ...email };
     if (!(targetFolder in this.emails)) {

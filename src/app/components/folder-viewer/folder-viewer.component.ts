@@ -71,7 +71,7 @@ export class FolderViewerComponent implements OnInit {
 
  
   handleEmails() {
-    this.emails = this.searchTerm ? this.searchResults : this.emails;
+    this.originalEmails = this.searchTerm ? this.searchResults : this.emails;
     this.cdr.detectChanges();
   }
   
