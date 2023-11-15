@@ -13,9 +13,7 @@ export class DataService {
 
   constructor(private http: HttpClient) {}
 
-
-
-  getMailMessage(): Observable<Mail[]> {
+ getMailMessage(): Observable<Mail[]> {
    console.log('get email data serv')
     return this.http.get<Mail[]>(this.mockMail)
      }

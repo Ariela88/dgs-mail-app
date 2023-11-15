@@ -11,7 +11,6 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-
   Validators,
 } from '@angular/forms';
 import { Mail } from 'src/app/model/mail';
@@ -24,9 +23,10 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contact } from 'src/app/model/contact';
-
 @Component({
   selector: 'app-compose',
   templateUrl: './compose.component.html',
@@ -37,20 +37,22 @@ export class ComposeComponent implements OnInit {
   newMailForm: FormGroup;
   data: any;
   isContact: boolean = false;
+  toValue: string = '';
+  @Input() isComposeMode: boolean = true;
+  @Input() selectedMail?: Mail | null = null;
   sortedOptions$: Observable<Contact[]>;
   contacts: Contact[] = [];
   selectedRecipients: Contact[] = [];
-  selectedContact: any;
-  contactCtrl = new FormControl('');
-  filteredOptions: Observable<any[]>;
+  isSent: boolean = false;
   isDraft: boolean = false;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   announcer = inject(LiveAnnouncer);
-
-  @Input() isComposeMode: boolean = true;
-  @Input() selectedMail?: Mail | null = null;
-
+  selectedContact: any;
+  contactCtrl = new FormControl('');
+  filteredOptions: Observable<any[]>;
   @ViewChild('contactsInput') contactsInput?: ElementRef<HTMLInputElement>;
+ 
+  
 
   constructor(
     private fb: FormBuilder,
