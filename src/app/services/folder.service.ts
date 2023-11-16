@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Mail } from '../model/mail';
-import { BehaviorSubject, Observable, map, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DataService } from './data.service';
-import { ConfirmationDialogComponent } from '../components/confirmation-dialog/confirmation-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +19,7 @@ export class FolderService {
     bozze: [],
   };
 
-  private trash: { [key: string]: Mail[] } = {};
+ 
 
   emailRemovedSubject = new BehaviorSubject<void>(undefined);
   emailRemoved$ = this.emailRemovedSubject.asObservable();
@@ -34,7 +32,7 @@ export class FolderService {
 
   emailsSelected: Mail[] = [];
 
-  constructor(private dataServ: DataService, public dialog: MatDialog) {
+  constructor(private dataServ: DataService) {
     this.dataServ.getMailMessage().subscribe((data) => {
       this.emailsSelected = data;
       this.setEmails(this.emailsSelected, 'inbox');
@@ -80,19 +78,16 @@ export class FolderService {
       );
       if (index !== -1) {
         indicesToRemove.push(index);
-        const deletedEmail = this.emails[folderName][index];
-        if (!this.trash[folderName]) {
-          
-          this.emails['trash'].push(deletedEmail);
-          deletedEmail.selected = false;
-        }
+        const deletedEmail = { ...this.emails[folderName][index] };
+        this.emails['trash'].push(deletedEmail);
+        deletedEmail.selected = false;
       }
     });
-  
+
     indicesToRemove.reverse().forEach((index) => {
       this.emails[folderName].splice(index, 1);
     });
-  
+
     this.dataServ.deleteMail(emailIds).subscribe(
       () => {
         console.log('Mail cancellata con successo');
@@ -103,8 +98,6 @@ export class FolderService {
       }
     );
   }
-  
-  
 
   updateEmailList(folderName: string): void {
     const emails = this.emails[folderName] || [];
