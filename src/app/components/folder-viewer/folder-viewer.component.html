@@ -4,7 +4,7 @@
       Torna a Inbox
     </button>
     <button class="select-all-btn" (click)="toggleSelectAll()" mat-raised-button *ngIf="folderName === 'inbox'">
-      {{ allEmailsSelected() ? 'Deseleziona tutto' : 'Seleziona tutto' }}
+      {{ allEmailsSelected() ? 'Deseleziona tutto' : 'Seleziona tutto' }} <span>({{checkedCounter(emails!)}})</span>
     </button>
     <button *ngIf="anyCheckboxSelected()" (click)="deleteSelectedEmails()" class="delete-btn" mat-raised-button
       color="warn"><mat-icon>delete</mat-icon></button>

@@ -148,4 +148,15 @@ export class FolderViewerComponent implements OnInit {
 
     return counter;
   }
+
+  checkedCounter(emails: Mail[]): number {
+    let counter = 0;    
+      emails.forEach((email) => {
+      if (email.selected) {
+        counter++;
+      }
+    });
+
+    return counter;
+  }
 }
