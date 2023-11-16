@@ -6,6 +6,7 @@ import { SearchService } from 'src/app/services/search.service';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-folder-viewer',
@@ -29,7 +30,8 @@ export class FolderViewerComponent implements OnInit {
     private router: Router,
     private searchService: SearchService,
     private cdr: ChangeDetectorRef,
-    public dialog:MatDialog
+    public dialog:MatDialog,
+    
   ) {}
 
   async ngOnInit() {
@@ -51,6 +53,7 @@ export class FolderViewerComponent implements OnInit {
       }
     });
   }
+
   
   private async getEmails() {
     try {
@@ -133,5 +136,16 @@ export class FolderViewerComponent implements OnInit {
 
   goToInbox(): void {
     this.router.navigate(['/folder', 'inbox']);
+  }
+
+  counter(emails: Mail[]): number {
+    let counter = 0;    
+      emails.forEach((email) => {
+      if (!email.read) {
+        counter++;
+      }
+    });
+
+    return counter;
   }
 }

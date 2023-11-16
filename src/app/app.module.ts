@@ -18,6 +18,7 @@ import { SearchComponent } from './components/search/search.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { TimeStampPipe } from './pipes/time-stamp.pipe';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule,
+    TimeStampPipe
     
     
     

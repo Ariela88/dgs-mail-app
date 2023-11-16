@@ -123,4 +123,6 @@ export class FolderService {
     this.emails[folderName] = [];
     this.updateEmailList(folderName);
   }
+
+  
 }

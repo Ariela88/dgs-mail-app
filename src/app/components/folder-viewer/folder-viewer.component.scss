@@ -21,6 +21,15 @@ li {
   font-size: 16px;
 }
 
+.bold-text {
+  font-weight: bold;
+}
+
+.bold-text.read {
+  font-weight: normal;
+}
+
+
 
 .second-row {
   text-decoration: underline;
@@ -156,4 +165,9 @@ button:hover{
 
 .select-all-btn{
   margin-left: 44px;
+}
+
+.light-text-counter{
+  font-size: smaller;
+  font-weight: 300;
 }
