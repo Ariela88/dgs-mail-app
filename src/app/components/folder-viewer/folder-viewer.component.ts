@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FolderService } from 'src/app/services/folder.service';
 import { SearchService } from 'src/app/services/search.service';
 import { Subscription } from 'rxjs';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-folder-viewer',
@@ -26,7 +28,8 @@ export class FolderViewerComponent implements OnInit {
     private folderServ: FolderService,
     private router: Router,
     private searchService: SearchService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public dialog:MatDialog
   ) {}
 
   async ngOnInit() {
@@ -94,21 +97,27 @@ export class FolderViewerComponent implements OnInit {
   }
 
   deleteSelectedEmails() {
-    const selectedEmails = this.originalEmails.filter(
-      (email) => email.selected
-    );
+    const selectedEmails = this.originalEmails.filter((email) => email.selected);
+  
     if (selectedEmails.length > 0) {
-      const selectedEmailIds = selectedEmails.map(
-        (selectedEmail) => selectedEmail.id
-      );
-      this.folderServ.deleteEmails(selectedEmailIds, 'inbox');
-      this.originalEmails = this.originalEmails.filter(
-        (email) => !email.selected
-      );
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: { message: 'Sei sicuro di voler eliminare le email selezionate?' },
+      });
+  
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          const selectedEmailIds = selectedEmails.map((selectedEmail) => selectedEmail.id);
+          this.folderServ.deleteEmails(selectedEmailIds, 'inbox');
+          this.originalEmails = this.originalEmails.filter((email) => !email.selected);
+          this.cdr.detectChanges(); // Aggiorna la vista dopo l'eliminazione
+        }
+      });
     } else {
       console.log("Nessuna email selezionata per l'eliminazione");
     }
   }
+  
+  
 
   anyCheckboxSelected(): boolean {
     return this.originalEmails.some((email) => email.selected);

@@ -20,16 +20,7 @@ export class ModalService {
   ) {}
 
   openModal(data: any, el: ElementRef) {
-    const modalFactory = this.componentFactoryResolver.resolveComponentFactory(ComposeComponent);
-     const modalComponentRef = modalFactory.create(this.injector);
-      modalComponentRef.instance.data = data;
-       this.appRef.attachView(modalComponentRef.hostView);
-        const domElem = (modalComponentRef.hostView as any)
-         .rootNodes[0] as HTMLElement;
-          el.nativeElement.appendChild(domElem);
-           modalComponentRef.onDestroy(() => {
-            el.nativeElement.removeChild(domElem);
-             });
+    
               }
 
   closeModal() {

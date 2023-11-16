@@ -26,6 +26,8 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contact } from 'src/app/model/contact';
 import { DataService } from 'src/app/services/data.service';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-compose',
@@ -59,7 +61,8 @@ export class ComposeComponent implements OnInit {
     private router: Router,
     private contactsService: ContactsService,
     private snackBar: MatSnackBar,
-    private dataServ: DataService
+    private dataServ: DataService,
+    public dialog: MatDialog
   ) {
     this.newMailForm = this.fb.group({
       to: new FormControl('', [Validators.required]),
@@ -207,12 +210,24 @@ export class ComposeComponent implements OnInit {
   }
 
   closeModal() {
-    if (window.confirm("Sei sicuro di voler uscire dall'editor?")) {
+  //   if (window.confirm("Sei sicuro di voler uscire dall'editor?")) {
+  //     this.isDraft = true;
+  //     this.onSubmit();
+  //     this.modalService.closeModal();
+  //   }
+  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    data: { message: "Sei sicuro di voler uscire dall'editor?" }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
       this.isDraft = true;
       this.onSubmit();
       this.modalService.closeModal();
     }
-  }
+  });
+}
+  // }
 
   private _filter(value: string): Contact[] {
     const filterValue = value.toLowerCase();
@@ -227,6 +242,9 @@ export class ComposeComponent implements OnInit {
     );
     return [...favoriteContacts, ...otherContacts];
   }
+   
+  
+  
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();

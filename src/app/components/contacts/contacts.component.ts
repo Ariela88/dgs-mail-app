@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Contact } from 'src/app/model/contact';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 
 @Component({
@@ -94,21 +95,25 @@ selectContact(contact: Contact) {
        }
         }
 
-deleteSelectedContacts() {
- const selectedContacts = this.contacts.filter(contact => contact.isSelected);
-  if (selectedContacts.length > 0) {
-   const confirmDelete = window.confirm('Sei sicuro di voler eliminare i contatti selezionati?');
-    if (confirmDelete) {
-     this.contacts = this.contacts.filter(contact => !contact.isSelected);
-      this.contactsService.setContacts(this.contacts);
-       this.snackBar.open('Contatto Eliminato', 'Chiudi', {
-        duration: 2000,
-         });
-          }
-           } else {
-            alert('Seleziona almeno un contatto da eliminare.');
-             }
+        deleteSelectedContacts() {
+          const selectedContacts = this.contacts.filter(contact => contact.isSelected);
+          if (selectedContacts.length > 0) {
+            const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+              data: { message: 'Sei sicuro di voler eliminare i contatti selezionati?' }
+            });
+        
+            dialogRef.afterClosed().subscribe(result => {
+              if (result) {
+                this.contacts = this.contacts.filter(contact => !contact.isSelected);
+                this.contactsService.setContacts(this.contacts);
+                this.snackBar.open('Contatto Eliminato', 'Chiudi', { duration: 2000 });
               }
+            });
+          } else {
+            alert('Seleziona almeno un contatto da eliminare.');
+          }
+        }
+        
 
 toggleFavorite(contact: Contact) {
  const updatedContacts = this.contacts.map(c => {
