@@ -44,3 +44,19 @@ mat-icon {
   margin-left: 6px !important;
 
 }
+
+.home-h2{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+align-items: center;
+  justify-content: center;
+}
+
+h2{
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+
+}

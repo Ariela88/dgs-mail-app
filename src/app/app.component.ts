@@ -1,8 +1,7 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
-import { ModalService } from './services/modal.service';
-import { DataService } from './services/data.service';
-import { FolderService } from './services/folder.service';
-import { Mail } from './model/mail';
+import { Component } from '@angular/core';
+
+import { filter } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 
 
@@ -13,5 +12,17 @@ import { Mail } from './model/mail';
 })
 export class AppComponent  {
   title = 'dgs-mail-app';
- 
+  folder: string | undefined
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        const childRoute = this.activatedRoute.firstChild;
+        if (childRoute) {
+          const folderName = childRoute.snapshot.params['folderName'];
+          this.folder = folderName;
+        }
+      });
+  }
+
 }

@@ -10,7 +10,7 @@
     <button *ngIf="anyCheckboxSelected()" (click)="deleteSelectedEmails()" class="delete-btn" mat-raised-button
       color="warn"><mat-icon>delete</mat-icon></button>
     <div class="spacer"></div>
-    <h2 class="folder-name">Cartella <span class="folder-name-bold"> {{folderName}} : {{emails.length}}</span> </h2>
+    <h2 class="folder-name">Cartella <span class="folder-name-bold"> {{folderName}} : {{emails?.length}}</span> </h2>
   </div>
   <div class="update">
   </div>

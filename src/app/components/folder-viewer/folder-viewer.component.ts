@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Mail } from 'src/app/model/mail';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FolderService } from 'src/app/services/folder.service';
@@ -9,13 +9,14 @@ import { Subscription } from 'rxjs';
   selector: 'app-folder-viewer',
   templateUrl: './folder-viewer.component.html',
   styleUrls: ['./folder-viewer.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FolderViewerComponent implements OnInit {
   originalEmails: Mail[] = [];
   searchResults: Mail[] = [];
   folderName?: string;
   searchTerm: string = '';
-  emails: Mail[] = [];
+  emails?: Mail[] = [];
   isCheccked = false;
   searchResultsSubscription?: Subscription;
   selectedMails: Mail[] = [];
@@ -29,36 +30,41 @@ export class FolderViewerComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.route.params?.subscribe((params) => {
+    this.route.params?.subscribe(async (params) => {
       this.folderName = params['folderName'];
       if (this.folderName) {
-        this.folderServ.getEmails(this.folderName).subscribe(
-          (data) => {
-            this.emails = data;
-            console.log(this.emails);
-            this.route.queryParams?.subscribe((params) => {
-              if (params) {
-                console.log(this.searchResults);
-                this.searchResultsSubscription =
-                  this.searchService.searchResults$?.subscribe(
-                    (searchResults) => {
-                      this.searchResults = searchResults;
-                      this.handleEmails();
-                    }
-                  );
+        await this.getEmails();
+        this.route.queryParams?.subscribe((params) => {
+          if (params) {
+            this.searchResultsSubscription = this.searchService.searchResults$?.subscribe(
+              (searchResults) => {
+                this.searchResults = searchResults;
+                this.handleEmails();
+                this.cdr.detectChanges(); 
               }
-            });
-          },
-          (error) => {
-            console.error('Errore nel recupero delle email:', error);
+            );
           }
-        );
+        });
       }
     });
   }
+  
+  private async getEmails() {
+    try {
+      const data = await this.folderServ.getEmails(this.folderName!).toPromise();
+      this.emails = data;
+      console.log('Emails ricevute:', this.emails);
+      this.handleEmails();
+      this.cdr.detectChanges(); 
+    } catch (error) {
+      console.error('Errore nel recupero delle email:', error);
+    }
+  }
+  
+  
 
   handleEmails() {
-    this.originalEmails = this.searchTerm ? this.searchResults : this.emails;
+    this.originalEmails = this.searchTerm ? this.searchResults : this.emails!;
     this.cdr.detectChanges();
   }
 

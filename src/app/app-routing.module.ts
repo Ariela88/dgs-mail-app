@@ -8,9 +8,10 @@ import { FolderViewerComponent } from './components/folder-viewer/folder-viewer.
 import { SearchResolver } from './search.resolver';
 import { EmailResolver } from './email-resolver.resolver';
 import { ContactsComponent } from './components/contacts/contacts.component';
+import { AppComponent } from './app.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'folder/inbox', pathMatch: 'full' },
+  { path: '', component: AppComponent },
   { path: 'folder/:folderName', component: FolderViewerComponent, resolve: { emails: ResolverResolver }},
   { path: 'folder/inbox', component: FolderViewerComponent, resolve: { emails: ResolverResolver }},
   { path: 'editor', component: ComposeComponent },

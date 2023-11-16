@@ -5,6 +5,7 @@
       <mat-icon>add</mat-icon>
     </button>
   </div>
-  <app-folder-list> </app-folder-list>
+  <app-folder-list [folder]="folder"> </app-folder-list>
 </aside>
 <router-outlet></router-outlet>
+<div class="home-h2" *ngIf="!folder"> <h2><mat-icon>arrow_back</mat-icon> Clicca su una folder per visualizzare le mail! </h2> </div>

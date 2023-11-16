@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { FolderService } from 'src/app/services/folder.service';
 
@@ -9,6 +9,7 @@ import { FolderService } from 'src/app/services/folder.service';
 })
 export class FolderListComponent {
   showFolderTree = false;
+  @Input() folder: string | undefined;
 
   constructor(private router: Router) {}
 
@@ -17,6 +18,7 @@ export class FolderListComponent {
   }
 
   changeFolder(folderName: string) {
+    this.folder = folderName;
     this.router.navigate(['/folder', folderName]);
   }
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, first } from 'rxjs';
 import { Mail } from './model/mail';
 import { FolderService } from './services/folder.service';
 import { DataService } from './services/data.service';
@@ -14,6 +14,8 @@ export class ResolverResolver implements Resolve<Mail[]> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Mail[]> {
     const folderName = route.params['folderName'] || 'inbox';
-     return this.folderService.getEmailsObservable(folderName);
-      }
+    return this.folderService.getEmailsObservable(folderName);
+  }
+  
+  
 }
