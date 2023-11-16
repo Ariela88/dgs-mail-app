@@ -31,7 +31,6 @@ export class ContactsService {
     const sortedContacts = contacts
       .slice()
         .sort((a, b) => (b.isFavourite ? 1 : -1));
-          // this.contacts = sortedContacts;
             this.contactsSubject.next(sortedContacts);
               }
 

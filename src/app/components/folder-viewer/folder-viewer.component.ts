@@ -109,7 +109,7 @@ export class FolderViewerComponent implements OnInit {
           const selectedEmailIds = selectedEmails.map((selectedEmail) => selectedEmail.id);
           this.folderServ.deleteEmails(selectedEmailIds, 'inbox');
           this.originalEmails = this.originalEmails.filter((email) => !email.selected);
-          this.cdr.detectChanges(); // Aggiorna la vista dopo l'eliminazione
+          this.cdr.detectChanges();
         }
       });
     } else {

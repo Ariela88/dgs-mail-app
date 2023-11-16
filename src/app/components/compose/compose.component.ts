@@ -210,11 +210,7 @@ export class ComposeComponent implements OnInit {
   }
 
   closeModal() {
-  //   if (window.confirm("Sei sicuro di voler uscire dall'editor?")) {
-  //     this.isDraft = true;
-  //     this.onSubmit();
-  //     this.modalService.closeModal();
-  //   }
+  
   const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
     data: { message: "Sei sicuro di voler uscire dall'editor?" }
   });
@@ -227,7 +223,7 @@ export class ComposeComponent implements OnInit {
     }
   });
 }
-  // }
+
 
   private _filter(value: string): Contact[] {
     const filterValue = value.toLowerCase();
