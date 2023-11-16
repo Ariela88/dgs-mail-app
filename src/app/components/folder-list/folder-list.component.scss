@@ -8,6 +8,7 @@ li{
     margin-bottom: 16px;
     color: white;
     padding: 0;
+    width: 100%;
 }
 
 ul{
@@ -23,9 +24,6 @@ ul mat-icon:hover{
 }
 
 
-  li:hover{
-    color: black;
-  }
 
   mat-icon {
     color: white;
@@ -47,6 +45,16 @@ ul mat-icon:hover{
     height: 64px;
     
     background-color: #7d59bd;
+  }
+
+  .newmail-btn button:hover{
+    background-color:chocolate!important;
+    color: black!important;
+  }
+
+  .list-element:hover{
+    background-color: #7d59bd;
+    color: black;
   }
 
   @media (max-width: 800px) {

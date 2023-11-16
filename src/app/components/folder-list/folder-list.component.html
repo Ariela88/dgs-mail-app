@@ -7,24 +7,24 @@
 
 
 <ul>
-    <li (click)="contacts()"><mat-icon>person</mat-icon> <span class="icon-label"> Rubrica</span></li>
+    <li class="list-element" (click)="contacts()"><mat-icon>person</mat-icon> <span > Rubrica</span></li>
 </ul>
 <ul>
-    <li (click)="toggleFolderTree()">
-        <mat-icon>folder</mat-icon> <span class="icon-label"> Tutte le Cartelle</span>
+    <li (click)="toggleFolderTree()" class="list-element">
+        <mat-icon>folder</mat-icon> <span > Tutte le Cartelle</span>
     </li>
     <li *ngIf="showFolderTree">
         <ul>
-            <li (click)="changeFolder('inbox')"><mat-icon>inbox</mat-icon> <span class="icon-label"> In Arrivo</span>
+            <li class="list-element" (click)="changeFolder('inbox')"><mat-icon>inbox</mat-icon> <span > In Arrivo</span>
             </li>
-            <li (click)="changeFolder('sent')"><mat-icon>send</mat-icon> <span class="icon-label"> Inviate</span></li>
-            <li (click)="changeFolder('favorite')"><mat-icon>favorite</mat-icon> <span class="icon-label">
+            <li class="list-element" (click)="changeFolder('sent')"><mat-icon>send</mat-icon> <span > Inviate</span></li>
+            <li class="list-element" (click)="changeFolder('favorite')"><mat-icon>favorite</mat-icon> <span>
                     Preferiti</span></li>
-            <li (click)="changeFolder('important')"><mat-icon>star</mat-icon> <span class="icon-label">
+            <li class="list-element" (click)="changeFolder('important')"><mat-icon>star</mat-icon> <span>
                     Importanti</span></li>
-            <li (click)="changeFolder('trash')"><mat-icon>delete</mat-icon> <span class="icon-label"> Cestino</span>
+            <li class="list-element" (click)="changeFolder('trash')"><mat-icon>delete</mat-icon> <span > Cestino</span>
             </li>
-            <li (click)="changeFolder('bozze')"><mat-icon>edit_document</mat-icon> <span class="icon-label">
+            <li class="list-element" (click)="changeFolder('bozze')"><mat-icon>edit_document</mat-icon> <span>
                     Bozze</span>
             </li>
         </ul>
