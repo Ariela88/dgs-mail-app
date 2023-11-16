@@ -19,8 +19,9 @@ export class FolderService {
     bozze: [],
   };
   
+  
   private trash: { [key: string]: Mail[] } = {};
-
+  private results: { [key: string]: Mail[] } = {};
 
 
   emailRemovedSubject = new BehaviorSubject<void>(undefined);
@@ -125,6 +126,10 @@ export class FolderService {
          }
 
   clearTrash(): void {
-    this.trash = {};
+    this.results = {};
+      }
+      clearFolder(folderName: string): void {
+        this.emails[folderName] = [];
+        this.updateEmailList(folderName);
       }
 }

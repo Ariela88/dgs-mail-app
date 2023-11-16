@@ -1,24 +1,20 @@
-.search-bar {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
+
 
 .recent-searches {
   color: black;
-  position: absolute;
-  background-color: #fff;
+    background-color: #fff;
   border: 1px solid #ccc;
   list-style: none;
   padding: 0;
   margin: 0;
-  width: calc(100% - 2px);
-  max-height: 200px;
+    max-height: 200px;
   overflow-y: auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 999;
-  right: 253px;
+  z-index: 9999;
+  position: absolute;
+  width: 200px;
+  
+ 
 }
 
 .recent-searches li {

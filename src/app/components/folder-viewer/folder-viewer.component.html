@@ -1,5 +1,8 @@
 <div class="container">
   <div class="header-folder-viewer">
+    <button *ngIf="folderName === 'results'" (click)="goToInbox()" mat-raised-button>
+      Torna a Inbox
+    </button>
     
     <button class="select-all-btn" (click)="toggleSelectAll()" mat-raised-button *ngIf="folderName === 'inbox'">
       {{ allEmailsSelected() ? 'Deseleziona tutto' : 'Seleziona tutto' }}
@@ -11,6 +14,7 @@
   </div>
   <div class="update">
   </div>
+  
   <ul class="color-even">
     <ng-container *ngIf="!searchTerm; else searchResultsTemplate">
       <div *ngFor="let email of originalEmails" class="mail-row-element">
