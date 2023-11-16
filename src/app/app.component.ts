@@ -12,7 +12,10 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 })
 export class AppComponent  {
   title = 'dgs-mail-app';
-  folder: string | undefined
+  folder: string | undefined;
+  contacts: string | undefined;
+  showHomeH2: boolean = true; 
+
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -21,8 +24,12 @@ export class AppComponent  {
         if (childRoute) {
           const folderName = childRoute.snapshot.params['folderName'];
           this.folder = folderName;
+          const contacts = childRoute.snapshot.params['contacts'];
+          this.contacts = contacts;
+
+         
+          this.showHomeH2 = !this.folder && !this.contacts;
         }
       });
   }
-
 }

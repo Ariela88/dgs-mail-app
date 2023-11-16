@@ -1,11 +1,9 @@
+
 <app-header></app-header>
-<aside> 
-  <div class="newmail-btn">
-    <button mat-raised-button color="accent" routerLink="editor">
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
+<aside>
   <app-folder-list [folder]="folder"> </app-folder-list>
 </aside>
 <router-outlet></router-outlet>
-<div class="home-h2" *ngIf="!folder"> <h2><mat-icon>arrow_back</mat-icon> Clicca su una folder per visualizzare le mail! </h2> </div>
+<div *ngIf="!folder" class="home-h2">
+  <h2><mat-icon>arrow_back</mat-icon> Scegli una folder per visualizzare le mail! </h2>
+</div>

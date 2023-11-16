@@ -19,6 +19,7 @@ export class ContactsComponent {
   selectAll: boolean = false; 
   isComposeMode: boolean = false;
   writeNewMail: boolean = false;
+  showHomeH2: boolean = true;
   
   constructor(
     private contactsService: ContactsService,
@@ -29,7 +30,9 @@ export class ContactsComponent {
 
 ngOnInit() {
   this.contactsService.contacts$.subscribe((contacts) => {
-    this.contacts = contacts;   
+    this.contacts = contacts;
+     
+   
       });
         }
 
