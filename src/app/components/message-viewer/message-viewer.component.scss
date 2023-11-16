@@ -28,6 +28,9 @@ button{
 .email-content{
     width: 85%;
     padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
     
 }
 
@@ -49,4 +52,8 @@ button{
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+.date-small-text{
+    font-size: 12px;
 }
