@@ -189,4 +189,8 @@ export class MessageViewerComponent implements OnInit {
       this.router.navigate(['editor'], { queryParams: queryParams });
     }
   }
+
+  goBackToFolder() {
+    this.router.navigate(['folder', this.selectedMessage?.folderName]);
+  }
 }
