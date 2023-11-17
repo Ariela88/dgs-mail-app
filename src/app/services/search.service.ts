@@ -56,6 +56,47 @@ export class SearchService {
     console.log(this.searchResults);
   }
 
+  searchMailInMockapi(searchTerm: string): void {
+    this.clearResults();
+  
+    const url = new URL('https://651a7a94340309952f0d59cb.mockapi.io/emails');
+    url.searchParams.append('title', searchTerm);
+  
+    fetch(url, {
+      method: 'GET',
+      headers: { 'content-type': 'application/json' },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw new Error('Network response was not ok.');
+      })
+      .then((emails) => {
+        console.log(emails);
+        emails.forEach((email: Mail) => {
+        
+          const searchTermLower = searchTerm.toLowerCase();
+          const isInBody = email.body && email.body.toLowerCase().includes(searchTermLower);
+          const isInFrom = email.from && email.from.toLowerCase().includes(searchTermLower);
+          const isInTo = email.to && email.to.toLowerCase().includes(searchTermLower);
+  
+          if (isInBody || isInFrom || isInTo) {
+            this.folderService.copyEmailToFolder(email, 'results');
+            if (!this.searchResults.includes(email)) {
+              this.searchResults.push(email);
+            }
+          }
+        });
+  
+        this.searchResultsSubject.next(this.searchResults);
+      })
+      .catch((error) => {
+        console.error('Error fetching emails:', error);
+      });
+  }
+  
+
   setDestinationFolder(mail: Mail, folderName: string): void {
     this.folderService.copyEmailToFolder(mail, folderName);
   }

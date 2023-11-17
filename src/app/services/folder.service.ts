@@ -20,8 +20,6 @@ export class FolderService {
     outgoing: [],
   };
 
- 
-
   emailRemovedSubject = new BehaviorSubject<void>(undefined);
   emailRemoved$ = this.emailRemovedSubject.asObservable();
 
@@ -42,8 +40,8 @@ export class FolderService {
 
   private saveEmailToOutbox(email: Mail) {
     this.emails['outgoing'].push(email);
-    this.emailsSubject.next(this.emails['outgoing']); 
-    email.folderName = 'outgoing'
+    this.emailsSubject.next(this.emails['outgoing']);
+    email.folderName = 'outgoing';
   }
 
   setEmails(emails: Mail[], folderName: string): void {
@@ -67,7 +65,6 @@ export class FolderService {
       this.dataServ.postMailMessage(email).subscribe(
         (response) => {
           console.log('Email sent and saved successfully:', response);
-        
         },
         (error) => {
           console.log('Error sending email:', error);
@@ -77,23 +74,23 @@ export class FolderService {
         }
       );
     } else {
-      
       this.emails[folderName].push(email);
     }
   }
 
   private sortEmailsIntoFolders(emails: Mail[]): void {
     emails.forEach((email) => {
-      const folderName = email.folderName || 'inbox'; 
+      const folderName = email.folderName || 'inbox';
       if (!(folderName in this.emails)) {
         this.emails[folderName] = [];
       }
       this.emails[folderName].push(email);
-      this.emails['all'].push(email);
+      if (folderName !== 'results') {
+        this.emails['all'].push(email);
+      }
     });
     this.emailsSubject.next(emails);
   }
-
 
   deleteEmails(emailIds: string[], folderName: string): void {
     const indicesToRemove: number[] = [];
@@ -135,8 +132,11 @@ export class FolderService {
       this.emails[targetFolder] = [];
     }
     this.emails[targetFolder].push(mailToCopy);
-    this.emails['all'].push(mailToCopy);
-    mailToCopy.folderName = targetFolder;
+    if (email.folderName !== 'results') {
+      this.emails['all'].push(mailToCopy);
+      mailToCopy.folderName = targetFolder;
+    }
+   
   }
 
   getMailById(id: string): Observable<Mail | undefined> {
@@ -148,6 +148,4 @@ export class FolderService {
     this.emails[folderName] = [];
     this.updateEmailList(folderName);
   }
-
-  
 }

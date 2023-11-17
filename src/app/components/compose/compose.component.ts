@@ -101,7 +101,7 @@ export class ComposeComponent implements OnInit {
       const isEditing = params['isEditing'];
       const selectedContact: Contact = {
         email: recipient,
-        isFavourite: false,
+        isFavorite: false,
         isContact: true,
         isSelected: false,
       };
@@ -109,7 +109,7 @@ export class ComposeComponent implements OnInit {
         const emailData = JSON.parse(emailDataString);
         const recipientContact: Contact = {
           email: emailData.from,
-          isFavourite: false,
+          isFavorite: false,
           isContact: true,
           isSelected: false,
         };
@@ -133,7 +133,7 @@ export class ComposeComponent implements OnInit {
         const emailData = JSON.parse(emailDataString);
         const recipientContact: Contact = {
           email: emailData.to,
-          isFavourite: false,
+          isFavorite: false,
           isContact: true,
           isSelected: false,
         };
@@ -184,7 +184,7 @@ export class ComposeComponent implements OnInit {
         body: this.newMailForm.get('body')?.value,
         sent: true,
         important: false,
-        isFavourite: false,
+        isFavorite: false,
         completed: false,
         selected: false,
         folderName: this.isDraft ? 'bozze' : 'sent',
@@ -231,11 +231,11 @@ export class ComposeComponent implements OnInit {
     const filterValue = value.toLowerCase();
     const favoriteContacts = this.contacts.filter(
       (contact) =>
-        contact.isFavourite && contact.email.toLowerCase().includes(filterValue)
+        contact.isFavorite && contact.email.toLowerCase().includes(filterValue)
     );
     const otherContacts = this.contacts.filter(
       (contact) =>
-        !contact.isFavourite &&
+        !contact.isFavorite &&
         contact.email.toLowerCase().includes(filterValue)
     );
     return [...favoriteContacts, ...otherContacts];
@@ -249,7 +249,7 @@ export class ComposeComponent implements OnInit {
     if (value) {
       const newContact: Contact = {
         email: value.toLowerCase(),
-        isFavourite: false,
+        isFavorite: false,
         isContact: true,
         isSelected: false,
       };
@@ -288,6 +288,6 @@ export class ComposeComponent implements OnInit {
   }
 
   sortContacts(contacts: Contact[]): Contact[] {
-    return contacts.sort((a, b) => (b.isFavourite ? 1 : -1));
+    return contacts.sort((a, b) => (b.isFavorite ? 1 : -1));
   }
 }

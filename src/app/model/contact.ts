@@ -1,6 +1,6 @@
 export interface Contact {
     email:string;
-    isFavourite:boolean;
+    isFavorite:boolean;
     isContact:boolean;
     isSelected: boolean;
 }

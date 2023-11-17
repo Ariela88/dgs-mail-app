@@ -25,7 +25,7 @@ messaggio: any;
    this.importantButtonLabel = this.messaggio.important
     ? 'Rimuovi dagli Importanti'
      : 'Importante';
-      this.favoriteButtonLabel = this.messaggio.isFavourite
+      this.favoriteButtonLabel = this.messaggio.isFavorite
        ? 'Rimuovi dai preferiti'
         : 'Aggiungi ai preferiti';
          }
@@ -43,8 +43,8 @@ inolter() {
 
 addToFavorite() {
   if (this.messaggio) {
-    this.messaggio.isFavourite = !this.messaggio.isFavourite;
-     this.favoriteButtonLabel = this.messaggio.isFavourite
+    this.messaggio.isFavorite = !this.messaggio.isFavorite;
+     this.favoriteButtonLabel = this.messaggio.isFavorite
       ? 'Rimuovi dai preferiti'
        : 'Aggiungi ai preferiti';
         this.addToFavoriteEvent.emit(this.messaggio);
@@ -63,7 +63,7 @@ markAsImportant() {
 
 removeFromfavorite() {
  if (this.messageSelected) {
-  this.messageSelected.isFavourite = false;
+  this.messageSelected.isFavorite = false;
    }
     }
 

@@ -20,6 +20,9 @@ import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/d
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { TimeStampPipe } from './pipes/time-stamp.pipe';
 import { LoadingComponent } from './components/loading/loading.component';
+import { NgPipesModule } from 'ngx-pipes';
+import { OrderByPipe } from 'ngx-pipes';
+
 
 
 @NgModule({
@@ -38,7 +41,7 @@ import { LoadingComponent } from './components/loading/loading.component';
     LoadingComponent
     
   ],
-  providers: [ {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}],
+  providers: [ {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},OrderByPipe],
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,
@@ -49,7 +52,10 @@ import { LoadingComponent } from './components/loading/loading.component';
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule,
-    TimeStampPipe
+    TimeStampPipe,
+    NgPipesModule,
+    
+    
     
     
     

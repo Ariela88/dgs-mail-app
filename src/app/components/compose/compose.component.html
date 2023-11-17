@@ -15,7 +15,7 @@
         (matChipInputTokenEnd)="add($event)" />
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
         <mat-option *ngFor="let contact of (sortedOptions$ | async)" [value]="contact">
-          <mat-icon *ngIf="contact.isFavourite">favorite</mat-icon> {{ contact.email }}
+          <mat-icon *ngIf="contact.isFavorite">favorite</mat-icon> {{ contact.email }}
         </mat-option>
       </mat-autocomplete>
       <mat-error *ngIf="newMailForm.get('to')?.hasError('required')">Il destinatario è obbligatorio</mat-error>

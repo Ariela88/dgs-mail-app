@@ -9,7 +9,7 @@ export interface Mail {
   body: string;
   sent: boolean;
   important: boolean;
-  isFavourite: boolean;
+  isFavorite: boolean;
   completed:boolean;
   selected:boolean;
   folderName:string;

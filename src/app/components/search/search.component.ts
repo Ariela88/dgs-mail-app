@@ -16,6 +16,7 @@ export class SearchComponent implements OnInit {
   recentSearchTerms: string[] = [];
   searchTerm = '';
   @ViewChild('elementoRicerca') elementoRicerca!: ElementRef;
+  useMockApi = false;
 
   constructor(private router: Router, private searchServ: SearchService) {}
 
@@ -33,7 +34,11 @@ export class SearchComponent implements OnInit {
   }
 
   onSearch() {
-    this.searchServ.searchMail(this.searchTerm);
+    if (this.useMockApi) {
+      this.searchServ.searchMailInMockapi(this.searchTerm);
+    } else {
+      this.searchServ.searchMail(this.searchTerm);
+    }
     this.addRecentSearch(this.searchTerm);
     this.router.navigate(['folder/results'], {
       queryParams: { q: this.searchTerm },

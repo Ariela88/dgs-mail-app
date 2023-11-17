@@ -23,6 +23,8 @@ export class FolderViewerComponent implements OnInit {
   isCheccked = false;
   searchResultsSubscription?: Subscription;
   selectedMails: Mail[] = [];
+  sortingType: 'date' | 'sender' = 'date';
+  order: string = 'desc'
 
   constructor(
     public route: ActivatedRoute,
@@ -57,9 +59,10 @@ export class FolderViewerComponent implements OnInit {
   
   private async getEmails() {
     try {
+      
       const data = await this.folderServ.getEmails(this.folderName!).toPromise();
       this.emails = data;
-      console.log('Emails ricevute:', this.emails);
+      console.log('Emails ricevute:',this.folderName, this.emails);
       this.handleEmails();
       this.cdr.detectChanges(); 
     } catch (error) {
@@ -67,7 +70,29 @@ export class FolderViewerComponent implements OnInit {
     }
   }
   
+  changeSortOrder() {
+    this.handleEmails();
+  }
   
+  getSortIcon(column: 'date' | 'sender'): string {
+    if (this.sortingType === column) {
+      return this.order === 'asc' ? 'arrow_upward' : 'arrow_downward';
+    }
+    return '';
+  }
+  
+  
+  getSortedEmails(): Mail[] {
+    return this.originalEmails.slice().sort((a, b) => {
+      if (this.sortingType === 'date') {
+        
+        return (a.created > b.created) ? -1 : 1;
+      } else {
+       
+        return a.from.localeCompare(b.from);
+      }
+    });
+  }
 
   handleEmails() {
     this.originalEmails = this.searchTerm ? this.searchResults : this.emails!;

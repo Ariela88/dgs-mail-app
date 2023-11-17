@@ -135,9 +135,12 @@ button:hover{
 }
 
 .spacer{
-  flex:1;
+  flex:1,1;
 }
 
+input{
+  align-self: baseline;
+}
 
 .read-indicator {
   width: 10px;

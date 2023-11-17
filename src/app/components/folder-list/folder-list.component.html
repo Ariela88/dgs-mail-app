@@ -12,6 +12,8 @@
     </li>
     <li *ngIf="showFolderTree">
         <ul>
+            <li class="list-element" (click)="changeFolder('all')"><mat-icon>mail</mat-icon> <span > Tutte le mail</span>
+            </li>
             <li class="list-element" (click)="changeFolder('inbox')"><mat-icon>inbox</mat-icon> <span > In Arrivo</span>
             </li>
             <li class="list-element" (click)="changeFolder('sent')"><mat-icon>send</mat-icon> <span > Inviate</span></li>
@@ -27,6 +29,11 @@
             <li class="list-element" (click)="changeFolder('outgoing')"><mat-icon>outgoing_mail</mat-icon> <span>
                    In Uscita</span>
             </li>
+           
         </ul>
+        
     </li>
+    <li class="list-element" (click)="changeFolder('results')"><mat-icon>search</mat-icon> <span>
+        Ricerche Recenti</span>
+ </li>
 </ul>

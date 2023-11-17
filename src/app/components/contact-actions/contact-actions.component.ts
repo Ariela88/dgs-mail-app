@@ -13,7 +13,7 @@ export class ContactActionsComponent {
 
   toggleFavorite() {
     if (this.contact) {
-      this.contact.isFavourite = !this.contact.isFavourite;
+      this.contact.isFavorite = !this.contact.isFavorite;
       this.toggleFavoriteOut.emit(this.contact);
     }
   }

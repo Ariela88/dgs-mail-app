@@ -71,7 +71,7 @@ export class MessageViewerComponent implements OnInit {
 
   addToFavorites(email: Mail): void {
     email.folderName = 'favorite';
-    email.isFavourite = true;
+    email.isFavorite = true;
     this.folderService.copyEmailToFolder(email, 'favorite');
     this.dataServ.putMailMessage(email).subscribe((updatedEmail) => {
       email = updatedEmail;
@@ -91,7 +91,7 @@ export class MessageViewerComponent implements OnInit {
     console.log('Rimuovi dai preferiti:', email);
 
     email.folderName = 'inbox';
-    email.isFavourite = false;
+    email.isFavorite = false;
   }
 
   removeAsImportant(email: Mail): void {
@@ -142,7 +142,7 @@ export class MessageViewerComponent implements OnInit {
       const senderEmail = this.selectedMessage.from;
       const newContact: Contact = {
         email: senderEmail,
-        isFavourite: false,
+        isFavorite: false,
         isContact: true,
         isSelected: false,
       };
@@ -169,7 +169,7 @@ export class MessageViewerComponent implements OnInit {
     if (this.selectedMessage) {
       return {
         email: this.selectedMessage.from,
-        isFavourite: false,
+        isFavorite: false,
         isContact: true,
         isSelected: false,
       };

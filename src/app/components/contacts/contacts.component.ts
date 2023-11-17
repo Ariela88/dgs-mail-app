@@ -41,7 +41,7 @@ addNewContact() {
  if (this.newContactEmail && this.isEmailValid(this.newContactEmail)) {
   const newContact: Contact = {
    email: this.newContactEmail,
-    isFavourite: false,
+   isFavorite: false,
      isContact:true,
       isSelected:false};
        if (!this.contacts.find(contact => contact.email === newContact.email)) {
@@ -65,7 +65,7 @@ addContact() {
  if (this.newContactEmail && this.isEmailValid(this.newContactEmail)) {
   const newContact: Contact = {
    email: this.newContactEmail,
-    isFavourite: false,
+   isFavorite: false,
      isContact: true,
       isSelected: false
        };
@@ -118,7 +118,7 @@ selectContact(contact: Contact) {
 toggleFavorite(contact: Contact) {
  const updatedContacts = this.contacts.map(c => {
   if (c.email === contact.email) {
-   return { ...c, isFavourite: !c.isFavourite };
+   return { ...c, isFavorite: !c.isFavorite };
     }
      return c;
       });
@@ -126,7 +126,7 @@ toggleFavorite(contact: Contact) {
         }
 
 toggleSelectAll() {
-  this.contacts.forEach(contact => contact.isFavourite = this.selectAll);
+  this.contacts.forEach(contact => contact.isFavorite = this.selectAll);
     this.contactsService.setContacts(this.contacts);
       }
 
@@ -139,14 +139,14 @@ handleCheckboxChange(contact: Contact) {
 addFavorites() {
  const selectedContacts = this.contacts.filter(contact => contact.isSelected);  
   selectedContacts.forEach(contact => {
-   contact.isFavourite = !contact.isFavourite; 
+   contact.isFavorite = !contact.isFavorite; 
     contact.isSelected = false; 
      });
       this.contactsService.setContacts(this.contacts);
        }
 
 getButtonText(): string {
- const selectedContacts = this.contacts.filter(contact => contact.isSelected && contact.isFavourite);
+ const selectedContacts = this.contacts.filter(contact => contact.isSelected && contact.isFavorite);
   if (selectedContacts.length > 0) {
    return 'Rimuovi dai preferiti';
     } else {

@@ -18,6 +18,25 @@
  
 }
 
+.search-bar{
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.checkbox-container{
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  
+}
+
+.checkbox-container input{
+  width: fit-content;
+}
+
 .recent-searches li {
   
   cursor: pointer;
