@@ -19,6 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { TimeStampPipe } from './pipes/time-stamp.pipe';
+import { LoadingComponent } from './components/loading/loading.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { TimeStampPipe } from './pipes/time-stamp.pipe';
     MessageActionsComponent,
     ContactActionsComponent,
     SearchComponent,   
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    LoadingComponent
     
   ],
   providers: [ {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}],

@@ -52,6 +52,7 @@ export class ComposeComponent implements OnInit {
   contactCtrl = new FormControl('');
   filteredOptions: Observable<any[]>;
   @ViewChild('contactsInput') contactsInput?: ElementRef<HTMLInputElement>;
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -167,6 +168,7 @@ export class ComposeComponent implements OnInit {
 
   onSubmit() {
     if (this.newMailForm.valid) {
+      this.isLoading = true;
       const selectedEmail = this.newMailForm.get('to')?.value;
       this.selectedContact = this.contacts.find(
         (contact) => contact === selectedEmail

@@ -17,6 +17,7 @@ export class FolderService {
     trash: [],
     results: [],
     bozze: [],
+    outgoing: [],
   };
 
  
@@ -39,6 +40,12 @@ export class FolderService {
     });
   }
 
+  private saveEmailToOutbox(email: Mail) {
+    this.emails['outgoing'].push(email);
+    this.emailsSubject.next(this.emails['outgoing']); 
+    email.folderName = 'outgoing'
+  }
+
   setEmails(emails: Mail[], folderName: string): void {
     this.emails[folderName] = emails;
     this.emailsSubject.next(emails);
@@ -57,19 +64,24 @@ export class FolderService {
 
   addEmailToFolder(email: Mail, folderName: string) {
     console.log('add email to folder');
-    if (folderName === 'sent') {
-      this.dataServ.postMailMessage(email).subscribe((response) => {
-        console.log('Email sent and saved successfully:', response);
-      });
-    } else if (folderName === 'bozze') {
-      this.dataServ.postMailMessage(email).subscribe((response) => {
-        console.log('Draft saved successfully:', response);
-      });
+    if (folderName === 'sent' || folderName === 'bozze') {
+      this.dataServ.postMailMessage(email).subscribe(
+        (response) => {
+          console.log('Email sent and saved successfully:', response);
+        
+        },
+        (error) => {
+          console.log('Error sending email:', error);
+          console.log('Saving email to outgoing folder...');
+          this.saveEmailToOutbox(email);
+          email.folderName = 'outgoing';
+        }
+      );
+    } else {
+      
+      this.emails[folderName].push(email);
     }
-
-    this.emails[folderName].push(email);
   }
-
   deleteEmails(emailIds: string[], folderName: string): void {
     const indicesToRemove: number[] = [];
     emailIds.forEach((emailId) => {
