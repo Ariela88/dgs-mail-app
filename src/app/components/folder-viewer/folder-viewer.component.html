@@ -6,7 +6,7 @@
 
 
     
-    <button class="select-all-btn" (click)="toggleSelectAll()" mat-raised-button *ngIf="folderName === 'inbox'">
+    <button class="select-all-btn" (click)="toggleSelectAll()" mat-raised-button>
       {{ allEmailsSelected() ? 'Deseleziona tutto' : 'Seleziona tutto' }} <span>({{checkedCounter(emails!)}})</span>
     </button>
     <button *ngIf="anyCheckboxSelected()" (click)="deleteSelectedEmails()" class="delete-btn" mat-raised-button
@@ -31,7 +31,7 @@
   <ul class="color-even">
     <ng-container *ngIf="!searchTerm; else searchResultsTemplate">
       <div *ngFor="let email of getSortedEmails()" class="mail-row-element">
-        <input *ngIf="folderName === 'inbox'" type="checkbox" [(ngModel)]="email.selected"
+        <input  type="checkbox" [(ngModel)]="email.selected"
           (change)="handleCheckboxChange()" class="mail-checkbox">
         <div class="email-details" (click)="selectedMail(email.id)">
 

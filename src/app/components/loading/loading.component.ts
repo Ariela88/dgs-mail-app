@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataService } from 'src/app/services/data.service';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-loading',
@@ -10,6 +10,12 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class LoadingComponent {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { message: string }) {}
+  constructor(
+    public dialogRef: MatDialogRef<LoadingComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { message: string }
+  ) {}
 
+  close(): void {
+    this.dialogRef.close();
+  }
 }

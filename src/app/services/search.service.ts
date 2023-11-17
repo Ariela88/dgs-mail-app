@@ -3,6 +3,8 @@ import { Mail } from '../model/mail';
 import { FolderService } from './folder.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DataService } from './data.service';
+import { MatDialog } from '@angular/material/dialog';
+import { LoadingComponent } from '../components/loading/loading.component';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +17,12 @@ export class SearchService {
     this.recentSearchTermsSubject.asObservable();
   contacts: string[] = [];
   searchResults: Mail[] = [];
+  loading: boolean = false;
+
 
   constructor(
+   
+    private matDialog: MatDialog,
     public folderService: FolderService,
     private dataService: DataService
   ) {
@@ -58,10 +64,11 @@ export class SearchService {
 
   searchMailInMockapi(searchTerm: string): void {
     this.clearResults();
-  
+    this.showLoading(); 
+
     const url = new URL('https://651a7a94340309952f0d59cb.mockapi.io/emails');
     url.searchParams.append('title', searchTerm);
-  
+
     fetch(url, {
       method: 'GET',
       headers: { 'content-type': 'application/json' },
@@ -75,12 +82,11 @@ export class SearchService {
       .then((emails) => {
         console.log(emails);
         emails.forEach((email: Mail) => {
-        
           const searchTermLower = searchTerm.toLowerCase();
           const isInBody = email.body && email.body.toLowerCase().includes(searchTermLower);
           const isInFrom = email.from && email.from.toLowerCase().includes(searchTermLower);
           const isInTo = email.to && email.to.toLowerCase().includes(searchTermLower);
-  
+
           if (isInBody || isInFrom || isInTo) {
             this.folderService.copyEmailToFolder(email, 'results');
             if (!this.searchResults.includes(email)) {
@@ -88,12 +94,26 @@ export class SearchService {
             }
           }
         });
-  
+
         this.searchResultsSubject.next(this.searchResults);
       })
       .catch((error) => {
         console.error('Error fetching emails:', error);
+      })
+      .finally(() => {
+        this.hideLoading(); 
       });
+  }
+
+  showLoading(): void {
+    const dialogRef = this.matDialog.open(LoadingComponent, {
+      data: { message: 'Loading...' },
+      disableClose: true,
+    });
+  }
+
+  hideLoading(): void {
+    this.matDialog.closeAll();
   }
   
 
