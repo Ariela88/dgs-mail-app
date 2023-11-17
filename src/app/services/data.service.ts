@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, finalize, map, tap } from 'rxjs/operators';
+import { catchError, delay, finalize, map, tap } from 'rxjs/operators';
 import { Mail } from '../model/mail';
 import { Observable, forkJoin, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -29,8 +29,9 @@ export class DataService {
         duration: 2000,
       }
     );
-
+  
     return this.http.post<Mail>(this.mockMail, email).pipe(
+      delay(5000),
       tap((response) => {
         invioSnackbarRef.dismiss();
         this.snackBar.open('Email inviata con successo', 'Chiudi', {
@@ -44,7 +45,7 @@ export class DataService {
           duration: 2000,
           panelClass: 'errore-snackbar',
         });
-
+    
         console.error('Error saving email:', error);
         return throwError(error);
       }),
@@ -55,7 +56,7 @@ export class DataService {
   }
 
   isLoading() {
-    return this.isLoading;
+    return this.loading;
   }
 
   putMailMessage(email: Mail): Observable<Mail> {
@@ -78,3 +79,7 @@ export class DataService {
     );
   }
 }
+function deley(arg0: number): import("rxjs").OperatorFunction<Mail, unknown> {
+  throw new Error('Function not implemented.');
+}
+

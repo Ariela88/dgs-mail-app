@@ -203,9 +203,7 @@ export class ComposeComponent implements OnInit {
       } else {
         sentMail.folderName = 'sent';
         this.folderService.addEmailToFolder(sentMail, 'sent');
-        this.snackBar.open('Email inviata con successo', 'Chiudi', {
-          duration: 2000,
-        });
+       
       }
       this.router.navigateByUrl('home');
     }

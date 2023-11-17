@@ -136,7 +136,6 @@ export class FolderService {
       this.emails['all'].push(mailToCopy);
       mailToCopy.folderName = targetFolder;
     }
-   
   }
 
   getMailById(id: string): Observable<Mail | undefined> {

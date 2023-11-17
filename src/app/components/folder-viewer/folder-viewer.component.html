@@ -4,25 +4,25 @@
       Torna a Inbox
     </button>
 
-    
+
     <h2 class="folder-name">Cartella <span class="folder-name-bold"> {{folderName}} : {{emails?.length}} <span
-      class="light-text-counter">({{ counter(emails!) }}) </span></span> </h2>
-      <div class="spacer"></div>
+          class="light-text-counter">({{ counter(emails!) }}) </span></span> </h2>
+    <div class="spacer"></div>
     <button class="select-all-btn" (click)="toggleSelectAll()" mat-raised-button *ngIf="folderName === 'inbox'">
       {{ allEmailsSelected() ? 'Deseleziona tutto' : 'Seleziona tutto' }} <span>({{checkedCounter(emails!)}})</span>
     </button>
     <button *ngIf="anyCheckboxSelected()" (click)="deleteSelectedEmails()" class="delete-btn" mat-raised-button
       color="warn"><mat-icon>delete</mat-icon></button>
-      <div class="spacer"></div>
-      <mat-form-field>
-        <mat-label>Ordina per</mat-label>
-        <mat-select [(value)]="sortingType" (selectionChange)="changeSortOrder()">
-          <mat-option value="date">Data</mat-option>
-          <mat-option value="sender">Mittente</mat-option>
-        </mat-select>
-      </mat-form-field>
-   
-    
+    <div class="spacer"></div>
+    <mat-form-field>
+      <mat-label>Ordina per</mat-label>
+      <mat-select [(value)]="sortingType" (selectionChange)="changeSortOrder()">
+        <mat-option value="date">Data</mat-option>
+        <mat-option value="sender">Mittente</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
   </div>
   <div class="update">
   </div>
@@ -68,4 +68,8 @@
       </div>
     </ng-template>
   </ul>
+  <div *ngIf="dataServ.isLoading()" class="loading-spinner-container">
+    <mat-progress-spinner mode="indeterminate" value="warn"></mat-progress-spinner>
+  </div>
+  
 </div>

@@ -6,7 +6,8 @@ import { SearchService } from 'src/app/services/search.service';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { DatePipe } from '@angular/common';
+import { DataService } from 'src/app/services/data.service';
+
 
 @Component({
   selector: 'app-folder-viewer',
@@ -33,6 +34,7 @@ export class FolderViewerComponent implements OnInit {
     private searchService: SearchService,
     private cdr: ChangeDetectorRef,
     public dialog:MatDialog,
+    public dataServ:DataService
     
   ) {}
 
@@ -68,18 +70,24 @@ export class FolderViewerComponent implements OnInit {
     } catch (error) {
       console.error('Errore nel recupero delle email:', error);
     }
+
+    // if(this.folderName){
+    //   this.folderServ.getEmails(this.folderName);
+    //   this.folderServ.emailsSubject.subscribe({
+    //     next:res=> {
+    //       if (res.length < 0) {
+    //         this.emails = res
+            
+    //       }
+    //     }, error:err => console.log(err)
+    //   })
+    // }
   }
   
   changeSortOrder() {
     this.handleEmails();
   }
-  
-  getSortIcon(column: 'date' | 'sender'): string {
-    if (this.sortingType === column) {
-      return this.order === 'asc' ? 'arrow_upward' : 'arrow_downward';
-    }
-    return '';
-  }
+
   
   
   getSortedEmails(): Mail[] {
