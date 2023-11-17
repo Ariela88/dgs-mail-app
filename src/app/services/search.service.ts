@@ -19,9 +19,7 @@ export class SearchService {
   searchResults: Mail[] = [];
   loading: boolean = false;
 
-
   constructor(
-   
     private matDialog: MatDialog,
     public folderService: FolderService,
     private dataService: DataService
@@ -64,11 +62,9 @@ export class SearchService {
 
   searchMailInMockapi(searchTerm: string): void {
     this.clearResults();
-    this.showLoading(); 
-
+    this.showLoading();
     const url = new URL('https://651a7a94340309952f0d59cb.mockapi.io/emails');
     url.searchParams.append('title', searchTerm);
-
     fetch(url, {
       method: 'GET',
       headers: { 'content-type': 'application/json' },
@@ -83,9 +79,12 @@ export class SearchService {
         console.log(emails);
         emails.forEach((email: Mail) => {
           const searchTermLower = searchTerm.toLowerCase();
-          const isInBody = email.body && email.body.toLowerCase().includes(searchTermLower);
-          const isInFrom = email.from && email.from.toLowerCase().includes(searchTermLower);
-          const isInTo = email.to && email.to.toLowerCase().includes(searchTermLower);
+          const isInBody =
+            email.body && email.body.toLowerCase().includes(searchTermLower);
+          const isInFrom =
+            email.from && email.from.toLowerCase().includes(searchTermLower);
+          const isInTo =
+            email.to && email.to.toLowerCase().includes(searchTermLower);
 
           if (isInBody || isInFrom || isInTo) {
             this.folderService.copyEmailToFolder(email, 'results');
@@ -101,7 +100,7 @@ export class SearchService {
         console.error('Error fetching emails:', error);
       })
       .finally(() => {
-        this.hideLoading(); 
+        this.hideLoading();
       });
   }
 
@@ -115,7 +114,6 @@ export class SearchService {
   hideLoading(): void {
     this.matDialog.closeAll();
   }
-  
 
   setDestinationFolder(mail: Mail, folderName: string): void {
     this.folderService.copyEmailToFolder(mail, folderName);

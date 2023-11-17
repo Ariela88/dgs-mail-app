@@ -168,7 +168,7 @@ export class FolderViewerComponent implements OnInit {
   }
 
   goToInbox(): void {
-    this.router.navigate(['/folder', 'inbox']);
+    this.router.navigate(['/folder', 'all']);
   }
 
   counter(emails: Mail[]): number {

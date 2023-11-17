@@ -1,21 +1,17 @@
 <div class="search-bar" #elementoRicerca>
-  
-  
- 
-    <div class="input-container"> 
-  <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca..."/>
- 
+  <div class="input-container">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca..." />
     <div *ngIf="searchTerm" class="recent-searches">
-    <ul>
-      <li *ngFor="let search of filterSearchTerms(searchTerm)"  (click)="insertInInput(search)">
-        <span>{{ search }}</span>
-      </li>
-    </ul>
+      <ul>
+        <li *ngFor="let search of filterSearchTerms(searchTerm)" (click)="insertInInput(search)">
+          <span>{{ search }}</span>
+        </li>
+      </ul>
+    </div>
+    <button (click)="onSearch()">cerca</button>
   </div>
-  <button (click)="onSearch()">cerca</button>
-</div>
-<div class="checkbox-container">  
-  <input type="checkbox" id="useMockApi" [(ngModel)]="useMockApi" />
-  <label for="useMockApi">Ricerca sul Server</label>
-   </div>
+  <div class="checkbox-container">
+    <input type="checkbox" id="useMockApi" [(ngModel)]="useMockApi" />
+    <label for="useMockApi">Ricerca sul Server</label>
+  </div>
 </div>
