@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './material-module/material/material.module';
 import { HeaderComponent } from './components/header/header.component';
 import { MessageViewerComponent } from './components/message-viewer/message-viewer.component';
@@ -22,6 +22,7 @@ import { TimeStampPipe } from './pipes/time-stamp.pipe';
 import { LoadingComponent } from './components/loading/loading.component';
 import { NgPipesModule } from 'ngx-pipes';
 import { OrderByPipe } from 'ngx-pipes';
+import { InterceptorComponent } from './components/interceptor/interceptor.component';
 
 
 
@@ -41,7 +42,11 @@ import { OrderByPipe } from 'ngx-pipes';
     LoadingComponent
     
   ],
-  providers: [ {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},OrderByPipe],
+  providers: [ {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},OrderByPipe,{
+    provide: HTTP_INTERCEPTORS,
+    useClass: InterceptorComponent,
+    multi: true,
+  },],
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,

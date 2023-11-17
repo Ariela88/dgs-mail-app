@@ -189,7 +189,7 @@ export class ComposeComponent implements OnInit {
         selected: false,
         folderName: this.isDraft ? 'bozze' : 'sent',
         attachment: this.selectedMail?.attachment,
-        read: false,
+        read: true,
         created: new Date(),
       };
       console.log(sentMail.to, 'onsubmit destinatario');

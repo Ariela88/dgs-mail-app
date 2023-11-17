@@ -20,16 +20,10 @@ export class DataService {
   getMailMessage(): Observable<Mail[]> {
     this.loading = true;
   
-    const dialogRef = this.dialog.open(LoadingComponent, {
-      disableClose: true,
-      data: { message: 'Caricamento Email...' },
-    });
-  
-    console.log('get email data serv');
   
     return this.http.get<Mail[]>(this.mockMail).pipe(
       finalize(() => {
-        dialogRef.close();
+        
         this.loading = false;
       })
     );
@@ -38,36 +32,32 @@ export class DataService {
 
   postMailMessage(email: Mail): Observable<Mail> {
     this.loading = true;
-    const dialogRef = this.dialog.open(LoadingComponent, {
-      disableClose: true,
-      data: { message: 'Invio email in corso...' },
-    });
+    
   
     return this.http.post<Mail>(this.mockMail, email).pipe(
-      delay(5000),
       tap((response) => {
-        dialogRef.close();
         this.snackBar.open('Email inviata con successo', 'Chiudi', {
           duration: 2000,
         });
         console.log(response, '');
       }),
       catchError((error) => {
-        dialogRef.close();
         this.snackBar.open("Errore durante l'invio dell'email", 'Chiudi', {
           duration: 2000,
           panelClass: 'errore-snackbar',
         });
-    
+  
         console.error('Error saving email:', error);
         return throwError(error);
       }),
       finalize(() => {
+       
         this.loading = false;
       })
     );
   }
-
+  
+  
   isLoading() {
     return this.loading;
   }
