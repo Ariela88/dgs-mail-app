@@ -36,7 +36,7 @@ export class FolderService {
   constructor(private dataServ: DataService) {
     this.dataServ.getMailMessage().subscribe((data) => {
       this.emailsSelected = data;
-      this.setEmails(this.emailsSelected, 'inbox');
+      this.sortEmailsIntoFolders(this.emailsSelected);
     });
   }
 
@@ -47,8 +47,7 @@ export class FolderService {
   }
 
   setEmails(emails: Mail[], folderName: string): void {
-    this.emails[folderName] = emails;
-    this.emailsSubject.next(emails);
+    this.sortEmailsIntoFolders(emails);
   }
 
   getEmailsObservable(folderName: string): Observable<Mail[]> {
@@ -82,6 +81,20 @@ export class FolderService {
       this.emails[folderName].push(email);
     }
   }
+
+  private sortEmailsIntoFolders(emails: Mail[]): void {
+    emails.forEach((email) => {
+      const folderName = email.folderName || 'inbox'; 
+      if (!(folderName in this.emails)) {
+        this.emails[folderName] = [];
+      }
+      this.emails[folderName].push(email);
+      this.emails['all'].push(email);
+    });
+    this.emailsSubject.next(emails);
+  }
+
+
   deleteEmails(emailIds: string[], folderName: string): void {
     const indicesToRemove: number[] = [];
     emailIds.forEach((emailId) => {
