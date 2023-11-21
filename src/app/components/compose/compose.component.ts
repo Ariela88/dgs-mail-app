@@ -198,12 +198,14 @@ export class ComposeComponent implements OnInit {
         sentMail.sent = false;
 
         this.folderService.addEmailToFolder(sentMail, 'bozze');
+        this.folderService.copyEmailToFolder(sentMail, 'bozze');
         this.snackBar.open('Email salvata in bozze', 'Chiudi', {
           duration: 2000,
         });
       } else {
         sentMail.folderName = 'sent';
         this.folderService.addEmailToFolder(sentMail, 'sent');
+        this.folderService.copyEmailToFolder(sentMail, 'sent');
         // this.snackBar.open('Email inviata con successo', 'Chiudi', {
         //   duration: 2000,
         // });

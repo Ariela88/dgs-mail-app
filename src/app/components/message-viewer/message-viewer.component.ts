@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ContactsService } from 'src/app/services/contacts.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contact } from 'src/app/model/contact';
-import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-message-viewer',
@@ -23,9 +22,9 @@ export class MessageViewerComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private contactServ: ContactsService,
-    private snackBar: MatSnackBar,
-    private dataServ: DataService
+    private snackBar: MatSnackBar
   ) {}
+
   ngOnInit() {
     const mailId = this.route.snapshot.params['id'];
     const folderName = this.route.snapshot.params['folderName'];
@@ -70,34 +69,27 @@ export class MessageViewerComponent implements OnInit {
   }
 
   addToFavorites(email: Mail): void {
-    email.folderName = 'favorite';
     email.isFavorite = true;
     this.folderService.copyEmailToFolder(email, 'favorite');
-    this.dataServ.putMailMessage(email).subscribe((updatedEmail) => {
-      email = updatedEmail;
-    });
   }
 
   markAsImportant(email: Mail): void {
-    email.folderName = 'important';
     email.important = true;
     this.folderService.copyEmailToFolder(email, 'important');
-    this.dataServ.putMailMessage(email).subscribe((updatedEmail) => {
-      email = updatedEmail;
-    });
   }
 
   removeFromFavorites(email: Mail): void {
     console.log('Rimuovi dai preferiti:', email);
-
-    email.folderName = 'inbox';
     email.isFavorite = false;
+    email.folderName = 'inbox';
+    this.folderService.removeEmailFromFolder(email, 'favorite');
   }
 
   removeAsImportant(email: Mail): void {
     console.log('Rimuovi importante:', email);
-    email.folderName = 'inbox';
     email.important = false;
+    email.folderName = 'inbox';
+    this.folderService.removeEmailFromFolder(email, 'important');
   }
 
   toggleImportant(email: Mail): void {
