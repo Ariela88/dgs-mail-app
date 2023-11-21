@@ -2,13 +2,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { Mail } from 'src/app/model/mail';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FolderService } from 'src/app/services/folder.service';
 import { SearchService } from 'src/app/services/search.service';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DataService } from 'src/app/services/data.service';
@@ -19,17 +20,18 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./folder-viewer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FolderViewerComponent implements OnInit {
+export class FolderViewerComponent implements OnInit, OnDestroy {
   originalEmails: Mail[] = [];
   searchResults: Mail[] = [];
   folderName?: string;
   searchTerm: string = '';
   emails?: Mail[] = [];
-  isCheccked = false;
+  isChecked = false;
   searchResultsSubscription?: Subscription;
   selectedMails: Mail[] = [];
   sortingType: 'date' | 'sender' = 'date';
   order: string = 'desc';
+  private unsubscribe$ = new Subject<void>();
 
   constructor(
     public route: ActivatedRoute,
@@ -54,36 +56,48 @@ export class FolderViewerComponent implements OnInit {
                 this.handleEmails();
                 this.cdr.detectChanges();
               });
+              this.folderServ.emails$.pipe(takeUntil(this.unsubscribe$)).subscribe((emails) => {
+                this.emails = emails;
+                this.handleEmails();
+                this.cdr.detectChanges();
+              });
+          
           }
         });
       }
     });
   }
 
-  private async getEmails() {
-    try {
-      const data = await this.folderServ
-        .getEmails(this.folderName!)
-        .toPromise();
-      this.emails = data;
-      console.log('Emails ricevute:', this.folderName, this.emails);
-      this.handleEmails();
-      this.cdr.detectChanges();
-    } catch (error) {
-      console.error('Errore nel recupero delle email:', error);
-    }
+  ngOnDestroy() {
+    
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
 
-    // if(this.folderName){
-    //   this.folderServ.getEmails(this.folderName);
-    //   this.folderServ.emailsSubject.subscribe({
-    //     next:res=> {
-    //       if (res.length < 0) {
-    //         this.emails = res
-
-    //       }
-    //     }, error:err => console.log(err)
-    //   })
+  private getEmails() {
+    // try {
+    //   const data = await this.folderServ
+    //     .getEmails(this.folderName!)
+    //     .toPromise();
+    //   this.emails = data;
+    //   console.log('Emails ricevute:', this.folderName, this.emails);
+    //   this.handleEmails();
+    //   this.cdr.detectChanges();
+    // } catch (error) {
+    //   console.error('Errore nel recupero delle email:', error);
     // }
+
+    if(this.folderName){
+      this.folderServ.getEmails(this.folderName);
+      this.folderServ.emailsSubject.subscribe({
+        next:res=> {
+          if (res.length < 0) {
+            this.emails = res
+
+          }
+        }, error:err => console.log(err)
+      })
+    }
   }
 
   changeSortOrder() {
@@ -102,8 +116,10 @@ export class FolderViewerComponent implements OnInit {
 
   handleEmails() {
     this.originalEmails = this.searchTerm ? this.searchResults : this.emails!;
+    this.isChecked = this.originalEmails.some((email) => email.selected);
     this.cdr.detectChanges();
   }
+  
 
   selectedMail(id: string) {
     if (this.folderName && id) {
@@ -126,31 +142,26 @@ export class FolderViewerComponent implements OnInit {
   }
 
   handleCheckboxChange() {
-    this.isCheccked = this.originalEmails.some((email) => email.selected);
+    this.isChecked = this.originalEmails.some((email) => email.selected);
     this.cdr.detectChanges();
   }
 
   deleteSelectedEmails() {
-    const selectedEmails = this.originalEmails.filter(
-      (email) => email.selected
-    );
-
+    const selectedEmails = this.originalEmails.filter((email) => email.selected);
+  
     if (selectedEmails.length > 0) {
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         data: {
           message: 'Sei sicuro di voler eliminare le email selezionate?',
         },
       });
-
+  
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
-          const selectedEmailIds = selectedEmails.map(
-            (selectedEmail) => selectedEmail.id
-          );
-          this.folderServ.deleteEmails(selectedEmailIds, 'inbox');
-          this.originalEmails = this.originalEmails.filter(
-            (email) => !email.selected
-          );
+          const selectedEmailIds = selectedEmails.map((selectedEmail) => selectedEmail.id);
+          this.folderServ.deleteEmails(selectedEmailIds, this.folderName!);
+          this.originalEmails = this.originalEmails.filter((email) => !email.selected);
+          this.handleCheckboxChange();
           this.cdr.detectChanges();
         }
       });
@@ -158,6 +169,32 @@ export class FolderViewerComponent implements OnInit {
       console.log("Nessuna email selezionata per l'eliminazione");
     }
   }
+  
+  
+  deleteDefinitivlyEmail() {
+    const selectedEmails = this.originalEmails.filter((email) => email.selected);
+  
+    if (selectedEmails.length > 0) {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: {
+          message: 'Sei sicuro di voler eliminare le email selezionate?',
+        },
+      });
+  
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          const selectedEmailIds = selectedEmails.map((selectedEmail) => selectedEmail.id);
+          this.folderServ.deleteEmailDefinitely(selectedEmailIds, 'trash');
+          // this.originalEmails = this.originalEmails.filter((email) => !email.selected);
+          // this.handleCheckboxChange(); 
+          // this.cdr.detectChanges();
+        }
+      });
+    } else {
+      console.log("Nessuna email selezionata per l'eliminazione");
+    }
+  }
+  
 
   anyCheckboxSelected(): boolean {
     return this.originalEmails.some((email) => email.selected);

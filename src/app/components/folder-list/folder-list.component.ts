@@ -11,7 +11,7 @@ export class FolderListComponent {
   showFolderTree = false;
   @Input() folder: string | undefined;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private folderServ:FolderService) {}
 
   toggleFolderTree() {
     this.showFolderTree = !this.showFolderTree;
