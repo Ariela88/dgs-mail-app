@@ -81,7 +81,7 @@ export class DataService {
     const deleteRequests = deleteUrls.map((url) => this.http.delete(url));
     return forkJoin(deleteRequests).pipe(
       map(() => {
-        console.log('Mail cancellata dal server');
+        console.log('Mail cancellata dal server',deleteUrls,this.deleteMail);
       }),
       catchError((error) => {
         console.error('Errore nella cancellazione della mail dal server:', error);

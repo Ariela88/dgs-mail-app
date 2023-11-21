@@ -22,13 +22,10 @@ export class FolderService {
 
   emailRemovedSubject = new BehaviorSubject<void>(undefined);
   emailRemoved$ = this.emailRemovedSubject.asObservable();
-
   emailsSubject = new BehaviorSubject<Mail[]>([]);
   emails$ = this.emailsSubject.asObservable();
-
   folderNameSubject = new BehaviorSubject<string>('inbox');
   folderName$ = this.folderNameSubject.asObservable();
-
   emailsSelected: Mail[] = [];
 
   constructor(private dataServ: DataService) {
@@ -44,7 +41,7 @@ export class FolderService {
     email.folderName = 'outgoing';
   }
 
-    getEmailsObservable(folderName: string): Observable<Mail[]> {
+  getEmailsObservable(folderName: string): Observable<Mail[]> {
     const emails = this.emails[folderName] || [];
     return of(emails);
   }
@@ -89,61 +86,73 @@ export class FolderService {
   }
 
   deleteEmails(emailIds: string[], folderName: string): void {
-    const indicesToRemove: number[] = [];
-  
     emailIds.forEach((emailId) => {
-      const index = this.emails[folderName].findIndex(
+      const folderIndex = this.emails[folderName].findIndex(
         (existingEmail) => existingEmail.id === emailId
       );
+      
+      if (folderIndex !== -1) {
+        const deletedEmail = this.emails[folderName][folderIndex];
+        this.emails[folderName].splice(folderIndex, 1);
   
-      if (index !== -1) {
-        indicesToRemove.push(index);
+       this.copyEmailToFolder(deletedEmail, 'trash');
       }
-    });
   
-    indicesToRemove.reverse().forEach((index) => {
-      const deletedEmail = this.emails[folderName][index];
-      this.emails[folderName].splice(index, 1);
-      this.copyEmailToFolder(deletedEmail,'trash')
+      const allIndex = this.emails['all'].findIndex(
+        (allEmail) => allEmail.id === emailId
+      );
+      if (allIndex !== -1) {
+        this.emails['all'].splice(allIndex, 1);
+      }
     });
   
     this.updateEmailList(folderName);
-  
   }
   
-  
-  
-  async deleteEmailDefinitely(emailIds: string[], folderName: string): Promise<void> {
-    console.log('Emails da eliminare definitivamente:', emailIds);
-    const indicesToRemove: number[] = [];
-  
-    emailIds.forEach((emailId) => {
-      const index = this.emails['trash'].findIndex(
-        (deletedEmail) => deletedEmail.id === emailId
-      );  
-      if (index !== -1) {
-        indicesToRemove.push(index);
-      }
-    });  
-    indicesToRemove.reverse().forEach((index) => {
-      this.emails['trash'].splice(index, 1);
-    });  
-    this.updateEmailList('trash');
-     await this.dataServ.deleteMail(emailIds).toPromise();
- 
-    Object.keys(this.emails).forEach((folder) => {
-      this.updateEmailList(folder);
-    });
-  
-    console.log('Mail eliminata definitivamente con successo');
-    this.emailRemovedSubject.next();
-  }
-  
-  
-  
+
+ async deleteEmailDefinitely(
+  emailIds: string[],
+  folderName: string
+): Promise<void> {
+  console.log('Emails da eliminare definitivamente:', emailIds);
+  const indicesToRemove: number[] = [];
+
+  emailIds.forEach((emailId) => {
+    const index = this.emails['trash'].findIndex(
+      (deletedEmail) => deletedEmail.id === emailId
+    );
+    if (index !== -1) {
+      indicesToRemove.push(index);
+    }
+  });
+
+  indicesToRemove.reverse().forEach((index) => {
+    this.emails['trash'].splice(index, 1);
+  });
+
+  this.updateEmailList('trash');
+  await this.dataServ.deleteMail(emailIds).toPromise();
+
+  // Rimuovi dalla cartella "all"
+  emailIds.forEach((emailId) => {
+    const index = this.emails['all'].findIndex(
+      (allEmail) => allEmail.id === emailId
+    );
+    if (index !== -1) {
+      this.emails['all'].splice(index, 1);
+    }
+  });
+
+  Object.keys(this.emails).forEach((folder) => {
+    this.updateEmailList(folder);
+  });
+
+  console.log('Mail eliminata definitivamente con successo', this.emails);
+  this.emailRemovedSubject.next();
+}
 
 
-  updateEmailList(folderName: string): void { 
+  updateEmailList(folderName: string): void {
     const emails = this.emails[folderName] || [];
     this.emailsSubject.next(emails);
   }
@@ -152,13 +161,15 @@ export class FolderService {
     const mailToCopy = { ...email };
     if (!(targetFolder in this.emails)) {
       this.emails[targetFolder] = [];
-      console.log(email.folderName, 'target folder',targetFolder)
+      console.log(email.folderName, 'target folder', targetFolder);
+      //this.dataServ.putMailMessage(mailToCopy);
     }
     this.emails[targetFolder].push(mailToCopy);
     if (email.folderName !== 'results') {
       this.emails['all'].push(mailToCopy);
       mailToCopy.folderName = targetFolder;
-      console.log(email.folderName, 'target folder',targetFolder)
+      console.log(email.folderName, 'target folder', targetFolder);
+      //this.dataServ.putMailMessage(mailToCopy);
     }
   }
 
