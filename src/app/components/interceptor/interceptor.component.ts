@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import {
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+} from '@angular/common/http';
 import { Observable, finalize } from 'rxjs';
 import { LoadingComponent } from '../loading/loading.component';
 
@@ -10,7 +15,7 @@ import { LoadingComponent } from '../loading/loading.component';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './interceptor.component.html',
-  styleUrl: './interceptor.component.scss'
+  styleUrls: ['./interceptor.component.scss'],
 })
 export class InterceptorComponent implements HttpInterceptor {
   constructor(private dialog: MatDialog) {}
@@ -30,5 +35,4 @@ export class InterceptorComponent implements HttpInterceptor {
       })
     );
   }
-
 }

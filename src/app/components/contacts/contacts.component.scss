@@ -1,87 +1,74 @@
-
 .mail-row-element {
-    display: flex;
-    margin-bottom: 16px;
-    justify-content: flex-start;
-    gap: 4px;
-    align-items: center;
-    width: 85%;
-  }
+  display: flex;
+  margin-bottom: 16px;
+  justify-content: flex-start;
+  gap: 4px;
+  align-items: center;
+  width: 85%;
+}
 
-  .from-email {
-   
-    font-size: 16px;
-    cursor: pointer;
-    text-transform: lowercase;
-    font-family: 'Montserrat Alternates', sans-serif;
-    font-weight: bold;
-  }
+.from-email {
+  font-size: 16px;
+  cursor: pointer;
+  text-transform: lowercase;
+  font-family: 'Montserrat Alternates', sans-serif;
+  font-weight: bold;
+}
 
- 
+input {
+  width: 35%;
+  height: 32px;
+  margin-right: 10px;
+  outline: none;
+}
 
-  input{
-    width: 35%;
-    height: 32px;
-    margin-right: 10px;
-    outline: none;
-  }
+h3 {
+  margin-left: 24px;
+  font-family: 'Montserrat Alternates', sans-serif;
+  font-weight: bold;
+}
 
-  h3{
-    margin-left: 24px;
-    font-family: 'Montserrat Alternates', sans-serif;
-    font-weight: bold;
+.input-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 24px;
+  margin-bottom: 32px;
+  width: 100%;
+  gap: 16px;
+}
 
-  }
+.add-container {
+  width: 100%;
+  margin-left: 24px;
+}
 
-  .input-container{
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 24px;
-    margin-bottom: 32px;
-    width: 100%;
-    gap: 16px;
-   
-  }
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 
-  .add-container{
-    width: 100%;
-    margin-left: 24px;
-  }
+.header-folder-viewer {
+  background-color: #7d59bd;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
 
-  .button-container{
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .header-folder-viewer{
-    background-color: #7d59bd;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    
-  
-  }
-
-  
-.folder-name{
+.folder-name {
   text-transform: capitalize;
-  
-  
   text-align: right;
-  color:white;
-  font-family: "Montserrat Alternates", sans-serif;
+  color: white;
+  font-family: 'Montserrat Alternates', sans-serif;
   font-size: 32px;
   padding-right: 24px;
-  
-
-  
 }
 
-.delete-btn{
+.delete-btn {
   cursor: pointer;
 }
-.delete-btn:hover{
+
+.delete-btn:hover {
   color: crimson;
 }
 
@@ -90,16 +77,13 @@
   overflow-y: scroll;
   padding-bottom: 50px;
   margin-left: 24px;
- 
 }
 
-
-.mail-row-element:hover{
+.mail-row-element:hover {
   background-color: rgb(201, 161, 253);
-  color: rgb(255, 255, 255)
+  color: rgb(255, 255, 255);
 }
-  
-.spacer{
+
+.spacer {
   flex: 1;
 }
-

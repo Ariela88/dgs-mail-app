@@ -4,17 +4,18 @@
       (markAsImportantEvent)="toggleImportant($event)" (replyMail)="replyToEmail()" (forwardMail)="forwardMail()"
       *ngIf="selectedMessage.folderName !== 'bozze'"></app-message-actions>
 
-      
-    <button *ngIf="selectedMessage.folderName === 'bozze'|| selectedMessage.folderName ==='outgoing'" (click)="toggleEditing()" mat-raised-button
-      color="primary">Modifica</button>
+
+    <button *ngIf="selectedMessage.folderName === 'bozze'|| selectedMessage.folderName ==='outgoing'"
+      (click)="toggleEditing()" mat-raised-button color="primary">Modifica</button>
   </div>
   <div class="email-content">
     <div class="icon-content">
       <i class="material-icons" *ngIf="selectedMessage.isFavorite">favorite</i>
       <i class="material-icons" *ngIf="selectedMessage.important">star</i>
     </div>
-    <div class="button-back"> <button (click)="goBackToFolder()"  mat-raised-button>Torna a {{selectedMessage.folderName}}</button></div>
-    
+    <div class="button-back"> <button (click)="goBackToFolder()" mat-raised-button>Torna a
+        {{selectedMessage.folderName}}</button></div>
+
     <span class="date-small-text">Ricevuta il: {{ selectedMessage.created | date:'d MMMM y'}}</span>
     <!-- <span>{{selectedMessage.folderName}}</span> -->
     <p class="smaller-text">From: <span class="email-from" (click)="addEmail()"> {{ selectedMessage.from }}</span></p>

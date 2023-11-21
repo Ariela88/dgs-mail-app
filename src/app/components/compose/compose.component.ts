@@ -25,7 +25,6 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contact } from 'src/app/model/contact';
-import { DataService } from 'src/app/services/data.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -62,7 +61,6 @@ export class ComposeComponent implements OnInit {
     private router: Router,
     private contactsService: ContactsService,
     private snackBar: MatSnackBar,
-    private dataServ: DataService,
     public dialog: MatDialog
   ) {
     this.newMailForm = this.fb.group({
@@ -146,6 +144,9 @@ export class ComposeComponent implements OnInit {
         this.selectedRecipients.push(recipientContact);
       }
     });
+    setTimeout(() => {
+      this.contactCtrl.updateValueAndValidity();
+    }, 100);
   }
 
   generateRandomId(): string {
@@ -203,27 +204,27 @@ export class ComposeComponent implements OnInit {
       } else {
         sentMail.folderName = 'sent';
         this.folderService.addEmailToFolder(sentMail, 'sent');
-       
+        // this.snackBar.open('Email inviata con successo', 'Chiudi', {
+        //   duration: 2000,
+        // });
       }
       this.router.navigateByUrl('home');
     }
   }
 
   closeModal() {
-  
-  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-    data: { message: "Sei sicuro di voler uscire dall'editor?" }
-  });
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { message: "Sei sicuro di voler uscire dall'editor?" },
+    });
 
-  dialogRef.afterClosed().subscribe(result => {
-    if (result) {
-      this.isDraft = true;
-      this.onSubmit();
-      this.modalService.closeModal();
-    }
-  });
-}
-
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.isDraft = true;
+        this.onSubmit();
+        this.modalService.closeModal();
+      }
+    });
+  }
 
   private _filter(value: string): Contact[] {
     const filterValue = value.toLowerCase();
@@ -233,14 +234,10 @@ export class ComposeComponent implements OnInit {
     );
     const otherContacts = this.contacts.filter(
       (contact) =>
-        !contact.isFavorite &&
-        contact.email.toLowerCase().includes(filterValue)
+        !contact.isFavorite && contact.email.toLowerCase().includes(filterValue)
     );
     return [...favoriteContacts, ...otherContacts];
   }
-   
-  
-  
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();

@@ -4,36 +4,45 @@
     </button>
 </div>
 <ul>
-    <li class="list-element" (click)="contacts()"><mat-icon>person</mat-icon> <span> Rubrica</span></li>
+    <li class="list-element" (click)="contacts()"><mat-icon>person</mat-icon> <span class="icon-label"> Rubrica</span>
+    </li>
 </ul>
 <ul>
     <li (click)="toggleFolderTree()" class="list-element">
-        <mat-icon>folder</mat-icon> <span> Tutte le Cartelle</span>
+        <mat-icon>folder</mat-icon> <span class="icon-label"> Tutte le Cartelle</span>
     </li>
     <li *ngIf="showFolderTree">
         <ul>
-            <li class="list-element" (click)="changeFolder('all')"><mat-icon>mail</mat-icon> <span> Tutte le mail</span>
+            <li class="list-element" (click)="changeFolder('all')"><mat-icon>mail</mat-icon> <span class="icon-label">
+                    Tutte le mail</span>
             </li>
-            <li class="list-element" (click)="changeFolder('inbox')"><mat-icon>inbox</mat-icon> <span> In Arrivo</span>
+            <li class="list-element" (click)="changeFolder('inbox')"><mat-icon>inbox</mat-icon> <span
+                    class="icon-label"> In Arrivo</span>
             </li>
-            <li class="list-element" (click)="changeFolder('sent')"><mat-icon>send</mat-icon> <span> Inviate</span></li>
-            <li class="list-element" (click)="changeFolder('favorite')"><mat-icon>favorite</mat-icon> <span>
+            <li class="list-element" (click)="changeFolder('sent')"><mat-icon>send</mat-icon> <span class="icon-label">
+                    Inviate</span></li>
+            <li class="list-element" (click)="changeFolder('favorite')"><mat-icon>favorite</mat-icon> <span
+                    class="icon-label">
                     Preferiti</span></li>
-            <li class="list-element" (click)="changeFolder('important')"><mat-icon>star</mat-icon> <span>
+            <li class="list-element" (click)="changeFolder('important')"><mat-icon>star</mat-icon> <span
+                    class="icon-label">
                     Importanti</span></li>
-            <li class="list-element" (click)="changeFolder('trash')"><mat-icon>delete</mat-icon> <span> Cestino</span>
+            <li class="list-element" (click)="changeFolder('trash')"><mat-icon>delete</mat-icon> <span
+                    class="icon-label"> Cestino</span>
             </li>
-            <li class="list-element" (click)="changeFolder('bozze')"><mat-icon>edit_document</mat-icon> <span>
+            <li class="list-element" (click)="changeFolder('bozze')"><mat-icon>edit_document</mat-icon> <span
+                    class="icon-label">
                     Bozze</span>
             </li>
-            <li class="list-element" (click)="changeFolder('outgoing')"><mat-icon>outgoing_mail</mat-icon> <span>
+            <li class="list-element" (click)="changeFolder('outgoing')"><mat-icon>outgoing_mail</mat-icon> <span
+                    class="icon-label">
                     In Uscita</span>
             </li>
 
         </ul>
 
     </li>
-    <li class="list-element" (click)="changeFolder('results')"><mat-icon>search</mat-icon> <span>
+    <li class="list-element" (click)="changeFolder('results')"><mat-icon>search</mat-icon> <span class="icon-label">
             Ricerche Recenti</span>
     </li>
 </ul>
