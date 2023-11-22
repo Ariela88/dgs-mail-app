@@ -72,6 +72,7 @@ export class MessageViewerComponent implements OnInit {
     email.isFavorite = true;
     this.folderService.copyEmailToFolder(email, 'favorite');
   }
+  
 
   markAsImportant(email: Mail): void {
     email.important = true;
@@ -81,14 +82,12 @@ export class MessageViewerComponent implements OnInit {
   removeFromFavorites(email: Mail): void {
     console.log('Rimuovi dai preferiti:', email);
     email.isFavorite = false;
-    email.folderName = 'inbox';
     this.folderService.removeEmailFromFolder(email, 'favorite');
   }
 
   removeAsImportant(email: Mail): void {
     console.log('Rimuovi importante:', email);
     email.important = false;
-    email.folderName = 'inbox';
     this.folderService.removeEmailFromFolder(email, 'important');
   }
 

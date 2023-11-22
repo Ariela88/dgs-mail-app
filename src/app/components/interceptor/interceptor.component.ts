@@ -26,7 +26,9 @@ export class InterceptorComponent implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const dialogRef = this.dialog.open(LoadingComponent, {
       disableClose: true,
-      data: { message: 'Loading...' },
+      data: {
+        message: request.method === 'DELETE' ? 'Cancellazione email...' : 'Loading...',
+      },
     });
 
     return next.handle(request).pipe(
