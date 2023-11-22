@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, finalize, map, tap } from 'rxjs/operators';
+import { catchError, concatMap, delay, finalize, map, take, tap } from 'rxjs/operators';
 import { Mail } from '../model/mail';
-import { Observable, forkJoin, throwError } from 'rxjs';
+import { EMPTY, Observable, forkJoin, of, throwError, timer } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class DataService {
 
   mockMail = 'https://651a7a94340309952f0d59cb.mockapi.io/emails';
@@ -17,19 +18,22 @@ export class DataService {
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
 
-  private startLoading() {
+
+
+  private startLoading(requestCount: number = 1) {
     if (this.loadingCounter === 0) {
       this.loading = true;
     }
-    this.loadingCounter++;
+    this.loadingCounter += requestCount;
   }
-
-  private stopLoading() {
-    this.loadingCounter--;
+  
+  private stopLoading(requestCount: number = 1) {
+    this.loadingCounter -= requestCount;
     if (this.loadingCounter === 0) {
       this.loading = false;
     }
   }
+  
 
   getMailMessage(): Observable<Mail[]> {
     this.startLoading();
@@ -78,28 +82,60 @@ export class DataService {
       .pipe(tap((data) => console.log('email modificata', data)));
   }
 
+
   deleteMail(emailIds: string[]): Observable<void> {
     const deleteUrls = emailIds.map((emailId) => `${this.mockMail}/${emailId}`);
     const deleteRequests = deleteUrls.map((url) => this.http.delete(url));
+    this.startLoading(deleteRequests.length);
+  
     return forkJoin(deleteRequests).pipe(
       map(() => {
-        console.log('Mail cancellata dal server',deleteUrls,this.deleteMail);
+        console.log('Mail cancellata dal server', deleteUrls, this.deleteMail);
       }),
       catchError((error) => {
         console.error('Errore nella cancellazione della mail dal server:', error);
         return throwError(error);
+      }),
+      finalize(() => {
+
+        this.stopLoading(deleteRequests.length);
       })
     );
   }
 
+  getCurrentDateWithDelay(): Observable<string> {
+    const sentence = new Date().toString().toUpperCase();
+    const words = sentence.split(' ');
+    const delayMS = 1000;
 
+    const wordDelay = (i: number) =>
+      i === 0 ? delayMS : (words[i - 1].length + 1) * delayMS;
 
+    const wordStart = (i: number) =>
+      i < words.length
+        ? of(i).pipe(delay(wordDelay(i)))
+        : EMPTY.pipe(delay(wordDelay(i)));
 
+    const wordObservable = (word: string) => {
+      const letters = word.split('');
 
+      return timer(0, delayMS).pipe(
+        take(letters.length),
+        map((i) => letters[i])
+      );
+    };
 
-
+    return of(null).pipe(
+      concatMap(() => wordStart(0)),
+      concatMap((i) => wordObservable(words[i])),
+      map((letter) => letter.trim())
+    );
+  }
 
 }
+
+
+
 
 
 

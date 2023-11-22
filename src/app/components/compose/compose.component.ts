@@ -194,6 +194,7 @@ export class ComposeComponent implements OnInit {
         created: new Date(),
       };
       console.log(sentMail.to, 'onsubmit destinatario');
+      this.folderService.copyEmailToFolder(sentMail,'outgoing')
       if (this.isDraft) {
         sentMail.sent = false;
 
@@ -207,6 +208,7 @@ export class ComposeComponent implements OnInit {
         this.folderService.addEmailToFolder(sentMail, 'sent');
         this.folderService.copyEmailToFolder(sentMail, 'sent');
         this.folderService.removeEmailFromFolder(sentMail, 'bozze');
+        this.folderService.removeEmailFromFolder(sentMail,'outgoing')
       }
       this.router.navigateByUrl('home');
     }

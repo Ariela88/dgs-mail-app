@@ -33,12 +33,14 @@ export class FolderService {
       this.emailsSelected = data;
       this.sortEmailsIntoFolders(this.emailsSelected);
     });
+    
   }
 
   private saveEmailToOutbox(email: Mail) {
     this.emails['outgoing'].push(email);
     this.emailsSubject.next(this.emails['outgoing']);
     email.folderName = 'outgoing';
+   
   }
 
   getEmailsObservable(folderName: string): Observable<Mail[]> {
@@ -49,6 +51,7 @@ export class FolderService {
   getEmails(folderName: string): Observable<Mail[]> {
     const emails = this.emails[folderName] || [];
     this.updateEmailList(folderName);
+    
     return of(emails);
   }
 

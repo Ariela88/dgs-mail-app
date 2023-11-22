@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { FolderService } from 'src/app/services/folder.service';
+
 
 @Component({
   selector: 'app-folder-list',
@@ -11,7 +11,7 @@ export class FolderListComponent {
   showFolderTree = false;
   @Input() folder: string | undefined;
 
-  constructor(private router: Router, private folderServ:FolderService) {}
+  constructor(private router: Router) {}
 
   toggleFolderTree() {
     this.showFolderTree = !this.showFolderTree;

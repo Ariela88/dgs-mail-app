@@ -1,0 +1,84 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-date-picker',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './date-picker.component.html',
+  styleUrl: './date-picker.component.scss'
+})
+export class DatePickerComponent {
+
+  currentMonth: number;
+  currentYear: number;
+  dayNames: string[] = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
+  monthNames: string[] = [
+    'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
+    'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
+  ];
+  weeks: { day: number, month: number, year: number }[][] = [];
+
+  constructor() {
+    const today = new Date();
+    this.currentMonth = today.getMonth();
+    this.currentYear = today.getFullYear();
+    this.generateCalendar();
+  }
+
+  generateCalendar() {
+    this.weeks = [];
+
+    const firstDayOfMonth = new Date(this.currentYear, this.currentMonth, 1);
+    const lastDayOfMonth = new Date(this.currentYear, this.currentMonth + 1, 0);
+    const daysInMonth = lastDayOfMonth.getDate();
+    const firstDayOfWeek = firstDayOfMonth.getDay();
+
+    let currentWeek: { day: number, month: number, year: number }[] = [];
+
+    for (let i = 0; i < firstDayOfWeek; i++) {
+      currentWeek.push({ day: 0, month: 0, year: 0 });
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(this.currentYear, this.currentMonth, day);
+      currentWeek.push({ day, month: this.currentMonth, year: this.currentYear });
+
+      if (currentWeek.length === 7) {
+        this.weeks.push(currentWeek);
+        currentWeek = [];
+      }
+    }
+
+    if (currentWeek.length > 0) {
+      for (let i = currentWeek.length; i < 7; i++) {
+        currentWeek.push({ day: 0, month: 0, year: 0 });
+      }
+      this.weeks.push(currentWeek);
+    }
+  }
+
+  selectDate(day: { day: number, month: number, year: number }) {
+    console.log('Data selezionata:', day);
+  
+  }
+
+  prevMonth() {
+    this.currentMonth--;
+    if (this.currentMonth < 0) {
+      this.currentMonth = 11;
+      this.currentYear--;
+    }
+    this.generateCalendar();
+  }
+
+  nextMonth() {
+    this.currentMonth++;
+    if (this.currentMonth > 11) {
+      this.currentMonth = 0;
+      this.currentYear++;
+    }
+    this.generateCalendar();
+  }
+
+}

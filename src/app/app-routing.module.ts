@@ -9,6 +9,7 @@ import { SearchResolver } from './search.resolver';
 import { EmailResolver } from './email-resolver.resolver';
 import { ContactsComponent } from './components/contacts/contacts.component';
 import { AppComponent } from './app.component';
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
 
 const routes: Routes = [
   { path: '', component: AppComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'folder/inbox', component: FolderViewerComponent, resolve: { emails: ResolverResolver }},
   { path: 'editor', component: ComposeComponent },
   { path: 'contacts', component: ContactsComponent },
+  { path: 'date', component: DatePickerComponent },
   { path: 'folder/:folderName/mail/:id', component: MessageViewerComponent },
   { path: 'results', component: FolderViewerComponent, resolve: { searchResults: SearchResolver } },
   { path: 'editor', component: ComposeComponent, resolve: { emailData: EmailResolver, emails: ResolverResolver } },

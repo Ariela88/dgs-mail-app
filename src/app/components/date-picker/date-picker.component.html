@@ -1,0 +1,28 @@
+<div class="date-container">
+   
+    <table>
+        
+      <thead>
+        <tr><button (click)="prevMonth()">Indietro</button>
+            <th colspan="7">{{ monthNames[currentMonth] }} {{ currentYear }}</th>
+            <button (click)="nextMonth()">Avanti</button>
+        </tr>
+        <tr>
+          <th *ngFor="let day of dayNames">{{ day  }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let week of weeks">
+          <td *ngFor="let day of week">
+            <div
+              class="day"
+              [class.other-month]="day.month !== currentMonth"
+              (click)="selectDate(day)" 
+            >
+              {{ day.day !== 0 ? day.day : '' }}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

@@ -1,24 +1,23 @@
-/* Stili generici per gli elementi span */
+
 span {
   list-style: none;
   font-family: 'Montserrat Alternates', sans-serif;
   cursor: pointer;
 }
 
-/* Stili per le righe della lista di email */
 li {
   margin-bottom: 24px;
   list-style: none;
   font-family: 'Montserrat Alternates', sans-serif;
 }
 
-/* Stili per il mittente dell'email */
+
 .from-email {
   font-weight: bold;
   font-size: 16px;
 }
 
-/* Stili per il testo in grassetto */
+
 .bold-text {
   font-weight: bold;
 }
@@ -27,24 +26,23 @@ li {
   font-weight: normal;
 }
 
-/* Stili per la seconda riga sottolineata */
+
 .second-row {
   text-decoration: underline;
 }
 
-/* Stili per le icone Material Design */
+
 .material-icons {
   font-size: 12px;
 }
 
-/* Stili per il pulsante di eliminazione */
 .delete-btn {
   align-self: center;
   margin-left: 24px;
   cursor: pointer;
 }
 
-/* Stili per le icone Material Design */
+
 mat-icon {
   font-size: 24px !important;
 }
@@ -53,7 +51,7 @@ mat-icon:hover {
   color: crimson !important;
 }
 
-/* Stili per gli elementi della riga di email */
+
 .mail-row-element {
   display: flex;
   margin-bottom: 16px;
@@ -68,7 +66,7 @@ mat-icon:hover {
   font-size: larger;
 }
 
-/* Stili per il nome della cartella */
+
 .folder-name {
   text-transform: capitalize;
   text-align: right;
@@ -79,12 +77,12 @@ mat-icon:hover {
   margin: 0;
 }
 
-/* Stili per il nome della cartella in grassetto */
+
 .folder-name-bold {
   font-weight: bold;
 }
 
-/* Stili per l'intestazione della visualizzazione della cartella */
+
 .header-folder-viewer {
   background-color: #7d59bd;
   display: flex;
@@ -92,12 +90,12 @@ mat-icon:hover {
   justify-content: space-between;
 }
 
-/* Stili per il pulsante durante l'hover */
+
 button:hover {
   background-color: #ffd740 !important;
 }
 
-/* Stili per il pulsante di nuova email */
+
 .newmail-btn {
   display: flex;
   justify-content: center;
@@ -105,12 +103,12 @@ button:hover {
   padding: 24px 0;
 }
 
-/* Stili per il gruppo di schede Material Design */
+
 .mat-tab-group {
   margin-bottom: 48px;
 }
 
-/* Stili per i dettagli dell'email */
+
 .email-details {
   display: flex;
   flex-direction: column;
@@ -119,18 +117,18 @@ button:hover {
   gap: 4px;
 }
 
-/* Stili per le righe della lista di email con sfondo alternato */
+
 .color-even {
   height: 50vh;
   overflow-y: scroll;
 }
 
-/* Stili per il separatore flessibile */
+
 .spacer {
   flex: 1;
 }
 
-/* Stili per il contenitore di ordinamento */
+
 .sort-container {
   width: 100%;
   display: flex;
@@ -139,18 +137,18 @@ button:hover {
   background-color: #7e59bd8a;
 }
 
-/* Stili per il campo di selezione Materiale */
+
 mat-form-field {
   margin-right: 24px;
   margin-top: 24px;
 }
 
-/* Stili per l'input */
+
 input {
   align-self: baseline;
 }
 
-/* Stili per l'indicatore di lettura */
+
 .read-indicator {
   width: 10px;
   height: 10px;
@@ -159,17 +157,16 @@ input {
   margin-right: 4px;
 }
 
-/* Stili per lo stato di non letto */
+
 .unread {
   background-color: red;
 }
 
-/* Stili per lo stato di letto */
+
 .read {
   background-color: green;
 }
 
-/* Stili per il contatore di email */
 .number-emails {
   display: flex;
   justify-content: flex-end;
@@ -177,18 +174,18 @@ input {
   margin-right: 16px;
 }
 
-/* Stili per il pulsante di selezione di tutte le email */
+
 .select-all-btn {
   margin-left: 44px;
 }
 
-/* Stili per il testo più leggero del contatore */
+
 .light-text-counter {
   font-size: smaller;
   font-weight: 300;
 }
 
-/* Stili per l'etichetta della cartella nella lista di email */
+
 .foldername-label {
   background-color: #ffd740;
   border: 1px solid black;
