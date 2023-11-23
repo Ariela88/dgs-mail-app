@@ -1,40 +1,57 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { CalendarService } from 'src/app/services/calendar.service';
 
 @Component({
   selector: 'app-date-picker',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './date-picker.component.html',
-  styleUrl: './date-picker.component.scss'
+  styleUrl: './date-picker.component.scss',
 })
 export class DatePickerComponent {
-
   currentMonth: number;
+  calendarIsOpen = true
   currentYear: number;
   dayNames: string[] = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
   monthNames: string[] = [
-    'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
-    'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
+    'Gennaio',
+    'Febbraio',
+    'Marzo',
+    'Aprile',
+    'Maggio',
+    'Giugno',
+    'Luglio',
+    'Agosto',
+    'Settembre',
+    'Ottobre',
+    'Novembre',
+    'Dicembre',
   ];
-  weeks: { day: number, month: number, year: number }[][] = [];
+  weeks: { day: number; month: number; year: number }[][] = [];
+  
 
-  constructor() {
+  constructor(private dialog:MatDialog,private calendarService: CalendarService) {
     const today = new Date();
     this.currentMonth = today.getMonth();
     this.currentYear = today.getFullYear();
     this.generateCalendar();
+
+    this.calendarService.isOpen$.subscribe((isOpen) => {
+      console.log('calendario aperto')
+      this.calendarIsOpen = isOpen;
+    });
+
+   
   }
 
   generateCalendar() {
+    console.log('Generate Calendar executed');
     this.weeks = [];
-
     const firstDayOfMonth = new Date(this.currentYear, this.currentMonth, 1);
     const lastDayOfMonth = new Date(this.currentYear, this.currentMonth + 1, 0);
     const daysInMonth = lastDayOfMonth.getDate();
     const firstDayOfWeek = firstDayOfMonth.getDay();
 
-    let currentWeek: { day: number, month: number, year: number }[] = [];
+    let currentWeek: { day: number; month: number; year: number }[] = [];
 
     for (let i = 0; i < firstDayOfWeek; i++) {
       currentWeek.push({ day: 0, month: 0, year: 0 });
@@ -42,7 +59,11 @@ export class DatePickerComponent {
 
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(this.currentYear, this.currentMonth, day);
-      currentWeek.push({ day, month: this.currentMonth, year: this.currentYear });
+      currentWeek.push({
+        day,
+        month: this.currentMonth,
+        year: this.currentYear,
+      });
 
       if (currentWeek.length === 7) {
         this.weeks.push(currentWeek);
@@ -58,9 +79,8 @@ export class DatePickerComponent {
     }
   }
 
-  selectDate(day: { day: number, month: number, year: number }) {
+  selectDate(day: { day: number; month: number; year: number }) {
     console.log('Data selezionata:', day);
-  
   }
 
   prevMonth() {
@@ -80,5 +100,11 @@ export class DatePickerComponent {
     }
     this.generateCalendar();
   }
+
+
+  closeCalendar() {
+    this.calendarService.toggleCalendar();
+  }
+
 
 }

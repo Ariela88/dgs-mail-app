@@ -24,6 +24,7 @@ import { NgPipesModule } from 'ngx-pipes';
 import { OrderByPipe } from 'ngx-pipes';
 import { InterceptorComponent } from './components/interceptor/interceptor.component';
 import { DatePickerComponent } from "./components/date-picker/date-picker.component";
+import { CalendarService } from './services/calendar.service';
 
 
 
@@ -40,13 +41,15 @@ import { DatePickerComponent } from "./components/date-picker/date-picker.compon
         ContactActionsComponent,
         SearchComponent,
         ConfirmationDialogComponent,
-        LoadingComponent
+        LoadingComponent,
+        DatePickerComponent
     ],
     providers: [{ provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }, OrderByPipe, {
             provide: HTTP_INTERCEPTORS,
             useClass: InterceptorComponent,
             multi: true,
-        },],
+        },
+    CalendarService],
     bootstrap: [AppComponent],
     imports: [
         BrowserModule,
@@ -59,7 +62,7 @@ import { DatePickerComponent } from "./components/date-picker/date-picker.compon
         MatDialogModule,
         TimeStampPipe,
         NgPipesModule,
-        DatePickerComponent
+        
     ]
 })
 export class AppModule {}

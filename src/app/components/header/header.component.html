@@ -1,6 +1,8 @@
 <mat-toolbar color="primary">
   <span class="title">PurpleM<span><mat-icon class="icon-mail" routerLink="folder">mail</mat-icon></span>il</span>
   <span class="example-spacer"></span>
-  
+  <button mat-icon-button (click)="toggleCalendar()">
+    <mat-icon>calendar_month</mat-icon>
+  </button>
   <app-search></app-search>
 </mat-toolbar>

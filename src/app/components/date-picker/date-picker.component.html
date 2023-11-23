@@ -1,11 +1,12 @@
-<div class="date-container">
+<div class=" modal" *ngIf="calendarIsOpen">
    
+  <button mat-mini-fab color="accent" (click)="prevMonth()"><mat-icon>arrow_back_ios</mat-icon></button>
     <table>
-        
+     
       <thead>
-        <tr><button (click)="prevMonth()">Indietro</button>
+        <tr>
             <th colspan="7">{{ monthNames[currentMonth] }} {{ currentYear }}</th>
-            <button (click)="nextMonth()">Avanti</button>
+            
         </tr>
         <tr>
           <th *ngFor="let day of dayNames">{{ day  }}</th>
@@ -25,4 +26,5 @@
         </tr>
       </tbody>
     </table>
+    <button mat-fab color="accent" (click)="nextMonth()"> <mat-icon>arrow_forward_ios</mat-icon> </button>
   </div>
