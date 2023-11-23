@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { ChangeDetectorRef, Injectable } from '@angular/core';
 import { Mail } from '../model/mail';
 import { FolderService } from './folder.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DataService } from './data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LoadingComponent } from '../components/loading/loading.component';
+import { CalendarService } from './calendar.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,15 +23,26 @@ export class SearchService {
   constructor(
     private matDialog: MatDialog,
     public folderService: FolderService,
-    private dataService: DataService
+    private dataService: DataService,
+    private calendarService: CalendarService,
+   
   ) {
     this.dataService.getMailMessage().subscribe((emails: Mail[]) => {
       this.searchResultsSubject.next(emails);
     });
     this.searchResults$ = this.searchResultsSubject.asObservable();
+
+    this.calendarService.selectedDate$.subscribe((selectedDate) => {
+      if (selectedDate) {
+        this.searchMailByDate(selectedDate);
+      }
+    });
+
+    console.log('ricerca');
   }
 
   searchMail(searchTerm: string): void {
+    console.log('ricerca in corso per data');
     this.clearResults();
 
     const addedEmails: Set<string> = new Set();
@@ -120,8 +132,63 @@ export class SearchService {
   }
 
   clearResults(): void {
+    console.log('Clearing results...');
     this.folderService.clearFolder('results');
     this.searchResults = [];
     this.searchResultsSubject.next([]);
+    console.log('Results cleared.');
+  }
+  
+
+  searchMailByDate(selectedDate: { day: number; month: number; year: number }): void {
+    this.clearResults(); 
+  
+    let filteredEmails: Mail[] = [];
+    Object.values(this.folderService.emails).forEach((folderMails) => {
+      folderMails.forEach((mail) => {
+        console.log('Processing email:', mail);
+        if (mail.created) {
+          const emailDate = new Date(mail.created);
+          if (
+            this.isSameDay(
+              emailDate,
+              new Date(selectedDate.year, selectedDate.month, selectedDate.day)
+            )
+          ) {
+            filteredEmails.push(mail);
+          }
+        }
+      });
+    });
+  
+    console.log('filteredEmails:', filteredEmails);
+    let filteredEmailsSet = new Set(filteredEmails);
+    this.searchResults = Array.from(filteredEmailsSet);
+    console.log('Final searchResults:', this.searchResults);
+  
+    this.searchResultsSubject.next(this.searchResults);
+    this.searchResults.forEach((mail) => {
+      console.log('risultati del filtraggio finale', mail);
+      this.folderService.copyEmailToFolder(mail, 'results');
+      console.log(this.searchResults);
+    });
+
+  
+  }
+  
+
+  isSameDay(date1: Date, date2: Date): boolean {
+    return (
+      date1.getDate() === date2.getDate() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getFullYear() === date2.getFullYear()
+    );
+  }
+
+  initialize(initialDate: { day: number; month: number; year: number }): void {
+    console.log(initialDate);
+    this.searchMailByDate(initialDate);
+
+    console.log('Ricerca inizializzata');
   }
 }

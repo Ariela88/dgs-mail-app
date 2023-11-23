@@ -175,17 +175,17 @@ export class FolderService {
     const mailToCopy = { ...email };
     if (!(targetFolder in this.emails)) {
       this.emails[targetFolder] = [];
-      console.log(email.folderName, 'target folder', targetFolder);
-      //this.dataServ.putMailMessage(mailToCopy);
     }
-    this.emails[targetFolder].push(mailToCopy);
+    if (!this.emails[targetFolder].some((mail) => mail.id === mailToCopy.id)) {
+      this.emails[targetFolder].push(mailToCopy);
+    }
+  
     if (email.folderName !== 'results') {
       this.emails['all'].push(mailToCopy);
       mailToCopy.folderName = targetFolder;
-      console.log(email.folderName, 'target folder', targetFolder);
-      //this.dataServ.putMailMessage(mailToCopy);
     }
   }
+  
 
   getMailById(id: string): Observable<Mail | undefined> {
     const mail = this.allEmails.find((email) => email.id === id);

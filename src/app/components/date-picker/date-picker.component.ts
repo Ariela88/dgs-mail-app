@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { CalendarService } from 'src/app/services/calendar.service';
+import { SearchService } from 'src/app/services/search.service';
 
 @Component({
   selector: 'app-date-picker',
@@ -8,6 +10,10 @@ import { CalendarService } from 'src/app/services/calendar.service';
   styleUrl: './date-picker.component.scss',
 })
 export class DatePickerComponent {
+
+  @Input() dateSelected: any;
+  
+  
   currentMonth: number;
   calendarIsOpen = true
   currentYear: number;
@@ -29,7 +35,7 @@ export class DatePickerComponent {
   weeks: { day: number; month: number; year: number }[][] = [];
   
 
-  constructor(private dialog:MatDialog,private calendarService: CalendarService) {
+  constructor(private dialog:MatDialog,private calendarService: CalendarService, private searchService:SearchService,private router:Router) {
     const today = new Date();
     this.currentMonth = today.getMonth();
     this.currentYear = today.getFullYear();
@@ -39,6 +45,14 @@ export class DatePickerComponent {
       console.log('calendario aperto')
       this.calendarIsOpen = isOpen;
     });
+
+    const initialDate = {
+      day: today.getDate(),
+      month: today.getMonth(),
+      year: today.getFullYear(),
+    };
+
+    this.searchService.initialize(initialDate);
 
    
   }
@@ -80,7 +94,12 @@ export class DatePickerComponent {
   }
 
   selectDate(day: { day: number; month: number; year: number }) {
-    console.log('Data selezionata:', day);
+    console.log(day,'data picker')
+    this.calendarService.setSelectedDate(day)
+    this.searchService.initialize(day);
+    this.router.navigate(['folder/results'])
+   
+    
   }
 
   prevMonth() {

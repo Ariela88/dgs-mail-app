@@ -1,4 +1,5 @@
 <div class="container">
+
   <div class="header-folder-viewer">
     <button *ngIf="folderName === 'results'" (click)="goToInbox()" mat-raised-button>
       Torna a Tutte le mail
@@ -48,7 +49,7 @@
     </ng-container>
     <ng-template #searchResultsTemplate>
       <div *ngFor="let email of searchResults">
-        <!-- <pre> {{searchResults$ | json}}</pre> -->
+        
         <div class="email-details">
           <i class="material-icons" *ngIf="email.isFavorite">favorite</i>
           <span>{{email.folderName? email.folderName : 'inBox'}}</span>
@@ -65,3 +66,5 @@
   </ul>
 
 </div>
+
+<!-- <pre> {{searchResults | json}}</pre> -->
