@@ -78,6 +78,9 @@ app-contacts {
 app-search {
   position: relative;
   z-index: 99999 !important;
+  height: 100%;
+  display: flex;
+  
 }
 
 .mat-mdc-form-field-subscript-wrapper {
@@ -86,12 +89,10 @@ app-search {
 
 
 
-.day{
-  text-align: center;
-}
+
 
 td{
-  border: 1px solid black;
+  border: 1px solid rgb(255, 255, 255);
   margin: 0;
 }
 

@@ -13,6 +13,7 @@ export class SearchResolver implements Resolve<Mail[]> {
  resolve(route: ActivatedRouteSnapshot): Observable<Mail[]> {
   const searchTerm = route.queryParams['q'];
    this.searchServ.searchMail(searchTerm);
+   this.searchServ.searchMailByDate(searchTerm);
     this.searchServ.setDestinationFolder(searchTerm,'results');
      return this.searchServ.searchResults$;
       }

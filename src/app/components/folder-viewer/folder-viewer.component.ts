@@ -43,24 +43,32 @@ export class FolderViewerComponent implements OnInit, OnDestroy {
     public dataServ: DataService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.route.params?.subscribe(async (params) => {
       this.folderName = params['folderName'];
       if (this.folderName) {
         await this.getEmails();
-      
-        this.searchResultsSubscription = this.searchService.searchResults$
-          .pipe(takeUntil(this.unsubscribe$))
-          .subscribe((searchResults) => {
-            this.searchResults = searchResults;
-            this.handleEmails();
-            this.cdr.detectChanges();
-          });
-
+        this.route.queryParams?.subscribe((params) => {
+          if (params) {
+            this.searchResultsSubscription =
+              this.searchService.searchResults$?.subscribe((searchResults) => {
+                this.searchResults = searchResults;
+                this.handleEmails();
+                this.cdr.detectChanges();
+              });
+            this.folderServ.emails$
+              .pipe(takeUntil(this.unsubscribe$))
+              .subscribe((emails) => {
+                this.emails = emails;
+                this.handleEmails();
+                this.cdr.detectChanges();
+              });
+          }
+        });
       }
     });
 
-    console.log(this.folderName, this.searchResults, 'oninit folderviewer');
+    console.log(this.folderName,this.searchResults,'oninit folderviewer')
   }
 
   ngOnDestroy() {

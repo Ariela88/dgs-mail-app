@@ -24,8 +24,7 @@ export class SearchService {
     private matDialog: MatDialog,
     public folderService: FolderService,
     private dataService: DataService,
-    private calendarService: CalendarService,
-   
+    private calendarService: CalendarService
   ) {
     this.dataService.getMailMessage().subscribe((emails: Mail[]) => {
       this.searchResultsSubject.next(emails);
@@ -41,10 +40,10 @@ export class SearchService {
     console.log('ricerca');
   }
 
-  searchMail(searchTerm: string): void {
+  async searchMail(searchTerm: string): Promise<void> {
     console.log('ricerca in corso per data');
-    this.clearResults();
-
+    this.searchResults = []
+    await this.clearResults();
     const addedEmails: Set<string> = new Set();
     Object.values(this.folderService.emails).forEach((folderMails) => {
       folderMails.forEach((mail) => {
@@ -52,8 +51,10 @@ export class SearchService {
           this.contacts.includes(searchTerm.toLowerCase()) ||
           (mail.body &&
             mail.body.toLowerCase().includes(searchTerm.toLowerCase())) ||
-          (mail.from &&
-            mail.from.toLowerCase().includes(searchTerm.toLowerCase()))
+          (mail.to &&
+            mail.to.toLowerCase().includes(searchTerm.toLowerCase())) ||
+            (mail.from &&
+              mail.from.toLowerCase().includes(searchTerm.toLowerCase()))
         ) {
           if (!addedEmails.has(mail.id)) {
             this.searchResults.push(mail);
@@ -131,18 +132,27 @@ export class SearchService {
     this.folderService.copyEmailToFolder(mail, folderName);
   }
 
-  clearResults(): void {
+  async clearResults(): Promise<void> {
     console.log('Clearing results...');
-    this.folderService.clearFolder('results');
-    this.searchResults = [];
-    this.searchResultsSubject.next([]);
-    console.log('Results cleared.');
+    
+    try {
+      await this.folderService.clearFolder('results');
+      this.searchResults = [];
+      this.searchResultsSubject.next([]);
+      console.log('Results cleared.');
+    } catch (error) {
+      console.error('Error clearing results:', error);
+    }
   }
   
 
-  searchMailByDate(selectedDate: { day: number; month: number; year: number }): void {
-    this.clearResults(); 
-  
+  searchMailByDate(selectedDate: {
+    day: number;
+    month: number;
+    year: number;
+  }): void {
+    this.clearResults();
+
     let filteredEmails: Mail[] = [];
     Object.values(this.folderService.emails).forEach((folderMails) => {
       folderMails.forEach((mail) => {
@@ -160,22 +170,17 @@ export class SearchService {
         }
       });
     });
-  
+
     console.log('filteredEmails:', filteredEmails);
     let filteredEmailsSet = new Set(filteredEmails);
     this.searchResults = Array.from(filteredEmailsSet);
     console.log('Final searchResults:', this.searchResults);
-  
-    this.searchResultsSubject.next(this.searchResults);
+
     this.searchResults.forEach((mail) => {
-      console.log('risultati del filtraggio finale', mail);
       this.folderService.copyEmailToFolder(mail, 'results');
       console.log(this.searchResults);
     });
-
-  
   }
-  
 
   isSameDay(date1: Date, date2: Date): boolean {
     return (

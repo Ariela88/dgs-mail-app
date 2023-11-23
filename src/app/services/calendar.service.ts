@@ -7,10 +7,10 @@ import { SearchService } from './search.service';
 })
 export class CalendarService {
 
-  private isOpenSubject = new BehaviorSubject<boolean>(false);
-  isOpen$ = this.isOpenSubject.asObservable();
   private selectedDateSubject = new BehaviorSubject<{ day: number; month: number; year: number } | null>(null);
   selectedDate$: Observable<{ day: number; month: number; year: number } | null> = this.selectedDateSubject.asObservable();
+  private isOpenSubject = new BehaviorSubject<boolean>(false);
+  isOpen$ = this.isOpenSubject.asObservable();
 
 
   toggleCalendar() {

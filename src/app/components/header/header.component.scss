@@ -10,10 +10,17 @@
   
   .icon-mail:hover{
     color: #ffd740;
-  }z
+  }
 
   .icon-mail{
     transform: rotateX(180deg);
     cursor: pointer;
+  }
+
+  .date-picker-cnt{
+    
+    height: 100%;
+    display: flex;
+    align-items: first baseline;
   }
   

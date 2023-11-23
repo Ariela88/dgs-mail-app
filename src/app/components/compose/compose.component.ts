@@ -18,7 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from 'src/app/services/modal.service';
 import { FolderService } from 'src/app/services/folder.service';
 import { ContactsService } from 'src/app/services/contacts.service';
-import { Observable, map, startWith } from 'rxjs';
+import { BehaviorSubject, Observable, map, startWith } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -27,6 +27,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contact } from 'src/app/model/contact';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CalendarService } from 'src/app/services/calendar.service';
 
 @Component({
   selector: 'app-compose',
@@ -52,6 +53,7 @@ export class ComposeComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   @ViewChild('contactsInput') contactsInput?: ElementRef<HTMLInputElement>;
   isLoading: boolean = false;
+  calendarIsOpen = true
 
   constructor(
     private fb: FormBuilder,
@@ -61,7 +63,8 @@ export class ComposeComponent implements OnInit {
     private router: Router,
     private contactsService: ContactsService,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private calendarService:CalendarService
   ) {
     this.newMailForm = this.fb.group({
       to: new FormControl('', [Validators.required]),
@@ -147,6 +150,13 @@ export class ComposeComponent implements OnInit {
     setTimeout(() => {
       this.contactCtrl.updateValueAndValidity();
     }, 100);
+  }
+
+
+
+  toggleCalendar() {
+    this.calendarService.toggleCalendar()
+    
   }
 
   generateRandomId(): string {

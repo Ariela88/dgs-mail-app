@@ -1,6 +1,7 @@
 table{
-    background-color: beige;
-
+  background: #7e59bda6;
+padding: 16px;
+color: white;
   
 }
 
@@ -26,6 +27,16 @@ th{
   padding: 24px;
 }
 
+.day:hover{
+background-color: white;
+color: black;  
+}
+
 .day{
+  text-align: center;
   cursor: pointer;
+}
+
+.day:active{
+  background-color: rgb(255, 213, 0);
 }

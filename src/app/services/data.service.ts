@@ -86,22 +86,17 @@ export class DataService {
   deleteMail(emailIds: string[]): Observable<void> {
     const deleteUrls = emailIds.map((emailId) => `${this.mockMail}/${emailId}`);
     const deleteRequests = deleteUrls.map((url) => this.http.delete(url));
-    this.startLoading(deleteRequests.length);
-  
     return forkJoin(deleteRequests).pipe(
       map(() => {
-        console.log('Mail cancellata dal server', deleteUrls, this.deleteMail);
+        console.log('Mail cancellata dal server',deleteUrls,this.deleteMail);
       }),
       catchError((error) => {
         console.error('Errore nella cancellazione della mail dal server:', error);
         return throwError(error);
-      }),
-      finalize(() => {
-
-        this.stopLoading(deleteRequests.length);
       })
     );
   }
+
 
   getCurrentDateWithDelay(): Observable<string> {
     const sentence = new Date().toString().toUpperCase();

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CalendarService } from 'src/app/services/calendar.service';
@@ -10,12 +10,10 @@ import { SearchService } from 'src/app/services/search.service';
   styleUrl: './date-picker.component.scss',
 })
 export class DatePickerComponent {
-
   @Input() dateSelected: any;
-  
-  
+
   currentMonth: number;
-  calendarIsOpen = true
+  calendarIsOpen = true;
   currentYear: number;
   dayNames: string[] = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
   monthNames: string[] = [
@@ -33,16 +31,20 @@ export class DatePickerComponent {
     'Dicembre',
   ];
   weeks: { day: number; month: number; year: number }[][] = [];
-  
 
-  constructor(private dialog:MatDialog,private calendarService: CalendarService, private searchService:SearchService,private router:Router) {
+  constructor(
+    private dialog: MatDialog,
+    private calendarService: CalendarService,
+    private searchService: SearchService,
+    private router: Router
+  ) {
     const today = new Date();
     this.currentMonth = today.getMonth();
     this.currentYear = today.getFullYear();
     this.generateCalendar();
 
     this.calendarService.isOpen$.subscribe((isOpen) => {
-      console.log('calendario aperto')
+      console.log('calendario aperto');
       this.calendarIsOpen = isOpen;
     });
 
@@ -53,8 +55,6 @@ export class DatePickerComponent {
     };
 
     this.searchService.initialize(initialDate);
-
-   
   }
 
   generateCalendar() {
@@ -94,12 +94,10 @@ export class DatePickerComponent {
   }
 
   selectDate(day: { day: number; month: number; year: number }) {
-    console.log(day,'data picker')
-    this.calendarService.setSelectedDate(day)
+    this.calendarService.setSelectedDate(day);
     this.searchService.initialize(day);
-    this.router.navigate(['folder/results'])
-   
-    
+    this.router.navigate(['folder/results']);
+    this.closeCalendar();
   }
 
   prevMonth() {
@@ -111,6 +109,7 @@ export class DatePickerComponent {
     this.generateCalendar();
   }
 
+  
   nextMonth() {
     this.currentMonth++;
     if (this.currentMonth > 11) {
@@ -120,10 +119,7 @@ export class DatePickerComponent {
     this.generateCalendar();
   }
 
-
   closeCalendar() {
     this.calendarService.toggleCalendar();
   }
-
-
 }
