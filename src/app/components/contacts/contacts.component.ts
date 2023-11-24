@@ -18,7 +18,6 @@ export class ContactsComponent {
   selectAll: boolean = false;
   isComposeMode: boolean = false;
   writeNewMail: boolean = false;
-  showHomeH2: boolean = true;
 
   constructor(
     private contactsService: ContactsService,

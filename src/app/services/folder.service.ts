@@ -56,7 +56,7 @@ export class FolderService {
   }
 
   addEmailToFolder(email: Mail, folderName: string) {
-    console.log('add email to folder');
+    //console.log('add email to folder');
     if (folderName === 'sent' || folderName === 'bozze') {
       this.dataServ.postMailMessage(email).subscribe(
         (response) => {
@@ -84,7 +84,7 @@ export class FolderService {
       this.emails[folderName].splice(folderIndex, 1);
       
     }
-    console.log(folderIndex,email,'remove from folder')
+   // console.log(folderIndex,email,'remove from folder')
   }
 
   private sortEmailsIntoFolders(emails: Mail[]): void {
@@ -129,7 +129,7 @@ export class FolderService {
     emailIds: string[],
     folderName: string
   ): Promise<void> {
-    console.log('Emails da eliminare definitivamente:', emailIds);
+    //console.log('Emails da eliminare definitivamente:', emailIds);
     const indicesToRemove: number[] = [];
 
     emailIds.forEach((emailId) => {
@@ -162,7 +162,7 @@ export class FolderService {
       this.updateEmailList(folder);
     });
 
-    console.log('Mail eliminata definitivamente con successo', this.emails);
+    //console.log('Mail eliminata definitivamente con successo', this.emails);
     this.emailRemovedSubject.next();
   }
 

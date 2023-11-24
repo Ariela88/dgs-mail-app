@@ -73,8 +73,9 @@ mat-icon:hover {
   color: white;
   font-family: 'Montserrat Alternates', sans-serif;
   font-size: 32px;
-  padding: 16px 24px 16px 0;
+  padding: 16px 0px 16px 0;
   margin: 0;
+  margin-right: 10%;
 }
 
 
@@ -88,8 +89,13 @@ mat-icon:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  
 }
 
+.header-folder-viewer button{
+  width: 120px;
+  font-size: smaller;
+}
 
 button:hover {
   background-color: #ffd740 !important;
@@ -138,7 +144,9 @@ button:hover {
   background-color: #7e59bd8a;
 }
 
-
+.spacer{
+  flex: 1,1;
+}
 mat-form-field {
   margin-right: 24px;
   margin-top: 24px;

@@ -1,6 +1,6 @@
 
 <div class="calendar-conatiner">
-  <div class="open-modal-calendar"> <button mat-raised-button color="primary" (click)="openCalendar()"> <mat-icon>calendar_month</mat-icon></button></div>
+  <div class="open-modal-calendar">  <mat-icon (click)="openCalendar()">calendar_month</mat-icon></div>
 <div class=" modal" *ngIf="calendarIsOpen">
   <button mat-icon-button color="accent" (click)="prevMonth()"><mat-icon>arrow_back_ios</mat-icon></button>
   <table>

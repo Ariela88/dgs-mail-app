@@ -34,9 +34,9 @@ export class MessageViewerComponent implements OnInit {
         if (data && data.length > 0) {
           this.selectedMessage = data.find((mail) => mail.id === mailId);
           if (this.selectedMessage) {
-            console.log('Messaggio trovato:', this.selectedMessage);
+            //console.log('Messaggio trovato:', this.selectedMessage);
           } else {
-            console.log('Messaggio non trovato con ID:', mailId);
+            //console.log('Messaggio non trovato con ID:', mailId);
           }
         } else {
           console.log('Nessun messaggio trovato nella cartella:', folderName);
@@ -80,13 +80,13 @@ export class MessageViewerComponent implements OnInit {
   }
 
   removeFromFavorites(email: Mail): void {
-    console.log('Rimuovi dai preferiti:', email);
+    //console.log('Rimuovi dai preferiti:', email);
     email.isFavorite = false;
     this.folderService.removeEmailFromFolder(email, 'favorite');
   }
 
   removeAsImportant(email: Mail): void {
-    console.log('Rimuovi importante:', email);
+    //console.log('Rimuovi importante:', email);
     email.important = false;
     this.folderService.removeEmailFromFolder(email, 'important');
   }
@@ -139,7 +139,7 @@ export class MessageViewerComponent implements OnInit {
       };
       if (!this.contactServ.isContactInRubrica(newContact)) {
         this.contactServ.addContact(newContact);
-        console.log('Email aggiunta alla rubrica:', senderEmail);
+        //console.log('Email aggiunta alla rubrica:', senderEmail);
         this.snackBar.open('Contatto aggiunto alla rubrica', 'Chiudi', {
           duration: 2000,
         });

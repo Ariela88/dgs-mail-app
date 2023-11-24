@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-
 @Component({
   selector: 'app-confirmation-dialog',
   template: `
@@ -9,10 +8,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     <div mat-dialog-content>{{ data.message }}</div>
     <div mat-dialog-actions>
       <button mat-button (click)="onNoClick()">Annulla</button>
-      <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Conferma</button>
+      <button mat-button [mat-dialog-close]="true" cdkFocusInitial>
+        Conferma
+      </button>
     </div>
   `,
-  styleUrl: './confirmation-dialog.component.scss'
+  styleUrl: './confirmation-dialog.component.scss',
 })
 export class ConfirmationDialogComponent {
   constructor(

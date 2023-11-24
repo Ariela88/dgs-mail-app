@@ -17,16 +17,16 @@ export class EmailResolver implements Resolve<any> {
   resolve(route: ActivatedRouteSnapshot) {
     const emailId = route.params['id'];
     const selectedRecipient = this.contactsService.getSelectedRecipient();
-    console.log('EmailResolver called with emailId:', emailId);
+    //console.log('EmailResolver called with emailId:', emailId);
   
     if (emailId) {
       return this.folderServ.getMailById(emailId);
     } else if (selectedRecipient) {
-      console.log('Returning selectedRecipient:', selectedRecipient);
+     // console.log('Returning selectedRecipient:', selectedRecipient);
       return { selectedRecipient };
     }
   
-    console.log('Returning default resolved data');
+   // console.log('Returning default resolved data');
     return of({ resolvedData: { selectedRecipient } });
   }
   

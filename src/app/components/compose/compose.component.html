@@ -12,7 +12,7 @@
       </mat-chip-grid>
       <input formControlName="to" matInput placeholder="Inserisci un destinatario" #contactsInput
         [matAutocomplete]="auto" [matChipInputFor]="chipGrid" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        (matChipInputTokenEnd)="add($event)" />
+        (matChipInputTokenEnd)="add($event)" required/>
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
         <mat-option *ngFor="let contact of (sortedOptions$ | async)" [value]="contact">
           <mat-icon *ngIf="contact.isFavorite">favorite</mat-icon> {{ contact.email }}
@@ -22,14 +22,14 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Oggetto</mat-label>
-      <input matInput formControlName="subject" />
+      <input matInput formControlName="subject" required minlength="4"/>
       <mat-error *ngIf="newMailForm.get('subject')?.hasError('required')">L'oggetto è obbligatorio</mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Messaggio</mat-label>
       <textarea matInput formControlName="body"></textarea>
       <input matInput placeholder="Seleziona una data"
-        [value]="newMailForm.get('selectedDate')?.value | date: 'dd/MM/yyyy'" readonly>
+        [value]="newMailForm.get('selectedDate')?.value | date: 'dd/MM/yyyy'" readonly required>
     </mat-form-field>
     <div class="button-container">
       <app-date-picker formControlName="selectedDate">
@@ -42,4 +42,4 @@
   <button mat-button (click)="closeModal()">Chiudi</button>
 </div>
 
-<app-loading *ngIf="isLoading"></app-loading>
+<!-- <app-loading *ngIf="isLoading"></app-loading> -->

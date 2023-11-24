@@ -28,7 +28,6 @@ import { Contact } from 'src/app/model/contact';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
-
 @Component({
   selector: 'app-compose',
   templateUrl: './compose.component.html',
@@ -38,7 +37,6 @@ export class ComposeComponent implements OnInit {
   newMailForm: FormGroup;
   data: any;
   isContact: boolean = false;
-  toValue: string = '';
   @Input() isComposeMode: boolean = true;
   @Input() selectedMail?: Mail | null = null;
   sortedOptions$: Observable<Contact[]>;
@@ -53,8 +51,7 @@ export class ComposeComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   @ViewChild('contactsInput') contactsInput?: ElementRef<HTMLInputElement>;
   isLoading: boolean = false;
-  calendarIsOpen = false
-  @Input() dateSelected = new Date()
+  @Input() dateSelected = new Date();
 
   constructor(
     private fb: FormBuilder,
@@ -64,15 +61,14 @@ export class ComposeComponent implements OnInit {
     private router: Router,
     private contactsService: ContactsService,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog,
-    
+    public dialog: MatDialog
   ) {
     this.newMailForm = this.fb.group({
-      to: new FormControl('', [Validators.required]),
+      to: new FormControl('', [Validators.email]),
       from: ['manuela@gmail.com'],
       subject: [''],
       body: [''],
-      selectedDate: [new Date()],
+      selectedDate: ['',Validators.required],
     });
     this.filteredOptions = this.contactCtrl.valueChanges.pipe(
       startWith(null),
@@ -153,9 +149,8 @@ export class ComposeComponent implements OnInit {
       this.contactCtrl.updateValueAndValidity();
     }, 100);
 
-    console.log(this.dateSelected, this.newMailForm.get('selectedDate')?.value)
+    // console.log(this.dateSelected, this.newMailForm.get('selectedDate')?.value)
   }
-  
 
   generateRandomId(): string {
     const characters =
@@ -200,10 +195,10 @@ export class ComposeComponent implements OnInit {
         attachment: this.selectedMail?.attachment,
         read: true,
         created: this.newMailForm.get('selectedDate')?.value,
-        selectable:true
+        selectable: true,
       };
-      console.log(sentMail.to, 'onsubmit destinatario');
-      this.folderService.copyEmailToFolder(sentMail,'outgoing')
+      //console.log(sentMail.to, 'onsubmit destinatario');
+      this.folderService.copyEmailToFolder(sentMail, 'outgoing');
       if (this.isDraft) {
         sentMail.sent = false;
 
@@ -217,7 +212,11 @@ export class ComposeComponent implements OnInit {
         this.folderService.addEmailToFolder(sentMail, 'sent');
         this.folderService.copyEmailToFolder(sentMail, 'sent');
         this.folderService.removeEmailFromFolder(sentMail, 'bozze');
-        this.folderService.removeEmailFromFolder(sentMail,'outgoing')
+        this.folderService.removeEmailFromFolder(sentMail, 'outgoing');
+        this.snackBar.open("Email inviata con successo", 'Chiudi', {
+          duration: 2000,
+          panelClass: 'errore-snackbar',
+        });
       }
       this.router.navigateByUrl('home');
     }
@@ -288,7 +287,7 @@ export class ComposeComponent implements OnInit {
         this.newMailForm
           .get('to')
           ?.patchValue(existingContact.email.toLowerCase());
-        console.log('destinatario', existingContact);
+        // console.log('destinatario', existingContact);
       }
     }
   }

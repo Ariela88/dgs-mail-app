@@ -22,6 +22,7 @@
   display: flex;
   justify-content: space-around;
   width: 100%;
+  gap: 16px;
 }
 
 .date-selected{
@@ -40,6 +41,7 @@ form{
   padding: 8px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 
 
 }
@@ -48,6 +50,9 @@ form{
   display: flex;
   align-items: center;
   font-size: 12px;
+  justify-content: center;
+  gap: 32px;
+  height: 32%;
   
 }
 
@@ -90,4 +95,14 @@ button{
   height: 24px;
   background-color:#ffd740 ;
   cursor: pointer;
+}
+
+.bar-and-btn{
+  display: flex;
+  align-items: flex-end;
+}
+
+.checkbox-mock, .checkbox-date{
+  display: flex;
+  align-items: center;
 }

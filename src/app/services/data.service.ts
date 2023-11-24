@@ -65,10 +65,7 @@ export class DataService {
       }),
       finalize(() => {
          this.stopLoading();
-         this.snackBar.open("Email inviata con successo", 'Chiudi', {
-          duration: 2000,
-          panelClass: 'errore-snackbar',
-        });
+        
       })
     );
   }

@@ -14,10 +14,9 @@ import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-interceptor',
-  template: '', 
+  template: '',
   styleUrls: ['./interceptor.component.scss'],
 })
-
 @Injectable()
 export class InterceptorComponent implements HttpInterceptor {
   constructor(private dialog: MatDialog) {}
@@ -29,7 +28,8 @@ export class InterceptorComponent implements HttpInterceptor {
     const dialogRef = this.dialog.open(LoadingComponent, {
       disableClose: true,
       data: {
-        message: request.method === 'DELETE' ? 'Cancellazione email...' : 'Loading...',
+        message:
+          request.method === 'DELETE' ? 'Cancellazione email...' : 'Loading...',
       },
     });
 

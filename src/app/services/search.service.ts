@@ -6,7 +6,6 @@ import { DataService } from './data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LoadingComponent } from '../components/loading/loading.component';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -23,21 +22,19 @@ export class SearchService {
   constructor(
     private matDialog: MatDialog,
     public folderService: FolderService,
-    private dataService: DataService,
+    private dataService: DataService
   ) {
     this.dataService.getMailMessage().subscribe((emails: Mail[]) => {
       this.searchResultsSubject.next(emails);
     });
     this.searchResults$ = this.searchResultsSubject.asObservable();
 
-  
-
-    console.log('ricerca');
+    //console.log('ricerca');
   }
 
   async searchMail(searchTerm: string): Promise<void> {
-    console.log('ricerca in corso per data');
-    this.searchResults = []
+    //console.log('ricerca in corso per data');
+    this.searchResults = [];
     await this.clearResults();
     const addedEmails: Set<string> = new Set();
     Object.values(this.folderService.emails).forEach((folderMails) => {
@@ -48,25 +45,24 @@ export class SearchService {
             mail.body.toLowerCase().includes(searchTerm.toLowerCase())) ||
           (mail.to &&
             mail.to.toLowerCase().includes(searchTerm.toLowerCase())) ||
-            (mail.from &&
-              mail.from.toLowerCase().includes(searchTerm.toLowerCase()))
+          (mail.from &&
+            mail.from.toLowerCase().includes(searchTerm.toLowerCase()))
         ) {
           if (!addedEmails.has(mail.id)) {
             this.searchResults.push(mail);
             addedEmails.add(mail.id);
-            console.log(addedEmails, this.searchResults);
+          //  console.log(addedEmails, this.searchResults);
           }
-          
         }
       });
     });
 
     this.searchResults.forEach((mail) => {
       this.folderService.copyEmailToFolder(mail, 'results');
-      console.log(this.searchResults);
+      //console.log(this.searchResults);
     });
 
-    console.log(this.searchResults);
+   // console.log(this.searchResults);
   }
 
   searchMailInMockapi(searchTerm: string): void {
@@ -85,7 +81,7 @@ export class SearchService {
         throw new Error('Network response was not ok.');
       })
       .then((emails) => {
-        console.log(emails);
+       // console.log(emails);
         emails.forEach((email: Mail) => {
           const searchTermLower = searchTerm.toLowerCase();
           const isInBody =
@@ -129,32 +125,32 @@ export class SearchService {
   }
 
   async clearResults(): Promise<void> {
-    console.log('Clearing results...');
-    
-    try {
+       try {
       await this.folderService.clearFolder('results');
       this.searchResults = [];
       this.searchResultsSubject.next([]);
-      console.log('Results cleared.');
+      
     } catch (error) {
       console.error('Error clearing results:', error);
     }
   }
-  
-  getAllEmails(): Mail[] {
-    this.dataService.getMailMessage()
-    return Object.values(this.folderService.emails).reduce((allEmails, folderMails) => allEmails.concat(folderMails), []);
-  }
 
+  getAllEmails(): Mail[] {
+    this.dataService.getMailMessage();
+    return Object.values(this.folderService.emails).reduce(
+      (allEmails, folderMails) => allEmails.concat(folderMails),
+      []
+    );
+  }
 
   searchMailByDate(selectedDate: Date): void {
     this.clearResults();
-    
+
     let filteredEmails: Mail[] = [];
     const allEmails = this.getAllEmails();
-  
+
     allEmails.forEach((mail) => {
-      console.log('Processing email:', mail);
+      //console.log('Processing email:', mail);
       if (mail.created) {
         const emailDate = new Date(mail.created);
         mail.selectable = this.isSameDay(emailDate, selectedDate);
@@ -163,27 +159,17 @@ export class SearchService {
         }
       }
     });
-  
-    console.log('filteredEmails:', filteredEmails);
+
+    //console.log('filteredEmails:', filteredEmails);
     let filteredEmailsSet = new Set(filteredEmails);
     this.searchResults = Array.from(filteredEmailsSet);
-    console.log('Final searchResults:', this.searchResults);
-  
+   // console.log('Final searchResults:', this.searchResults);
+
     this.searchResults.forEach((mail) => {
       this.folderService.copyEmailToFolder(mail, 'results');
-      console.log(this.searchResults);
+     // console.log(this.searchResults);
     });
   }
-
-initialize(initialDate: Date): void {
-  if (initialDate) {
-    this.searchMailByDate(initialDate);
-  }
-
-  console.log('Ricerca inizializzata');
-}
-
-  
 
   isSameDay(date1: Date, date2: Date): boolean {
     return (
@@ -192,5 +178,4 @@ initialize(initialDate: Date): void {
       date1.getFullYear() === date2.getFullYear()
     );
   }
-
 }

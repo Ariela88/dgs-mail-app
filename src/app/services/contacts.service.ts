@@ -51,7 +51,7 @@ export class ContactsService {
       const updatedContacts = [...currentContacts, contact];
       this.contactsSubject.next(updatedContacts);
     } else {
-      console.log('Il contatto è già presente nella rubrica.');
+      //console.log('Il contatto è già presente nella rubrica.');
     }
   }
 

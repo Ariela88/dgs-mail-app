@@ -20,8 +20,8 @@ body {
 
 app-folder-viewer {
   position: absolute;
-  left: 20%;
-  top: 10%;
+  left: 25%;
+  top: 20%;
   width: 80%;
   z-index: 0;
 }
@@ -32,8 +32,8 @@ app-folder-viewer {
 
 app-message-viewer {
   position: absolute;
-  top: 10%;
-  left: 20%;
+  top: 20%;
+  left: 25%;
   width: 80%;
   z-index: 0;
 
@@ -48,7 +48,7 @@ app-header {
 app-header {
   width: 100%;
   left: 0;
-  height: 10%;
+  height: 20%;
   top: 0;
 
 }
@@ -58,7 +58,7 @@ mat-toolbar {
 }
 
 aside {
-  top: 10%;
+  top: 20%;
 }
 
 app-contacts {
@@ -97,4 +97,19 @@ td{
 }
 
 
+
+.mat-mdc-select-value-text{
+  color: white;
+  margin-left: 20px;
+}
+
+.mat-mdc-select-arrow {
+  fill: white;
+
+}
+
+mat-select{
+  width: 10%!important;
+  margin-right: 80px !important;
+}
 

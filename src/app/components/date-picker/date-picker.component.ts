@@ -1,7 +1,5 @@
-import { Component, Input,forwardRef } from '@angular/core';
+import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-
-
 
 @Component({
   selector: 'app-date-picker',
@@ -11,20 +9,20 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => DatePickerComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class DatePickerComponent implements ControlValueAccessor {
   @Input() dateSelected = new Date();
-  searchActive = false
+
   currentMonth: number;
-  calendarIsOpen = true;
+  calendarIsOpen = false;
   currentYear: number;
-  dateSelect= new Date()
+  dateSelect = new Date();
   private _onChange: any;
-  private _onTouch: any;
-    
+  private _onTouch = () => {};
+
   dayNames: string[] = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
   monthNames: string[] = [
     'Gennaio',
@@ -43,17 +41,13 @@ export class DatePickerComponent implements ControlValueAccessor {
   weeks: { day: number; month: number; year: number }[][] = [];
 
   constructor() {
-   
     const today = new Date();
     this.currentMonth = today.getMonth();
     this.currentYear = today.getFullYear();
     this.generateCalendar();
   }
-  
- 
 
   generateCalendar() {
-    console.log('Generate Calendar executed');
     this.weeks = [];
     const firstDayOfMonth = new Date(this.currentYear, this.currentMonth, 1);
     const lastDayOfMonth = new Date(this.currentYear, this.currentMonth + 1, 0);
@@ -97,31 +91,30 @@ export class DatePickerComponent implements ControlValueAccessor {
       selectedDate.getFullYear() === day.year
     );
   }
-  
 
   selectDate(day: { day: number; month: number; year: number }) {
     const { day: selectedDay, month, year } = day;
     this.dateSelected = new Date(year, month, selectedDay);
-    this._onChange(this.dateSelected);   
-    
+    this._onChange(this.dateSelected);
+    this.closeCalendar();
   }
 
   writeValue(obj: any): void {
-   this.dateSelect = obj;    
+    this.dateSelect = obj;
   }
 
-  registerOnChange(fn: any): void {    
+  registerOnChange(fn: any): void {
     this._onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
-    this._onTouch = fn    
+  registerOnTouched(fn: () => void): void {
+    this._onTouch = fn;
   }
 
   private _isDisabled?: boolean;
-setDisabledState?(isDisabled: boolean): void {
+  setDisabledState?(isDisabled: boolean): void {
     this._isDisabled = isDisabled;
-}
+  }
 
   prevMonth() {
     this.currentMonth--;
@@ -132,7 +125,6 @@ setDisabledState?(isDisabled: boolean): void {
     this.generateCalendar();
   }
 
-  
   nextMonth() {
     this.currentMonth++;
     if (this.currentMonth > 11) {
@@ -141,13 +133,12 @@ setDisabledState?(isDisabled: boolean): void {
     }
     this.generateCalendar();
   }
-  
 
-openCalendar() {
-  this.calendarIsOpen = true;
-}
+  openCalendar() {
+    this.calendarIsOpen = true;
+  }
 
-closeCalendar() {
-  this.calendarIsOpen = false;
-}
+  closeCalendar() {
+    this.calendarIsOpen = false;
+  }
 }

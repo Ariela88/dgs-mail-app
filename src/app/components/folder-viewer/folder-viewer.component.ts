@@ -68,7 +68,7 @@ export class FolderViewerComponent implements OnInit, OnDestroy {
       }
     });
 
-    console.log(this.folderName,this.searchResults,'oninit folderviewer')
+    //console.log(this.folderName,this.searchResults,'oninit folderviewer')
   }
 
   ngOnDestroy() {
@@ -86,7 +86,7 @@ export class FolderViewerComponent implements OnInit, OnDestroy {
           .getEmails(this.folderName)
           .toPromise();
         this.emails = data;
-        console.log('Emails ricevute:', this.folderName, this.emails);
+        //console.log('Emails ricevute:', this.folderName, this.emails);
         this.handleEmails();
         this.cdr.detectChanges();
       }
@@ -166,7 +166,7 @@ export class FolderViewerComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      console.log("Nessuna email selezionata per l'eliminazione");
+      //console.log("Nessuna email selezionata per l'eliminazione");
     }
   }
 
@@ -191,7 +191,7 @@ export class FolderViewerComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      console.log("Nessuna email selezionata per l'eliminazione");
+      //console.log("Nessuna email selezionata per l'eliminazione");
     }
   }
 

@@ -16,6 +16,7 @@ export class SearchComponent implements OnInit {
   searchByDate = false
   formGroup: FormGroup;
   @Input() selectedDate = new Date()
+  
 
   constructor(private router: Router, private searchServ: SearchService,private formBuilder: FormBuilder) {
     this.formGroup = this.formBuilder.group({

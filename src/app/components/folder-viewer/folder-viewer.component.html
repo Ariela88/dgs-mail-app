@@ -19,13 +19,13 @@
           class="light-text-counter">({{ counter(emails!) }}) </span></span> </h2>
   </div>
   <div class="sort-container">
-    <mat-form-field>
+   <div class="spacer"> </div>
       <mat-label>Ordina per</mat-label>
       <mat-select [(value)]="sortingType" (selectionChange)="changeSortOrder()">
         <mat-option value="date">Data</mat-option>
         <mat-option value="sender">Mittente</mat-option>
       </mat-select>
-    </mat-form-field>
+    
   </div>
   <ul class="color-even">
     <ng-container *ngIf="!searchTerm; else searchResultsTemplate">
