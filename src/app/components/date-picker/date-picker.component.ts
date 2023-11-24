@@ -1,9 +1,6 @@
-import { Component, Inject, Input, Optional, Self, forwardRef } from '@angular/core';
+import { Component, Input,forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { CalendarService } from 'src/app/services/calendar.service';
-import { SearchService } from 'src/app/services/search.service';
+
 
 
 @Component({
@@ -27,9 +24,7 @@ export class DatePickerComponent implements ControlValueAccessor {
   dateSelect= new Date()
   private _onChange: any;
   private _onTouch: any;
-  
-
-  
+    
   dayNames: string[] = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
   monthNames: string[] = [
     'Gennaio',
@@ -47,31 +42,12 @@ export class DatePickerComponent implements ControlValueAccessor {
   ];
   weeks: { day: number; month: number; year: number }[][] = [];
 
-  constructor(
-    private dialog: MatDialog,
-    private calendarService: CalendarService,
-    private searchService: SearchService,
-    private router: Router,
-  
-  ) {
+  constructor() {
    
     const today = new Date();
     this.currentMonth = today.getMonth();
     this.currentYear = today.getFullYear();
     this.generateCalendar();
-
-    this.calendarService.isOpen$.subscribe((isOpen) => {
-      console.log('calendario aperto');
-      this.calendarIsOpen = isOpen;
-    });
-
-    const initialDate = {
-      day: today.getDate(),
-      month: today.getMonth(),
-      year: today.getFullYear(),
-    };
-
-    this.calendarService.initialize(initialDate);
   }
   
  
@@ -124,46 +100,28 @@ export class DatePickerComponent implements ControlValueAccessor {
   
 
   selectDate(day: { day: number; month: number; year: number }) {
-    // this.calendarService.setSelectedDate(day);
-    // this.searchService.initialize(day);
-    
-    // if(this.searchActive){this.searchService.initialize(day);
-    //   this.router.navigate(['folder/results']);
-    //   this.closeCalendar();}
-
     const { day: selectedDay, month, year } = day;
     this.dateSelected = new Date(year, month, selectedDay);
-    this._onChange(this.dateSelected);
-    
-   
-    console.log(this.dateSelected, 'data selezionata');
+    this._onChange(this.dateSelected);   
     
   }
 
   writeValue(obj: any): void {
-  
-    this.dateSelect = obj;
-    
+   this.dateSelect = obj;    
   }
 
-  registerOnChange(fn: any): void {
-    
+  registerOnChange(fn: any): void {    
     this._onChange = fn;
   }
 
   registerOnTouched(fn: any): void {
-    this._onTouch = fn 
-   
+    this._onTouch = fn    
   }
 
   private _isDisabled?: boolean;
 setDisabledState?(isDisabled: boolean): void {
     this._isDisabled = isDisabled;
 }
-
-
-
-
 
   prevMonth() {
     this.currentMonth--;
@@ -183,7 +141,6 @@ setDisabledState?(isDisabled: boolean): void {
     }
     this.generateCalendar();
   }
-
   
 
 openCalendar() {

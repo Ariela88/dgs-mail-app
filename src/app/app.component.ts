@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 
 import { filter } from 'rxjs';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { SearchService } from './services/search.service';
-import { CalendarService } from './services/calendar.service';
+
 
 
 
@@ -18,7 +17,7 @@ export class AppComponent  {
   contacts: string | undefined;
   showHomeH2: boolean = true; 
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute,private calendarService: CalendarService) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -35,7 +34,5 @@ export class AppComponent  {
       });
   }
 
-  onDateSelected(selectedDate: { day: number; month: number; year: number }) {
-    this.calendarService.setSelectedDate(selectedDate);
-  }
+ 
 }

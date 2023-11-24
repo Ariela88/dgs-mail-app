@@ -16,6 +16,7 @@ export interface Mail {
   attachment?: File;
   recipientName?: string;
   read:boolean;
+  selectable:boolean
 
 }
 

@@ -20,6 +20,7 @@ export class SearchComponent implements OnInit {
   constructor(private router: Router, private searchServ: SearchService,private formBuilder: FormBuilder) {
     this.formGroup = this.formBuilder.group({
       selectedDate: [new Date()],
+      disabledDates: [[]],
      
     });
   }
@@ -38,20 +39,22 @@ export class SearchComponent implements OnInit {
   }
 
   onSearch() {
-    if (this.useMockApi) {
-      this.searchServ.searchMailInMockapi(this.searchTerm);
-    } else if (this.searchByDate) {
-      const selectedDate = this.formGroup.get('selectedDate')?.value;
-      this.searchServ.searchMailByDate(selectedDate);
-    } else {
-      this.searchServ.searchMail(this.searchTerm);
-    }
-    this.addRecentSearch(this.searchTerm);
-    this.router.navigate(['folder/results'], {
-      queryParams: { q: this.searchTerm },
-    });
-    this.searchTerm = '';
+  if (this.useMockApi) {
+    this.searchServ.searchMailInMockapi(this.searchTerm);
+  } else if (this.searchByDate) {
+    const selectedDate = this.formGroup.get('selectedDate')?.value;
+    this.searchServ.searchMailByDate(selectedDate);
+    
+  } else {
+    this.searchServ.searchMail(this.searchTerm);
   }
+  this.addRecentSearch(this.searchTerm);
+  this.router.navigate(['folder/results'], {
+    queryParams: { q: this.searchTerm },
+  });
+  this.searchTerm = '';
+}
+
 
   addRecentSearch(query: string): void {
     const MAX_RECENT_SEARCHES = 10;

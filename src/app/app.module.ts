@@ -24,7 +24,7 @@ import { NgPipesModule } from 'ngx-pipes';
 import { OrderByPipe } from 'ngx-pipes';
 import { InterceptorComponent } from './components/interceptor/interceptor.component';
 import { DatePickerComponent } from "./components/date-picker/date-picker.component";
-import { CalendarService } from './services/calendar.service';
+
 
 
 
@@ -49,7 +49,7 @@ import { CalendarService } from './services/calendar.service';
             useClass: InterceptorComponent,
             multi: true,
         },
-    CalendarService],
+   ],
     bootstrap: [AppComponent],
     imports: [
         BrowserModule,

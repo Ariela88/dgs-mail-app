@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { MatDialog } from '@angular/material/dialog';
-import { CalendarService } from 'src/app/services/calendar.service';
+
 
 @Component({
   selector: 'app-header',
@@ -16,16 +16,11 @@ folderName?:string
 calendarIsOpen = true
 searchActive = false
 @ViewChild(DatePickerComponent) datePickerComponent: DatePickerComponent | undefined;
-  constructor(private dateService: DataService,private dialog:MatDialog,private calendarService:CalendarService) {}
+  constructor(private dateService: DataService,private dialog:MatDialog) {}
 
   ngOnInit(): void {
     this.currentDate$ = this.dateService.getCurrentDateWithDelay();
    
-  }
-
-  toggleCalendar() {
-    console.log('header toggle', this.calendarIsOpen)
-    this.calendarService.toggleCalendar()
   }
 
   openDatePicker() {

@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Mail } from '../model/mail';
 import { FolderService } from './folder.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DataService } from './data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LoadingComponent } from '../components/loading/loading.component';
-import { CalendarService } from './calendar.service';
+
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +24,6 @@ export class SearchService {
     private matDialog: MatDialog,
     public folderService: FolderService,
     private dataService: DataService,
-    private calendarService: CalendarService
   ) {
     this.dataService.getMailMessage().subscribe((emails: Mail[]) => {
       this.searchResultsSubject.next(emails);
@@ -142,34 +141,39 @@ export class SearchService {
     }
   }
   
+  getAllEmails(): Mail[] {
+    this.dataService.getMailMessage()
+    return Object.values(this.folderService.emails).reduce((allEmails, folderMails) => allEmails.concat(folderMails), []);
+  }
 
-  // ...
-searchMailByDate(selectedDate: Date): void {
-  this.clearResults();
+
+  searchMailByDate(selectedDate: Date): void {
+    this.clearResults();
+    
+    let filteredEmails: Mail[] = [];
+    const allEmails = this.getAllEmails();
   
-  let filteredEmails: Mail[] = [];
-  Object.values(this.folderService.emails).forEach((folderMails) => {
-    folderMails.forEach((mail) => {
+    allEmails.forEach((mail) => {
       console.log('Processing email:', mail);
       if (mail.created) {
         const emailDate = new Date(mail.created);
-        if (this.isSameDay(emailDate, selectedDate)) {
+        mail.selectable = this.isSameDay(emailDate, selectedDate);
+        if (mail.selectable) {
           filteredEmails.push(mail);
         }
       }
     });
-  });
-
-  console.log('filteredEmails:', filteredEmails);
-  let filteredEmailsSet = new Set(filteredEmails);
-  this.searchResults = Array.from(filteredEmailsSet);
-  console.log('Final searchResults:', this.searchResults);
-
-  this.searchResults.forEach((mail) => {
-    this.folderService.copyEmailToFolder(mail, 'results');
-    console.log(this.searchResults);
-  });
-}
+  
+    console.log('filteredEmails:', filteredEmails);
+    let filteredEmailsSet = new Set(filteredEmails);
+    this.searchResults = Array.from(filteredEmailsSet);
+    console.log('Final searchResults:', this.searchResults);
+  
+    this.searchResults.forEach((mail) => {
+      this.folderService.copyEmailToFolder(mail, 'results');
+      console.log(this.searchResults);
+    });
+  }
 
 initialize(initialDate: Date): void {
   if (initialDate) {
@@ -178,7 +182,6 @@ initialize(initialDate: Date): void {
 
   console.log('Ricerca inizializzata');
 }
-// ...
 
   
 

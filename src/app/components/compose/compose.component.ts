@@ -27,7 +27,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contact } from 'src/app/model/contact';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { CalendarService } from 'src/app/services/calendar.service';
+
 
 @Component({
   selector: 'app-compose',
@@ -200,6 +200,7 @@ export class ComposeComponent implements OnInit {
         attachment: this.selectedMail?.attachment,
         read: true,
         created: this.newMailForm.get('selectedDate')?.value,
+        selectable:true
       };
       console.log(sentMail.to, 'onsubmit destinatario');
       this.folderService.copyEmailToFolder(sentMail,'outgoing')
