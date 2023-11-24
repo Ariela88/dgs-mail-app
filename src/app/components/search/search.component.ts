@@ -1,6 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-search',
@@ -12,8 +13,16 @@ export class SearchComponent implements OnInit {
   searchTerm = '';
   @ViewChild('elementoRicerca') elementoRicerca!: ElementRef;
   useMockApi = false;
+  searchByDate = false
+  formGroup: FormGroup;
+  @Input() selectedDate = new Date()
 
-  constructor(private router: Router, private searchServ: SearchService) {}
+  constructor(private router: Router, private searchServ: SearchService,private formBuilder: FormBuilder) {
+    this.formGroup = this.formBuilder.group({
+      selectedDate: [new Date()],
+     
+    });
+  }
 
   ngOnInit(): void {
     const savedSearchTerms = localStorage.getItem('recentSearchTerms');
@@ -31,6 +40,9 @@ export class SearchComponent implements OnInit {
   onSearch() {
     if (this.useMockApi) {
       this.searchServ.searchMailInMockapi(this.searchTerm);
+    } else if (this.searchByDate) {
+      const selectedDate = this.formGroup.get('selectedDate')?.value;
+      this.searchServ.searchMailByDate(selectedDate);
     } else {
       this.searchServ.searchMail(this.searchTerm);
     }

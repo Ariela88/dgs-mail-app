@@ -28,20 +28,16 @@
     <mat-form-field appearance="fill">
       <mat-label>Messaggio</mat-label>
       <textarea matInput formControlName="body"></textarea>
+      <input matInput placeholder="Seleziona una data"
+        [value]="newMailForm.get('selectedDate')?.value | date: 'dd/MM/yyyy'" readonly>
     </mat-form-field>
-
     <div class="button-container">
-      <!-- <button mat-icon-button (click)="toggleCalendar()" title="Ricerca email per Data">
-        <mat-icon>calendar_month</mat-icon>
-      </button>  -->
+      <app-date-picker formControlName="selectedDate">
+      </app-date-picker>
       <button mat-raised-button color="primary" type="submit" [disabled]="newMailForm.invalid">
         Invia Mail
       </button>
     </div>
-    <app-date-picker formControlName="selectedDate">
-    </app-date-picker>
-    <p>Data selezionata: {{ newMailForm.get('selectedDate')?.value }}</p>
-
   </form>
   <button mat-button (click)="closeModal()">Chiudi</button>
 </div>

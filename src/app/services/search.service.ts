@@ -31,11 +31,7 @@ export class SearchService {
     });
     this.searchResults$ = this.searchResultsSubject.asObservable();
 
-    this.calendarService.selectedDate$.subscribe((selectedDate) => {
-      if (selectedDate) {
-        this.searchMailByDate(selectedDate);
-      }
-    });
+  
 
     console.log('ricerca');
   }
@@ -61,6 +57,7 @@ export class SearchService {
             addedEmails.add(mail.id);
             console.log(addedEmails, this.searchResults);
           }
+          
         }
       });
     });
@@ -146,41 +143,44 @@ export class SearchService {
   }
   
 
-  searchMailByDate(selectedDate: {
-    day: number;
-    month: number;
-    year: number;
-  }): void {
-    this.clearResults();
-
-    let filteredEmails: Mail[] = [];
-    Object.values(this.folderService.emails).forEach((folderMails) => {
-      folderMails.forEach((mail) => {
-        console.log('Processing email:', mail);
-        if (mail.created) {
-          const emailDate = new Date(mail.created);
-          if (
-            this.isSameDay(
-              emailDate,
-              new Date(selectedDate.year, selectedDate.month, selectedDate.day)
-            )
-          ) {
-            filteredEmails.push(mail);
-          }
+  // ...
+searchMailByDate(selectedDate: Date): void {
+  this.clearResults();
+  
+  let filteredEmails: Mail[] = [];
+  Object.values(this.folderService.emails).forEach((folderMails) => {
+    folderMails.forEach((mail) => {
+      console.log('Processing email:', mail);
+      if (mail.created) {
+        const emailDate = new Date(mail.created);
+        if (this.isSameDay(emailDate, selectedDate)) {
+          filteredEmails.push(mail);
         }
-      });
+      }
     });
+  });
 
-    console.log('filteredEmails:', filteredEmails);
-    let filteredEmailsSet = new Set(filteredEmails);
-    this.searchResults = Array.from(filteredEmailsSet);
-    console.log('Final searchResults:', this.searchResults);
+  console.log('filteredEmails:', filteredEmails);
+  let filteredEmailsSet = new Set(filteredEmails);
+  this.searchResults = Array.from(filteredEmailsSet);
+  console.log('Final searchResults:', this.searchResults);
 
-    this.searchResults.forEach((mail) => {
-      this.folderService.copyEmailToFolder(mail, 'results');
-      console.log(this.searchResults);
-    });
+  this.searchResults.forEach((mail) => {
+    this.folderService.copyEmailToFolder(mail, 'results');
+    console.log(this.searchResults);
+  });
+}
+
+initialize(initialDate: Date): void {
+  if (initialDate) {
+    this.searchMailByDate(initialDate);
   }
+
+  console.log('Ricerca inizializzata');
+}
+// ...
+
+  
 
   isSameDay(date1: Date, date2: Date): boolean {
     return (
@@ -190,10 +190,4 @@ export class SearchService {
     );
   }
 
-  initialize(initialDate: { day: number; month: number; year: number }): void {
-    console.log(initialDate);
-    this.searchMailByDate(initialDate);
-
-    console.log('Ricerca inizializzata');
-  }
 }

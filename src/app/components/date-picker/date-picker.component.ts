@@ -112,7 +112,15 @@ export class DatePickerComponent implements ControlValueAccessor {
     }
   }
 
- 
+  isDateSelected(day: { day: number; month: number; year: number }): boolean {
+    const selectedDate = this.dateSelected;
+    return (
+      selectedDate &&
+      selectedDate.getDate() === day.day &&
+      selectedDate.getMonth() === day.month &&
+      selectedDate.getFullYear() === day.year
+    );
+  }
   
 
   selectDate(day: { day: number; month: number; year: number }) {
@@ -176,7 +184,13 @@ setDisabledState?(isDisabled: boolean): void {
     this.generateCalendar();
   }
 
-  closeCalendar() {
-    this.calendarService.toggleCalendar();
-  }
+  
+
+openCalendar() {
+  this.calendarIsOpen = true;
+}
+
+closeCalendar() {
+  this.calendarIsOpen = false;
+}
 }

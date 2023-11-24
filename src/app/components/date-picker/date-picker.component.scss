@@ -40,3 +40,24 @@ color: black;
 .day:active{
   background-color: rgb(255, 213, 0);
 }
+
+.day.selected {
+  outline: 4px double rgba(28, 110, 164, 0.31);
+  background-color: orange;
+}
+
+.calendar-conatiner{
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+}
+
+.open-modal-calendar {
+  display: flex;
+  justify-content: flex-end; 
+  align-self: flex-start; 
+  margin-top: 20px;}
+
+  .open-modal-calendar button {
+    align-self: center;
+  }

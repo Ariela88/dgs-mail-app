@@ -1,4 +1,7 @@
-<div class=" modal">
+
+<div class="calendar-conatiner">
+  <div class="open-modal-calendar"> <button mat-raised-button color="primary" (click)="openCalendar()"> <mat-icon>calendar_month</mat-icon></button></div>
+<div class=" modal" *ngIf="calendarIsOpen">
   <button mat-icon-button color="accent" (click)="prevMonth()"><mat-icon>arrow_back_ios</mat-icon></button>
   <table>
     <thead>
@@ -12,12 +15,17 @@
     <tbody>
       <tr *ngFor="let week of weeks">
         <td *ngFor="let day of week">
-          <div class="day" [class.other-month]="day.month !== currentMonth" (click)="selectDate(day)">
-            {{ day.day !== 0 ? day.day : '' }}
-          </div>
+          <div class="day" [class.other-month]="day.month !== currentMonth"
+             (click)="selectDate(day)" [ngClass]="{'selected': isDateSelected(day)}">
+          {{ day.day !== 0 ? day.day : '' }}
+        </div>
         </td>
       </tr>
     </tbody>
   </table>
   <button mat-icon-button color="accent" (click)="nextMonth()"> <mat-icon>arrow_forward_ios</mat-icon> </button>
+  <button mat-raised-button color="primary" (click)="closeCalendar()">Chiudi</button>
+</div>
+
+
 </div>

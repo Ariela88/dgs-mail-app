@@ -42,8 +42,10 @@ mat-label {
 }
 
 .button-container {
+  width: 100%;
   display: flex;
   justify-content: center;
+  gap: 24px;
 }
 
 
@@ -60,11 +62,9 @@ app-loading {
 }
 
 app-date-picker{
-  width: 300px;
+ 
   display: block;
-  height: 300px;
-  z-index: 99999;
-  position: fixed;
-  bottom: 0;
-  right: 0;
+   z-index: 99999;
+  
+ 
 }

@@ -1,17 +1,25 @@
 <div class="search-bar" #elementoRicerca>
   <div class="input-container">
-    <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca..." />
-    <div *ngIf="searchTerm" class="recent-searches">
-      <ul>
-        <li *ngFor="let search of filterSearchTerms(searchTerm)" (click)="insertInInput(search)">
-          <span>{{ search }}</span>
-        </li>
-      </ul>
+    <form [formGroup]="formGroup">
+      <app-date-picker formControlName="selectedDate"> </app-date-picker>
+    </form>
+    <div class="bar-and-btn">
+      <input type="text" [(ngModel)]="searchTerm"
+        placeholder="{{ formGroup.value.selectedDate | date: 'dd/MM/yyyy' }}" />
+      <div *ngIf="searchTerm" class="recent-searches">
+        <ul>
+          <li *ngFor="let search of filterSearchTerms(searchTerm)" (click)="insertInInput(search)">
+            <span>{{ search }}</span>
+          </li>
+        </ul>
+      </div>
+      <button (click)="onSearch()">Cerca</button>
     </div>
-    <button (click)="onSearch()">Cerca</button>
   </div>
   <div class="checkbox-container">
     <input type="checkbox" id="useMockApi" [(ngModel)]="useMockApi" />
     <label for="useMockApi">Ricerca sul Server</label>
+    <input type="checkbox" id="searchByDate" [(ngModel)]="searchByDate" />
+    <label for="searchByDate">Ricerca per data</label>
   </div>
 </div>

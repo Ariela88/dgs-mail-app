@@ -18,7 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from 'src/app/services/modal.service';
 import { FolderService } from 'src/app/services/folder.service';
 import { ContactsService } from 'src/app/services/contacts.service';
-import { BehaviorSubject, Observable, map, startWith } from 'rxjs';
+import { Observable, map, startWith } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -65,7 +65,7 @@ export class ComposeComponent implements OnInit {
     private contactsService: ContactsService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private calendarService:CalendarService
+    
   ) {
     this.newMailForm = this.fb.group({
       to: new FormControl('', [Validators.required]),
@@ -102,7 +102,6 @@ export class ComposeComponent implements OnInit {
       const isContact = params['isContact'];
       const recipient = params['to'];
       const isEditing = params['isEditing'];
-      const selectedDate = params['selectedDate']
       const selectedContact: Contact = {
         email: recipient,
         isFavorite: false,
@@ -156,17 +155,7 @@ export class ComposeComponent implements OnInit {
 
     console.log(this.dateSelected, this.newMailForm.get('selectedDate')?.value)
   }
-
-  onDatePickerChange(date: { day: number; month: number; year: number }) {
-    this.newMailForm.get('selectedDate')?.setValue(date);
-  }
   
-
-  toggleCalendar() {
-    this.calendarIsOpen = !this.calendarIsOpen
-      }
-
-      
 
   generateRandomId(): string {
     const characters =
@@ -210,7 +199,7 @@ export class ComposeComponent implements OnInit {
         folderName: this.isDraft ? 'bozze' : 'sent',
         attachment: this.selectedMail?.attachment,
         read: true,
-        created: new Date(),
+        created: this.newMailForm.get('selectedDate')?.value,
       };
       console.log(sentMail.to, 'onsubmit destinatario');
       this.folderService.copyEmailToFolder(sentMail,'outgoing')
