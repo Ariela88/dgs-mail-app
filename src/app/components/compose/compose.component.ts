@@ -53,7 +53,8 @@ export class ComposeComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   @ViewChild('contactsInput') contactsInput?: ElementRef<HTMLInputElement>;
   isLoading: boolean = false;
-  calendarIsOpen = true
+  calendarIsOpen = false
+  @Input() dateSelected = new Date()
 
   constructor(
     private fb: FormBuilder,
@@ -71,6 +72,7 @@ export class ComposeComponent implements OnInit {
       from: ['manuela@gmail.com'],
       subject: [''],
       body: [''],
+      selectedDate: [new Date()],
     });
     this.filteredOptions = this.contactCtrl.valueChanges.pipe(
       startWith(null),
@@ -100,6 +102,7 @@ export class ComposeComponent implements OnInit {
       const isContact = params['isContact'];
       const recipient = params['to'];
       const isEditing = params['isEditing'];
+      const selectedDate = params['selectedDate']
       const selectedContact: Contact = {
         email: recipient,
         isFavorite: false,
@@ -150,14 +153,20 @@ export class ComposeComponent implements OnInit {
     setTimeout(() => {
       this.contactCtrl.updateValueAndValidity();
     }, 100);
+
+    console.log(this.dateSelected, this.newMailForm.get('selectedDate')?.value)
   }
 
-
+  onDatePickerChange(date: { day: number; month: number; year: number }) {
+    this.newMailForm.get('selectedDate')?.setValue(date);
+  }
+  
 
   toggleCalendar() {
-    this.calendarService.toggleCalendar()
-    
-  }
+    this.calendarIsOpen = !this.calendarIsOpen
+      }
+
+      
 
   generateRandomId(): string {
     const characters =

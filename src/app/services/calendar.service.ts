@@ -24,4 +24,11 @@ export class CalendarService {
     this.selectedDateSubject.next(selectedDate);
     
   }
+
+ 
+  initialize(initialDate: { day: number; month: number; year: number }): void {
+    this.selectedDateSubject.next(initialDate);
+  }
+
+  
 }

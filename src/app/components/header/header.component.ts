@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
   currentDate$: Observable<string> | null = null
 folderName?:string
 calendarIsOpen = true
+searchActive = false
 @ViewChild(DatePickerComponent) datePickerComponent: DatePickerComponent | undefined;
   constructor(private dateService: DataService,private dialog:MatDialog,private calendarService:CalendarService) {}
 

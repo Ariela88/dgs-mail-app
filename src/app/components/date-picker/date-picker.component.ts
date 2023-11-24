@@ -1,20 +1,35 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input, Optional, Self, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CalendarService } from 'src/app/services/calendar.service';
 import { SearchService } from 'src/app/services/search.service';
 
+
 @Component({
   selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
   styleUrl: './date-picker.component.scss',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => DatePickerComponent),
+      multi: true
+    }
+  ]
 })
-export class DatePickerComponent {
-  @Input() dateSelected: any;
-
+export class DatePickerComponent implements ControlValueAccessor {
+  @Input() dateSelected = new Date();
+  searchActive = false
   currentMonth: number;
   calendarIsOpen = true;
   currentYear: number;
+  dateSelect= new Date()
+  private _onChange: any;
+  private _onTouch: any;
+  
+
+  
   dayNames: string[] = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
   monthNames: string[] = [
     'Gennaio',
@@ -36,8 +51,10 @@ export class DatePickerComponent {
     private dialog: MatDialog,
     private calendarService: CalendarService,
     private searchService: SearchService,
-    private router: Router
+    private router: Router,
+  
   ) {
+   
     const today = new Date();
     this.currentMonth = today.getMonth();
     this.currentYear = today.getFullYear();
@@ -54,8 +71,10 @@ export class DatePickerComponent {
       year: today.getFullYear(),
     };
 
-    this.searchService.initialize(initialDate);
+    this.calendarService.initialize(initialDate);
   }
+  
+ 
 
   generateCalendar() {
     console.log('Generate Calendar executed');
@@ -93,12 +112,50 @@ export class DatePickerComponent {
     }
   }
 
+ 
+  
+
   selectDate(day: { day: number; month: number; year: number }) {
-    this.calendarService.setSelectedDate(day);
-    this.searchService.initialize(day);
-    this.router.navigate(['folder/results']);
-    this.closeCalendar();
+    // this.calendarService.setSelectedDate(day);
+    // this.searchService.initialize(day);
+    
+    // if(this.searchActive){this.searchService.initialize(day);
+    //   this.router.navigate(['folder/results']);
+    //   this.closeCalendar();}
+
+    const { day: selectedDay, month, year } = day;
+    this.dateSelected = new Date(year, month, selectedDay);
+    this._onChange(this.dateSelected);
+    
+   
+    console.log(this.dateSelected, 'data selezionata');
+    
   }
+
+  writeValue(obj: any): void {
+  
+    this.dateSelect = obj;
+    
+  }
+
+  registerOnChange(fn: any): void {
+    
+    this._onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this._onTouch = fn 
+   
+  }
+
+  private _isDisabled?: boolean;
+setDisabledState?(isDisabled: boolean): void {
+    this._isDisabled = isDisabled;
+}
+
+
+
+
 
   prevMonth() {
     this.currentMonth--;

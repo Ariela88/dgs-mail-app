@@ -2,7 +2,7 @@
   <h1>{{ isComposeMode ? 'Nuova Mail' : 'Rispondi alla Mail' }}</h1>
   <form [formGroup]="newMailForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
-     <mat-label>Destinatario</mat-label>
+      <mat-label>Destinatario</mat-label>
       <mat-chip-grid #chipGrid aria-label="Selezione dei destinatari">
         <mat-chip-row *ngFor="let contact of selectedRecipients" [removable]="true" (removed)="remove(contact)">
           {{ contact.email }} <button matChipRemove aria-label="'remove ' + contact.email">
@@ -29,27 +29,21 @@
       <mat-label>Messaggio</mat-label>
       <textarea matInput formControlName="body"></textarea>
     </mat-form-field>
-    <ng-container *ngIf="!isComposeMode">
-      <mat-form-field appearance="fill">
-        <mat-label>Allega Messaggio Originale</mat-label>
-        <input matInput formControlName="originalMessageAttachment" />
-      </mat-form-field>
-      
-    </ng-container>
+
     <div class="button-container">
-      <button mat-icon-button (click)="toggleCalendar()" title="Ricerca email per Data">
+      <!-- <button mat-icon-button (click)="toggleCalendar()" title="Ricerca email per Data">
         <mat-icon>calendar_month</mat-icon>
-      </button> 
+      </button>  -->
       <button mat-raised-button color="primary" type="submit" [disabled]="newMailForm.invalid">
         Invia Mail
       </button>
     </div>
+    <app-date-picker formControlName="selectedDate">
+    </app-date-picker>
+    <p>Data selezionata: {{ newMailForm.get('selectedDate')?.value }}</p>
+
   </form>
   <button mat-button (click)="closeModal()">Chiudi</button>
 </div>
 
 <app-loading *ngIf="isLoading"></app-loading>
-<!-- <pre> {{ newMailForm.value | json}}</pre> -->
-
-
-<!-- <pre> {{ selectedRecipients | json}}</pre> -->

@@ -58,3 +58,13 @@ app-loading {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+app-date-picker{
+  width: 300px;
+  display: block;
+  height: 300px;
+  z-index: 99999;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}

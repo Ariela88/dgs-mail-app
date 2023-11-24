@@ -96,3 +96,8 @@ td{
   margin: 0;
 }
 
+
+
+app-folder-viewer, app-message-viewer, app-contacts, app-compose {
+  z-index: 999!important; 
+}
