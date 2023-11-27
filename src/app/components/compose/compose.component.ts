@@ -68,7 +68,7 @@ export class ComposeComponent implements OnInit {
       from: ['manuela@gmail.com'],
       subject: [''],
       body: [''],
-      selectedDate: ['',Validators.required],
+      selectedDate: ['', [Validators.required, this.dateInPastValid]],
     });
     this.filteredOptions = this.contactCtrl.valueChanges.pipe(
       startWith(null),
@@ -220,6 +220,16 @@ export class ComposeComponent implements OnInit {
       }
       this.router.navigateByUrl('home');
     }
+  }
+
+  dateInPastValid(control: FormControl): { [key: string]: boolean } | null {
+    const selectedDate = new Date(control.value);
+
+    if (selectedDate < new Date()) {
+      return { 'dateInPast': true };
+    }
+
+    return null;
   }
 
   closeModal() {

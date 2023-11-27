@@ -28,12 +28,14 @@
     <mat-form-field appearance="fill">
       <mat-label>Messaggio</mat-label>
       <textarea matInput formControlName="body"></textarea>
+      <mat-error *ngIf="newMailForm.get('selectDate')?.hasError('required')">La data non può essere precedente ad oggi</mat-error>
       <input matInput placeholder="Seleziona una data"
-        [value]="newMailForm.get('selectedDate')?.value | date: 'dd/MM/yyyy'" readonly required>
+        [value]="newMailForm.get('selectedDate')?.value | date: 'dd/MM/yyyy'" readonly required >
     </mat-form-field>
     <div class="button-container">
       <app-date-picker formControlName="selectedDate">
       </app-date-picker>
+      
       <button mat-raised-button color="primary" type="submit" [disabled]="newMailForm.invalid">
         Invia Mail
       </button>
