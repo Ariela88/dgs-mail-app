@@ -2,7 +2,7 @@
   <div class="input-container">
     <form [formGroup]="formGroup">
 
-      <app-date-picker formControlName="selectedDate"> </app-date-picker>
+      <app-date-picker formControlName="selectedDate" [disableDatesAfterToday]="disableDatesAfterToday"> </app-date-picker>
     </form>
     <div class="bar-and-btn">
       <input type="text" [(ngModel)]="searchTerm" placeholder="{{ formGroup.value.selectedDate | date: 'dd/MM/yyyy' }}"

@@ -15,8 +15,9 @@ export class DataService {
   emails: Mail[] = [];
   loading = false;
   loadingCounter = 0
+  isDraft = false
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
+  constructor(private http: HttpClient, public snackBar: MatSnackBar) {}
 
 
 
@@ -65,6 +66,13 @@ export class DataService {
       }),
       finalize(() => {
          this.stopLoading();
+         if (email.folderName === 'sent') {
+          this.snackBar.open("Email inviata con successo", 'Chiudi', {
+            duration: 2000,
+            panelClass: 'errore-snackbar',
+          });
+         }
+        
         
       })
     );

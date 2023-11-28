@@ -16,6 +16,7 @@ export class SearchComponent implements OnInit {
   searchByDate = false
   formGroup: FormGroup;
   @Input() selectedDate = new Date()
+  disableDatesAfterToday = true
   
 
   constructor(private router: Router, private searchServ: SearchService,private formBuilder: FormBuilder) {

@@ -48,19 +48,25 @@ mat-label {
   gap: 24px;
 }
 
-.ng-valid[required], .ng-valid.required  {
-  border-bottom: 2px solid #42A948; /* green */
+input.ng-valid {
+  border-bottom: 2px solid #42A948; 
 }
 
-.ng-invalid:not(form)  {
-  border-bottom: 2px solid #a94442; /* red */
+input.ng-invalid.ng-touched{
+  border-bottom: 2px solid #a94442; 
 }
 
 .modal button {
   margin-top: 20px;
 }
 
+.subject-input{
+  margin-bottom: 24px;
+}
 
+small{
+  color: red;
+}
 app-loading {
   position: absolute;
   top: 50%;

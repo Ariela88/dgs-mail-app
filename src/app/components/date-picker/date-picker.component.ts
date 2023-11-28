@@ -21,6 +21,8 @@ export class DatePickerComponent implements ControlValueAccessor {
   currentYear: number;
   dateSelect = new Date();
   private _onChange: any;
+  @Input() disableDatesBeforeToday = false;
+  @Input() disableDatesAfterToday = false
   private _onTouch = () => {};
 
   dayNames: string[] = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
@@ -90,6 +92,20 @@ export class DatePickerComponent implements ControlValueAccessor {
       selectedDate.getMonth() === day.month &&
       selectedDate.getFullYear() === day.year
     );
+  }
+
+  isDateSelectable(day: { day: number; month: number; year: number }): boolean {
+    if (this.disableDatesBeforeToday) {
+      const today = new Date();
+      const currentDate = new Date(day.year, day.month, day.day);
+      return currentDate >= today;
+    } else if(this.disableDatesAfterToday){
+      const today = new Date();
+      const currentDate = new Date(day.year, day.month, day.day);
+      return currentDate <= today;
+
+    }
+    return true;
   }
 
   selectDate(day: { day: number; month: number; year: number }) {

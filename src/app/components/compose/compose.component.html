@@ -34,7 +34,7 @@
     [value]="newMailForm.get('selectedDate')?.value | date: 'dd/MM/yyyy'" readonly required >
     <mat-error *ngIf="newMailForm.get('selectedDate')?.hasError('dateInPast')">La data non può essere precedente ad oggi</mat-error>
     <div class="button-container">
-      <app-date-picker formControlName="selectedDate">
+      <app-date-picker formControlName="selectedDate" [disableDatesBeforeToday]="disableDatesBeforeToday">
       </app-date-picker>
 
       

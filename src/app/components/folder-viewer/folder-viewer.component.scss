@@ -197,8 +197,10 @@ input {
 
 .foldername-label {
   background-color: #ffd740;
-  border: 1px solid black;
+  border: none;
+  border-radius: 8px;
   padding: 4px;
   margin-left: 8px;
+  margin-right: 16px;
   align-self: baseline;
 }

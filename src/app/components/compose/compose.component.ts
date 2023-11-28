@@ -52,6 +52,9 @@ export class ComposeComponent implements OnInit {
   @ViewChild('contactsInput') contactsInput?: ElementRef<HTMLInputElement>;
   isLoading: boolean = false;
   @Input() dateSelected = new Date();
+ 
+disableDatesBeforeToday = true; 
+
 
   constructor(
     private fb: FormBuilder,
@@ -201,7 +204,6 @@ export class ComposeComponent implements OnInit {
       this.folderService.copyEmailToFolder(sentMail, 'outgoing');
       if (this.isDraft) {
         sentMail.sent = false;
-
         this.folderService.addEmailToFolder(sentMail, 'bozze');
         this.folderService.copyEmailToFolder(sentMail, 'bozze');
         this.snackBar.open('Email salvata in bozze', 'Chiudi', {
@@ -213,10 +215,7 @@ export class ComposeComponent implements OnInit {
         this.folderService.copyEmailToFolder(sentMail, 'sent');
         this.folderService.removeEmailFromFolder(sentMail, 'bozze');
         this.folderService.removeEmailFromFolder(sentMail, 'outgoing');
-        this.snackBar.open("Email inviata con successo", 'Chiudi', {
-          duration: 2000,
-          panelClass: 'errore-snackbar',
-        });
+      
       }
       this.router.navigateByUrl('home');
     }
