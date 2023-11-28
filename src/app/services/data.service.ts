@@ -84,7 +84,8 @@ export class DataService {
    putMailMessage(email: Mail): Observable<Mail> {
     return this.http
       .put<Mail>(`${this.mockMail}/${email.id}`, email)
-      .pipe(tap((data) => console.log('email modificata', data)));
+      .pipe(tap((data) => console.log('email modificata', data))
+      );
   }
 
 

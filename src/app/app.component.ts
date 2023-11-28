@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 import { filter } from 'rxjs';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
@@ -16,6 +16,7 @@ export class AppComponent  {
   folder: string | undefined;
   contacts: string | undefined;
   showHomeH2: boolean = true; 
+ 
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     this.router.events
