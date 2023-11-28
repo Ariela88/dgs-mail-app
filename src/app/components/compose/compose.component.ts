@@ -15,7 +15,6 @@ import {
 } from '@angular/forms';
 import { Mail } from 'src/app/model/mail';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ModalService } from 'src/app/services/modal.service';
 import { FolderService } from 'src/app/services/folder.service';
 import { ContactsService } from 'src/app/services/contacts.service';
 import { Observable, map, startWith } from 'rxjs';
@@ -59,7 +58,6 @@ disableDatesBeforeToday = true;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private modalService: ModalService,
     private folderService: FolderService,
     private router: Router,
     private contactsService: ContactsService,
@@ -240,7 +238,7 @@ disableDatesBeforeToday = true;
       if (result) {
         this.isDraft = true;
         this.onSubmit();
-        this.modalService.closeModal();
+        this.router.navigateByUrl('home');
       }
     });
   }

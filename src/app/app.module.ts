@@ -18,7 +18,6 @@ import { SearchComponent } from './components/search/search.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
-import { TimeStampPipe } from './pipes/time-stamp.pipe';
 import { LoadingComponent } from './components/loading/loading.component';
 import { NgPipesModule } from 'ngx-pipes';
 import { OrderByPipe } from 'ngx-pipes';
@@ -60,7 +59,6 @@ import { DatePickerComponent } from "./components/date-picker/date-picker.compon
         FormsModule,
         ReactiveFormsModule,
         MatDialogModule,
-        TimeStampPipe,
         NgPipesModule,
         
     ]
