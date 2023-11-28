@@ -1,5 +1,4 @@
 <div class="container">
-
   <div class="header-folder-viewer">
     <button *ngIf="folderName === 'results'" (click)="goToInbox()" mat-raised-button>
       Torna a Tutte le mail
@@ -19,13 +18,13 @@
           class="light-text-counter">({{ counter(emails!) }}) </span></span> </h2>
   </div>
   <div class="sort-container">
-   <div class="spacer"> </div>
-      <mat-label>Ordina per</mat-label>
-      <mat-select [(value)]="sortingType" (selectionChange)="changeSortOrder()">
-        <mat-option value="date">Data</mat-option>
-        <mat-option value="sender">Mittente</mat-option>
-      </mat-select>
-    
+    <div class="spacer"> </div>
+    <mat-label>Ordina per</mat-label>
+    <mat-select [(value)]="sortingType" (selectionChange)="changeSortOrder()">
+      <mat-option value="date">Data</mat-option>
+      <mat-option value="sender">Mittente</mat-option>
+    </mat-select>
+
   </div>
   <ul class="color-even">
     <ng-container *ngIf="!searchTerm; else searchResultsTemplate">
@@ -49,13 +48,14 @@
     </ng-container>
     <ng-template #searchResultsTemplate>
       <div *ngFor="let email of searchResults">
-        
+
         <div class="email-details">
           <i class="material-icons" *ngIf="email.isFavorite">favorite</i>
           <span>{{email.folderName? email.folderName : 'inBox'}}</span>
           <div class="read-indicator" *ngIf="folderName !== 'sent'"
             [ngClass]="{'unread': !email.read, 'read': email.read}"></div>
-          <span (click)="selectedMail(email.id)" class="from-email">{{ email.sent || email.folderName==='bozze' ? email.to : email.from
+          <span (click)="selectedMail(email.id)" class="from-email">{{ email.sent || email.folderName==='bozze' ?
+            email.to : email.from
             }}</span>
           <br>
           <span class="second-row">Oggetto: <a>{{ email.subject }}</a></span> <br>
@@ -66,5 +66,3 @@
   </ul>
 
 </div>
-
-<!-- <pre> {{searchResults | json}}</pre> -->

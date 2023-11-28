@@ -78,6 +78,7 @@ describe('DataService', () => {
     const mockMail: Mail = {
         id: '0',
         from: 'manuela@gmail.com',
+        
         to: '',
         recipientName: '',
         subject: '',
