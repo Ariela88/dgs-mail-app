@@ -85,7 +85,7 @@ app-date-picker{
 @media(max-width:800px){
 
   .modal{
-    width: 100%;
+    width: 93%;
     bottom:15%;
     background: #7e59bd;
   }
@@ -93,6 +93,10 @@ app-date-picker{
   .compose-datepicker .modal{
     width: 100%;
     background-color: #42A948;
+  }
+
+  form{
+    width: 90%;
   }
 
   

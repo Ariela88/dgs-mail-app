@@ -1,14 +1,11 @@
-
-
-<div class="mobile-menu-btn"> 
+<div class="mobile-menu-btn">
         <button class="mobile-menu" mat-button [matMenuTriggerFor]="foldersMenu" [ngClass]="{'show': showMobileMenu}">
                 <mat-icon>menu</mat-icon>
-              </button>             
-
+        </button>
 </div>
 <mat-menu #foldersMenu="matMenu">
         <button mat-menu-item (click)="contacts()"> Contatti </button>
-        <button mat-menu-item (click)="changeFolder('results')"> Ricerche recenti </button>      
+        <button mat-menu-item (click)="changeFolder('results')"> Ricerche recenti </button>
         <button mat-menu-item *ngFor="let folder of folders" (click)="folder.action()">
                 {{ folder.name }}
         </button>
@@ -17,14 +14,8 @@
         <button class="no-show-mobile" mat-raised-button color="accent" routerLink="editor">
                 <mat-icon>add</mat-icon>
         </button>
-
-      
-       
 </div>
-
-
 <div class="menu" (click)="closeMobileMenu()">
-     
         <ul>
                 <li class="list-element" (click)="contacts()"><mat-icon>person</mat-icon> <span class="icon-label">
                                 Rubrica</span>
@@ -65,9 +56,7 @@
                                         <mat-icon>outgoing_mail</mat-icon> <span class="icon-label">
                                                 In Uscita</span>
                                 </li>
-
                         </ul>
-
                 </li>
                 <li class="list-element" (click)="changeFolder('results')"><mat-icon>search</mat-icon> <span
                                 class="icon-label">
@@ -76,9 +65,3 @@
         </ul>
 
 </div>
-
-
-
-
-
-

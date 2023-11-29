@@ -74,6 +74,11 @@ h2 {
   margin-left: 20%;
 }
 
+.show-mobile{
+  display: none;
+  
+}
+
 @media (max-width: 800px){
 aside{
   
@@ -83,8 +88,8 @@ aside{
 .show-mobile{
   display: block;
   position: fixed;
-  bottom: 20%;
-  left: 70%;
+  bottom: 10%;
+  right: 15%;
   z-index: 99999;
 }
 }

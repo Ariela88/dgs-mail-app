@@ -57,10 +57,11 @@
             </div>
             <i class="material-icons" *ngIf="email.isFavorite">favorite</i>
             <i class="material-icons" *ngIf="email.important">star</i>
-            {{email.sent ? email.to : email.from}}
-          </span>
-          <span class="second-row" (click)="selectedMail(email.id)">Oggetto: <a>{{ email.subject }}</a></span>
-          <span class="time-created">ricevuta il: {{ email.created | date:'d MMMM y' }}</span>
+           
+         
+          <span class="second-row" (click)="selectedMail(email.id)">Oggetto: <a>{{ email.subject }}</a></span> </span>
+          <span class="time-created" *ngIf="folderName !== 'sent'">ricevuta il: {{ email.created | date:'d MMMM y' }} da:  {{email.from}}</span>
+          <span class="time-created" *ngIf="folderName === 'sent'">inviata il: {{ email.created | date:'d MMMM y' }} <br> a:  {{email.to}}</span>
         </div>
         <span class="spacer"></span>
       </div>

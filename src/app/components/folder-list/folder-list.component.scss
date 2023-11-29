@@ -1,126 +1,119 @@
-li{
-    list-style: none;
-    cursor: pointer;
-    font-family: 'Montserrat Alternates', sans-serif;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 16px;
-    color: white;
-    padding: 0;
-    width: 100%;
+li {
+  list-style: none;
+  cursor: pointer;
+  font-family: 'Montserrat Alternates', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  color: white;
+  padding: 0;
+  width: 100%;
 }
 
-ul{
+ul {
   padding-left: 40px;
 }
 
-ul mat-icon{
+ul mat-icon {
   color: white !important;
 }
 
-ul mat-icon:hover{
+ul mat-icon:hover {
   color: black !important;
 }
 
 
 
-  mat-icon {
-    color: white;
-    margin: 0;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 6px !important;
-  
-  }
+mat-icon {
+  color: white;
+  margin: 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 6px !important;
 
-  .newmail-btn {
-    display: flex;
-   
-    align-items: center;
-    
-    padding-left: 40px;
-    height: 65px;
-    
-   
-  }
+}
 
-  .newmail-btn button:hover{
-    background-color:chocolate!important;
-    color: black!important;
-  }
+.newmail-btn {
+  display: flex;
 
-  .list-element:hover{
-    background-color: #7d59bd;
-    color: black;
-  }
+  align-items: center;
 
-  .mobile-menu-btn {
-    display: none; 
+  padding-left: 40px;
+  height: 65px;
+
+
+}
+
+.newmail-btn button:hover {
+  background-color: chocolate !important;
+  color: black !important;
+}
+
+.list-element:hover {
+  background-color: #7d59bd;
+  color: black;
+}
+
+.mobile-menu-btn {
+  display: none;
+}
+
+.menu {
+  display: block;
+}
+
+.menu.show {
+  display: block;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+.show-mobile {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .icon-label {
+    display: none;
   }
 
   .menu {
-    display: block; 
+    display: none;
   }
 
-  .menu.show {
+  .mobile-menu-btn {
     display: block;
   }
 
-  .mobile-menu{
+  .mobile-menu {
+    display: block;
+    margin: -12px;
+  }
+
+  .newmail-btn {
+    padding: 0;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .mobile-menu-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+
+
+  .no-show-mobile {
     display: none;
   }
 
-  .show-mobile{
-    display: none;
-  }
 
-  @media (max-width: 800px) {
-    .icon-label {
-      display: none;
-    }
 
-    .menu {
-      display: none;
-    }
-  
-    .mobile-menu-btn {
-      display: block; 
-    }
-
-    .mobile-menu{
-      display: block;
-      margin: -12px;
-    }
-
-    .newmail-btn{
-      padding: 0;
-      align-items: flex-start;
-      justify-content: center;
-      width: 100%;
-    }
-
-    .mobile-menu-btn{
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-    
-  
-
-  .no-show-mobile{
-    display: none;
-  }
-
- 
-  
-  }
-
- 
- 
-  
-  
-
- 
+}
