@@ -1,6 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-import { filter } from 'rxjs';
+import { Observable, filter, interval } from 'rxjs';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 
@@ -11,7 +11,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent  {
+export class AppComponent {
   title = 'dgs-mail-app';
   folder: string | undefined;
   contacts: string | undefined;
@@ -35,5 +35,7 @@ export class AppComponent  {
       });
   }
 
- 
+sottoscrizione:any;
+
+
 }

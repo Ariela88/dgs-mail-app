@@ -33,14 +33,12 @@ export class FolderService {
       this.emailsSelected = data;
       this.sortEmailsIntoFolders(this.emailsSelected);
     });
-    
   }
 
   private saveEmailToOutbox(email: Mail) {
     this.emails['outgoing'].push(email);
     this.emailsSubject.next(this.emails['outgoing']);
     email.folderName = 'outgoing';
-   
   }
 
   getEmailsObservable(folderName: string): Observable<Mail[]> {
@@ -51,7 +49,7 @@ export class FolderService {
   getEmails(folderName: string): Observable<Mail[]> {
     const emails = this.emails[folderName] || [];
     this.updateEmailList(folderName);
-    
+
     return of(emails);
   }
 
@@ -74,17 +72,15 @@ export class FolderService {
     }
   }
 
-  removeEmailFromFolder(email:Mail,folderName:string){
+  removeEmailFromFolder(email: Mail, folderName: string) {
     const folderIndex = this.emails[folderName].findIndex(
-      (existingEmail) => existingEmail = email
+      (existingEmail) => (existingEmail = email)
     );
 
     if (folderIndex !== -1) {
-      
       this.emails[folderName].splice(folderIndex, 1);
-      
     }
-   // console.log(folderIndex,email,'remove from folder')
+    // console.log(folderIndex,email,'remove from folder')
   }
 
   private sortEmailsIntoFolders(emails: Mail[]): void {
@@ -148,7 +144,6 @@ export class FolderService {
     this.updateEmailList('trash');
     await this.dataServ.deleteMail(emailIds).toPromise();
 
-    
     emailIds.forEach((emailId) => {
       const index = this.emails['all'].findIndex(
         (allEmail) => allEmail.id === emailId
@@ -179,13 +174,12 @@ export class FolderService {
     if (!this.emails[targetFolder].some((mail) => mail.id === mailToCopy.id)) {
       this.emails[targetFolder].push(mailToCopy);
     }
-  
+
     if (email.folderName !== 'results') {
       this.emails['all'].push(mailToCopy);
       mailToCopy.folderName = targetFolder;
     }
   }
-  
 
   getMailById(id: string): Observable<Mail | undefined> {
     const mail = this.allEmails.find((email) => email.id === id);

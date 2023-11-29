@@ -23,6 +23,7 @@
   justify-content: space-around;
   width: 100%;
   gap: 16px;
+  align-items: flex-end;
 }
 
 .date-selected{
@@ -108,5 +109,21 @@ button{
 }
 
 @media(max-width:800px){
+  .search-bar{
+  
+    padding: 0;
+   
+  
+  
+  }
+
+  .input-container{
+    height: 25px;
+
+  }
+
+  .checkbox-container{
+    gap: 0;
+  }
 
 }

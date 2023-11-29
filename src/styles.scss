@@ -21,7 +21,7 @@ body {
 app-folder-viewer {
   position: absolute;
   left: 15%;
-  top: 20%;
+  top: 15%;
   width: 85%;
   z-index: 0;
 }
@@ -32,7 +32,7 @@ app-folder-viewer {
 
 app-message-viewer {
   position: absolute;
-  top: 20%;
+  top: 15%;
   left: 15%;
   width: 85%;
   z-index: 0;
@@ -48,7 +48,7 @@ app-header {
 app-header {
   width: 100%;
   left: 0;
-  height: 20%;
+  height: 15%;
   top: 0;
 
 }
@@ -58,12 +58,12 @@ mat-toolbar {
 }
 
 aside {
-  top: 20%;
+  top: 15%;
 }
 
 app-contacts {
   position: fixed;
-  top: 20%;
+  top: 15%;
   left: 15%;
   width: 85%;
   z-index: 9;

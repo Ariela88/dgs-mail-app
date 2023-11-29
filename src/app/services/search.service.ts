@@ -51,7 +51,7 @@ export class SearchService {
           if (!addedEmails.has(mail.id)) {
             this.searchResults.push(mail);
             addedEmails.add(mail.id);
-          //  console.log(addedEmails, this.searchResults);
+            //  console.log(addedEmails, this.searchResults);
           }
         }
       });
@@ -62,7 +62,7 @@ export class SearchService {
       //console.log(this.searchResults);
     });
 
-   // console.log(this.searchResults);
+    // console.log(this.searchResults);
   }
 
   searchMailInMockapi(searchTerm: string): void {
@@ -81,7 +81,7 @@ export class SearchService {
         throw new Error('Network response was not ok.');
       })
       .then((emails) => {
-       // console.log(emails);
+        // console.log(emails);
         emails.forEach((email: Mail) => {
           const searchTermLower = searchTerm.toLowerCase();
           const isInBody =
@@ -125,11 +125,10 @@ export class SearchService {
   }
 
   async clearResults(): Promise<void> {
-       try {
+    try {
       await this.folderService.clearFolder('results');
       this.searchResults = [];
       this.searchResultsSubject.next([]);
-      
     } catch (error) {
       console.error('Error clearing results:', error);
     }
@@ -163,11 +162,11 @@ export class SearchService {
     //console.log('filteredEmails:', filteredEmails);
     let filteredEmailsSet = new Set(filteredEmails);
     this.searchResults = Array.from(filteredEmailsSet);
-   // console.log('Final searchResults:', this.searchResults);
+    // console.log('Final searchResults:', this.searchResults);
 
     this.searchResults.forEach((mail) => {
       this.folderService.copyEmailToFolder(mail, 'results');
-     // console.log(this.searchResults);
+      // console.log(this.searchResults);
     });
   }
 

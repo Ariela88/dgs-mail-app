@@ -23,6 +23,7 @@ import { NgPipesModule } from 'ngx-pipes';
 import { OrderByPipe } from 'ngx-pipes';
 import { InterceptorComponent } from './components/interceptor/interceptor.component';
 import { DatePickerComponent } from "./components/date-picker/date-picker.component";
+import { WatchComponent } from "./components/watch/watch.component";
 
 
 
@@ -48,7 +49,7 @@ import { DatePickerComponent } from "./components/date-picker/date-picker.compon
             useClass: InterceptorComponent,
             multi: true,
         },
-   ],
+    ],
     bootstrap: [AppComponent],
     imports: [
         BrowserModule,
@@ -60,7 +61,7 @@ import { DatePickerComponent } from "./components/date-picker/date-picker.compon
         ReactiveFormsModule,
         MatDialogModule,
         NgPipesModule,
-        
+        WatchComponent
     ]
 })
 export class AppModule {}

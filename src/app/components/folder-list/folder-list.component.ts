@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class FolderListComponent {
   showFolderTree = false;
- 
+
   @Input() folder: string | undefined;
   folders = [
     { name: 'Tutte le mail', action: () => this.changeFolder('all') },
@@ -21,15 +21,13 @@ export class FolderListComponent {
     { name: 'Cestino', action: () => this.changeFolder('trash') },
     { name: 'Bozze', action: () => this.changeFolder('bozze') },
     { name: 'In uscita', action: () => this.changeFolder('outgoing') },
-    
   ];
 
   @ViewChild('foldersMenuTrigger') foldersMenuTrigger?: MatMenuTrigger;
 
   showMobileMenu = false;
 
-  constructor(private router: Router,private media: MediaMatcher) {}
-
+  constructor(private router: Router, private media: MediaMatcher) {}
 
   openFoldersMenu() {
     this.foldersMenuTrigger?.openMenu();
