@@ -81,3 +81,19 @@ app-date-picker{
   
  
 }
+
+@media(max-width:800px){
+
+  .modal{
+    width: 100%;
+    bottom:15%;
+    background: #7e59bd;
+  }
+
+  .compose-datepicker .modal{
+    width: 100%;
+    background-color: #42A948;
+  }
+
+  
+}

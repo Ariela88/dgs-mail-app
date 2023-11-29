@@ -93,7 +93,7 @@ mat-icon:hover {
 }
 
 .header-folder-viewer button{
-  width: 120px;
+  
   font-size: smaller;
 }
 
@@ -205,33 +205,46 @@ input {
   align-self: baseline;
 }
 
-@media(max-width:500px){
+.mobile-select-container{
+  display: none;
+ 
+}
+
+@media(max-width:800px){
 
   .header-folder-viewer{
     height: fit-content;
-    flex-direction: column-reverse;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top:20px;
-    padding-right: 8px;
+    justify-content: flex-end;
+    width: 100%;
+    flex-direction: row-reverse;
+    padding-left: 16px;
+    
     
 
   }
 
   .header-folder-viewer button{
-    width: fit-content;
+  
     margin: 0;
     
   }
 
   .folder-name{
-    font-size: 16px;
+    font-size: 20px;
+    padding: 40px 0px 40px 0;
+    
   }
 
   .select-container button{
-    width: 100px !important;
-    font-size: 10px !important;
+   display: none;
+  }
+
+  .mobile-select-container{
+    display: flex;
+    align-items: center;
+    gap: 8px;
     height: 50px !important;
+    margin-left: 8px;
   }
 
   .spacer{
@@ -252,5 +265,9 @@ input {
     justify-content: center;
     gap: 8px;
    
+  }
+
+  .mail-row-element {
+  padding-left: 16px;
   }
 }

@@ -1,13 +1,24 @@
 
 
+<div class="mobile-menu-btn"> 
+        <button class="mobile-menu" mat-button [matMenuTriggerFor]="foldersMenu" [ngClass]="{'show': showMobileMenu}">
+                <mat-icon>menu</mat-icon>
+              </button>             
+
+</div>
+<mat-menu #foldersMenu="matMenu">
+        <button mat-menu-item (click)="contacts()"> Contatti </button>
+        <button mat-menu-item (click)="changeFolder('results')"> Ricerche recenti </button>      
+        <button mat-menu-item *ngFor="let folder of folders" (click)="folder.action()">
+                {{ folder.name }}
+        </button>
+</mat-menu>
 <div class="newmail-btn">
         <button class="no-show-mobile" mat-raised-button color="accent" routerLink="editor">
                 <mat-icon>add</mat-icon>
         </button>
 
-        <button class="show-mobile" mat-mini-fab color="accent" routerLink="editor">
-                <mat-icon>add</mat-icon>
-        </button>
+      
        
 </div>
 
@@ -66,18 +77,8 @@
 
 </div>
 
-<div class="mobile-menu-btn"> 
-        <button class="mobile-menu" mat-button [matMenuTriggerFor]="foldersMenu" [ngClass]="{'show': showMobileMenu}">
-                <mat-icon>menu</mat-icon>
-              </button>             
-
-</div>
 
 
-<mat-menu #foldersMenu="matMenu">
-        <button mat-menu-item (click)="contacts()"> Contatti </button>
-        <button mat-menu-item (click)="changeFolder('results')"> Ricerche recenti </button>      
-        <button mat-menu-item *ngFor="let folder of folders" (click)="folder.action()">
-                {{ folder.name }}
-        </button>
-</mat-menu>
+
+
+

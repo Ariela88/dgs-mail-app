@@ -74,11 +74,22 @@ h2 {
   margin-left: 20%;
 }
 
-@media (max-width: 500px){
+@media (max-width: 800px){
 aside{
   
-  max-width: 40px;
+  width: 8%;
+}
+
+.show-mobile{
+  display: block;
+  position: fixed;
+  bottom: 20%;
+  left: 70%;
+  z-index: 99999;
+}
 }
 
 
-}
+
+
+

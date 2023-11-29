@@ -88,7 +88,7 @@ h3 {
   flex: 1;
 }
 
-@media(max-width:500px){
+@media(max-width:800px){
 
   .input-container{
     margin: 0;
@@ -115,6 +115,13 @@ button{
 
 .mail-row-element{
   gap: 0;
+  padding-left: 10px;
+}
+
+.folder-name{
+  font-size: 16px;
+  width: 100%;
+  text-align: center;
 }
 
 

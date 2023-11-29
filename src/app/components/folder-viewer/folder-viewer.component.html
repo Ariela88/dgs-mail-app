@@ -15,8 +15,25 @@
       <button *ngIf="anyCheckboxSelected() && folderName === 'trash'" (click)="deleteDefinitivlyEmail()"
         class="delete-btn" mat-raised-button color="warn"><mat-icon>delete</mat-icon></button>
     </div>
+
+
+    <div class="mobile-select-container"> 
+      <button *ngIf="folderName === 'results'" (click)="goToInbox()" mat-mini-fab>
+        Torna a Tutte le mail
+      </button>
+      <button class="select-all-btn" (click)="toggleSelectAll()" mat-mini-fab
+        *ngIf="folderName !== 'all'">
+        {{ allEmailsSelected() ? '🞫' : '✔' }} 
+      </button>
+      <!-- <span> Email selezionate : ({{checkedCounter(emails!)}})</span> -->
+      <button *ngIf="anyCheckboxSelected() && folderName !== 'trash' && folderName !== 'all'"
+        (click)="deleteSelectedEmails()" class="delete-btn" mat-mini-fab
+        color="warn"><mat-icon>delete</mat-icon></button>
+      <button *ngIf="anyCheckboxSelected() && folderName === 'trash'" (click)="deleteDefinitivlyEmail()"
+        class="delete-btn" mat-mini-fab color="warn"><mat-icon>delete</mat-icon></button>
+    </div>
     <div class="spacer"></div>
-    <h2 class="folder-name">Cartella <span class="folder-name-bold"> {{folderName}} : {{emails?.length}} <span
+    <h2 class="folder-name"><span class="folder-name-bold"> {{folderName}} : {{emails?.length}} <span
           class="light-text-counter">({{ counter(emails!) }}) </span></span> </h2>
   </div>
   <div class="sort-container">

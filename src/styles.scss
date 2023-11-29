@@ -103,30 +103,41 @@ td{
   margin-left: 20px;
 }
 
+.mat-mdc-select {
+  width: unset!important;
+}
+
 .mat-mdc-select-arrow {
   fill: white;
 
 }
 
 mat-select{
-  width: 10%!important;
+  
   margin-right: 80px !important;
 }
 
 
-@media(max-width:500px){
+@media(max-width:800px){
+
+  mat-select{
+    width: 50%!important;
+    margin-right: 80px !important;
+  }
   app-folder-viewer {
-    left: 40px;
+    left: 8%;
     width: 100%;
+   
+   
    }
    
    app-contacts{
-     left: 40px;
+    left: 8%;
      width: 100%;
    }
    
    app-message-viewer{
-     left: 40px;
+    left: 8%;
      width: 100%;
    }
 
@@ -137,5 +148,14 @@ mat-select{
 
   .cdk-overlay-pane{
     width: 50% !important;
+    left: 32px;
+  }
+
+  mat-toolbar{
+    padding: 0 !important;
+  }
+
+  #cdk-overlay-2{
+    left: 50px !important;
   }
 }
