@@ -61,3 +61,14 @@ width: 20%;
 .date-small-text{
     font-size: 12px;
 }
+
+@media(max-width:500px){
+
+    .action-button{
+        padding: 0;
+        height: 90px;
+    }
+
+    
+
+}

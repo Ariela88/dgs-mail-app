@@ -69,3 +69,10 @@ th {
   background-color: #ccc;
   pointer-events: none;
 }
+
+@media(max-width:800px){
+  .modal{
+    flex-direction: column;
+    font-size: smaller;
+  }
+}

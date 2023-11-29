@@ -1,48 +1,83 @@
-<div class="newmail-btn">
-    <button mat-raised-button color="accent" routerLink="editor">
-        <mat-icon>add</mat-icon>
-    </button>
-</div>
-<ul>
-    <li class="list-element" (click)="contacts()"><mat-icon>person</mat-icon> <span class="icon-label"> Rubrica</span>
-    </li>
-</ul>
-<ul>
-    <li (click)="toggleFolderTree()" class="list-element">
-        <mat-icon>folder</mat-icon> <span class="icon-label"> Tutte le Cartelle</span>
-    </li>
-    <li *ngIf="showFolderTree">
-        <ul>
-            <li class="list-element" (click)="changeFolder('all')"><mat-icon>mail</mat-icon> <span class="icon-label">
-                    Tutte le mail</span>
-            </li>
-            <li class="list-element" (click)="changeFolder('inbox')"><mat-icon>inbox</mat-icon> <span
-                    class="icon-label"> In Arrivo</span>
-            </li>
-            <li class="list-element" (click)="changeFolder('sent')"><mat-icon>send</mat-icon> <span class="icon-label">
-                    Inviate</span></li>
-            <li class="list-element" (click)="changeFolder('favorite')"><mat-icon>favorite</mat-icon> <span
-                    class="icon-label">
-                    Preferiti</span></li>
-            <li class="list-element" (click)="changeFolder('important')"><mat-icon>star</mat-icon> <span
-                    class="icon-label">
-                    Importanti</span></li>
-            <li class="list-element" (click)="changeFolder('trash')"><mat-icon>delete</mat-icon> <span
-                    class="icon-label"> Cestino</span>
-            </li>
-            <li class="list-element" (click)="changeFolder('bozze')"><mat-icon>edit_document</mat-icon> <span
-                    class="icon-label">
-                    Bozze</span>
-            </li>
-            <li class="list-element" (click)="changeFolder('outgoing')"><mat-icon>outgoing_mail</mat-icon> <span
-                    class="icon-label">
-                    In Uscita</span>
-            </li>
 
+
+<div class="newmail-btn">
+        <button class="no-show-mobile" mat-raised-button color="accent" routerLink="editor">
+                <mat-icon>add</mat-icon>
+        </button>
+
+        <button class="show-mobile" mat-mini-fab color="accent" routerLink="editor">
+                <mat-icon>add</mat-icon>
+        </button>
+       
+</div>
+
+
+<div class="menu" (click)="closeMobileMenu()">
+     
+        <ul>
+                <li class="list-element" (click)="contacts()"><mat-icon>person</mat-icon> <span class="icon-label">
+                                Rubrica</span>
+                </li>
+        </ul>
+        <ul>
+                <li (click)="toggleFolderTree()" class="list-element">
+                        <mat-icon>folder</mat-icon> <span class="icon-label"> Tutte le Cartelle</span>
+                </li>
+                <li *ngIf="showFolderTree">
+                        <ul>
+                                <li class="list-element" (click)="changeFolder('all')"><mat-icon>mail</mat-icon> <span
+                                                class="icon-label">
+                                                Tutte le mail</span>
+                                </li>
+                                <li class="list-element" (click)="changeFolder('inbox')"><mat-icon>inbox</mat-icon>
+                                        <span class="icon-label"> In Arrivo</span>
+                                </li>
+                                <li class="list-element" (click)="changeFolder('sent')"><mat-icon>send</mat-icon> <span
+                                                class="icon-label">
+                                                Inviate</span></li>
+                                <li class="list-element" (click)="changeFolder('favorite')">
+                                        <mat-icon>favorite</mat-icon> <span class="icon-label">
+                                                Preferiti</span>
+                                </li>
+                                <li class="list-element" (click)="changeFolder('important')"><mat-icon>star</mat-icon>
+                                        <span class="icon-label">
+                                                Importanti</span>
+                                </li>
+                                <li class="list-element" (click)="changeFolder('trash')"><mat-icon>delete</mat-icon>
+                                        <span class="icon-label"> Cestino</span>
+                                </li>
+                                <li class="list-element" (click)="changeFolder('bozze')">
+                                        <mat-icon>edit_document</mat-icon> <span class="icon-label">
+                                                Bozze</span>
+                                </li>
+                                <li class="list-element" (click)="changeFolder('outgoing')">
+                                        <mat-icon>outgoing_mail</mat-icon> <span class="icon-label">
+                                                In Uscita</span>
+                                </li>
+
+                        </ul>
+
+                </li>
+                <li class="list-element" (click)="changeFolder('results')"><mat-icon>search</mat-icon> <span
+                                class="icon-label">
+                                Ricerche Recenti</span>
+                </li>
         </ul>
 
-    </li>
-    <li class="list-element" (click)="changeFolder('results')"><mat-icon>search</mat-icon> <span class="icon-label">
-            Ricerche Recenti</span>
-    </li>
-</ul>
+</div>
+
+<div class="mobile-menu-btn"> 
+        <button class="mobile-menu" mat-button [matMenuTriggerFor]="foldersMenu" [ngClass]="{'show': showMobileMenu}">
+                <mat-icon>menu</mat-icon>
+              </button>             
+
+</div>
+
+
+<mat-menu #foldersMenu="matMenu">
+        <button mat-menu-item (click)="contacts()"> Contatti </button>
+        <button mat-menu-item (click)="changeFolder('results')"> Ricerche recenti </button>      
+        <button mat-menu-item *ngFor="let folder of folders" (click)="folder.action()">
+                {{ folder.name }}
+        </button>
+</mat-menu>

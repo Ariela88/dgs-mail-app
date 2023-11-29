@@ -204,3 +204,53 @@ input {
   margin-right: 16px;
   align-self: baseline;
 }
+
+@media(max-width:500px){
+
+  .header-folder-viewer{
+    height: fit-content;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top:20px;
+    padding-right: 8px;
+    
+
+  }
+
+  .header-folder-viewer button{
+    width: fit-content;
+    margin: 0;
+    
+  }
+
+  .folder-name{
+    font-size: 16px;
+  }
+
+  .select-container button{
+    width: 100px !important;
+    font-size: 10px !important;
+    height: 50px !important;
+  }
+
+  .spacer{
+    flex: unset;
+  }
+
+  .sort-container{
+    justify-content: center;
+  }
+
+  .color-even{
+    padding: 0;
+    
+  }
+
+  .select-container{
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+   
+  }
+}

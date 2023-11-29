@@ -13,8 +13,9 @@ aside {
   flex-direction: column;
   float: left;
   background-color: #673ab7;
-  width: 25%;
+  width: 15%;
   height: 100%;
+ 
 }
 
 aside mat-icon {
@@ -46,7 +47,7 @@ mat-icon {
 }
 
 .home-h2 {
-  width: 80%;
+  width: 85%;
   height: 100vh;
   display: flex;
   align-items: flex-start;
@@ -71,4 +72,13 @@ h2 {
   font-size: xx-large;
   width: 100%;
   margin-left: 20%;
+}
+
+@media (max-width: 500px){
+aside{
+  
+  max-width: 40px;
+}
+
+
 }

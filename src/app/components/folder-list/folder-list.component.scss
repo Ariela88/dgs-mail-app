@@ -44,7 +44,7 @@ ul mat-icon:hover{
     padding-left: 40px;
     height: 65px;
     
-    background-color: #7d59bd;
+   
   }
 
   .newmail-btn button:hover{
@@ -57,10 +57,68 @@ ul mat-icon:hover{
     color: black;
   }
 
+  .mobile-menu-btn {
+    display: none; 
+  }
+
+  .menu {
+    display: block; 
+  }
+
+  .menu.show {
+    display: block;
+  }
+
+  .mobile-menu{
+    display: none;
+  }
+
+  .show-mobile{
+    display: none;
+  }
+
   @media (max-width: 800px) {
     .icon-label {
       display: none;
     }
+
+    .menu {
+      display: none;
+    }
+  
+    .mobile-menu-btn {
+      display: block; 
+    }
+
+    .mobile-menu{
+      display: block;
+      margin: -12px;
+    }
+
+    .newmail-btn{
+      padding: 0;
+      align-items: flex-start;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .mobile-menu-btn{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    
+  
+
+  .no-show-mobile{
+    display: none;
+  }
+
+  .show-mobile{
+    display: block;
+  }
+
+  
   }
 
  

@@ -1,9 +1,11 @@
 <div class="container">
   <div class="header-folder-viewer">
-    <button *ngIf="folderName === 'results'" (click)="goToInbox()" mat-raised-button>
-      Torna a Tutte le mail
-    </button>
-    <div class="select-container"> <button class="select-all-btn" (click)="toggleSelectAll()" mat-raised-button
+   
+    <div class="select-container"> 
+      <button *ngIf="folderName === 'results'" (click)="goToInbox()" mat-raised-button>
+        Torna a Tutte le mail
+      </button>
+      <button class="select-all-btn" (click)="toggleSelectAll()" mat-raised-button
         *ngIf="folderName !== 'all'">
         {{ allEmailsSelected() ? 'Deseleziona tutto' : 'Seleziona tutto' }} <span>({{checkedCounter(emails!)}})</span>
       </button>
