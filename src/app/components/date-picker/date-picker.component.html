@@ -1,8 +1,8 @@
-<div class="calendar-conatiner" *ngIf="!agenda">
+<div class="calendar-conatiner" *ngIf="!agenda" >
   <div class="open-modal-calendar"> <mat-icon (click)="openCalendar()">calendar_month</mat-icon></div>
   <div class=" modal" *ngIf="calendarIsOpen">
     <button mat-icon-button color="accent" (click)="prevMonth()"><mat-icon>arrow_back_ios</mat-icon></button>
-    <table>
+    <table [style]="{'background-color': stileComponente?.colore}">
       <thead>
         <tr>
           <th colspan="7">{{ monthNames[currentMonth] }} {{ currentYear }}</th>
@@ -33,13 +33,13 @@
 <div  class="agenda" *ngIf="agenda">
   <div class="header-agenda"> 
   <button mat-fab color="accent" (click)="prevMonth()"><mat-icon>arrow_back_ios</mat-icon></button>
-  <h2 class="h2-agenda"> Agenda: </h2>
+  <h2 class="h2-agenda"> Agenda Personale: </h2>
   <button mat-fab color="accent" (click)="nextMonth()"> <mat-icon>arrow_forward_ios</mat-icon> </button>
 </div>
-  <div class="calendar-home">
+  <div class="calendar-home" [style]="{'background-color': stileComponente?.colore}">
 
    
-    <table>
+    <table [style.background-color]="coloreCorrente.colore" class="calendar-home-table" >
       <thead>
         <tr>
           <th colspan="7">{{ monthNames[currentMonth] }} {{ currentYear }}</th>
@@ -51,17 +51,20 @@
       <tbody>
         <tr *ngFor="let week of weeks">
           <td *ngFor="let day of week">
+            
             <div class="day" [class.other-month]="day.month !== currentMonth"
               (click)="isDateSelectable(day) && selectDate(day)"
               [ngClass]="{'selected': isDateSelected(day), 'disabled': !isDateSelectable(day)}">
-              <mat-icon *ngIf="day.note">note</mat-icon>
+             
+              <span class="note-present"> <mat-icon class="note-present" *ngIf="day.note">note</mat-icon> </span>
+              <span class="spacer"></span>
               {{ day.day !== 0 ? day.day : '' }}
-
+              <span class="spacer"></span>
             </div>
           </td>
+
         </tr>
       </tbody>
-    </table>
-   
+    </table>   
   </div>
 </div>

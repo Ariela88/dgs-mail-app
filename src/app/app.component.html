@@ -1,5 +1,5 @@
-<app-header></app-header>
-<aside>
+<app-header (headerClick)="onHeaderClick()"></app-header>
+<aside [style.background-color]="stileComponente?.colore">
   <app-folder-list [folder]="folder"> </app-folder-list>
 </aside>
 <router-outlet></router-outlet>

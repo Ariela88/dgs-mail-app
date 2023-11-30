@@ -1,7 +1,8 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { NoteDialogComponent } from '../note-dialog/note-dialog.component';
+import { ColorService } from 'src/app/services/color.service';
 
 @Component({
   selector: 'app-date-picker',
@@ -15,7 +16,7 @@ import { NoteDialogComponent } from '../note-dialog/note-dialog.component';
     },
   ],
 })
-export class DatePickerComponent implements ControlValueAccessor {
+export class DatePickerComponent implements ControlValueAccessor,OnInit {
   @Input() dateSelected = new Date();
 
   currentMonth: number;
@@ -28,6 +29,9 @@ export class DatePickerComponent implements ControlValueAccessor {
   private _onTouch = () => {};
   private _isDisabled?: boolean;
   @Input() agenda = false;
+  defaultColor?: string;
+  stileComponente?: { colore: string; proprieta: string };
+  coloreCorrente: { colore: string; proprieta: string } = { colore: '', proprieta: '' };
   
   
 
@@ -48,12 +52,19 @@ export class DatePickerComponent implements ControlValueAccessor {
   ];
   weeks: { day: number; month: number; year: number; note?: string }[][] = [];
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog, private colorService:ColorService) {
     const today = new Date();
     this.currentMonth = today.getMonth();
     this.currentYear = today.getFullYear();
     this.generateCalendar();
   }
+
+  ngOnInit(): void {
+    this.colorService.colore$.subscribe((stile) => {
+      this.stileComponente = stile as { colore: string; proprieta: string };
+    });
+  }
+  
 
   generateCalendar() {
     this.weeks = [];

@@ -32,10 +32,6 @@ th {
   color: black;
 }
 
-.day {
-  text-align: center;
-  cursor: pointer;
-}
 
 .day:active {
   background-color: rgb(255, 213, 0);
@@ -45,6 +41,36 @@ th {
   outline: 4px double rgba(28, 110, 164, 0.31);
   background-color: orange;
 }
+
+.note-present{
+  font-size: small;
+  width: fit-content;
+  height: fit-content;
+  margin: 0;
+  padding: 0;
+  align-self: flex-start;
+  justify-self: flex-start;
+  
+}
+
+.spacer{
+  flex: 1 1;
+}
+
+.day{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+
+td.day.selected {
+  background-color: orange;
+}
+
 
 .calendar-conatiner {
   display: flex;
@@ -82,15 +108,18 @@ th {
   gap: 24px;
 }
 
-.calendar-home table{
-  background-color: #673ab7 ;
-  width: 70vw;
-  height: 50vh;
+.calendar-home-table{
+  background-color: #7d59bd ;
+  width: 75vw;
+  height: 60vh;
   
 }
 
 .header-agenda{
   display: flex;
+  background: rgb(255, 220, 154);
+  border-radius: 50px;
+  align-items: center;
 }
 
 .calendar-home table td{
@@ -99,9 +128,12 @@ th {
 
 
 .h2-agenda{
-  
+  font-family: 'Courgette', cursive; 
   text-align: center;
-  flex: 1 
+  flex: 1;
+  font-size: 2.5rem;
+  margin: 0;
+  padding: 0;
 }
 
 @media(max-width:800px){

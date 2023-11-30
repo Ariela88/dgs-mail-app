@@ -13,6 +13,7 @@ import { Subject, Subscription, takeUntil } from 'rxjs';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DataService } from 'src/app/services/data.service';
+import { ColorService } from 'src/app/services/color.service';
 
 @Component({
   selector: 'app-folder-viewer',
@@ -32,6 +33,8 @@ export class FolderViewerComponent implements OnInit, OnDestroy {
   sortingType: 'date' | 'sender' = 'date';
   order: string = 'desc';
   private unsubscribe$ = new Subject<void>();
+  defaultColor?: string
+  stileComponente?: { colore: string; proprieta: string };
 
   constructor(
     public route: ActivatedRoute,
@@ -40,7 +43,8 @@ export class FolderViewerComponent implements OnInit, OnDestroy {
     private searchService: SearchService,
     private cdr: ChangeDetectorRef,
     public dialog: MatDialog,
-    public dataServ: DataService
+    public dataServ: DataService,
+    private colorService: ColorService
   ) {}
 
   async ngOnInit() {
@@ -68,6 +72,8 @@ export class FolderViewerComponent implements OnInit, OnDestroy {
       }
     });
 
+   
+  
     //console.log(this.folderName,this.searchResults,'oninit folderviewer')
   }
 
