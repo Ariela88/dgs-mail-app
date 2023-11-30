@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, forwardRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { NoteDialogComponent } from '../note-dialog/note-dialog.component';
@@ -52,7 +52,7 @@ export class DatePickerComponent implements ControlValueAccessor,OnInit {
   ];
   weeks: { day: number; month: number; year: number; note?: string }[][] = [];
 
-  constructor(private dialog: MatDialog, private colorService:ColorService) {
+  constructor(private dialog: MatDialog, private colorService:ColorService, private cdr:ChangeDetectorRef) {
     const today = new Date();
     this.currentMonth = today.getMonth();
     this.currentYear = today.getFullYear();
@@ -62,6 +62,7 @@ export class DatePickerComponent implements ControlValueAccessor,OnInit {
   ngOnInit(): void {
     this.colorService.colore$.subscribe((stile) => {
       this.stileComponente = stile as { colore: string; proprieta: string };
+      this.cdr.detectChanges()
     });
   }
   

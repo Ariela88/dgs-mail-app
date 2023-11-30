@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="header-folder-viewer">
+  <div class="header-folder-viewer" [style]="{'background-color': stileComponente?.colore}">
    
     <div class="select-container"> 
       <button *ngIf="folderName === 'results'" (click)="goToInbox()" mat-raised-button>

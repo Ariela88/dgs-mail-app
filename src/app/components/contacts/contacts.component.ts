@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Contact } from 'src/app/model/contact';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { ColorService } from 'src/app/services/color.service';
 
 @Component({
   selector: 'app-contacts',
@@ -18,17 +19,24 @@ export class ContactsComponent {
   selectAll: boolean = false;
   isComposeMode: boolean = false;
   writeNewMail: boolean = false;
+  stileComponente?: { colore: string; proprieta: string };
+  coloreCorrente: { colore: string; proprieta: string } = { colore: '', proprieta: '' };
 
   constructor(
     private contactsService: ContactsService,
     private router: Router,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private colorService:ColorService
   ) {}
 
   ngOnInit() {
     this.contactsService.contacts$.subscribe((contacts) => {
       this.contacts = contacts;
+    });
+
+    this.colorService.colore$.subscribe((stile) => {
+      this.stileComponente = stile as { colore: string; proprieta: string };
     });
   }
 

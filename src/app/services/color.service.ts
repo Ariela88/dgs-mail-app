@@ -8,11 +8,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class ColorService {
   private coloreSubject: BehaviorSubject<{ colore: string; proprieta: string }> = new BehaviorSubject({
-    colore: '#7e59bda6',
+    colore: '#7d59bd',
     proprieta: 'background-color',
   });
   colore$: Observable<{ colore: string; proprieta: string }> = this.coloreSubject.asObservable();
-  coloreDefault: string = '#7e59bda6';
+  coloreDefault: string = '#7d59bd';
 
   constructor() {}
 

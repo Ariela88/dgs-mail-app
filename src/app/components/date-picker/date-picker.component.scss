@@ -100,12 +100,14 @@ td.day.selected {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  
 }
 .calendar-home{
   width: 100%;
   display: flex;
   align-items: center;
   gap: 24px;
+  background-color: none !important;
 }
 
 .calendar-home-table{

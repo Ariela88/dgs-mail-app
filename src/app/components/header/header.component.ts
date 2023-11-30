@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
   
   toggleTheme(): void {
     const coloreAttuale = this.stileComponente?.colore || '#ffffff';
-    const nuovoColore = coloreAttuale === '#000000' ? '#7d59bd' : '#000000';
+    const nuovoColore = coloreAttuale === '#1f1e1f' ? '#7d59bd' : '#1f1e1f';
     this.colorService.impostaColore(nuovoColore, 'background-color');
     this.headerClick.emit();
   }

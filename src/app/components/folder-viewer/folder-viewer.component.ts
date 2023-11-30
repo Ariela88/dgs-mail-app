@@ -35,6 +35,7 @@ export class FolderViewerComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
   defaultColor?: string
   stileComponente?: { colore: string; proprieta: string };
+  coloreCorrente: { colore: string; proprieta: string } = { colore: '', proprieta: '' };
 
   constructor(
     public route: ActivatedRoute,
@@ -72,7 +73,10 @@ export class FolderViewerComponent implements OnInit, OnDestroy {
       }
     });
 
-   
+    this.colorService.colore$.subscribe((stile) => {
+      this.stileComponente = stile as { colore: string; proprieta: string };
+      this.cdr.detectChanges();
+    });
   
     //console.log(this.folderName,this.searchResults,'oninit folderviewer')
   }
