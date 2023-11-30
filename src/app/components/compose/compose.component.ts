@@ -274,12 +274,14 @@ disableDatesBeforeToday = true;
   }
 
   remove(contact: Contact): void {
-    const index = this.contacts.indexOf(contact);
+    const index = this.selectedRecipients.indexOf(contact);
     if (index >= 0) {
       this.selectedRecipients.splice(index, 1);
-      this.announcer.announce(`Removed ${contact}`);
+      this.announcer.announce(`Rimosso ${contact.email}`);
+      console.log('Rimosso:', contact);
     }
   }
+  
 
   selected(event: MatAutocompleteSelectedEvent): void {
     const selectedEmail = event.option.viewValue.trim().toLowerCase();

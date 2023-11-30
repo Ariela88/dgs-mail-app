@@ -1,13 +1,11 @@
-
-
 .recent-searches {
   color: black;
-    background-color: #fff;
+  background-color: #fff;
   border: 1px solid #ccc;
   list-style: none;
   padding: 0;
   margin: 0;
-    max-height: 200px;
+  max-height: 200px;
   overflow-y: auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 9999;
@@ -16,11 +14,11 @@
   margin-left: 8px;
   height: max-content;
   top: 57px;
-  
- 
+
+
 }
 
-.input-container{
+.input-container {
   display: flex;
   justify-content: space-around;
   width: 100%;
@@ -28,19 +26,19 @@
   align-items: flex-end;
 }
 
-.date-selected{
+.date-selected {
 
   font-size: 16px;
 }
 
 
 
-form{
+form {
   display: flex;
 }
 
-.search-bar{
-  
+.search-bar {
+
   padding: 8px;
   display: flex;
   flex-direction: column;
@@ -49,22 +47,22 @@ form{
 
 }
 
-.checkbox-container{
+.checkbox-container {
   display: flex;
   align-items: center;
   font-size: 12px;
   justify-content: center;
   gap: 32px;
   height: 32%;
-  
+
 }
 
-.checkbox-container input{
+.checkbox-container input {
   width: fit-content;
 }
 
 .recent-searches li {
-  
+
   cursor: pointer;
 }
 
@@ -72,18 +70,18 @@ form{
   background-color: #f0f0f0;
 }
 
-li{
+li {
   list-style: none;
 
   font-size: 12px;
 }
 
-ul{
+ul {
   padding: 4px;
   margin: 4px;
 }
 
-input{
+input {
   border-radius: 10px 0 0 10px;
   border: none;
   padding-left: 8px;
@@ -92,39 +90,40 @@ input{
   height: 22px;
 }
 
-button{
+button {
   border-radius: 0 10px 10px 0;
   border: none;
   height: 24px;
-  background-color:#ffd740 ;
+  background-color: #ffd740;
   cursor: pointer;
 }
 
-.bar-and-btn{
+.bar-and-btn {
   display: flex;
   align-items: flex-end;
 }
 
-.checkbox-mock, .checkbox-date{
+.checkbox-mock,
+.checkbox-date {
   display: flex;
   align-items: center;
 }
 
-@media(max-width:800px){
-  .search-bar{
-  
+@media(max-width:800px) {
+  .search-bar {
+
     padding: 0;
-   
-  
-  
+
+
+
   }
 
-  .input-container{
+  .input-container {
     height: 25px;
 
   }
 
-  .checkbox-container{
+  .checkbox-container {
     gap: 0;
   }
 
