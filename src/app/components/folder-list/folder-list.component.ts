@@ -27,10 +27,12 @@ export class FolderListComponent {
 
   showMobileMenu = false;
 
-  constructor(private router: Router, private media: MediaMatcher) {}
+  constructor(private router: Router) {}
 
   openFoldersMenu() {
-    this.foldersMenuTrigger?.openMenu();
+    if (this.foldersMenuTrigger) {
+      this.foldersMenuTrigger.openMenu();
+    }
   }
 
   toggleMobileMenu() {
@@ -50,7 +52,10 @@ export class FolderListComponent {
     this.router.navigate(['/folder', folderName]);
   }
 
-  contacts() {
+  navigateToContacts() {
     this.router.navigate(['/contacts']);
+  }
+  navigateToAgenda() {
+    this.router.navigate(['/home']);
   }
 }

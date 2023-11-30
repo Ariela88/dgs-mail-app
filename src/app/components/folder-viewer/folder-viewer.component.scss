@@ -1,4 +1,3 @@
-
 span {
   list-style: none;
   font-family: 'Montserrat Alternates', sans-serif;
@@ -11,12 +10,10 @@ li {
   font-family: 'Montserrat Alternates', sans-serif;
 }
 
-
 .from-email {
   font-weight: bold;
   font-size: 16px;
 }
-
 
 .bold-text {
   font-weight: bold;
@@ -26,11 +23,9 @@ li {
   font-weight: normal;
 }
 
-
 .second-row {
   text-decoration: underline;
 }
-
 
 .material-icons {
   font-size: 12px;
@@ -42,7 +37,6 @@ li {
   cursor: pointer;
 }
 
-
 mat-icon {
   font-size: 24px !important;
 }
@@ -50,7 +44,6 @@ mat-icon {
 mat-icon:hover {
   color: crimson !important;
 }
-
 
 .mail-row-element {
   display: flex;
@@ -66,7 +59,6 @@ mat-icon:hover {
   font-size: larger;
 }
 
-
 .folder-name {
   text-transform: capitalize;
   text-align: right;
@@ -78,29 +70,24 @@ mat-icon:hover {
   margin-right: 10%;
 }
 
-
 .folder-name-bold {
   font-weight: bold;
 }
-
 
 .header-folder-viewer {
   background-color: #7d59bd;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
 }
 
-.header-folder-viewer button{
-  
+.header-folder-viewer button {
   font-size: smaller;
 }
 
 button:hover {
   background-color: #ffd740 !important;
 }
-
 
 .newmail-btn {
   display: flex;
@@ -109,11 +96,9 @@ button:hover {
   padding: 24px 0;
 }
 
-
 .mat-tab-group {
   margin-bottom: 48px;
 }
-
 
 .email-details {
   display: flex;
@@ -123,18 +108,14 @@ button:hover {
   gap: 4px;
 }
 
-
 .color-even {
   overflow-y: scroll;
   height: 65vh;
 }
 
-
-
 .spacer {
   flex: 1;
 }
-
 
 .sort-container {
   width: 100%;
@@ -144,19 +125,18 @@ button:hover {
   background-color: #7e59bd8a;
 }
 
-.spacer{
+.spacer {
   flex: 1,1;
 }
+
 mat-form-field {
   margin-right: 24px;
   margin-top: 24px;
 }
 
-
 input {
   align-self: baseline;
 }
-
 
 .read-indicator {
   width: 10px;
@@ -166,11 +146,9 @@ input {
   margin-right: 4px;
 }
 
-
 .unread {
   background-color: red;
 }
-
 
 .read {
   background-color: green;
@@ -183,17 +161,14 @@ input {
   margin-right: 16px;
 }
 
-
 .select-all-btn {
   margin-left: 44px;
 }
-
 
 .light-text-counter {
   font-size: smaller;
   font-weight: 300;
 }
-
 
 .foldername-label {
   background-color: #ffd740;
@@ -205,41 +180,33 @@ input {
   align-self: baseline;
 }
 
-.mobile-select-container{
+.mobile-select-container {
   display: none;
- 
 }
 
-@media(max-width:800px){
-
-  .header-folder-viewer{
+@media(max-width:800px) {
+  .header-folder-viewer {
     height: fit-content;
     justify-content: flex-end;
     width: 100%;
     flex-direction: row-reverse;
     padding-left: 16px;
-    
-    
-
   }
 
-  .header-folder-viewer button{
-  
+  .header-folder-viewer button {
     margin: 0;
-    
   }
 
-  .folder-name{
+  .folder-name {
     font-size: 20px;
     padding: 40px 0px 40px 0;
-    
   }
 
-  .select-container button{
-   display: none;
+  .select-container button {
+    display: none;
   }
 
-  .mobile-select-container{
+  .mobile-select-container {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -247,27 +214,25 @@ input {
     margin-left: 8px;
   }
 
-  .spacer{
+  .spacer {
     flex: unset;
   }
 
-  .sort-container{
+  .sort-container {
     justify-content: center;
   }
 
-  .color-even{
+  .color-even {
     padding: 0;
-    
   }
 
-  .select-container{
+  .select-container {
     display: flex;
     justify-content: center;
     gap: 8px;
-   
   }
 
   .mail-row-element {
-  padding-left: 16px;
+    padding-left: 16px;
   }
 }

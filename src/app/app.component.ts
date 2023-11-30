@@ -1,6 +1,5 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-
-import { Observable, filter, interval } from 'rxjs';
+import { Component} from '@angular/core';
+import { filter } from 'rxjs';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 
@@ -16,8 +15,8 @@ export class AppComponent {
   folder: string | undefined;
   contacts: string | undefined;
   showHomeH2: boolean = true; 
+  agenda: boolean = true;
  
-
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -27,15 +26,11 @@ export class AppComponent {
           const folderName = childRoute.snapshot.params['folderName'];
           this.folder = folderName;
           const contacts = childRoute.snapshot.params['contacts'];
-          this.contacts = contacts;
-
-         
+          this.contacts = contacts;         
           this.showHomeH2 = !this.folder && !this.contacts;
+          this.agenda = folderName === 'home' && contacts === 'agenda';
         }
       });
   }
-
-sottoscrizione:any;
-
 
 }

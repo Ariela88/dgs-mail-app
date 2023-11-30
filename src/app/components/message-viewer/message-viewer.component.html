@@ -6,7 +6,7 @@
     <button *ngIf="selectedMessage.folderName === 'bozze'|| selectedMessage.folderName ==='outgoing'"
       (click)="toggleEditing()" mat-raised-button color="primary">Modifica</button>
   </div>
-  <div class="email-content">
+  <div class="email-content-container">
     <div class="icon-content">
       <i class="material-icons" *ngIf="selectedMessage.isFavorite">favorite</i>
       <i class="material-icons" *ngIf="selectedMessage.important">star</i>
@@ -17,6 +17,15 @@
     <p class="smaller-text">From: <span class="email-from" (click)="addEmail()"> {{ selectedMessage.from }}</span></p>
     <p class="smaller-text">To: {{ selectedMessage.to}}</p>
     <h3>Oggetto: {{ selectedMessage.subject }}</h3>
+    <div class="email-content"> 
     <div class="body-text">{{selectedMessage.body}} </div>
+ 
+    <div class="attachment-email">
+      <img *ngIf="selectedMessage.attachment" [src]="selectedMessage.attachment" alt="Attachment" />
+      <img *ngIf="isImage(selectedMessage.attachment)" [src]="selectedMessage.attachment" alt="Attachment" />
+      <a *ngIf="!isImage(selectedMessage.attachment)" [href]="selectedMessage.attachment" target="_blank">Guarda allegato:</a>
+    </div>
+    
+  </div>
   </div>
 </div>

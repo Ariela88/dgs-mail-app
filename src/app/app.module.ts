@@ -16,52 +16,60 @@ import { ContactActionsComponent } from './components/contact-actions/contact-ac
 import { MessageActionsComponent } from './components/message-actions/message-actions.component';
 import { SearchComponent } from './components/search/search.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DEFAULT_OPTIONS,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { NgPipesModule } from 'ngx-pipes';
 import { OrderByPipe } from 'ngx-pipes';
 import { InterceptorComponent } from './components/interceptor/interceptor.component';
-import { DatePickerComponent } from "./components/date-picker/date-picker.component";
-import { WatchComponent } from "./components/watch/watch.component";
-
-
-
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
+import { WatchComponent } from './components/watch/watch.component';
+import { NoteDialogComponent } from './components/note-dialog/note-dialog.component';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        HeaderComponent,
-        MessageViewerComponent,
-        FolderListComponent,
-        ComposeComponent,
-        ContactsComponent,
-        FolderViewerComponent,
-        MessageActionsComponent,
-        ContactActionsComponent,
-        SearchComponent,
-        ConfirmationDialogComponent,
-        LoadingComponent,
-        DatePickerComponent
-    ],
-    providers: [{ provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }, OrderByPipe, {
-            provide: HTTP_INTERCEPTORS,
-            useClass: InterceptorComponent,
-            multi: true,
-        },
-    ],
-    bootstrap: [AppComponent],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        MaterialModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatDialogModule,
-        NgPipesModule,
-        WatchComponent
-    ]
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    MessageViewerComponent,
+    FolderListComponent,
+    ComposeComponent,
+    ContactsComponent,
+    FolderViewerComponent,
+    MessageActionsComponent,
+    ContactActionsComponent,
+    SearchComponent,
+    ConfirmationDialogComponent,
+    LoadingComponent,
+    DatePickerComponent,
+    NoteDialogComponent
+  ],
+  providers: [
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: { hasBackdrop: false },
+    },
+    OrderByPipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorComponent,
+      multi: true,
+    },
+  ],
+  bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    NgPipesModule,
+    WatchComponent,
+  ],
 })
 export class AppModule {}

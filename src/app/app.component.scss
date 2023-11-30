@@ -51,16 +51,11 @@ mat-icon {
   height: 100vh;
   display: flex;
   align-items: flex-start;
-  justify-content: center;
-  z-index: -999;
+  justify-content: center;  
   position: relative;
   top: 30%;
   left: 14%;
-  background-image: url(../assets/mail.jpg);
-  background-position: right;
-  background-repeat: no-repeat;
-  background-size: 30%;
-  background-blend-mode: lighten;
+  
 }
 
 h2 {

@@ -16,6 +16,8 @@ export class MessageViewerComponent implements OnInit {
   @Input() isComposeMode: boolean = false;
   selectedMessage?: Mail | undefined;
   isEditing: boolean = false;
+ 
+  
 
   constructor(
     private folderService: FolderService,
@@ -54,6 +56,11 @@ export class MessageViewerComponent implements OnInit {
       };
       this.router.navigate(['/editor'], { queryParams: queryParams });
     }
+  }
+
+  isImage(attachment: any): boolean {
+   
+    return attachment && typeof attachment === 'string' && attachment.startsWith('data:image');
   }
 
   forwardMail() {

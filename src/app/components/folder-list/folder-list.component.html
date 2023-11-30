@@ -4,7 +4,7 @@
         </button>
 </div>
 <mat-menu #foldersMenu="matMenu">
-        <button mat-menu-item (click)="contacts()"> Contatti </button>
+        <button mat-menu-item (click)="navigateToContacts()"> Contatti </button>
         <button mat-menu-item (click)="changeFolder('results')"> Ricerche recenti </button>
         <button mat-menu-item *ngFor="let folder of folders" (click)="folder.action()">
                 {{ folder.name }}
@@ -17,7 +17,7 @@
 </div>
 <div class="menu" (click)="closeMobileMenu()">
         <ul>
-                <li class="list-element" (click)="contacts()"><mat-icon>person</mat-icon> <span class="icon-label">
+                <li class="list-element" (click)="navigateToContacts()"><mat-icon>person</mat-icon> <span class="icon-label">
                                 Rubrica</span>
                 </li>
         </ul>
@@ -61,6 +61,10 @@
                 <li class="list-element" (click)="changeFolder('results')"><mat-icon>search</mat-icon> <span
                                 class="icon-label">
                                 Ricerche Recenti</span>
+                </li>
+                <li class="list-element" (click)="navigateToAgenda()"><mat-icon>event</mat-icon> <span
+                                class="icon-label">
+                                Agenda</span>
                 </li>
         </ul>
 

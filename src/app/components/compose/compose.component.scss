@@ -12,10 +12,9 @@ mat-label {
 .modal {
   position: absolute;
   width: 60%;
-  height: 80%;
+  height: max-content;
   right: 0;
   bottom: 0;
-  height: max-content;
   background: #7e59bdce;
   display: flex;
   justify-content: center;
@@ -49,24 +48,25 @@ mat-label {
 }
 
 input.ng-valid {
-  border-bottom: 2px solid #42A948; 
+  border-bottom: 2px solid #42A948;
 }
 
-input.ng-invalid.ng-touched{
-  border-bottom: 2px solid #a94442; 
+input.ng-invalid.ng-touched {
+  border-bottom: 2px solid #a94442;
 }
 
 .modal button {
   margin-top: 20px;
 }
 
-.subject-input{
+.subject-input {
   margin-bottom: 24px;
 }
 
-small{
-  color: red;
+small {
+  color: rgb(154, 1, 1);
 }
+
 app-loading {
   position: absolute;
   top: 50%;
@@ -74,30 +74,43 @@ app-loading {
   transform: translate(-50%, -50%);
 }
 
-app-date-picker{
- 
+app-date-picker {
   display: block;
-   z-index: 999;
-  
- 
+  z-index: 999;
 }
 
-@media(max-width:800px){
+.file-input-container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  gap: 8px;
+}
 
-  .modal{
+.date-container {
+  display: flex;
+  width: 100%;
+  gap: 24px;
+  align-items: flex-end;
+  margin-bottom: 24px;
+}
+
+.date-container input {
+  width: 100%;
+}
+
+@media (max-width: 800px) {
+  .modal {
     width: 93%;
-    bottom:15%;
+    bottom: 15%;
     background: #7e59bd;
   }
 
-  .compose-datepicker .modal{
+  .compose-datepicker .modal {
     width: 100%;
     background-color: #42A948;
   }
 
-  form{
+  form {
     width: 90%;
   }
-
-  
 }

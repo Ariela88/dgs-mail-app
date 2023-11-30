@@ -1,77 +1,84 @@
-button{
+button {
     margin: 16px;
-}
-
-.preview-message{
+  }
+  
+  .preview-message {
     font-family: 'Montserrat Alternates', sans-serif;
-}
-
-
-.action-button{
+  }
+  
+  .action-button {
     display: flex;
     gap: 24px;
-  
     background-color: #7d59bd;
-   padding-left: 16px;
+    padding-left: 16px;
     align-items: center;
     height: 65px;
-}
-
-
-.msg-view-container{
-    
+  }
+  
+  .msg-view-container {
     display: flex;
     flex-direction: column;
-    
-}
-
-.email-content{
-    width: 85%;
+  }
+  
+  .email-content-container {
+    width: 95%;
     padding: 24px;
     display: flex;
     flex-direction: column;
     gap: 16px;
-    
-}
-
-.button-back{
-width: 20%;
-}
-
-.email-from{
+    height: 65vh;
+    overflow-y: scroll;
+  }
+  
+  .button-back {
+    width: 20%;
+  }
+  
+  .email-from {
     cursor: pointer;
-}
-.email-from:hover{
+  }
+  
+  .email-from:hover {
     color: orangered;
     font-size: larger;
     font-weight: bold;
-}
-
-.body-text{
+  }
+  
+  .body-text {
     width: 60%;
     text-align: justify;
-}
-
-.icon-content{
+  }
+  
+  .icon-content {
     width: 100%;
     display: flex;
     justify-content: center;
-}
-
-.date-small-text{
+  }
+  
+  .date-small-text {
     font-size: 12px;
-}
+  }
+  
 
-@media(max-width:800px){
+  .attachment-email img {
+    max-width: 100%;
+  }
+  
+  .attachment-email a {
+    display: block;
+    margin-top: 8px;
+  }
 
-    .action-button{
-        padding: 0;
-        height: 90px;
+ 
+  
+  @media (max-width: 800px) {
+    .action-button {
+      padding: 0;
+      height: 90px;
     }
-
-    .button-back{
-        width: 120px;
-        }
-
-
-}
+  
+    .button-back {
+      width: 120px;
+    }
+  }
+  

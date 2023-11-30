@@ -12,7 +12,7 @@
       </mat-chip-grid>
       <input formControlName="to" matInput placeholder="Inserisci un destinatario" #contactsInput
         [matAutocomplete]="auto" [matChipInputFor]="chipGrid" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        (matChipInputTokenEnd)="add($event)" required/>
+        (matChipInputTokenEnd)="add($event)" required />
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
         <mat-option *ngFor="let contact of (sortedOptions$ | async)" [value]="contact">
           <mat-icon *ngIf="contact.isFavorite">favorite</mat-icon> {{ contact.email }}
@@ -22,20 +22,32 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Oggetto</mat-label>
-      <input matInput formControlName="subject" required minlength="4"/>
+      <input matInput formControlName="subject" required minlength="4" />
       <mat-error *ngIf="newMailForm.get('subject')?.hasError('required')">L'oggetto è obbligatorio</mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Messaggio</mat-label>
-      <textarea matInput formControlName="body"></textarea>   
-     
+      <textarea matInput formControlName="body"></textarea>
     </mat-form-field>
-    <input matInput placeholder="Seleziona una data per programmare l'invio"
-    [value]="newMailForm.get('selectedDate')?.value | date: 'dd/MM/yyyy'" readonly required >
-    <mat-error *ngIf="newMailForm.get('selectedDate')?.hasError('dateInPast')">La data non può essere precedente ad oggi</mat-error>
-    <div class="button-container">
+    <div class="date-container">
       <app-date-picker formControlName="selectedDate" [disableDatesBeforeToday]="disableDatesBeforeToday">
-      </app-date-picker>      
+      </app-date-picker>
+      <input type="text" matInput placeholder="Seleziona una data per programmare l'invio"
+        [value]="newMailForm.get('selectedDate')?.value | date: 'dd/MM/yyyy'" readonly required class="date-input">
+      <mat-error *ngIf="newMailForm.get('selectedDate')?.hasError('dateInPast')">La data non può essere precedente ad
+        oggi</mat-error>
+    </div>
+    <div class="file-input-container">
+      <input type="file" accept=".png, .jpg, .jpeg, .pdf" id="fileInput" (change)="onFileSelected($event)"
+        style="display: none" />
+      <label for="fileInput" class="file-input-button mat-raised-button">
+        Clicca <strong style="cursor: pointer;"> qui </strong> per scegliere un'immagine o copia un indirizzo link qui
+        sotto:
+      </label>
+      <input matInput type="text" formControlName="attachment">
+      <small class="file-info">Supports: JPG, PNG, PDF; Max size: 5MB</small>
+    </div>
+    <div class="button-container">
       <button mat-raised-button color="primary" type="submit" [disabled]="newMailForm.invalid">
         Invia Mail
       </button>

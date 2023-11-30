@@ -51,7 +51,9 @@ export class ComposeComponent implements OnInit {
   @ViewChild('contactsInput') contactsInput?: ElementRef<HTMLInputElement>;
   isLoading: boolean = false;
   @Input() dateSelected = new Date();
- 
+  selectedFile: File | null = null;
+  fileInput: HTMLInputElement | undefined;
+
 disableDatesBeforeToday = true; 
 
 
@@ -70,6 +72,7 @@ disableDatesBeforeToday = true;
       subject: [''],
       body: [''],
       selectedDate: ['', [Validators.required, this.dateInPastValid]],
+      
     });
     this.filteredOptions = this.contactCtrl.valueChanges.pipe(
       startWith(null),
@@ -84,6 +87,7 @@ disableDatesBeforeToday = true;
       ),
       map((contacts) => this.sortContacts(contacts))
     );
+    this.newMailForm.addControl('attachment', new FormControl(null));
   }
 
   ngOnInit() {
@@ -171,6 +175,15 @@ disableDatesBeforeToday = true;
     );
   }
 
+  onFileSelected(event: any) {
+    const files: FileList = event.target.files;
+    if (files && files.length > 0) {
+      this.selectedFile = files[0];
+      this.newMailForm.patchValue({ attachment: this.selectedFile.name }); 
+    }
+  }
+  
+
   onSubmit() {
     if (this.newMailForm.valid) {
       this.isLoading = true;
@@ -178,6 +191,7 @@ disableDatesBeforeToday = true;
       this.selectedContact = this.contacts.find(
         (contact) => contact === selectedEmail
       );
+      
       let sentMail: Mail = {
         id: this.generateRandomId(),
         from: 'manuela@gmail.com',
@@ -193,11 +207,12 @@ disableDatesBeforeToday = true;
         completed: false,
         selected: false,
         folderName: this.isDraft ? 'bozze' : 'sent',
-        attachment: this.selectedMail?.attachment,
+        attachment: this.newMailForm.get('attachment')?.value,
         read: true,
         created: this.newMailForm.get('selectedDate')?.value,
         selectable: true,
       };
+      console.log('Attached File:', sentMail.attachment);
       //console.log(sentMail.to, 'onsubmit destinatario');
       this.folderService.copyEmailToFolder(sentMail, 'outgoing');
       if (this.isDraft) {

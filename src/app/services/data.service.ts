@@ -19,8 +19,6 @@ export class DataService {
 
   constructor(private http: HttpClient, public snackBar: MatSnackBar) {}
 
-
-
   private startLoading(requestCount: number = 1) {
     if (this.loadingCounter === 0) {
       this.loading = true;
@@ -35,7 +33,6 @@ export class DataService {
     }
   }
   
-
   getMailMessage(): Observable<Mail[]> {
     this.startLoading();
    
@@ -47,10 +44,8 @@ export class DataService {
     );
   }
   
-
   postMailMessage(email: Mail): Observable<Mail> {
-    this.startLoading();
-     
+    this.startLoading();     
     return this.http.post<Mail>(this.mockMail, email).pipe(
       tap((response) => {
                console.log(response);
@@ -71,16 +66,11 @@ export class DataService {
             duration: 2000,
             panelClass: 'errore-snackbar',
           });
-         }
-        
-        
+         }                
       })
     );
   }
-
-  
-  
-  
+   
    putMailMessage(email: Mail): Observable<Mail> {
     return this.http
       .put<Mail>(`${this.mockMail}/${email.id}`, email)

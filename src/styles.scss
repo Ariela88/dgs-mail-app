@@ -1,9 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins&family=Satisfy&display=swap');
 
-
-html,
-body {
+html, body {
   height: 100%;
   width: 100%;
 }
@@ -36,11 +34,9 @@ app-message-viewer {
   left: 15%;
   width: 85%;
   z-index: 0;
-
 }
 
-aside,
-app-header {
+aside, app-header {
   position: fixed;
   z-index: 9;
 }
@@ -50,7 +46,6 @@ app-header {
   left: 0;
   height: 15%;
   top: 0;
-
 }
 
 mat-toolbar {
@@ -66,7 +61,6 @@ app-contacts {
   top: 15%;
   left: 15%;
   width: 85%;
-  z-index: 9;
   background-color: white;
   height: 100vh;
 }
@@ -80,7 +74,6 @@ app-search {
   z-index: 99999 !important;
   height: 100%;
   display: flex;
-  
 }
 
 .mat-mdc-form-field-subscript-wrapper {
@@ -88,17 +81,7 @@ app-search {
 }
 
 
-
-
-
-td{
-  border: 1px solid rgb(255, 255, 255);
-  margin: 0;
-}
-
-
-
-.mat-mdc-select-value-text{
+.mat-mdc-select-value-text {
   color: white;
   margin-left: 20px;
 }
@@ -109,53 +92,41 @@ td{
 
 .mat-mdc-select-arrow {
   fill: white;
-
 }
 
-mat-select{
-  
+mat-select {
   margin-right: 80px !important;
 }
 
-
-@media(max-width:800px){
-
-  mat-select{
-    width: 50%!important;
+@media(max-width:800px) {
+  mat-select {
+    width: 50% !important;
     margin-right: 80px !important;
   }
   app-folder-viewer {
     left: 8%;
     width: 100%;
-   
-   
-   }
-   
-   app-contacts{
+  }
+  app-contacts {
     left: 8%;
-     width: 100%;
-   }
-   
-   app-message-viewer{
+    width: 100%;
+  }
+  app-message-viewer {
     left: 8%;
-     width: 100%;
-   }
-
-   mat-select{
+    width: 100%;
+  }
+  mat-select {
     width: unset!important;
     margin-right: 0 !important;
   }
-
-  .cdk-overlay-pane{
+  .cdk-overlay-pane {
     width: 50% !important;
     left: 32px;
   }
-
-  mat-toolbar{
+  mat-toolbar {
     padding: 0 !important;
   }
-
-  #cdk-overlay-2{
+  #cdk-overlay-2 {
     left: 50px !important;
   }
 }

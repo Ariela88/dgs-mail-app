@@ -1,5 +1,7 @@
 import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { NoteDialogComponent } from '../note-dialog/note-dialog.component';
 
 @Component({
   selector: 'app-date-picker',
@@ -22,8 +24,12 @@ export class DatePickerComponent implements ControlValueAccessor {
   dateSelect = new Date();
   private _onChange: any;
   @Input() disableDatesBeforeToday = false;
-  @Input() disableDatesAfterToday = false
+  @Input() disableDatesAfterToday = false;
   private _onTouch = () => {};
+  private _isDisabled?: boolean;
+  @Input() agenda = false;
+  
+  
 
   dayNames: string[] = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
   monthNames: string[] = [
@@ -40,9 +46,9 @@ export class DatePickerComponent implements ControlValueAccessor {
     'Novembre',
     'Dicembre',
   ];
-  weeks: { day: number; month: number; year: number }[][] = [];
+  weeks: { day: number; month: number; year: number; note?: string }[][] = [];
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
     const today = new Date();
     this.currentMonth = today.getMonth();
     this.currentYear = today.getFullYear();
@@ -98,21 +104,32 @@ export class DatePickerComponent implements ControlValueAccessor {
     if (this.disableDatesBeforeToday) {
       const today = new Date();
       const currentDate = new Date(day.year, day.month, day.day);
-      return currentDate >= today;
-    } else if(this.disableDatesAfterToday){
+      return currentDate > today;
+    } else if (this.disableDatesAfterToday) {
       const today = new Date();
       const currentDate = new Date(day.year, day.month, day.day);
-      return currentDate <= today;
-
+      return currentDate < today;
     }
     return true;
   }
 
-  selectDate(day: { day: number; month: number; year: number }) {
+  selectDate(day: { day: number; month: number; year: number; note?: string }) {
     const { day: selectedDay, month, year } = day;
     this.dateSelected = new Date(year, month, selectedDay);
-    this._onChange(this.dateSelected);
-    this.closeCalendar();
+
+    const dialogRef = this.dialog.open(NoteDialogComponent, {
+      width: '250px',
+      data: { note: day.note || '' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Update the note in the selected day
+        day.note = result.note;
+      }
+      this._onChange(this.dateSelected);
+      this.closeCalendar();
+    });
   }
 
   writeValue(obj: any): void {
@@ -127,7 +144,6 @@ export class DatePickerComponent implements ControlValueAccessor {
     this._onTouch = fn;
   }
 
-  private _isDisabled?: boolean;
   setDisabledState?(isDisabled: boolean): void {
     this._isDisabled = isDisabled;
   }

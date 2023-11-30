@@ -13,6 +13,7 @@ import { DatePickerComponent } from './components/date-picker/date-picker.compon
 
 const routes: Routes = [
   { path: '', component: AppComponent },
+  { path: 'home', component: AppComponent },
   { path: 'folder/:folderName', component: FolderViewerComponent, resolve: { emails: ResolverResolver }},
   { path: 'folder/inbox', component: FolderViewerComponent, resolve: { emails: ResolverResolver }},
   { path: 'editor', component: ComposeComponent },
