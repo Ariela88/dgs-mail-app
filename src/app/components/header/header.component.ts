@@ -8,7 +8,7 @@ import { ColorService } from 'src/app/services/color.service';
 })
 export class HeaderComponent implements OnInit {
 
-  @Output() headerClick: EventEmitter<void> = new EventEmitter<void>();
+ 
   stileComponente?: { colore: string; proprieta: string };
 
   constructor(private colorService: ColorService) {}
@@ -24,10 +24,10 @@ export class HeaderComponent implements OnInit {
   }
   
   toggleTheme(): void {
-    const coloreAttuale = this.stileComponente?.colore || '#ffffff';
-    const nuovoColore = coloreAttuale === '#1f1e1f' ? '#7d59bd' : '#1f1e1f';
+    const coloreAttuale = this.stileComponente?.colore || '#444444';
+    const nuovoColore = coloreAttuale === '#444444' ? '#7d59bd' : '#444444';
     this.colorService.impostaColore(nuovoColore, 'background-color');
-    this.headerClick.emit();
+   
   }
   
 

@@ -32,12 +32,12 @@
 
 <div  class="agenda" *ngIf="agenda">
   <div class="header-agenda"> 
-  <button mat-fab color="accent" (click)="prevMonth()"><mat-icon>arrow_back_ios</mat-icon></button>
+  <button mat-flat-button color="accent" (click)="prevMonth()"><mat-icon>arrow_back_ios</mat-icon></button>
   <h2 class="h2-agenda"> Agenda Personale: </h2>
-  <button mat-fab color="accent" (click)="nextMonth()"> <mat-icon>arrow_forward_ios</mat-icon> </button>
+  <button mat-flat-button color="accent" (click)="nextMonth()"> <mat-icon>arrow_forward_ios</mat-icon> </button>
 </div>
-  <div class="calendar-home" [style]="{'background-color': stileComponente?.colore}">   
-    <table  class="calendar-home-table">
+  <div class="calendar-home">   
+    <table [style]="{'background-color': stileComponente?.colore}" class="calendar-home-table">
       <thead>
         <tr>
           <th colspan="7">{{ monthNames[currentMonth] }} {{ currentYear }}</th>

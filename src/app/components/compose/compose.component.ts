@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
@@ -26,6 +27,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contact } from 'src/app/model/contact';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ColorService } from 'src/app/services/color.service';
 
 @Component({
   selector: 'app-compose',
@@ -53,9 +55,11 @@ export class ComposeComponent implements OnInit {
   @Input() dateSelected = new Date();
   selectedFile: File | null = null;
   fileInput: HTMLInputElement | undefined;
-
-disableDatesBeforeToday = true; 
-
+  disableDatesBeforeToday = true;
+  stileComponente?: { colore: string; proprieta: string };
+  coloreCorrente: { colore: string; proprieta: string } = { colore: '', proprieta: '' };
+  
+  
 
   constructor(
     private fb: FormBuilder,
@@ -64,7 +68,9 @@ disableDatesBeforeToday = true;
     private router: Router,
     private contactsService: ContactsService,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private colorService:ColorService, 
+    private cdr:ChangeDetectorRef
   ) {
     this.newMailForm = this.fb.group({
       to: new FormControl('', [Validators.email]),
@@ -72,7 +78,6 @@ disableDatesBeforeToday = true;
       subject: [''],
       body: [''],
       selectedDate: ['', [Validators.required, this.dateInPastValid]],
-      
     });
     this.filteredOptions = this.contactCtrl.valueChanges.pipe(
       startWith(null),
@@ -154,7 +159,10 @@ disableDatesBeforeToday = true;
       this.contactCtrl.updateValueAndValidity();
     }, 100);
 
-    // console.log(this.dateSelected, this.newMailForm.get('selectedDate')?.value)
+    this.colorService.colore$.subscribe((stile) => {
+      this.stileComponente = stile as { colore: string; proprieta: string };
+      this.cdr.detectChanges()
+    });
   }
 
   generateRandomId(): string {
@@ -179,10 +187,9 @@ disableDatesBeforeToday = true;
     const files: FileList = event.target.files;
     if (files && files.length > 0) {
       this.selectedFile = files[0];
-      this.newMailForm.patchValue({ attachment: this.selectedFile.name }); 
+      this.newMailForm.patchValue({ attachment: this.selectedFile.name });
     }
   }
-  
 
   onSubmit() {
     if (this.newMailForm.valid) {
@@ -191,7 +198,7 @@ disableDatesBeforeToday = true;
       this.selectedContact = this.contacts.find(
         (contact) => contact === selectedEmail
       );
-      
+
       let sentMail: Mail = {
         id: this.generateRandomId(),
         from: 'manuela@gmail.com',
@@ -228,7 +235,6 @@ disableDatesBeforeToday = true;
         this.folderService.copyEmailToFolder(sentMail, 'sent');
         this.folderService.removeEmailFromFolder(sentMail, 'bozze');
         this.folderService.removeEmailFromFolder(sentMail, 'outgoing');
-      
       }
       this.router.navigateByUrl('home');
     }
@@ -238,7 +244,7 @@ disableDatesBeforeToday = true;
     const selectedDate = new Date(control.value);
 
     if (selectedDate < new Date()) {
-      return { 'dateInPast': true };
+      return { dateInPast: true };
     }
 
     return null;
@@ -296,7 +302,6 @@ disableDatesBeforeToday = true;
       console.log('Rimosso:', contact);
     }
   }
-  
 
   selected(event: MatAutocompleteSelectedEvent): void {
     const selectedEmail = event.option.viewValue.trim().toLowerCase();

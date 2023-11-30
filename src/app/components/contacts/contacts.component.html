@@ -1,16 +1,22 @@
 <div class="header-folder-viewer" [style]="{'background-color': stileComponente?.colore}">
+  <div class="input-container">
+    <button mat-raised-button color="primary" (click)="addFavorites()">{{ getButtonText() }}</button>
+    <button mat-raised-button color="warn" (click)="deleteSelectedContacts()">Elimina</button>
+  </div>
   <h2 class="folder-name"> <span class="folder-name-bold"> Rubrica </span> </h2>
 </div>
-<h3>Numero contatti in rubrica: {{contacts.length}}</h3>
+<div class="count-container">
+  
+  <div class="spacer"> </div>
+  <span>Numero contatti in rubrica: {{contacts.length}}</span>
+</div>
+
 <div class="button-container">
   <div class="add-container">
     <input [(ngModel)]="newContactEmail" placeholder="Inserisci un nuovo contatto email" />
     <button mat-raised-button color="primary" (click)="addContact()">Aggiungi</button>
   </div>
-  <div class="input-container">
-    <button mat-raised-button color="primary" (click)="addFavorites()">{{ getButtonText() }}</button>
-    <button mat-raised-button color="warn" (click)="deleteSelectedContacts()">Elimina</button>
-  </div>
+  
 </div>
 <div class="contacts-wrapper">
   <div *ngFor="let contact of contacts" class="mail-row-element">

@@ -64,7 +64,7 @@ input.ng-invalid.ng-touched {
 }
 
 small {
-  color: rgb(154, 1, 1);
+  color: rgb(255, 140, 0);
 }
 
 app-loading {
@@ -96,6 +96,10 @@ app-date-picker {
 
 .date-container input {
   width: 100%;
+}
+
+.file-input-button{
+  color: white;
 }
 
 @media (max-width: 800px) {

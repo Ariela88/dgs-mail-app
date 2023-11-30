@@ -23,7 +23,7 @@ export class DatePickerComponent implements ControlValueAccessor,OnInit {
   calendarIsOpen = false;
   currentYear: number;
   dateSelect = new Date();
-  private _onChange: any;
+  _onChange: any;
   @Input() disableDatesBeforeToday = false;
   @Input() disableDatesAfterToday = false;
   private _onTouch = () => {};

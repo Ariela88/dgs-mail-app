@@ -2,8 +2,21 @@ body{
   background-color: white;
 }
 
+.count-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: rgb(132, 132, 132);
+  font-family: 'Montserrat Alternates', sans-serif;
+  font-weight: bold;
+    color: white;
+  
+}
 
-
+.count-container span{
+  padding-right: 24px;
+}
 .mail-row-element {
   display: flex;
   margin-bottom: 16px;
@@ -28,17 +41,13 @@ input {
   outline: none;
 }
 
-h3 {
-  margin-left: 24px;
-  font-family: 'Montserrat Alternates', sans-serif;
-  font-weight: bold;
+h2 {
+margin: 0;
 }
 
 .input-container {
   display: flex;
-  justify-content: flex-end;
-  margin-right: 24px;
-  margin-bottom: 32px;
+  padding-bottom: 16px;
   width: 100%;
   gap: 16px;
 }
@@ -67,7 +76,9 @@ h3 {
   color: white;
   font-family: 'Montserrat Alternates', sans-serif;
   font-size: 32px;
-  padding-right: 24px;
+  padding: 16px 0px 16px 0;
+  margin: 0;
+  margin-right: 2%;
 }
 
 .delete-btn {

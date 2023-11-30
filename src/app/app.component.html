@@ -1,10 +1,10 @@
-<app-header (headerClick)="onHeaderClick()"></app-header>
+<app-header></app-header>
 <aside [style.background-color]="stileComponente?.colore">
   <app-folder-list [folder]="folder"> </app-folder-list>
 </aside>
 <router-outlet  [style.background-color]="stileComponente?.colore"></router-outlet>
 <div *ngIf="!folder" class="home-h2">
-  <app-date-picker [agenda]="agenda" [style.background-color]="stileComponente?.colore"></app-date-picker>
+  <app-date-picker [agenda]="agenda" *ngIf="agenda" ></app-date-picker>
 </div>
 <button class="show-mobile" mat-mini-fab color="accent" routerLink="editor">
   <mat-icon>add</mat-icon>
